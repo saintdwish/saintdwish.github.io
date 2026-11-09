@@ -4,25 +4,42 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Saint D. Wish - Sign Up</title>
+  
+  <!-- Google Fonts & Font Awesome (Ikon) -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  
   <style>
-    body { font-family: 'Poppins', sans-serif; }
-    .font-title { font-family: 'Cinzel', serif; }
+    body { 
+      font-family: 'Poppins', sans-serif; 
+    }
+    .font-title { 
+      font-family: 'Cinzel', serif; 
+    }
     
     /* Efek Latar Belakang Luar Angkasa */
     .space-bg {
       background: radial-gradient(circle at center, #0b1a35 0%, #030712 100%);
     }
 
-    /* Efek Input Neon */
+    /* --- EFEK HUD INPUT NEON --- */
     .neon-input {
       background: rgba(10, 25, 50, 0.5);
       border: 2px solid #2563eb;
       box-shadow: 0 0 10px rgba(37, 99, 235, 0.4), inset 0 0 10px rgba(37, 99, 235, 0.2);
       backdrop-filter: blur(5px);
       border-radius: 9999px; /* Membuat bentuk kapsul */
+      transition: all 0.3s ease;
+    }
+    
+    /* Efek saat input diklik (Focus) */
+    .neon-input:focus-within {
+      border-color: #60a5fa;
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.8), inset 0 0 15px rgba(59, 130, 246, 0.5);
+      background: rgba(10, 25, 50, 0.7);
     }
     
     .neon-input input {
@@ -31,20 +48,49 @@
       color: white;
       width: 100%;
     }
-    .neon-input input::placeholder { color: #94a3b8; }
+    .neon-input input::placeholder { 
+      color: #94a3b8; 
+    }
 
-    /* Efek Tombol Neon */
+    /* --- EFEK HUD TOMBOL --- */
     .neon-btn {
       background: rgba(10, 25, 50, 0.4);
       border: 2px solid #3b82f6;
       box-shadow: 0 0 15px rgba(59, 130, 246, 0.5), inset 0 0 15px rgba(59, 130, 246, 0.3);
       backdrop-filter: blur(5px);
       transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
     }
+    
     .neon-btn:hover {
-      box-shadow: 0 0 25px rgba(59, 130, 246, 0.8), inset 0 0 20px rgba(59, 130, 246, 0.5);
+      transform: scale(1.02);
+      box-shadow: 0 0 25px rgba(59, 130, 246, 1), inset 0 0 20px rgba(59, 130, 246, 0.8);
+      border-color: #60a5fa;
+      background: rgba(10, 25, 50, 0.6);
     }
 
+    .neon-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* Efek Garis Cahaya Menyapu (Sweep Effect) */
+    .neon-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: all 0.5s;
+    }
+    .neon-btn:hover::before {
+      left: 100%;
+    }
+
+    /* Efek Teks Metalik */
     .metal-text {
       background: linear-gradient(to bottom, #ffffff, #a0b8d6, #ffffff);
       -webkit-background-clip: text;
@@ -55,85 +101,133 @@
 </head>
 <body class="space-bg text-white min-h-screen flex flex-col items-center relative overflow-x-hidden py-10">
 
-  <!-- BACKGROUND GAMBAR (Ganti URL di bawah dengan link gambar luar angkasa kamu) -->
-  <div class="fixed inset-0 z-0 opacity-40 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=2048&auto=format&fit=crop');"></div>
+  <!-- BACKGROUND GAMBAR (Menggunakan file bg.jpg) -->
+  <div class="fixed inset-0 z-0 opacity-50 bg-cover bg-center" style="background-image: url('bg.jpg');"></div>
 
   <!-- Konten Utama -->
   <div class="relative z-10 w-full max-w-md px-6 flex flex-col items-center">
     
-    <!-- LOGO (Bisa pakai logo kecil) -->
-    <div class="w-24 h-24 mb-4 flex justify-center items-center rounded-full shadow-[0_0_30px_rgba(59,130,246,0.5)] overflow-hidden border border-blue-500/30">
-        <img src="logo.png" alt="Logo" class="w-full h-full object-cover">
+    <!-- LOGO 3D (Kecil) -->
+    <div class="w-32 mb-4 flex justify-center items-center drop-shadow-[0_0_20px_rgba(59,130,246,0.5)]">
+        <img src="logo.png" alt="Logo" class="w-full h-auto object-contain">
     </div>
 
-    <!-- Judul -->
-    <h1 class="font-title text-2xl md:text-3xl font-bold metal-text tracking-widest text-center mb-10 flex items-center gap-3">
+    <!-- Judul Halaman -->
+    <h1 class="font-title text-2xl md:text-3xl font-bold metal-text tracking-widest text-center mb-8 flex items-center gap-3">
       <span class="text-xl">Sign Up</span> 
-      <span class="text-blue-400">|</span> 
+      <span class="text-blue-400 font-light">|</span> 
       SAINT D. WISH
     </h1>
 
     <!-- FORM PENDAFTARAN -->
-    <form action="#" method="POST" class="w-full flex flex-col gap-4">
+    <form id="signupForm" class="w-full flex flex-col gap-4">
       
       <!-- Email -->
       <div class="neon-input flex items-center px-5 py-3 w-full">
-        <i class="fa-solid fa-envelope text-blue-300 w-6 text-lg"></i>
+        <i class="fa-solid fa-envelope text-blue-300 w-6 text-lg text-center"></i>
         <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
         <input type="email" placeholder="Email" required>
       </div>
 
       <!-- Password -->
       <div class="neon-input flex items-center px-5 py-3 w-full">
-        <i class="fa-solid fa-lock text-blue-300 w-6 text-lg"></i>
+        <i class="fa-solid fa-lock text-blue-300 w-6 text-lg text-center"></i>
         <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
         <input type="password" placeholder="Password" required>
       </div>
 
       <!-- Nama Depan -->
       <div class="neon-input flex items-center px-5 py-3 w-full">
-        <i class="fa-solid fa-user text-blue-300 w-6 text-lg"></i>
+        <i class="fa-solid fa-user text-blue-300 w-6 text-lg text-center"></i>
         <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
         <input type="text" placeholder="Nama Depan" required>
       </div>
 
       <!-- Nama Belakang -->
       <div class="neon-input flex items-center px-5 py-3 w-full">
-        <i class="fa-solid fa-user text-blue-300 w-6 text-lg"></i>
+        <i class="fa-solid fa-user text-blue-300 w-6 text-lg text-center"></i>
         <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
         <input type="text" placeholder="Nama Belakang" required>
       </div>
 
       <!-- Broker -->
       <div class="neon-input flex items-center px-5 py-3 w-full">
-        <i class="fa-solid fa-handshake text-blue-300 w-6 text-lg"></i>
+        <i class="fa-solid fa-handshake text-blue-300 w-6 text-lg text-center"></i>
         <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
         <input type="text" placeholder="Broker" required>
       </div>
 
       <!-- No ID Akun -->
       <div class="neon-input flex items-center px-5 py-3 w-full">
-        <i class="fa-regular fa-id-card text-blue-300 w-6 text-lg"></i>
+        <i class="fa-regular fa-id-card text-blue-300 w-6 text-lg text-center"></i>
         <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
         <input type="text" placeholder="No ID Akun" required>
       </div>
 
       <!-- ID Meta Trader -->
       <div class="neon-input flex items-center px-5 py-3 w-full">
-        <i class="fa-solid fa-chart-line text-blue-300 w-6 text-lg"></i>
+        <i class="fa-solid fa-chart-line text-blue-300 w-6 text-lg text-center"></i>
         <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
         <input type="text" placeholder="ID Meta Trader 4/ Meta Trader 5" required>
       </div>
 
       <!-- Tombol Continue -->
-      <button type="submit" class="neon-btn w-full py-4 rounded-full flex items-center justify-between px-8 mt-6 group">
-        <span class="font-title text-xl tracking-wider mx-auto text-blue-100">Continue</span>
-        <div class="w-8 h-8 rounded-full border border-blue-300 flex items-center justify-center group-hover:bg-blue-500/30 transition">
+      <button type="submit" id="btnSubmit" class="neon-btn w-full py-4 rounded-full flex items-center justify-between px-8 mt-6 group">
+        <span id="btnText" class="font-title text-xl tracking-wider mx-auto text-blue-100">Continue</span>
+        <div id="btnIcon" class="w-8 h-8 rounded-full border border-blue-300 flex items-center justify-center group-hover:bg-blue-500/30 transition">
           <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </div>
       </button>
 
     </form>
+
+    <!-- Link Kembali ke Login -->
+    <div class="mt-8 text-center">
+      <p class="text-sm text-blue-200">
+        Sudah punya akun? 
+        <a href="index.html" class="font-bold text-blue-400 hover:text-blue-300 hover:underline transition">Login di sini</a>
+      </p>
+    </div>
+
   </div>
+
+  <!-- SCRIPT ANIMASI TOMBOL LOADING -->
+  <script>
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+      e.preventDefault(); // Mencegah halaman ter-refresh
+      
+      const btn = document.getElementById('btnSubmit');
+      const btnText = document.getElementById('btnText');
+      const btnIcon = document.getElementById('btnIcon');
+      
+      // Simpan teks asli
+      const originalText = btnText.innerHTML;
+      const originalIcon = btnIcon.innerHTML;
+      
+      // Ubah teks jadi loading
+      btnText.innerHTML = 'Processing...';
+      btnText.classList.add('animate-pulse');
+      btnIcon.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-white"></i>';
+      btn.style.pointerEvents = 'none'; // Matikan klik sementara
+      
+      // Simulasi loading selama 2 detik
+      setTimeout(() => {
+        btnText.innerHTML = 'Berhasil!';
+        btnText.classList.remove('animate-pulse');
+        btnText.classList.add('text-green-400');
+        btnIcon.innerHTML = '<i class="fa-solid fa-check text-green-400"></i>';
+        
+        // Kembalikan ke semula setelah 2 detik (atau arahkan ke halaman selanjutnya)
+        setTimeout(() => {
+            btnText.innerHTML = originalText;
+            btnText.classList.remove('text-green-400');
+            btnIcon.innerHTML = originalIcon;
+            btn.style.pointerEvents = 'auto';
+            // document.getElementById('signupForm').reset(); // Opsional: Kosongkan form
+        }, 2000);
+      }, 2000);
+    });
+  </script>
+
 </body>
 </html>
