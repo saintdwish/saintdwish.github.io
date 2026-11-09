@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Saint D. Wish - Login Form</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    body { font-family: 'Poppins', sans-serif; }
+    .font-title { font-family: 'Cinzel', serif; }
+    .space-bg { background: radial-gradient(circle at center, #0b1a35 0%, #030712 100%); }
+    
+    .neon-input {
+      background: rgba(10, 25, 50, 0.5); border: 2px solid #2563eb;
+      box-shadow: 0 0 10px rgba(37, 99, 235, 0.4), inset 0 0 10px rgba(37, 99, 235, 0.2);
+      backdrop-filter: blur(5px); border-radius: 9999px; transition: all 0.3s ease;
+    }
+    .neon-input:focus-within {
+      border-color: #60a5fa; box-shadow: 0 0 20px rgba(59, 130, 246, 0.8), inset 0 0 15px rgba(59, 130, 246, 0.5);
+    }
+    .neon-input input { background: transparent; outline: none; color: white; width: 100%; }
+    .neon-input input::placeholder { color: #94a3b8; }
+    
+    .neon-btn {
+      background: rgba(10, 25, 50, 0.4); border: 2px solid #3b82f6;
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.5), inset 0 0 15px rgba(59, 130, 246, 0.3);
+      backdrop-filter: blur(5px); transition: all 0.3s ease; cursor: pointer;
+    }
+    .neon-btn:hover {
+      transform: scale(1.02); box-shadow: 0 0 25px rgba(59, 130, 246, 1), inset 0 0 20px rgba(59, 130, 246, 0.8);
+    }
+  </style>
+</head>
+<body class="space-bg text-white min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
+
+  <div class="fixed inset-0 z-0 opacity-50 bg-cover bg-center" style="background-image: url('bg.jpg');"></div>
+
+  <!-- KOTAK LOGIN (Tema Kaca) -->
+  <div class="relative z-10 w-full max-w-sm px-8 py-10 glass-card rounded-3xl border border-blue-500/30" style="background: rgba(11,26,53,0.8); backdrop-filter: blur(15px);">
+    
+    <!-- Logo -->
+    <div class="w-32 mx-auto mb-6 flex justify-center drop-shadow-[0_0_20px_rgba(59,130,246,0.5)]">
+        <img src="logo.png" alt="Logo" class="w-full h-auto object-contain">
+    </div>
+
+    <h1 class="text-center font-title text-xl tracking-widest text-blue-100 mb-8">WELCOME BACK</h1>
+
+    <form id="loginForm" class="flex flex-col gap-4">
+      
+      <!-- Kolom Akun / Email -->
+      <div class="neon-input flex items-center px-5 py-3 w-full">
+        <i class="fa-regular fa-user text-blue-300 w-6 text-center"></i>
+        <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
+        <input type="text" id="loginUser" placeholder="USERNAME / EMAIL" required>
+      </div>
+
+      <!-- Kolom Password -->
+      <div class="neon-input flex items-center px-5 py-3 w-full">
+        <i class="fa-solid fa-lock text-blue-300 w-6 text-center"></i>
+        <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
+        <input type="password" placeholder="PASSWORD" required>
+      </div>
+
+      <!-- Tombol Login -->
+      <button type="submit" class="neon-btn w-full py-3 rounded-full mt-6">
+        <span class="font-title text-lg tracking-wider text-blue-100">Login</span>
+      </button>
+    </form>
+
+    <p class="text-center text-[10px] tracking-[0.3em] text-blue-300/60 mt-10">SAINT D. WISH</p>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Simpan username (atau email) yang diinput ke localStorage
+      const inputUser = document.getElementById('loginUser').value;
+      
+      // Jika user login tapi belum pernah daftar, kita anggap ini nama usernya
+      localStorage.setItem('sdw_user', inputUser);
+      if(!localStorage.getItem('sdw_email')) {
+          localStorage.setItem('sdw_email', inputUser + '@email.com'); // Dummy email
+      }
+      localStorage.setItem('sdw_role', 'VIP');
+      
+      // Pindah ke dashboard
+      window.location.href = "dashboard.html";
+    });
+  </script>
+</body>
+</html>
