@@ -5,112 +5,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Saint D. Wish - Sign Up</title>
   
-  <!-- Google Fonts & Font Awesome (Ikon) -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   
   <style>
-    body { 
-      font-family: 'Poppins', sans-serif; 
-    }
-    .font-title { 
-      font-family: 'Cinzel', serif; 
-    }
+    body { font-family: 'Poppins', sans-serif; }
+    .font-title { font-family: 'Cinzel', serif; }
+    .space-bg { background: radial-gradient(circle at center, #0b1a35 0%, #030712 100%); }
     
-    /* Efek Latar Belakang Luar Angkasa */
-    .space-bg {
-      background: radial-gradient(circle at center, #0b1a35 0%, #030712 100%);
-    }
-
-    /* --- EFEK HUD INPUT NEON --- */
     .neon-input {
-      background: rgba(10, 25, 50, 0.5);
-      border: 2px solid #2563eb;
+      background: rgba(10, 25, 50, 0.5); border: 2px solid #2563eb;
       box-shadow: 0 0 10px rgba(37, 99, 235, 0.4), inset 0 0 10px rgba(37, 99, 235, 0.2);
-      backdrop-filter: blur(5px);
-      border-radius: 9999px; /* Membuat bentuk kapsul */
-      transition: all 0.3s ease;
+      backdrop-filter: blur(5px); border-radius: 9999px; transition: all 0.3s ease;
     }
-    
-    /* Efek saat input diklik (Focus) */
     .neon-input:focus-within {
-      border-color: #60a5fa;
-      box-shadow: 0 0 20px rgba(59, 130, 246, 0.8), inset 0 0 15px rgba(59, 130, 246, 0.5);
+      border-color: #60a5fa; box-shadow: 0 0 20px rgba(59, 130, 246, 0.8), inset 0 0 15px rgba(59, 130, 246, 0.5);
       background: rgba(10, 25, 50, 0.7);
     }
-    
-    .neon-input input {
-      background: transparent;
-      outline: none;
-      color: white;
-      width: 100%;
-    }
-    .neon-input input::placeholder { 
-      color: #94a3b8; 
-    }
+    .neon-input input { background: transparent; outline: none; color: white; width: 100%; }
+    .neon-input input::placeholder { color: #94a3b8; }
 
-    /* --- EFEK HUD TOMBOL --- */
     .neon-btn {
-      background: rgba(10, 25, 50, 0.4);
-      border: 2px solid #3b82f6;
+      background: rgba(10, 25, 50, 0.4); border: 2px solid #3b82f6;
       box-shadow: 0 0 15px rgba(59, 130, 246, 0.5), inset 0 0 15px rgba(59, 130, 246, 0.3);
-      backdrop-filter: blur(5px);
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
+      backdrop-filter: blur(5px); transition: all 0.3s ease; position: relative; overflow: hidden; cursor: pointer;
     }
-    
     .neon-btn:hover {
-      transform: scale(1.02);
-      box-shadow: 0 0 25px rgba(59, 130, 246, 1), inset 0 0 20px rgba(59, 130, 246, 0.8);
+      transform: scale(1.02); box-shadow: 0 0 25px rgba(59, 130, 246, 1), inset 0 0 20px rgba(59, 130, 246, 0.8);
       border-color: #60a5fa;
-      background: rgba(10, 25, 50, 0.6);
-    }
-
-    .neon-btn:active {
-      transform: scale(0.98);
-    }
-
-    /* Efek Garis Cahaya Menyapu (Sweep Effect) */
-    .neon-btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-      transition: all 0.5s;
-    }
-    .neon-btn:hover::before {
-      left: 100%;
     }
   </style>
 </head>
 <body class="space-bg text-white min-h-screen flex flex-col items-center relative overflow-x-hidden py-10">
 
-  <!-- BACKGROUND GAMBAR (Menggunakan file bg.jpg) -->
   <div class="fixed inset-0 z-0 opacity-50 bg-cover bg-center" style="background-image: url('bg.jpg');"></div>
 
-  <!-- TOMBOL BACK (Pojok Kiri Atas) -->
-  <!-- href="index.html" berfungsi untuk mengembalikan ke halaman pertama -->
   <a href="index.html" class="fixed top-6 left-6 z-50 neon-btn w-12 h-12 rounded-full flex items-center justify-center text-blue-300 hover:text-white group" title="Kembali ke Login">
     <i class="fa-solid fa-arrow-left text-lg group-hover:-translate-x-1 transition-transform"></i>
   </a>
 
-  <!-- Konten Utama -->
   <div class="relative z-10 w-full max-w-md px-6 flex flex-col items-center mt-8">
     
-    <!-- LOGO 3D -->
     <div class="w-32 mb-10 flex justify-center items-center drop-shadow-[0_0_20px_rgba(59,130,246,0.5)]">
         <img src="logo.png" alt="Logo" class="w-full h-auto object-contain">
     </div>
 
-    <!-- FORM PENDAFTARAN -->
+    <!-- FORM SIGN UP BARU -->
     <form id="signupForm" class="w-full flex flex-col gap-4">
       
       <!-- Email -->
@@ -141,25 +82,11 @@
         <input type="text" placeholder="Nama Belakang" required>
       </div>
 
-      <!-- Broker -->
+      <!-- No Whatsapp (Baru) -->
       <div class="neon-input flex items-center px-5 py-3 w-full">
-        <i class="fa-solid fa-handshake text-blue-300 w-6 text-lg text-center"></i>
+        <i class="fa-brands fa-whatsapp text-blue-300 w-6 text-lg text-center"></i>
         <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
-        <input type="text" placeholder="Broker" required>
-      </div>
-
-      <!-- No ID Akun -->
-      <div class="neon-input flex items-center px-5 py-3 w-full">
-        <i class="fa-regular fa-id-card text-blue-300 w-6 text-lg text-center"></i>
-        <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
-        <input type="text" placeholder="No ID Akun" required>
-      </div>
-
-      <!-- ID Meta Trader -->
-      <div class="neon-input flex items-center px-5 py-3 w-full">
-        <i class="fa-solid fa-chart-line text-blue-300 w-6 text-lg text-center"></i>
-        <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
-        <input type="text" placeholder="ID Meta Trader 4/ Meta Trader 5" required>
+        <input type="tel" placeholder="NO Whatsapp" required>
       </div>
 
       <!-- Tombol Continue -->
@@ -172,7 +99,6 @@
 
     </form>
 
-    <!-- Link Kembali ke Login (Bawah) -->
     <div class="mt-8 text-center mb-10">
       <p class="text-sm text-blue-200">
         Sudah punya akun? 
@@ -182,40 +108,29 @@
 
   </div>
 
-  <!-- SCRIPT ANIMASI TOMBOL LOADING -->
   <script>
     document.getElementById('signupForm').addEventListener('submit', function(e) {
-      e.preventDefault(); // Mencegah halaman ter-refresh
-      
+      e.preventDefault();
       const btn = document.getElementById('btnSubmit');
       const btnText = document.getElementById('btnText');
       const btnIcon = document.getElementById('btnIcon');
       
-      // Simpan teks asli
-      const originalText = btnText.innerHTML;
-      const originalIcon = btnIcon.innerHTML;
-      
-      // Ubah teks jadi loading
       btnText.innerHTML = 'Processing...';
       btnText.classList.add('animate-pulse');
       btnIcon.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-white"></i>';
-      btn.style.pointerEvents = 'none'; // Matikan klik sementara
+      btn.style.pointerEvents = 'none';
       
-      // Simulasi loading selama 2 detik
+      // Simulasi loading 2 detik lalu lempar ke dashboard
       setTimeout(() => {
         btnText.innerHTML = 'Berhasil!';
         btnText.classList.remove('animate-pulse');
         btnText.classList.add('text-green-400');
         btnIcon.innerHTML = '<i class="fa-solid fa-check text-green-400"></i>';
         
-        // Kembalikan ke semula setelah 2 detik
         setTimeout(() => {
-            btnText.innerHTML = originalText;
-            btnText.classList.remove('text-green-400');
-            btnIcon.innerHTML = originalIcon;
-            btn.style.pointerEvents = 'auto';
-        }, 2000);
-      }, 2000);
+            window.location.href = "dashboard.html"; // Lempar ke dashboard
+        }, 1000);
+      }, 1500);
     });
   </script>
 
