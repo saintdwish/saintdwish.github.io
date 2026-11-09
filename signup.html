@@ -73,13 +73,14 @@
         <input type="text" placeholder="Nama Belakang" required>
       </div>
 
-      <!-- KOLOM USERNAME BARU -->
+      <!-- Kolom Username -->
       <div class="neon-input flex items-center px-5 py-3 w-full">
         <i class="fa-solid fa-at text-blue-300 w-6 text-lg text-center"></i>
         <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
         <input type="text" id="regUsername" placeholder="USERNAME" required>
       </div>
 
+      <!-- Kolom WhatsApp -->
       <div class="neon-input flex items-center px-5 py-3 w-full">
         <i class="fa-brands fa-whatsapp text-blue-300 w-6 text-lg text-center"></i>
         <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
@@ -99,13 +100,13 @@
     document.getElementById('signupForm').addEventListener('submit', function(e) {
       e.preventDefault();
       
-      // SIMPAN DATA KE LOCALSTORAGE (Memori Browser)
       const email = document.getElementById('regEmail').value;
       const username = document.getElementById('regUsername').value;
       
+      // Simpan ke memori browser
       localStorage.setItem('sdw_user', username);
       localStorage.setItem('sdw_email', email);
-      localStorage.setItem('sdw_role', 'VIP'); // Default role
+      localStorage.setItem('sdw_role', 'VIP'); 
       
       const btn = document.getElementById('btnSubmit');
       const btnText = document.getElementById('btnText');
