@@ -55,11 +55,13 @@
         <input type="text" id="loginUser" placeholder="USERNAME / EMAIL" required>
       </div>
 
+      <!-- KOLOM PASSWORD DENGAN SHOW/HIDE -->
       <div class="neon-input flex items-center px-5 py-3 w-full">
         <i class="fa-solid fa-lock text-blue-300 w-6 text-center"></i>
         <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
-        <!-- Tambah ID loginPass -->
         <input type="password" id="loginPass" placeholder="PASSWORD" required>
+        <!-- Ikon Mata -->
+        <i class="fa-regular fa-eye text-gray-400 cursor-pointer hover:text-white transition-colors" onclick="togglePassword('loginPass', this)"></i>
       </div>
 
       <!-- Pesan Error -->
@@ -79,13 +81,27 @@
   </div>
 
   <script>
+    // FUNGSI SHOW/HIDE PASSWORD
+    function togglePassword(inputId, iconElement) {
+      const input = document.getElementById(inputId);
+      if (input.type === "password") {
+        input.type = "text";
+        iconElement.classList.remove('fa-eye');
+        iconElement.classList.add('fa-eye-slash');
+      } else {
+        input.type = "password";
+        iconElement.classList.remove('fa-eye-slash');
+        iconElement.classList.add('fa-eye');
+      }
+    }
+
+    // LOGIKA LOGIN
     document.getElementById('loginForm').addEventListener('submit', function(e) {
       e.preventDefault();
       
       const inputUser = document.getElementById('loginUser').value;
       const inputPass = document.getElementById('loginPass').value;
       
-      // Ambil data dari localStorage
       const dbUser = localStorage.getItem('db_user');
       const dbEmail = localStorage.getItem('db_email');
       const dbPass = localStorage.getItem('db_pass');
@@ -93,23 +109,18 @@
       const errMsg = document.getElementById('errorMsg');
       const notRegMsg = document.getElementById('notRegMsg');
 
-      // Sembunyikan pesan error terlebih dahulu
       errMsg.classList.add('hidden');
       notRegMsg.classList.add('hidden');
 
-      // Cek apakah user sudah pernah sign up
       if (!dbUser || !dbPass) {
         notRegMsg.classList.remove('hidden');
-        return; // Hentikan proses
+        return;
       }
 
-      // Logika Pengecekan: Apakah input sama dengan yang didaftarkan?
       if ((inputUser === dbUser || inputUser === dbEmail) && inputPass === dbPass) {
-        // Jika Cocok, Login Berhasil
         localStorage.setItem('isLoggedIn', 'true');
         window.location.href = "dashboard.html";
       } else {
-        // Jika Salah
         errMsg.classList.remove('hidden');
       }
     });
