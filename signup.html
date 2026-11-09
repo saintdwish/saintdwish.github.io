@@ -13,7 +13,6 @@
     body { font-family: 'Poppins', sans-serif; }
     .font-title { font-family: 'Cinzel', serif; }
     .space-bg { background: radial-gradient(circle at center, #0b1a35 0%, #030712 100%); }
-    
     .neon-input {
       background: rgba(10, 25, 50, 0.5); border: 2px solid #2563eb;
       box-shadow: 0 0 10px rgba(37, 99, 235, 0.4), inset 0 0 10px rgba(37, 99, 235, 0.2);
@@ -21,11 +20,9 @@
     }
     .neon-input:focus-within {
       border-color: #60a5fa; box-shadow: 0 0 20px rgba(59, 130, 246, 0.8), inset 0 0 15px rgba(59, 130, 246, 0.5);
-      background: rgba(10, 25, 50, 0.7);
     }
     .neon-input input { background: transparent; outline: none; color: white; width: 100%; }
     .neon-input input::placeholder { color: #94a3b8; }
-
     .neon-btn {
       background: rgba(10, 25, 50, 0.4); border: 2px solid #3b82f6;
       box-shadow: 0 0 15px rgba(59, 130, 246, 0.5), inset 0 0 15px rgba(59, 130, 246, 0.3);
@@ -33,7 +30,6 @@
     }
     .neon-btn:hover {
       transform: scale(1.02); box-shadow: 0 0 25px rgba(59, 130, 246, 1), inset 0 0 20px rgba(59, 130, 246, 0.8);
-      border-color: #60a5fa;
     }
   </style>
 </head>
@@ -41,7 +37,7 @@
 
   <div class="fixed inset-0 z-0 opacity-50 bg-cover bg-center" style="background-image: url('bg.jpg');"></div>
 
-  <a href="index.html" class="fixed top-6 left-6 z-50 neon-btn w-12 h-12 rounded-full flex items-center justify-center text-blue-300 hover:text-white group" title="Kembali ke Login">
+  <a href="index.html" class="fixed top-6 left-6 z-50 neon-btn w-12 h-12 rounded-full flex items-center justify-center text-blue-300 hover:text-white group" title="Kembali">
     <i class="fa-solid fa-arrow-left text-lg group-hover:-translate-x-1 transition-transform"></i>
   </a>
 
@@ -51,88 +47,83 @@
         <img src="logo.png" alt="Logo" class="w-full h-auto object-contain">
     </div>
 
-    <!-- FORM SIGN UP BARU -->
     <form id="signupForm" class="w-full flex flex-col gap-4">
       
-      <!-- Email -->
       <div class="neon-input flex items-center px-5 py-3 w-full">
         <i class="fa-solid fa-envelope text-blue-300 w-6 text-lg text-center"></i>
         <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
-        <input type="email" placeholder="Email" required>
+        <input type="email" id="regEmail" placeholder="Email" required>
       </div>
 
-      <!-- Password -->
       <div class="neon-input flex items-center px-5 py-3 w-full">
         <i class="fa-solid fa-lock text-blue-300 w-6 text-lg text-center"></i>
         <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
         <input type="password" placeholder="Password" required>
       </div>
 
-      <!-- Nama Depan -->
       <div class="neon-input flex items-center px-5 py-3 w-full">
         <i class="fa-solid fa-user text-blue-300 w-6 text-lg text-center"></i>
         <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
         <input type="text" placeholder="Nama Depan" required>
       </div>
 
-      <!-- Nama Belakang -->
       <div class="neon-input flex items-center px-5 py-3 w-full">
         <i class="fa-solid fa-user text-blue-300 w-6 text-lg text-center"></i>
         <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
         <input type="text" placeholder="Nama Belakang" required>
       </div>
 
-      <!-- No Whatsapp (Baru) -->
+      <!-- KOLOM USERNAME BARU -->
+      <div class="neon-input flex items-center px-5 py-3 w-full">
+        <i class="fa-solid fa-at text-blue-300 w-6 text-lg text-center"></i>
+        <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
+        <input type="text" id="regUsername" placeholder="USERNAME" required>
+      </div>
+
       <div class="neon-input flex items-center px-5 py-3 w-full">
         <i class="fa-brands fa-whatsapp text-blue-300 w-6 text-lg text-center"></i>
         <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
         <input type="tel" placeholder="NO Whatsapp" required>
       </div>
 
-      <!-- Tombol Continue -->
       <button type="submit" id="btnSubmit" class="neon-btn w-full py-4 rounded-full flex items-center justify-between px-8 mt-6 group">
         <span id="btnText" class="font-title text-xl tracking-wider mx-auto text-blue-100">Continue</span>
         <div id="btnIcon" class="w-8 h-8 rounded-full border border-blue-300 flex items-center justify-center group-hover:bg-blue-500/30 transition">
           <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </div>
       </button>
-
     </form>
-
-    <div class="mt-8 text-center mb-10">
-      <p class="text-sm text-blue-200">
-        Sudah punya akun? 
-        <a href="index.html" class="font-bold text-blue-400 hover:text-blue-300 hover:underline transition">Login di sini</a>
-      </p>
-    </div>
-
   </div>
 
   <script>
     document.getElementById('signupForm').addEventListener('submit', function(e) {
       e.preventDefault();
+      
+      // SIMPAN DATA KE LOCALSTORAGE (Memori Browser)
+      const email = document.getElementById('regEmail').value;
+      const username = document.getElementById('regUsername').value;
+      
+      localStorage.setItem('sdw_user', username);
+      localStorage.setItem('sdw_email', email);
+      localStorage.setItem('sdw_role', 'VIP'); // Default role
+      
       const btn = document.getElementById('btnSubmit');
       const btnText = document.getElementById('btnText');
       const btnIcon = document.getElementById('btnIcon');
       
       btnText.innerHTML = 'Processing...';
-      btnText.classList.add('animate-pulse');
       btnIcon.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-white"></i>';
-      btn.style.pointerEvents = 'none';
       
-      // Simulasi loading 2 detik lalu lempar ke dashboard
       setTimeout(() => {
         btnText.innerHTML = 'Berhasil!';
-        btnText.classList.remove('animate-pulse');
         btnText.classList.add('text-green-400');
         btnIcon.innerHTML = '<i class="fa-solid fa-check text-green-400"></i>';
         
         setTimeout(() => {
-            window.location.href = "dashboard.html"; // Lempar ke dashboard
+            window.location.href = "dashboard.html"; 
         }, 1000);
       }, 1500);
     });
   </script>
-
 </body>
 </html>
