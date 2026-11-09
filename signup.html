@@ -58,7 +58,8 @@
       <div class="neon-input flex items-center px-5 py-3 w-full">
         <i class="fa-solid fa-lock text-blue-300 w-6 text-lg text-center"></i>
         <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
-        <input type="password" placeholder="Password" required>
+        <!-- Tambah ID regPassword -->
+        <input type="password" id="regPassword" placeholder="Password" required>
       </div>
 
       <div class="neon-input flex items-center px-5 py-3 w-full">
@@ -73,14 +74,12 @@
         <input type="text" placeholder="Nama Belakang" required>
       </div>
 
-      <!-- Kolom Username -->
       <div class="neon-input flex items-center px-5 py-3 w-full">
         <i class="fa-solid fa-at text-blue-300 w-6 text-lg text-center"></i>
         <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
         <input type="text" id="regUsername" placeholder="USERNAME" required>
       </div>
 
-      <!-- Kolom WhatsApp -->
       <div class="neon-input flex items-center px-5 py-3 w-full">
         <i class="fa-brands fa-whatsapp text-blue-300 w-6 text-lg text-center"></i>
         <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
@@ -100,13 +99,18 @@
     document.getElementById('signupForm').addEventListener('submit', function(e) {
       e.preventDefault();
       
+      // Ambil data dari form
       const email = document.getElementById('regEmail').value;
+      const password = document.getElementById('regPassword').value;
       const username = document.getElementById('regUsername').value;
       
-      // Simpan ke memori browser
-      localStorage.setItem('sdw_user', username);
-      localStorage.setItem('sdw_email', email);
-      localStorage.setItem('sdw_role', 'VIP'); 
+      // 1. SIMPAN DATA ASLI KE LOCALSTORAGE (Sebagai database)
+      localStorage.setItem('db_user', username);
+      localStorage.setItem('db_email', email);
+      localStorage.setItem('db_pass', password);
+      
+      // 2. Set sesi login aktif
+      localStorage.setItem('isLoggedIn', 'true');
       
       const btn = document.getElementById('btnSubmit');
       const btnText = document.getElementById('btnText');
