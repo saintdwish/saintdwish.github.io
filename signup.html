@@ -55,11 +55,13 @@
         <input type="email" id="regEmail" placeholder="Email" required>
       </div>
 
+      <!-- KOLOM PASSWORD DENGAN SHOW/HIDE -->
       <div class="neon-input flex items-center px-5 py-3 w-full">
         <i class="fa-solid fa-lock text-blue-300 w-6 text-lg text-center"></i>
         <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
-        <!-- Tambah ID regPassword -->
         <input type="password" id="regPassword" placeholder="Password" required>
+        <!-- Ikon Mata -->
+        <i class="fa-regular fa-eye text-gray-400 cursor-pointer hover:text-white transition-colors" onclick="togglePassword('regPassword', this)"></i>
       </div>
 
       <div class="neon-input flex items-center px-5 py-3 w-full">
@@ -96,20 +98,32 @@
   </div>
 
   <script>
+    // FUNGSI SHOW/HIDE PASSWORD
+    function togglePassword(inputId, iconElement) {
+      const input = document.getElementById(inputId);
+      if (input.type === "password") {
+        input.type = "text";
+        iconElement.classList.remove('fa-eye');
+        iconElement.classList.add('fa-eye-slash');
+      } else {
+        input.type = "password";
+        iconElement.classList.remove('fa-eye-slash');
+        iconElement.classList.add('fa-eye');
+      }
+    }
+
+    // LOGIKA SIGN UP
     document.getElementById('signupForm').addEventListener('submit', function(e) {
       e.preventDefault();
       
-      // Ambil data dari form
       const email = document.getElementById('regEmail').value;
       const password = document.getElementById('regPassword').value;
       const username = document.getElementById('regUsername').value;
       
-      // 1. SIMPAN DATA ASLI KE LOCALSTORAGE (Sebagai database)
+      // Simpan ke localStorage
       localStorage.setItem('db_user', username);
       localStorage.setItem('db_email', email);
       localStorage.setItem('db_pass', password);
-      
-      // 2. Set sesi login aktif
       localStorage.setItem('isLoggedIn', 'true');
       
       const btn = document.getElementById('btnSubmit');
