@@ -89,14 +89,6 @@
     .neon-btn:hover::before {
       left: 100%;
     }
-
-    /* Efek Teks Metalik */
-    .metal-text {
-      background: linear-gradient(to bottom, #ffffff, #a0b8d6, #ffffff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-    }
   </style>
 </head>
 <body class="space-bg text-white min-h-screen flex flex-col items-center relative overflow-x-hidden py-10">
@@ -104,20 +96,19 @@
   <!-- BACKGROUND GAMBAR (Menggunakan file bg.jpg) -->
   <div class="fixed inset-0 z-0 opacity-50 bg-cover bg-center" style="background-image: url('bg.jpg');"></div>
 
+  <!-- TOMBOL BACK (Pojok Kiri Atas) -->
+  <!-- href="index.html" berfungsi untuk mengembalikan ke halaman pertama -->
+  <a href="index.html" class="fixed top-6 left-6 z-50 neon-btn w-12 h-12 rounded-full flex items-center justify-center text-blue-300 hover:text-white group" title="Kembali ke Login">
+    <i class="fa-solid fa-arrow-left text-lg group-hover:-translate-x-1 transition-transform"></i>
+  </a>
+
   <!-- Konten Utama -->
-  <div class="relative z-10 w-full max-w-md px-6 flex flex-col items-center">
+  <div class="relative z-10 w-full max-w-md px-6 flex flex-col items-center mt-8">
     
-    <!-- LOGO 3D (Kecil) -->
-    <div class="w-32 mb-4 flex justify-center items-center drop-shadow-[0_0_20px_rgba(59,130,246,0.5)]">
+    <!-- LOGO 3D -->
+    <div class="w-32 mb-10 flex justify-center items-center drop-shadow-[0_0_20px_rgba(59,130,246,0.5)]">
         <img src="logo.png" alt="Logo" class="w-full h-auto object-contain">
     </div>
-
-    <!-- Judul Halaman -->
-    <h1 class="font-title text-2xl md:text-3xl font-bold metal-text tracking-widest text-center mb-8 flex items-center gap-3">
-      <span class="text-xl">Sign Up</span> 
-      <span class="text-blue-400 font-light">|</span> 
-      SAINT D. WISH
-    </h1>
 
     <!-- FORM PENDAFTARAN -->
     <form id="signupForm" class="w-full flex flex-col gap-4">
@@ -181,8 +172,8 @@
 
     </form>
 
-    <!-- Link Kembali ke Login -->
-    <div class="mt-8 text-center">
+    <!-- Link Kembali ke Login (Bawah) -->
+    <div class="mt-8 text-center mb-10">
       <p class="text-sm text-blue-200">
         Sudah punya akun? 
         <a href="index.html" class="font-bold text-blue-400 hover:text-blue-300 hover:underline transition">Login di sini</a>
@@ -217,13 +208,12 @@
         btnText.classList.add('text-green-400');
         btnIcon.innerHTML = '<i class="fa-solid fa-check text-green-400"></i>';
         
-        // Kembalikan ke semula setelah 2 detik (atau arahkan ke halaman selanjutnya)
+        // Kembalikan ke semula setelah 2 detik
         setTimeout(() => {
             btnText.innerHTML = originalText;
             btnText.classList.remove('text-green-400');
             btnIcon.innerHTML = originalIcon;
             btn.style.pointerEvents = 'auto';
-            // document.getElementById('signupForm').reset(); // Opsional: Kosongkan form
         }, 2000);
       }, 2000);
     });
