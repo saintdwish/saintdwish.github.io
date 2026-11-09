@@ -139,21 +139,15 @@
         <h1 class="text-2xl font-semibold text-blue-50">AKUN</h1>
       </header>
 
-      <!-- Kartu Profil User (Dinamis) -->
+      <!-- Kartu Profil User -->
       <div class="glass-card rounded-full p-3 flex items-center justify-between mb-10 border border-blue-500/30">
-        
-        <!-- Avatar Inisial -->
         <div class="w-16 h-16 rounded-full bg-[#1e3a5f] flex items-center justify-center border border-blue-400/50 shadow-[0_0_15px_rgba(59,130,246,0.3)] shrink-0">
           <span id="userPP" class="text-2xl font-bold text-white">?</span>
         </div>
-        
-        <!-- Nama & Email Dinamis -->
         <div class="flex-1 px-4 text-left">
           <h2 id="userName" class="text-md font-bold text-white leading-tight">Memuat...</h2>
           <p id="userEmail" class="text-xs text-gray-400">Memuat...</p>
         </div>
-        
-        <!-- Role Dinamis -->
         <div class="text-right pr-4 shrink-0">
           <p class="text-[10px] text-gray-400">ROLE USER</p>
           <p id="userRole" class="text-sm font-bold text-yellow-400">VIP</p>
@@ -185,7 +179,8 @@
         </button>
       </div>
       
-      <button onclick="window.location.href='index.html'" class="w-full py-3 rounded-full border border-red-500/50 text-red-400 hover:bg-red-900/20 transition text-sm font-semibold mt-4">
+      <!-- TOMBOL LOGOUT -->
+      <button onclick="logout()" class="w-full py-3 rounded-full border border-red-500/50 text-red-400 hover:bg-red-900/20 transition text-sm font-semibold mt-4">
         Logout
       </button>
     </div>
@@ -230,43 +225,42 @@
 
   <!-- ===== SCRIPTS ===== -->
   <script>
-    // 1. SCRIPT UNTUK MEMANGGIL DATA USER DARI LOCALSTORAGE
-    document.addEventListener("DOMContentLoaded", function() {
-      let username = localStorage.getItem('sdw_user') || "User Baru";
-      let email = localStorage.getItem('sdw_email') || "Belum ada email";
-      let role = localStorage.getItem('sdw_role') || "STANDARD";
+    // 1. PROTEKSI HALAMAN (Cek apakah sudah login)
+    if (localStorage.getItem('isLoggedIn') !== 'true') {
+      window.location.href = "login.html";
+    }
 
-      // Mengambil huruf pertama untuk PP
+    // 2. TAMPILKAN DATA USER
+    document.addEventListener("DOMContentLoaded", function() {
+      let username = localStorage.getItem('db_user') || "User";
+      let email = localStorage.getItem('db_email') || "Belum ada email";
+      let role = "VIP"; 
+
       let firstLetter = username.charAt(0).toUpperCase();
 
-      // Memasukkan data ke HTML
       document.getElementById('userPP').innerText = firstLetter;
       document.getElementById('userName').innerText = username;
       document.getElementById('userEmail').innerText = email;
       document.getElementById('userRole').innerText = role;
     });
 
-    // 2. SCRIPT UNTUK PINDAH HALAMAN (SPA)
+    // 3. FUNGSI PINDAH HALAMAN
     function switchView(viewName, btnElement) {
-      // Sembunyikan semua view
       document.querySelectorAll('.view-section').forEach(view => {
         view.classList.add('hidden');
         view.classList.remove('block');
       });
 
-      // Tampilkan view yang dipilih
       const targetView = document.getElementById('view-' + viewName);
       targetView.classList.remove('hidden');
       targetView.classList.add('block');
 
-      // Reset warna tombol navigasi
       const navButtons = document.querySelectorAll('nav button');
       navButtons.forEach(btn => {
         btn.classList.remove('text-blue-300', 'drop-shadow-[0_0_8px_rgba(59,130,246,0.8)]');
         btn.classList.add('text-gray-400');
       });
 
-      // Nyalakan warna pada tombol yang diklik
       if (viewName === 'vip') {
         btnElement.classList.add('scale-110', 'border-white');
       } else {
@@ -277,9 +271,15 @@
       if(viewName !== 'vip') {
         document.getElementById('nav-vip').classList.remove('scale-110', 'border-white');
       }
-
-      // Scroll ke atas
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 4. FUNGSI LOGOUT (Hapus sesi login)
+    function logout() {
+      // Hapus status login, tapi biarkan data user (username/pass) tetap tersimpan
+      localStorage.removeItem('isLoggedIn');
+      // Tendang kembali ke halaman login
+      window.location.href = "login.html";
     }
   </script>
 
