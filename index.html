@@ -4,29 +4,64 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Saint D. Wish - Home</title>
+  
   <!-- Google Fonts untuk font elegan -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  
   <style>
-    body { font-family: 'Poppins', sans-serif; }
-    .font-title { font-family: 'Cinzel', serif; }
+    body { 
+      font-family: 'Poppins', sans-serif; 
+    }
+    .font-title { 
+      font-family: 'Cinzel', serif; 
+    }
     
     /* Efek Latar Belakang Luar Angkasa */
     .space-bg {
       background: radial-gradient(circle at center, #0b1a35 0%, #030712 100%);
     }
 
-    /* Efek Tombol Neon */
+    /* --- EFEK HUD TOMBOL --- */
     .neon-btn {
       background: rgba(10, 25, 50, 0.4);
       border: 2px solid #3b82f6;
       box-shadow: 0 0 15px rgba(59, 130, 246, 0.5), inset 0 0 15px rgba(59, 130, 246, 0.3);
       backdrop-filter: blur(5px);
       transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
     }
+    
+    /* Efek saat mouse diarahkan (Hover) */
     .neon-btn:hover {
-      box-shadow: 0 0 25px rgba(59, 130, 246, 0.8), inset 0 0 20px rgba(59, 130, 246, 0.5);
+      transform: scale(1.02);
+      box-shadow: 0 0 25px rgba(59, 130, 246, 1), inset 0 0 20px rgba(59, 130, 246, 0.8);
+      border-color: #60a5fa;
       background: rgba(10, 25, 50, 0.6);
+    }
+
+    /* Efek saat tombol ditekan (Active) */
+    .neon-btn:active {
+      transform: scale(0.98);
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+    }
+
+    /* Efek Garis Cahaya Menyapu (Sweep Effect) */
+    .neon-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: all 0.5s;
+    }
+    .neon-btn:hover::before {
+      left: 100%;
     }
 
     /* Efek Teks Metalik */
@@ -40,22 +75,27 @@
 </head>
 <body class="space-bg text-white min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
 
-  <!-- BACKGROUND GAMBAR (Ganti URL di bawah dengan link gambar luar angkasa kamu) -->
-  <div class="absolute inset-0 z-0 opacity-50 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=2048&auto=format&fit=crop');"></div>
+  <!-- BACKGROUND GAMBAR (Menggunakan file bg.jpg) -->
+  <div class="absolute inset-0 z-0 opacity-60 bg-cover bg-center" style="background-image: url('bg.jpg');"></div>
 
   <!-- Konten Utama -->
   <div class="relative z-10 w-full max-w-md px-8 flex flex-col items-center">
     
-    <!-- LOGO 3D (Ganti src dengan link gambar logo kamu) -->
-    <div class="w-48 h-48 mb-6 flex justify-center items-center rounded-full shadow-[0_0_40px_rgba(59,130,246,0.5)] overflow-hidden border border-blue-500/30">
-        <!-- Sementara pakai gambar placeholder, nanti ganti dengan logo aslimu -->
-        <img src="logo.png" alt="Logo" class="w-full h-full object-cover">
+    <!-- LOGO 3D (Tidak Terpotong + Efek Glow) -->
+    <div class="w-64 md:w-[320px] mb-8 flex justify-center items-center drop-shadow-[0_0_30px_rgba(59,130,246,0.7)] relative z-10">
+        <img src="logo.png" alt="Saint D. Wish Logo" class="w-full h-auto object-contain">
     </div>
 
-    <!-- Judul -->
+    <!-- 
+      Catatan: Tag H1 (Judul) saya matikan karena di dalam gambar logo.png 
+      kamu sudah ada tulisan "SAINT D. WISH". 
+      Jika kamu ingin menambahkannya lagi, hapus tanda komentar di bawah ini.
+    -->
+    <!-- 
     <h1 class="font-title text-4xl md:text-5xl font-bold metal-text tracking-widest text-center mb-10">
       SAINT D. WISH
-    </h1>
+    </h1> 
+    -->
 
     <!-- Tombol Login -->
     <a href="#" class="neon-btn w-full py-4 rounded-full flex items-center justify-between px-8 mb-6 group">
@@ -78,8 +118,8 @@
     </a>
 
     <!-- Footer -->
-    <div class="text-center">
-      <p class="font-title text-sm tracking-[0.3em] text-blue-300/70">SAINT D. WISH</p>
+    <div class="text-center absolute bottom-6 w-full">
+      <p class="font-title text-sm tracking-[0.3em] text-blue-300/60">SAINT D. WISH</p>
     </div>
 
   </div>
