@@ -55,12 +55,10 @@
         <input type="email" id="regEmail" placeholder="Email" required>
       </div>
 
-      <!-- KOLOM PASSWORD DENGAN SHOW/HIDE -->
       <div class="neon-input flex items-center px-5 py-3 w-full">
         <i class="fa-solid fa-lock text-blue-300 w-6 text-lg text-center"></i>
         <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
         <input type="password" id="regPassword" placeholder="Password" required>
-        <!-- Ikon Mata -->
         <i class="fa-regular fa-eye text-gray-400 cursor-pointer hover:text-white transition-colors" onclick="togglePassword('regPassword', this)"></i>
       </div>
 
@@ -98,33 +96,21 @@
   </div>
 
   <script>
-    // FUNGSI SHOW/HIDE PASSWORD
+    const API_URL = "https://script.google.com/macros/s/AKfycbzMYg1pTNUbEJWJSKtwifnPkw-tTn1SjFJqK2fmVepWVKpAvupB2c5eCb-fpUXR6LK-wg/exec";
+
     function togglePassword(inputId, iconElement) {
       const input = document.getElementById(inputId);
       if (input.type === "password") {
         input.type = "text";
-        iconElement.classList.remove('fa-eye');
-        iconElement.classList.add('fa-eye-slash');
+        iconElement.classList.replace('fa-eye', 'fa-eye-slash');
       } else {
         input.type = "password";
-        iconElement.classList.remove('fa-eye-slash');
-        iconElement.classList.add('fa-eye');
+        iconElement.classList.replace('fa-eye-slash', 'fa-eye');
       }
     }
 
-    // LOGIKA SIGN UP
-    document.getElementById('signupForm').addEventListener('submit', function(e) {
+    document.getElementById('signupForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      
-      const email = document.getElementById('regEmail').value;
-      const password = document.getElementById('regPassword').value;
-      const username = document.getElementById('regUsername').value;
-      
-      // Simpan ke localStorage
-      localStorage.setItem('db_user', username);
-      localStorage.setItem('db_email', email);
-      localStorage.setItem('db_pass', password);
-      localStorage.setItem('isLoggedIn', 'true');
       
       const btn = document.getElementById('btnSubmit');
       const btnText = document.getElementById('btnText');
@@ -133,15 +119,34 @@
       btnText.innerHTML = 'Processing...';
       btnIcon.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-white"></i>';
       
-      setTimeout(() => {
-        btnText.innerHTML = 'Berhasil!';
-        btnText.classList.add('text-green-400');
-        btnIcon.innerHTML = '<i class="fa-solid fa-check text-green-400"></i>';
-        
-        setTimeout(() => {
-            window.location.href = "dashboard.html"; 
-        }, 1000);
-      }, 1500);
+      const email = document.getElementById('regEmail').value;
+      const password = document.getElementById('regPassword').value;
+      const username = document.getElementById('regUsername').value;
+
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'register', email: email, password: password, username: username })
+        });
+        const data = await response.json();
+
+        if(data.status === 'success') {
+          btnText.innerHTML = 'Berhasil!';
+          btnText.classList.add('text-green-400');
+          btnIcon.innerHTML = '<i class="fa-solid fa-check text-green-400"></i>';
+          setTimeout(() => {
+            alert("Pendaftaran Berhasil! Silakan Login.");
+            window.location.href = "login.html";
+          }, 1000);
+        } else {
+          alert(data.message);
+          btnText.innerHTML = 'Continue';
+          btnIcon.innerHTML = '<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>';
+        }
+      } catch (error) {
+        alert("Terjadi kesalahan jaringan.");
+        btnText.innerHTML = 'Continue';
+      }
     });
   </script>
 </body>
