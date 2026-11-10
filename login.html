@@ -52,7 +52,7 @@
       <div class="neon-input flex items-center px-5 py-3 w-full">
         <i class="fa-regular fa-user text-blue-300 w-6 text-center"></i>
         <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
-        <input type="text" id="loginUser" placeholder="EMAIL" required>
+        <input type="text" id="loginUser" placeholder="EMAIL / USERNAME" required>
       </div>
 
       <div class="neon-input flex items-center px-5 py-3 w-full">
@@ -62,7 +62,7 @@
         <i class="fa-regular fa-eye text-gray-400 cursor-pointer hover:text-white transition-colors" onclick="togglePassword('loginPass', this)"></i>
       </div>
 
-      <p id="errorMsg" class="text-red-500 text-xs text-center hidden mt-1">Email atau Password salah!</p>
+      <p id="errorMsg" class="text-red-500 text-xs text-center hidden mt-1">Email/Username atau Password salah!</p>
 
       <button type="submit" class="neon-btn w-full py-3 rounded-full mt-2">
         <span class="font-title text-lg tracking-wider text-blue-100">Login</span>
@@ -92,7 +92,7 @@
 
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      const email = document.getElementById('loginUser').value;
+      const userInput = document.getElementById('loginUser').value;
       const password = document.getElementById('loginPass').value;
       const errMsg = document.getElementById('errorMsg');
       errMsg.classList.add('hidden');
@@ -100,15 +100,17 @@
       try {
         const response = await fetch(API_URL, {
           method: 'POST',
-          body: JSON.stringify({ action: 'login', email: email, password: password })
+          body: JSON.stringify({ action: 'login', userInput: userInput, password: password })
         });
         const data = await response.json();
 
         if (data.status === 'success') {
+          // Simpan sesi user
           localStorage.setItem('isLoggedIn', 'true');
           localStorage.setItem('db_user', data.user.username);
           localStorage.setItem('db_email', data.user.email);
           localStorage.setItem('db_role', data.user.role);
+          
           window.location.href = "dashboard.html";
         } else {
           errMsg.classList.remove('hidden');
