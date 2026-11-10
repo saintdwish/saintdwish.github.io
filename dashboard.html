@@ -44,6 +44,14 @@
       background: rgba(30, 58, 95, 0.4); color: #9ca3af; border-color: transparent;
     }
     .tab-inactive:hover { background: rgba(30, 58, 95, 0.8); color: white; }
+
+    /* CSS untuk Accordion VIP */
+    .card-header { cursor: pointer; transition: background-color 0.2s; }
+    .card-header:hover { background-color: rgba(30, 58, 95, 0.5); }
+    .card-detail { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out; opacity: 0; }
+    .card-detail.open { max-height: 300px; opacity: 1; }
+    
+    .vip-blurred { filter: blur(8px); pointer-events: none; user-select: none; opacity: 0.6; }
   </style>
 </head>
 <body class="max-w-md mx-auto relative min-h-screen">
@@ -58,7 +66,7 @@
     <div id="view-dashboard" class="view-section block">
       <header class="mb-6"><h1 class="text-2xl font-semibold text-blue-50">Dashboard</h1></header>
 
-      <!-- Live Price -->
+      <!-- Live Price & Chart -->
       <div class="glass-card p-4 mb-6 border-l-4 border-l-blue-500 flex justify-between items-center relative overflow-hidden">
         <div class="z-10">
           <p class="text-sm text-gray-300 mb-1">XAUUSD <span class="text-xs text-green-400 animate-pulse">live</span></p>
@@ -67,12 +75,12 @@
             <span class="text-sm font-semibold mt-1 text-gray-400" id="priceChange">0.00 %</span>
           </div>
         </div>
-        <div class="w-28 h-14 relative z-10"><canvas id="miniChart"></canvas></div>
+        <div class="w-32 h-16 relative z-10"><canvas id="miniChart"></canvas></div>
       </div>
 
       <!-- Riwayat Gabungan -->
       <div class="mb-6">
-        <h2 class="text-lg text-blue-100 mb-3 font-medium">Riwayat (GLDN & MSP)</h2>
+        <h2 class="text-lg text-blue-100 mb-3 font-medium">Riwayat</h2>
         <div class="glass-card p-3 flex flex-col gap-2 relative overflow-hidden" id="dashboard-history-list">
           <p class="text-center text-sm text-gray-400 py-4">Memuat riwayat...</p>
         </div>
@@ -152,7 +160,7 @@
           </div>
         </div>
 
-        <!-- WAITING -->
+        <!-- WAITING (Accordion) -->
         <div class="mb-6">
           <h2 class="text-lg font-bold text-white mb-2">WAITING</h2>
           <div class="flex flex-col gap-3" id="vip-waiting-list">
@@ -171,9 +179,9 @@
           </ol>
         </div>
 
-        <!-- DAILY RECAP VIP -->
+        <!-- DAILY RECAP VIP (TANPA LABEL EA) -->
         <div class="glass-card p-5 mb-6">
-          <h3 class="text-lg text-blue-100 mb-3" id="vip-recap-title">DAILY RECAP (GOLDEN)</h3>
+          <h3 class="text-lg text-blue-100 mb-3">DAILY RECAP</h3>
           <div class="flex justify-between gap-2">
             <div class="flex-1 border border-blue-400/40 rounded-xl p-2 text-center bg-blue-900/20">
               <p class="text-[10px] text-gray-400 mb-1">PROFIT</p><p class="text-xs font-bold text-neon-green" id="vip-day-profit">+0</p>
@@ -417,12 +425,30 @@
     let knownSignalStatuses = {}; 
     let currentUserRole = "NO ROLE";
     let currentUserEmail = "";
+    let priceHistory = []; // Simpan histori harga
 
     // --- SETUP CHART.JS ---
     const ctx = document.getElementById('miniChart').getContext('2d');
     const priceChart = new Chart(ctx, {
-      type: 'line', data: { labels: [], datasets: [{ data: [], borderColor: '#4ade80', borderWidth: 2, pointRadius: 0, fill: false, tension: 0.4 }] },
-      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { display: false } }, animation: false }
+      type: 'line',
+      data: { 
+        labels: [], 
+        datasets: [{ 
+          data: [], 
+          borderColor: '#4ade80', 
+          borderWidth: 2, 
+          pointRadius: 0, 
+          fill: false, 
+          tension: 0.4 
+        }] 
+      },
+      options: { 
+        responsive: true, 
+        maintainAspectRatio: false, 
+        plugins: { legend: { display: false }, tooltip: { enabled: false } }, 
+        scales: { x: { display: false }, y: { display: false } }, 
+        animation: false 
+      }
     });
 
     // --- HARGA LIVE ---
@@ -433,11 +459,23 @@
         if (data.status === 'success' && data.price > 0) {
           const p = parseFloat(data.price);
           document.getElementById('goldPrice').innerText = p.toFixed(3);
+          
           const chg = ((p - (previousPrice || p)) / p) * 100;
           document.getElementById('priceChange').innerText = (chg > 0 ? '+' : '') + chg.toFixed(2) + ' %';
           
-          priceChart.data.datasets[0].data.push(p);
-          if(priceChart.data.datasets[0].data.length > 20) priceChart.data.datasets[0].data.shift();
+          // Update Chart
+          priceHistory.push(p);
+          if(priceHistory.length > 20) priceHistory.shift();
+          
+          priceChart.data.labels = priceHistory.map((_, i) => i);
+          priceChart.data.datasets[0].data = priceHistory;
+          
+          // Skala Y Dinamis agar garisnya kelihatan naik turunnya
+          if(priceHistory.length > 1) {
+            priceChart.options.scales.y.min = Math.min(...priceHistory) - 0.5;
+            priceChart.options.scales.y.max = Math.max(...priceHistory) + 0.5;
+          }
+          
           priceChart.update();
           previousPrice = p;
         }
@@ -456,7 +494,7 @@
       } catch (e) {}
     }
 
-    // --- LOGIKA NOTIFIKASI HP ---
+    // --- LOGIKA NOTIFIKASI HP (FORMAT BARU) ---
     function checkNewNotifications() {
       if (!("Notification" in window) || Notification.permission !== "granted") return;
 
@@ -469,8 +507,8 @@
              
              if (sig.status === 'WAITING') msg = `ENTRY | ${sig.arah} LIMIT ${sig.pair} | ${source}`;
              else if (sig.status === 'RUNNING') msg = `FILLED | ${sig.arah} LIMIT ${sig.pair} | ${source}`;
-             else if (sig.status.includes('TP')) msg = `${sig.status} HIT | ${sig.arah} LIMIT ${sig.pair} | ${source}`;
-             else if (sig.status === 'SL') msg = `STOP LOSS | ${sig.arah} LIMIT ${sig.pair} | ${source}`;
+             else if (sig.status.includes('TP')) msg = `TAKE PROFIT ${sig.status.replace('TP','')} HIT | ${sig.arah} LIMIT ${sig.pair} | ${source}`;
+             else if (sig.status === 'SL') msg = `STOP LOSS HIT | ${sig.arah} LIMIT ${sig.pair} | ${source}`;
 
              if (msg !== "") {
                new Notification("Saint D. Wish - Signal Update", { body: msg, icon: "logo.png" });
@@ -572,6 +610,7 @@
           }
         }
 
+        // RUNNING CARD
         if (s.status === 'RUNNING') {
           runningHTML += `
             <div class="glass-card p-4 border border-blue-500/40 relative overflow-hidden mb-3">
@@ -588,14 +627,32 @@
               </div>
               <p class="text-red-400 font-bold text-xs">STOP LOSS (SL) : ${s.sl}</p>
             </div>`;
-        } else if (s.status === 'WAITING') {
+        } 
+        // WAITING CARD (ACCORDION)
+        else if (s.status === 'WAITING') {
           waitingHTML += `
-            <div class="glass-card p-3 flex justify-between items-center border border-blue-500/30 mb-2">
-              <div class="flex items-center gap-2">
-                <span class="${colorClass} text-sm">│</span>
-                <span class="${colorClass} font-semibold text-sm">${s.arah} <span class="text-gray-300 font-normal">Limit ${s.entry}</span></span>
+            <div class="glass-card overflow-hidden border border-blue-500/30 mb-2">
+              <div class="card-header p-3 flex justify-between items-center" onclick="toggleAccordion(this)">
+                <div class="flex items-center gap-2">
+                  <span class="${colorClass} text-sm">│</span>
+                  <span class="${colorClass} font-semibold text-sm">${s.arah} <span class="text-gray-300 font-normal">Limit ${s.entry}</span></span>
+                </div>
+                <span class="text-gray-300 text-xs">SL: ${s.sl}</span>
               </div>
-              <span class="text-gray-300 text-xs">SL: ${s.sl}</span>
+              <div class="card-detail px-3 pb-3">
+                <div class="pt-3 border-t border-blue-500/30">
+                  <div class="flex justify-between items-start">
+                    <div>
+                      <p class="text-red-400 font-bold text-xs">STOP LOSS: ${s.sl}</p>
+                    </div>
+                    <div class="text-right text-[10px]">
+                      <p class="text-gray-300 font-semibold mb-1"><span class="text-red-400">🎯</span> TAKE PROFIT</p>
+                      <p class="text-gray-200">🎖 TP1: ${s.tp1}</p><p class="text-gray-200">🎖 TP2: ${s.tp2}</p>
+                      <p class="text-gray-200">🎖 TP3: ${s.tp3}</p>${s.tp4 != "0" && s.tp4 != "0.0" ? `<p class="text-gray-200">🏆 TP4: ${s.tp4}</p>` : ''}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>`;
         }
       });
@@ -603,10 +660,20 @@
       document.getElementById('vip-running-list').innerHTML = runningHTML || '<p class="text-sm text-gray-400">Tidak ada posisi running.</p>';
       document.getElementById('vip-waiting-list').innerHTML = waitingHTML || '<p class="text-sm text-gray-400">Tidak ada sinyal waiting.</p>';
       
-      document.getElementById('vip-recap-title').innerText = `DAILY RECAP (${currentEATab === 'GLDN' ? 'GOLDEN' : 'MSP'})`;
       document.getElementById('vip-day-profit').innerText = `+${vipDayProfit}`;
       document.getElementById('vip-day-sl').innerText = `-${vipDayLoss}`;
       document.getElementById('vip-day-total').innerText = (vipDayProfit - vipDayLoss >= 0 ? '+' : '') + (vipDayProfit - vipDayLoss);
+    }
+
+    // --- FUNGSI ACCORDION ---
+    function toggleAccordion(headerElement) {
+      const detail = headerElement.nextElementSibling;
+      if (detail.classList.contains('open')) {
+        detail.classList.remove('open');
+      } else {
+        document.querySelectorAll('.card-detail').forEach(el => el.classList.remove('open'));
+        detail.classList.add('open');
+      }
     }
 
     // --- INISIALISASI & NAVIGASI ---
