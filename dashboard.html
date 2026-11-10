@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Library Chart.js untuk Grafik Live -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
   <style>
     body { font-family: 'Poppins', sans-serif; background-color: #030712; color: #ffffff; padding-bottom: 110px; }
@@ -48,13 +50,18 @@
         <h1 class="text-2xl font-semibold text-blue-50">Dashboard</h1>
       </header>
 
-      <!-- LIVE PRICE CARD -->
-      <div class="glass-card p-4 mb-6 border-l-4 border-l-blue-500">
-        <p class="text-sm text-gray-300 mb-1">XAUUSD <span class="text-xs text-green-400 animate-pulse">live</span></p>
-        <div class="flex items-end gap-3">
-          <!-- Angka ini akan diupdate oleh script di bawah -->
-          <span class="text-3xl font-bold text-white tracking-wide transition-colors duration-300" id="goldPrice">Memuat...</span>
-          <span class="text-sm font-semibold text-green-400 mb-1">+1.2 %</span>
+      <!-- LIVE PRICE CARD DENGAN CHART -->
+      <div class="glass-card p-4 mb-6 border-l-4 border-l-blue-500 flex justify-between items-center relative overflow-hidden">
+        <div class="z-10">
+          <p class="text-sm text-gray-300 mb-1">XAUUSD <span class="text-xs text-green-400 animate-pulse">live</span></p>
+          <div class="flex flex-col">
+            <span class="text-3xl font-bold text-white tracking-wide transition-colors duration-300" id="goldPrice">Memuat...</span>
+            <span class="text-sm font-semibold mt-1 text-gray-400" id="priceChange">0.00 %</span>
+          </div>
+        </div>
+        <!-- Kontainer Grafik Mini -->
+        <div class="w-28 h-14 relative z-10">
+          <canvas id="miniChart"></canvas>
         </div>
       </div>
 
@@ -262,13 +269,44 @@
 
   <!-- ===== SCRIPTS ===== -->
   <script>
-    // 1. URL API (User & Harga Live)
+    // URL API
     const API_URL_USER = "https://script.google.com/macros/s/AKfycbzMYg1pTNUbEJWJSKtwifnPkw-tTn1SjFJqK2fmVepWVKpAvupB2c5eCb-fpUXR6LK-wg/exec";
     const API_URL_PRICE = "https://script.google.com/macros/s/AKfycbzZuDUnA32CUSdU194CFo4MXBFk621PFfTeAlrY0IjJB7U2LHwEepP4dLvmDFsKxiCZ/exec";
 
-    // --- A. LOGIKA HARGA LIVE ---
+    // --- A. SETUP CHART.JS (GRAFIK MINI) ---
+    const ctx = document.getElementById('miniChart').getContext('2d');
+    const priceChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [{
+          data: [],
+          borderColor: '#4ade80', // Warna garis default (Hijau)
+          borderWidth: 2,
+          pointRadius: 0, // Hilangkan titik
+          fill: false,
+          tension: 0.4 // Membuat garis melengkung halus
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { enabled: false } },
+        scales: {
+          x: { display: false }, // Sembunyikan sumbu X
+          y: { display: false }  // Sembunyikan sumbu Y
+        },
+        animation: false // Matikan animasi loading agar smooth
+      }
+    });
+
+    // --- B. LOGIKA HARGA LIVE & PERSENTASE ---
     let previousPrice = 0;
+    let sessionOpenPrice = 0; // Harga saat pertama kali halaman dibuka
+    let priceHistory = []; // Menyimpan histori untuk grafik
+    
     const priceElement = document.getElementById('goldPrice');
+    const changeElement = document.getElementById('priceChange');
 
     async function fetchLivePrice() {
       try {
@@ -277,11 +315,30 @@
 
         if (data.status === 'success' && data.price > 0) {
           const currentPrice = parseFloat(data.price);
-          const formattedPrice = currentPrice.toFixed(3); // 3 desimal
           
-          priceElement.innerText = formattedPrice;
+          // 1. Set Harga Pembuka (jika masih 0)
+          if (sessionOpenPrice === 0) {
+            sessionOpenPrice = currentPrice;
+          }
+
+          // 2. Update Teks Harga
+          priceElement.innerText = currentPrice.toFixed(3);
           
-          // Efek Kedip: Hijau kalau naik, Merah kalau turun
+          // 3. Hitung Persentase
+          const changePercent = ((currentPrice - sessionOpenPrice) / sessionOpenPrice) * 100;
+          changeElement.innerText = (changePercent > 0 ? '+' : '') + changePercent.toFixed(2) + ' %';
+          
+          if (changePercent > 0) {
+            changeElement.className = "text-sm font-semibold mt-1 text-green-400";
+            priceChart.data.datasets[0].borderColor = '#4ade80'; // Grafik Hijau
+          } else if (changePercent < 0) {
+            changeElement.className = "text-sm font-semibold mt-1 text-red-400";
+            priceChart.data.datasets[0].borderColor = '#f87171'; // Grafik Merah
+          } else {
+            changeElement.className = "text-sm font-semibold mt-1 text-gray-400";
+          }
+
+          // 4. Efek Kedip Harga
           if (previousPrice !== 0) {
             if (currentPrice > previousPrice) {
               priceElement.classList.add('text-green-400');
@@ -292,18 +349,33 @@
             }
           }
           previousPrice = currentPrice;
+
+          // 5. Update Grafik (Simpan max 20 data terakhir)
+          priceHistory.push(currentPrice);
+          if (priceHistory.length > 20) {
+            priceHistory.shift(); // Hapus data terlama
+          }
+          
+          priceChart.data.labels = priceHistory.map((_, i) => i);
+          priceChart.data.datasets[0].data = priceHistory;
+          
+          // Set batas Y agar grafik terlihat pergerakannya (skala dinamis)
+          const minPrice = Math.min(...priceHistory) - 0.5;
+          const maxPrice = Math.max(...priceHistory) + 0.5;
+          priceChart.options.scales.y.min = minPrice;
+          priceChart.options.scales.y.max = maxPrice;
+          
+          priceChart.update();
         }
       } catch (error) {
         console.error("Gagal mengambil harga:", error);
       }
     }
 
-    // Jalankan saat pertama buka & ulangi setiap 5 detik
     fetchLivePrice();
     setInterval(fetchLivePrice, 5000);
 
-
-    // --- B. LOGIKA USER & TAMPILAN ---
+    // --- C. LOGIKA USER & TAMPILAN BAWAAN ---
     if (localStorage.getItem('isLoggedIn') !== 'true') {
       window.location.href = "login.html";
     }
