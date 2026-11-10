@@ -23,15 +23,15 @@
     .text-neon-green { color: #4ade80; text-shadow: 0 0 8px rgba(74, 222, 128, 0.4); }
     .text-neon-red { color: #f87171; text-shadow: 0 0 8px rgba(248, 113, 113, 0.4); }
     
-    /* Animasi Smooth Transition */
     .view-section { animation: fadeIn 0.3s ease-in-out; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     
-    /* Efek Accordion untuk Card Waiting */
     .card-header { cursor: pointer; transition: background-color 0.2s; }
     .card-header:hover { background-color: rgba(30, 58, 95, 0.5); }
     .card-detail { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out; opacity: 0; }
     .card-detail.open { max-height: 500px; opacity: 1; }
+
+    .vip-blurred { filter: blur(8px); pointer-events: none; user-select: none; opacity: 0.6; }
   </style>
 </head>
 <body class="max-w-md mx-auto relative min-h-screen">
@@ -76,13 +76,6 @@
                <span class="text-sm font-semibold text-neon-red">-50 pips</span>
             </div>
           </div>
-          <div class="border border-blue-500/30 rounded-xl p-3 flex justify-between items-center bg-[#0b1a35]/50">
-            <div class="flex items-center gap-3">
-              <i class="fa-solid fa-arrow-down text-red-500 text-lg"></i>
-              <span class="text-sm text-red-400 font-semibold">Sell <span class="text-gray-400 font-normal">Limit</span></span>
-            </div>
-            <span class="text-sm font-semibold text-neon-green">TP 1 + 150 Pips</span>
-          </div>
         </div>
         <button class="w-full mt-3 text-center text-sm text-gray-300 hover:text-white transition">Lihat Semua Riwayat</button>
       </div>
@@ -113,76 +106,63 @@
           <div class="w-1/5 text-right text-red-400">70 PIPS</div>
           <div class="w-1/5 text-right text-white font-semibold">530 PIPS</div>
         </div>
-        <div class="flex justify-between items-center text-sm py-2">
-          <div class="w-1/3 text-gray-200">Sabtu, 7 Nov</div>
-          <div class="w-1/5 text-right text-green-400">600 PIPS</div>
-          <div class="w-1/5 text-right text-red-400">70 PIPS</div>
-          <div class="w-1/5 text-right text-white font-semibold">530 PIPS</div>
-        </div>
-      </div>
-
-      <div class="mb-8">
-        <h3 class="text-lg text-blue-100 font-medium text-center mb-4">Apa Logic Yang Dipakai Ai Signal ?</h3>
-        <div class="glass-card p-4 mb-8">
-          <ul class="text-sm text-gray-300 space-y-2">
-            <li>1. ICT</li><li>2. Malaysian SNR</li><li>3. SK</li><li>4. OrderFlow</li><li>5. Bookmap</li><li>6. Orderbook</li><li>7. Gamma Exposure</li>
-          </ul>
-        </div>
-        <h3 class="text-lg text-blue-100 font-medium text-center mb-4">Apa Yang Di Dapat jika akses vip ?</h3>
-        <div class="glass-card p-4">
-          <ul class="text-sm text-gray-300 space-y-2">
-            <li>1. Signal Aktif Setiap Hari</li><li>2. Signal Dari Berbagai Metode</li><li>3. Zona Mapping Setiap Pembukaan Market</li><li>4. Live BOOKMAP Ketika market Buka</li><li>5. Edukasi Ebook Semua Metode Gratis</li>
-          </ul>
-        </div>
       </div>
     </div>
 
     <!-- ========================================== -->
-    <!-- VIEW 2: AKUN                               -->
+    <!-- VIEW 2: AKUN (SUDAH TANPA EMAIL)           -->
     <!-- ========================================== -->
     <div id="view-akun" class="view-section hidden">
       <header class="mb-6">
         <h1 class="text-2xl font-semibold text-blue-50">AKUN</h1>
       </header>
 
+      <!-- Kartu Profil: HANYA PP, USERNAME, ROLE -->
       <div class="glass-card rounded-full p-3 flex items-center justify-between mb-10 border border-blue-500/30">
         <div class="w-16 h-16 rounded-full bg-[#1e3a5f] flex items-center justify-center border border-blue-400/50 shadow-[0_0_15px_rgba(59,130,246,0.3)] shrink-0">
           <span id="userPP" class="text-2xl font-bold text-white">?</span>
         </div>
         <div class="flex-1 px-4 text-left">
           <h2 id="userName" class="text-md font-bold text-white leading-tight">Memuat...</h2>
-          <p id="userEmail" class="text-xs text-gray-400">Memuat...</p>
+          <!-- Bagian Email sudah dihapus dari sini -->
         </div>
         <div class="text-right pr-4 shrink-0">
           <p class="text-[10px] text-gray-400">ROLE USER</p>
-          <p id="userRole" class="text-sm font-bold text-yellow-400">VIP</p>
+          <p id="userRoleDisplay" class="text-sm font-bold text-yellow-400">...</p>
         </div>
       </div>
 
       <h2 class="text-lg text-blue-100 font-medium mb-4">Preferensi</h2>
       
-      <div class="flex flex-col gap-4 mb-8">
+      <div class="flex flex-col gap-4 mb-6">
         <button class="glass-card rounded-full p-2 pr-6 flex items-center w-full hover:bg-blue-900/40 transition group">
-          <div class="w-12 h-12 rounded-full bg-[#1e3a5f] flex items-center justify-center shrink-0 group-hover:scale-105 transition border border-blue-500/30">
+          <div class="w-12 h-12 rounded-full bg-[#1e3a5f] flex items-center justify-center shrink-0 border border-blue-500/30">
             <i class="fa-solid fa-bell text-blue-300 text-lg"></i>
           </div>
           <span class="ml-5 text-md text-gray-200">Pengaturan Notifikasi</span>
         </button>
+
         <button class="glass-card rounded-full p-2 pr-6 flex items-center w-full hover:bg-blue-900/40 transition group">
-          <div class="w-12 h-12 rounded-full bg-[#1e3a5f] flex items-center justify-center shrink-0 group-hover:scale-105 transition border border-blue-500/30">
+          <div class="w-12 h-12 rounded-full bg-[#1e3a5f] flex items-center justify-center shrink-0 border border-blue-500/30">
             <i class="fa-solid fa-lock text-blue-300 text-lg"></i>
           </div>
           <span class="ml-5 text-md text-gray-200">Ubah Password</span>
         </button>
+
         <button class="glass-card rounded-full p-2 pr-6 flex items-center w-full hover:bg-blue-900/40 transition group">
-          <div class="w-12 h-12 rounded-full bg-[#1e3a5f] flex items-center justify-center shrink-0 group-hover:scale-105 transition border border-blue-500/30">
+          <div class="w-12 h-12 rounded-full bg-[#1e3a5f] flex items-center justify-center shrink-0 border border-blue-500/30">
             <i class="fa-solid fa-question text-blue-300 text-lg"></i>
           </div>
           <span class="ml-5 text-md text-gray-200">Bantuan</span>
         </button>
       </div>
+
+      <!-- TOMBOL ADMIN (Hanya Muncul Jika Role = ADMIN) -->
+      <button id="adminBtn" onclick="window.location.href='admin.html'" class="hidden glass-card rounded-full p-4 flex items-center justify-center w-full hover:bg-blue-900/40 transition border border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.3)] mb-6">
+        <span class="text-md font-bold text-white tracking-widest">ADMIN</span>
+      </button>
       
-      <button onclick="logout()" class="w-full py-3 rounded-full border border-red-500/50 text-red-400 hover:bg-red-900/20 transition text-sm font-semibold mt-4">
+      <button onclick="logout()" class="w-full py-3 rounded-full border border-red-500/50 text-red-400 hover:bg-red-900/20 transition text-sm font-semibold mt-2">
         Logout
       </button>
     </div>
@@ -190,193 +170,71 @@
     <!-- ========================================== -->
     <!-- VIEW 3: VIP ZONE                           -->
     <!-- ========================================== -->
-    <div id="view-vip" class="view-section hidden">
-      <header class="mb-6">
-        <h1 class="text-2xl font-semibold text-blue-50">VIP ZONE</h1>
-      </header>
-
-      <!-- SEDANG RUNNING -->
-      <div class="mb-8">
-        <h2 class="text-xl font-bold text-white mb-3">SEDANG RUNNING</h2>
+    <div id="view-vip" class="view-section hidden relative">
+      
+      <div id="vip-content" class="transition-all duration-500">
+        <header class="mb-6"><h1 class="text-2xl font-semibold text-blue-50">VIP ZONE</h1></header>
         
-        <div class="glass-card p-4 border border-blue-500/40 relative overflow-hidden">
-          <div class="flex justify-between items-start mb-2">
-            <div class="flex items-center gap-2">
-              <span class="text-red-500 text-lg">│</span>
-              <span class="text-red-400 font-semibold text-md">Sell <span class="text-gray-300 font-normal">Limit 4110.00</span></span>
-            </div>
-            <div class="text-right text-xs">
-              <p class="text-gray-300 font-semibold mb-1"><span class="text-red-400">🎯</span> TAKE <span class="text-green-400">PROFIT</span> LEVELS</p>
-              <p class="text-gray-200">🎖 TP 1: 4106.08</p>
-              <p class="text-gray-200">🎖 TP 2: 4101.08</p>
-              <p class="text-gray-200">🎖 TP 3: 4096.08</p>
-              <p class="text-gray-200">🏆 TP 4: 4088.08</p>
-            </div>
-          </div>
-          
-          <div class="mb-3">
-            <p class="text-red-400 font-bold text-sm">STOP LOSS (SL) : <span class="text-red-300">4116.08</span></p>
-          </div>
-          
-          <ul class="text-[10px] text-gray-400 space-y-1 border-t border-blue-500/30 pt-3">
-            <li>• Setup masih sesuai dengan analisa awal.</li>
-            <li>• Jaga emosi dan tetap patuhi plan (SL & TP yang ada).</li>
-            <li>• Bagi yang belum entry, tetap tunggu harga masuk di area entry yang ditentukan.</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- WAITING (Accordion) -->
-      <div class="mb-8">
-        <h2 class="text-xl font-bold text-white mb-3">WAITING</h2>
-        
-        <div class="flex flex-col gap-3">
-          
-          <!-- Item 1 -->
-          <div class="glass-card overflow-hidden border border-blue-500/30">
-            <div class="card-header p-4 flex justify-between items-center" onclick="toggleAccordion(this)">
+        <div class="mb-8">
+          <h2 class="text-xl font-bold text-white mb-3">SEDANG RUNNING</h2>
+          <div class="glass-card p-4 border border-blue-500/40 relative overflow-hidden">
+            <div class="flex justify-between items-start mb-2">
               <div class="flex items-center gap-2">
                 <span class="text-red-500 text-lg">│</span>
                 <span class="text-red-400 font-semibold text-md">Sell <span class="text-gray-300 font-normal">Limit 4110.00</span></span>
               </div>
-              <span class="text-red-500 font-bold text-xs tracking-wider">HIGH RISK</span>
+              <div class="text-right text-xs">
+                <p class="text-gray-300 font-semibold mb-1"><span class="text-red-400">🎯</span> TAKE <span class="text-green-400">PROFIT</span> LEVELS</p>
+                <p class="text-gray-200">🎖 TP 1: 4106.08</p>
+                <p class="text-gray-200">🏆 TP 4: 4088.08</p>
+              </div>
             </div>
-            
-            <!-- Isi Detail (Tersembunyi awal) -->
-            <div class="card-detail px-4 pb-4">
-              <div class="flex justify-between items-start pt-3 border-t border-blue-500/30">
-                <div>
-                  <p class="text-red-400 font-bold text-sm"><span class="text-red-500">⚠</span> STOP LOSS (SL) : <span class="text-red-300">4116.08</span></p>
-                  <p class="text-red-500 font-bold text-xs mt-2 tracking-wider">HIGH RISK</p>
+          </div>
+        </div>
+
+        <div class="mb-8">
+          <h2 class="text-xl font-bold text-white mb-3">WAITING</h2>
+          <div class="flex flex-col gap-3">
+            <div class="glass-card overflow-hidden border border-blue-500/30">
+              <div class="card-header p-4 flex justify-between items-center" onclick="toggleAccordion(this)">
+                <div class="flex items-center gap-2">
+                  <span class="text-red-500 text-lg">│</span>
+                  <span class="text-red-400 font-semibold text-md">Sell <span class="text-gray-300 font-normal">Limit 4110.00</span></span>
                 </div>
-                <div class="text-right text-xs">
-                  <p class="text-gray-300 font-semibold mb-1"><span class="text-red-400">🎯</span> TAKE <span class="text-green-400">PROFIT</span> LEVELS</p>
-                  <p class="text-gray-200">🎖 TP 1: 4106.08</p>
-                  <p class="text-gray-200">🎖 TP 2: 4101.08</p>
-                  <p class="text-gray-200">🎖 TP 3: 4096.08</p>
-                  <p class="text-gray-200">🏆 TP 4: 4088.08</p>
+                <span class="text-red-500 font-bold text-xs tracking-wider">HIGH RISK</span>
+              </div>
+              <div class="card-detail px-4 pb-4">
+                <div class="flex justify-between items-start pt-3 border-t border-blue-500/30">
+                  <div><p class="text-red-400 font-bold text-sm"><span class="text-red-500">⚠</span> STOP LOSS (SL) : <span class="text-red-300">4116.08</span></p></div>
+                  <div class="text-right text-xs">
+                    <p class="text-gray-300 font-semibold mb-1"><span class="text-red-400">🎯</span> TAKE <span class="text-green-400">PROFIT</span></p>
+                    <p class="text-gray-200">🎖 TP 1: 4106.08</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-
-          <!-- Item 2 -->
-          <div class="glass-card overflow-hidden border border-blue-500/30">
-            <div class="card-header p-4 flex justify-between items-center" onclick="toggleAccordion(this)">
-              <div class="flex items-center gap-2">
-                <span class="text-green-500 text-lg">│</span>
-                <span class="text-green-400 font-semibold text-md">Buy <span class="text-gray-300 font-normal">Limit 4110.00</span></span>
-              </div>
-              <span class="text-yellow-400 font-bold text-xs tracking-wider">MEDIUM RISK</span>
-            </div>
-            
-            <div class="card-detail px-4 pb-4">
-              <div class="flex justify-between items-start pt-3 border-t border-blue-500/30">
-                <div>
-                  <p class="text-red-400 font-bold text-sm"><span class="text-red-500">⚠</span> STOP LOSS (SL) : <span class="text-red-300">4116.08</span></p>
-                  <p class="text-yellow-400 font-bold text-xs mt-2 tracking-wider">MEDIUM RISK</p>
-                </div>
-                <div class="text-right text-xs">
-                  <p class="text-gray-300 font-semibold mb-1"><span class="text-red-400">🎯</span> TAKE <span class="text-green-400">PROFIT</span> LEVELS</p>
-                  <p class="text-gray-200">🎖 TP 1: 4106.08</p>
-                  <p class="text-gray-200">🎖 TP 2: 4101.08</p>
-                  <p class="text-gray-200">🎖 TP 3: 4096.08</p>
-                  <p class="text-gray-200">🏆 TP 4: 4088.08</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 3 -->
-          <div class="glass-card overflow-hidden border border-blue-500/30">
-            <div class="card-header p-4 flex justify-between items-center" onclick="toggleAccordion(this)">
-              <div class="flex items-center gap-2">
-                <span class="text-green-500 text-lg">│</span>
-                <span class="text-green-400 font-semibold text-md">Buy <span class="text-gray-300 font-normal">Limit 4110.00</span></span>
-              </div>
-              <span class="text-green-500 font-bold text-xs tracking-wider">LOW RISK</span>
-            </div>
-            
-            <div class="card-detail px-4 pb-4">
-              <div class="flex justify-between items-start pt-3 border-t border-blue-500/30">
-                <div>
-                  <p class="text-red-400 font-bold text-sm"><span class="text-red-500">⚠</span> STOP LOSS (SL) : <span class="text-red-300">4116.08</span></p>
-                  <p class="text-green-400 font-bold text-xs mt-2 tracking-wider">LOW RISK</p>
-                </div>
-                <div class="text-right text-xs">
-                  <p class="text-gray-300 font-semibold mb-1"><span class="text-red-400">🎯</span> TAKE <span class="text-green-400">PROFIT</span> LEVELS</p>
-                  <p class="text-gray-200">🎖 TP 1: 4106.08</p>
-                  <p class="text-gray-200">🎖 TP 2: 4101.08</p>
-                  <p class="text-gray-200">🎖 TP 3: 4096.08</p>
-                  <p class="text-gray-200">🏆 TP 4: 4088.08</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
 
-      <!-- RISK MANAGEMENT -->
-      <div class="mb-8">
-        <h3 class="text-sm font-bold text-blue-200 mb-2 tracking-wide">RISK MANAGEMENT</h3>
-        <ol class="text-sm text-gray-300 space-y-1 font-medium pl-1">
-          <li>1. Use proper lot sizing</li>
-          <li>2. Maintain disciplined risk management.</li>
-          <li>3. Avoid entering outside the specified entry area.</li>
-          <li>4. Do not chase price if the setup is missed.</li>
-        </ol>
-      </div>
-
-      <!-- DAILY RECAP (VIP) -->
-      <div class="glass-card p-5 mb-6">
-        <h3 class="text-lg text-blue-100 mb-4 tracking-wide">DAILY RECAP</h3>
-        
-        <!-- Boxes -->
-        <div class="grid grid-cols-3 gap-2 mb-6">
-          <div class="border border-blue-400/40 rounded-xl p-2 text-center bg-blue-900/20">
-            <p class="text-[10px] text-gray-400 mb-1">PROFIT</p>
-            <p class="text-sm font-bold text-neon-green">+500 PIPS</p>
+      <!-- OVERLAY VIP TERKUNCI -->
+      <div id="vip-lock-overlay" class="hidden absolute inset-0 z-50 flex flex-col items-center justify-center">
+        <div class="glass-card w-full max-w-sm mx-auto p-6 flex flex-col items-center shadow-[0_0_50px_rgba(0,0,0,0.8)] border-blue-400">
+          <div class="w-24 h-24 mb-4 rounded-full border border-blue-500/50 shadow-[0_0_20px_rgba(59,130,246,0.6)] overflow-hidden flex justify-center items-center bg-[#0b1a35]">
+             <img src="logo.png" alt="Logo" class="w-full h-full object-cover">
           </div>
-          <div class="border border-blue-400/40 rounded-xl p-2 text-center bg-blue-900/20">
-            <p class="text-[10px] text-gray-400 mb-1">STOP LOSE</p>
-            <p class="text-sm font-bold text-neon-red">+500 PIPS</p>
-          </div>
-          <div class="flex-1 border border-blue-400/40 rounded-xl p-2 text-center bg-blue-900/20">
-            <p class="text-[10px] text-gray-400 mb-1">TOTAL</p>
-            <p class="text-sm font-bold text-blue-200">+500 PIPS</p>
-          </div>
-        </div>
-
-        <!-- Table -->
-        <div class="flex justify-between items-center text-sm text-gray-300 border-b border-blue-500/50 pb-2 mb-2">
-          <div class="w-2/4">Daily Recap</div>
-          <div class="w-1/4 text-right">Profit</div>
-          <div class="w-1/4 text-right">SL</div>
-        </div>
-        
-        <div class="flex justify-between items-center text-sm py-2 border-b border-blue-500/20">
-          <div class="w-2/4 text-gray-200">1. Sell Limit 4110.00</div>
-          <div class="w-1/4 text-right text-green-400">70 PIPS</div>
-          <div class="w-1/4 text-right text-gray-200">530 PIPS</div>
-        </div>
-        <div class="flex justify-between items-center text-sm py-2 border-b border-blue-500/20">
-          <div class="w-2/4 text-gray-200">2. Sell Limit 4110.00</div>
-          <div class="w-1/4 text-right text-green-400">70 PIPS</div>
-          <div class="w-1/4 text-right text-gray-200">530 PIPS</div>
-        </div>
-        <div class="flex justify-between items-center text-sm py-2">
-          <div class="w-2/4 text-gray-200">3. Sell Limit 4110.00</div>
-          <div class="w-1/4 text-right text-green-400">70 PIPS</div>
-          <div class="w-1/4 text-right text-gray-200">530 PIPS</div>
+          <h2 class="font-title text-white text-lg font-bold text-center mb-6 tracking-wide leading-relaxed">
+            JOIN VIP UNTUK<br>MEMBUKA VIP AKSES
+          </h2>
+          <button onclick="simulasiUpgrade()" class="w-full py-3 rounded-full bg-white text-black font-bold text-sm mb-3 hover:bg-gray-200 transition shadow-[0_0_15px_rgba(255,255,255,0.4)]">
+            BERLANGGANAN
+          </button>
+          <span class="text-white font-bold text-xs tracking-widest mb-3">ATAU</span>
+          <button class="w-full py-3 rounded-full bg-white text-black font-bold text-sm hover:bg-gray-200 transition shadow-[0_0_15px_rgba(255,255,255,0.4)]">
+            JOIN IB GRATIS
+          </button>
         </div>
       </div>
-
-      <!-- Tombol Lihat Semua Riwayat -->
-      <button class="w-full text-center text-sm text-gray-300 hover:text-white transition mb-8">
-        Lihat Semua Riwayat
-      </button>
-
     </div>
 
   </div> 
@@ -384,14 +242,11 @@
   <!-- ===== BOTTOM NAVIGATION BAR ===== -->
   <div class="fixed bottom-4 w-full max-w-md flex justify-center z-50 pointer-events-none">
     <nav class="relative w-[90%] bg-[#152a4d]/95 backdrop-blur-md border border-blue-500/40 flex justify-between items-end px-6 pb-2 pt-3 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.8)] pointer-events-auto">
-      
       <button onclick="switchView('dashboard', this)" id="nav-dashboard" class="flex flex-col items-center justify-center w-20 gap-1 text-blue-300 drop-shadow-[0_0_8px_rgba(59,130,246,0.8)] transition-all">
         <i class="fa-solid fa-house text-xl"></i>
         <span class="text-[10px] font-medium tracking-wide">DASHBOARD</span>
       </button>
-      
       <div class="w-20"></div>
-
       <button onclick="switchView('akun', this)" id="nav-akun" class="flex flex-col items-center justify-center w-20 gap-1 text-gray-400 hover:text-white transition-all">
         <i class="fa-regular fa-user text-xl"></i>
         <span class="text-[10px] font-medium tracking-wide">AKUN</span>
@@ -408,27 +263,36 @@
 
   <!-- ===== SCRIPTS ===== -->
   <script>
-    // 1. PROTEKSI HALAMAN (Cek apakah sudah login)
     if (localStorage.getItem('isLoggedIn') !== 'true') {
       window.location.href = "login.html";
     }
 
-    // 2. TAMPILKAN DATA USER
     document.addEventListener("DOMContentLoaded", function() {
       let username = localStorage.getItem('db_user') || "User";
-      let email = localStorage.getItem('db_email') || "Belum ada email";
-      let role = "VIP"; 
+      let role = localStorage.getItem('db_role') || "NO ROLE"; 
 
       let firstLetter = username.charAt(0).toUpperCase();
-
       document.getElementById('userPP').innerText = firstLetter;
       document.getElementById('userName').innerText = username;
-      document.getElementById('userEmail').innerText = email;
-      document.getElementById('userRole').innerText = role;
+      
+      let roleEl = document.getElementById('userRoleDisplay');
+      roleEl.innerText = role;
+      
+      if(role === 'VIP' || role === 'ADMIN') {
+        roleEl.className = "text-sm font-bold text-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.6)]";
+      } else {
+        roleEl.className = "text-sm font-bold text-gray-400";
+      }
+
+      // Menampilkan Tombol Admin jika role adalah ADMIN
+      if(role === 'ADMIN') {
+        document.getElementById('adminBtn').classList.remove('hidden');
+      }
     });
 
-    // 3. FUNGSI PINDAH HALAMAN
     function switchView(viewName, btnElement) {
+      let role = localStorage.getItem('db_role') || "NO ROLE";
+
       document.querySelectorAll('.view-section').forEach(view => {
         view.classList.add('hidden');
         view.classList.remove('block');
@@ -437,6 +301,19 @@
       const targetView = document.getElementById('view-' + viewName);
       targetView.classList.remove('hidden');
       targetView.classList.add('block');
+
+      if (viewName === 'vip') {
+        const vipContent = document.getElementById('vip-content');
+        const vipOverlay = document.getElementById('vip-lock-overlay');
+
+        if (role === 'VIP' || role === 'ADMIN') {
+          vipContent.classList.remove('vip-blurred');
+          vipOverlay.classList.add('hidden');
+        } else {
+          vipContent.classList.add('vip-blurred');
+          vipOverlay.classList.remove('hidden');
+        }
+      }
 
       const navButtons = document.querySelectorAll('nav button');
       navButtons.forEach(btn => {
@@ -457,28 +334,29 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // 4. FUNGSI LOGOUT
     function logout() {
       localStorage.removeItem('isLoggedIn');
       window.location.href = "login.html";
     }
 
-    // 5. FUNGSI ACCORDION UNTUK MENU WAITING VIP
     function toggleAccordion(headerElement) {
-      // Cari elemen detail di bawah header yang diklik
       const detail = headerElement.nextElementSibling;
-      
-      // Toggle class 'open' untuk animasi CSS max-height
       if (detail.classList.contains('open')) {
         detail.classList.remove('open');
       } else {
-        // Opsional: Tutup semua accordion lain sebelum membuka yang baru
         document.querySelectorAll('.card-detail').forEach(el => el.classList.remove('open'));
-        
         detail.classList.add('open');
       }
     }
-  </script>
 
+    function simulasiUpgrade() {
+      let confirmUpgrade = confirm("Ini adalah simulasi. Klik OK untuk mengubah role kamu menjadi VIP.");
+      if (confirmUpgrade) {
+        localStorage.setItem('db_role', 'VIP');
+        alert("Berhasil! Role kamu sekarang VIP.");
+        window.location.reload();
+      }
+    }
+  </script>
 </body>
 </html>
