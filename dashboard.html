@@ -27,17 +27,23 @@
     .view-section { animation: fadeIn 0.3s ease-in-out; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     
-    .card-header { cursor: pointer; transition: background-color 0.2s; }
-    .card-header:hover { background-color: rgba(30, 58, 95, 0.5); }
-    .card-detail { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out; opacity: 0; }
-    .card-detail.open { max-height: 500px; opacity: 1; }
-
-    .vip-blurred { filter: blur(8px); pointer-events: none; user-select: none; opacity: 0.6; }
-    
     .toggle-checkbox:checked { right: 0; border-color: #68D391; }
     .toggle-checkbox:checked + .toggle-label { background-color: #68D391; }
     .toggle-checkbox { right: 0; z-index: 1; border-color: #e2e8f0; transition: all 0.3s; position: absolute; width: 24px; height: 24px; background: white; border-width: 1px; border-radius: 50%; appearance: none; cursor: pointer; }
     .toggle-label { display: block; overflow: hidden; cursor: pointer; border-radius: 9999px; width: 48px; height: 24px; background-color: #374151; transition: background-color 0.3s; }
+
+    .tab-btn {
+      flex: 1; padding: 10px; text-align: center; font-weight: 600; border-radius: 12px;
+      transition: all 0.3s; cursor: pointer; border: 1px solid transparent;
+    }
+    .tab-active {
+      background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white; border-color: #60a5fa;
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+    }
+    .tab-inactive {
+      background: rgba(30, 58, 95, 0.4); color: #9ca3af; border-color: transparent;
+    }
+    .tab-inactive:hover { background: rgba(30, 58, 95, 0.8); color: white; }
   </style>
 </head>
 <body class="max-w-md mx-auto relative min-h-screen">
@@ -47,11 +53,12 @@
   <div class="relative z-10 px-5 pt-8 pb-4">
     
     <!-- ========================================== -->
-    <!-- VIEW 1: DASHBOARD                          -->
+    <!-- VIEW 1: DASHBOARD UTAMA                    -->
     <!-- ========================================== -->
     <div id="view-dashboard" class="view-section block">
       <header class="mb-6"><h1 class="text-2xl font-semibold text-blue-50">Dashboard</h1></header>
 
+      <!-- Live Price -->
       <div class="glass-card p-4 mb-6 border-l-4 border-l-blue-500 flex justify-between items-center relative overflow-hidden">
         <div class="z-10">
           <p class="text-sm text-gray-300 mb-1">XAUUSD <span class="text-xs text-green-400 animate-pulse">live</span></p>
@@ -63,31 +70,140 @@
         <div class="w-28 h-14 relative z-10"><canvas id="miniChart"></canvas></div>
       </div>
 
+      <!-- Riwayat Gabungan -->
       <div class="mb-6">
-        <h2 class="text-lg text-blue-100 mb-3 font-medium">Riwayat</h2>
+        <h2 class="text-lg text-blue-100 mb-3 font-medium">Riwayat (GLDN & MSP)</h2>
         <div class="glass-card p-3 flex flex-col gap-2 relative overflow-hidden" id="dashboard-history-list">
           <p class="text-center text-sm text-gray-400 py-4">Memuat riwayat...</p>
         </div>
       </div>
 
-      <div class="glass-card p-5 mb-8">
+      <!-- REKAP GABUNGAN -->
+      <div class="glass-card p-5 mb-4">
         <h3 class="text-lg text-blue-100 mb-4">Monthly Recap</h3>
-        <div class="flex justify-between gap-2 mb-6">
+        <div class="flex justify-between gap-2 mb-2">
           <div class="flex-1 border border-blue-400/40 rounded-xl p-2 text-center bg-blue-900/20">
-            <p class="text-[11px] text-gray-400 mb-1">PROFIT</p><p class="text-sm font-bold text-neon-green" id="recap-profit">+0 PIPS</p>
+            <p class="text-[10px] text-gray-400 mb-1">PROFIT</p><p class="text-xs font-bold text-neon-green" id="mon-profit">+0</p>
           </div>
           <div class="flex-1 border border-blue-400/40 rounded-xl p-2 text-center bg-blue-900/20">
-            <p class="text-[11px] text-gray-400 mb-1">STOP LOSE</p><p class="text-sm font-bold text-neon-red" id="recap-sl">-0 PIPS</p>
+            <p class="text-[10px] text-gray-400 mb-1">STOP LOSE</p><p class="text-xs font-bold text-neon-red" id="mon-sl">-0</p>
           </div>
           <div class="flex-1 border border-blue-400/40 rounded-xl p-2 text-center bg-blue-900/20">
-            <p class="text-[11px] text-gray-400 mb-1">TOTAL</p><p class="text-sm font-bold text-blue-200" id="recap-total">+0 PIPS</p>
+            <p class="text-[10px] text-gray-400 mb-1">TOTAL</p><p class="text-xs font-bold text-blue-200" id="mon-total">+0</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- REKAP MINGGUAN -->
+      <div class="glass-card p-5 mb-4">
+        <h3 class="text-lg text-blue-100 mb-4">Weekly Recap</h3>
+        <div class="flex justify-between gap-2 mb-2">
+          <div class="flex-1 border border-blue-400/40 rounded-xl p-2 text-center bg-blue-900/20">
+            <p class="text-[10px] text-gray-400 mb-1">PROFIT</p><p class="text-xs font-bold text-neon-green" id="week-profit">+0</p>
+          </div>
+          <div class="flex-1 border border-blue-400/40 rounded-xl p-2 text-center bg-blue-900/20">
+            <p class="text-[10px] text-gray-400 mb-1">STOP LOSE</p><p class="text-xs font-bold text-neon-red" id="week-sl">-0</p>
+          </div>
+          <div class="flex-1 border border-blue-400/40 rounded-xl p-2 text-center bg-blue-900/20">
+            <p class="text-[10px] text-gray-400 mb-1">TOTAL</p><p class="text-xs font-bold text-blue-200" id="week-total">+0</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- REKAP HARIAN -->
+      <div class="glass-card p-5 mb-8">
+        <h3 class="text-lg text-blue-100 mb-4">Daily Recap</h3>
+        <div class="flex justify-between gap-2 mb-2">
+          <div class="flex-1 border border-blue-400/40 rounded-xl p-2 text-center bg-blue-900/20">
+            <p class="text-[10px] text-gray-400 mb-1">PROFIT</p><p class="text-xs font-bold text-neon-green" id="day-profit">+0</p>
+          </div>
+          <div class="flex-1 border border-blue-400/40 rounded-xl p-2 text-center bg-blue-900/20">
+            <p class="text-[10px] text-gray-400 mb-1">STOP LOSE</p><p class="text-xs font-bold text-neon-red" id="day-sl">-0</p>
+          </div>
+          <div class="flex-1 border border-blue-400/40 rounded-xl p-2 text-center bg-blue-900/20">
+            <p class="text-[10px] text-gray-400 mb-1">TOTAL</p><p class="text-xs font-bold text-blue-200" id="day-total">+0</p>
           </div>
         </div>
       </div>
     </div>
 
     <!-- ========================================== -->
-    <!-- VIEW 2: AKUN UTAMA                         -->
+    <!-- VIEW 2: VIP ZONE (GOLDEN & MSP)            -->
+    <!-- ========================================== -->
+    <div id="view-vip" class="view-section hidden relative">
+      <div id="vip-content" class="transition-all duration-500">
+        <header class="mb-6"><h1 class="text-2xl font-semibold text-blue-50">VIP ZONE</h1></header>
+        
+        <!-- Tab Pilihan EA -->
+        <div class="flex gap-3 mb-6">
+          <div id="tab-gldn" onclick="switchEATab('GLDN')" class="tab-btn tab-active">
+            <i class="fa-solid fa-crown mr-1"></i> GOLDEN
+          </div>
+          <div id="tab-msp" onclick="switchEATab('MSP')" class="tab-btn tab-inactive">
+            <i class="fa-solid fa-bolt mr-1"></i> MSP
+          </div>
+        </div>
+
+        <!-- SEDANG RUNNING -->
+        <div class="mb-6">
+          <h2 class="text-lg font-bold text-white mb-2">SEDANG RUNNING</h2>
+          <div class="flex flex-col gap-3" id="vip-running-list">
+            <p class="text-sm text-gray-400">Tidak ada posisi running.</p>
+          </div>
+        </div>
+
+        <!-- WAITING -->
+        <div class="mb-6">
+          <h2 class="text-lg font-bold text-white mb-2">WAITING</h2>
+          <div class="flex flex-col gap-3" id="vip-waiting-list">
+            <p class="text-sm text-gray-400">Tidak ada sinyal waiting.</p>
+          </div>
+        </div>
+
+        <!-- RISK MANAGEMENT -->
+        <div class="mb-6 glass-card p-4">
+          <h3 class="text-sm font-bold text-blue-300 mb-2 tracking-wide">RISK MANAGEMENT</h3>
+          <ol class="text-xs text-gray-300 space-y-1 font-medium pl-1">
+            <li>1. Use proper lot sizing</li>
+            <li>2. Maintain disciplined risk management.</li>
+            <li>3. Avoid entering outside the specified entry area.</li>
+            <li>4. Do not chase price if the setup is missed.</li>
+          </ol>
+        </div>
+
+        <!-- DAILY RECAP VIP -->
+        <div class="glass-card p-5 mb-6">
+          <h3 class="text-lg text-blue-100 mb-3" id="vip-recap-title">DAILY RECAP (GOLDEN)</h3>
+          <div class="flex justify-between gap-2">
+            <div class="flex-1 border border-blue-400/40 rounded-xl p-2 text-center bg-blue-900/20">
+              <p class="text-[10px] text-gray-400 mb-1">PROFIT</p><p class="text-xs font-bold text-neon-green" id="vip-day-profit">+0</p>
+            </div>
+            <div class="flex-1 border border-blue-400/40 rounded-xl p-2 text-center bg-blue-900/20">
+              <p class="text-[10px] text-gray-400 mb-1">STOP LOSE</p><p class="text-xs font-bold text-neon-red" id="vip-day-sl">-0</p>
+            </div>
+            <div class="flex-1 border border-blue-400/40 rounded-xl p-2 text-center bg-blue-900/20">
+              <p class="text-[10px] text-gray-400 mb-1">TOTAL</p><p class="text-xs font-bold text-blue-200" id="vip-day-total">+0</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OVERLAY VIP TERKUNCI -->
+      <div id="vip-lock-overlay" class="hidden absolute inset-0 z-50 flex flex-col items-center justify-center">
+        <div class="glass-card w-full max-w-sm mx-auto p-6 flex flex-col items-center shadow-[0_0_50px_rgba(0,0,0,0.8)] border-blue-400">
+          <div class="w-24 h-24 mb-4 rounded-full border border-blue-500/50 shadow-[0_0_20px_rgba(59,130,246,0.6)] overflow-hidden flex justify-center items-center bg-[#0b1a35]">
+             <img src="logo.png" alt="Logo" class="w-full h-full object-cover">
+          </div>
+          <h2 class="font-title text-white text-lg font-bold text-center mb-6 tracking-wide leading-relaxed">JOIN VIP UNTUK<br>MEMBUKA VIP AKSES</h2>
+          <button onclick="simulasiUpgrade()" class="w-full py-3 rounded-full bg-white text-black font-bold text-sm mb-3 hover:bg-gray-200 transition">BERLANGGANAN</button>
+          <span class="text-white font-bold text-xs tracking-widest mb-3">ATAU</span>
+          <button class="w-full py-3 rounded-full bg-white text-black font-bold text-sm hover:bg-gray-200 transition">JOIN IB GRATIS</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 3: AKUN UTAMA                         -->
     <!-- ========================================== -->
     <div id="view-akun" class="view-section hidden">
       <header class="mb-6"><h1 class="text-2xl font-semibold text-blue-50">AKUN</h1></header>
@@ -143,28 +259,24 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- SUB-VIEW: EDIT PROFIL (DENGAN GANTI FOTO)  -->
+    <!-- SUB-VIEW: EDIT PROFIL                      -->
     <!-- ========================================== -->
     <div id="sub-editprofil" class="view-section hidden relative">
-      <!-- Tombol Back Pojok Kiri Atas -->
       <button onclick="closeSubAkun()" class="absolute top-0 left-0 w-10 h-10 rounded-full glass-card flex items-center justify-center text-blue-300 hover:text-white z-50">
         <i class="fa-solid fa-arrow-left text-lg"></i>
       </button>
       
       <h1 class="text-2xl font-bold text-blue-50 text-center mb-6 pt-2">Edit Profile</h1>
       
-      <!-- Avatar Container (Bisa Diklik) -->
       <div class="flex flex-col items-center mb-8">
         <div class="w-32 h-32 rounded-full bg-black flex items-center justify-center border-2 border-gray-700 shadow-[0_0_20px_rgba(0,0,0,0.8)] mb-2 overflow-hidden relative cursor-pointer group" onclick="document.getElementById('avatarUpload').click()">
           <span id="editPP" class="text-4xl font-bold text-white">?</span>
           <img id="editAvatarImg" class="w-full h-full object-cover hidden" />
-          <!-- Efek Hover Kamera -->
           <div class="absolute inset-0 bg-black/60 hidden group-hover:flex items-center justify-center transition-all">
             <i class="fa-solid fa-camera text-white text-2xl"></i>
           </div>
         </div>
         <p class="text-xs text-gray-400 tracking-wider">GANTI FOTO PROFIL</p>
-        <!-- Input File Tersembunyi -->
         <input type="file" id="avatarUpload" accept="image/*" class="hidden" onchange="handleAvatarUpload(event)">
       </div>
 
@@ -180,8 +292,6 @@
           Simpan Perubahan
         </button>
       </form>
-      
-      <p class="text-center text-[10px] tracking-[0.3em] text-blue-300/60 mt-20">SAINT D. WISH</p>
     </div>
 
     <!-- ========================================== -->
@@ -196,12 +306,10 @@
       <p class="text-gray-300 text-center mb-10">Bisa Hubungi Admin Jika Terdapat Kendala Atau Pertanyaan</p>
       
       <div class="flex flex-col gap-6 px-4">
-        <!-- Tombol Discord -->
         <a href="https://discord.com/users/SAINT_D_WISH_ID" target="_blank" class="glass-card p-5 rounded-2xl flex items-center justify-center hover:bg-[#5865F2]/20 transition border border-[#5865F2]/50">
           <i class="fa-brands fa-discord text-3xl text-[#5865F2] mr-4"></i>
           <span class="text-lg font-bold text-white">@Saint D. Wish</span>
         </a>
-        <!-- Tombol Telegram -->
         <a href="https://t.me/stdwis" target="_blank" class="glass-card p-5 rounded-2xl flex items-center justify-center hover:bg-[#0088cc]/20 transition border border-[#0088cc]/50">
           <i class="fa-brands fa-telegram text-3xl text-[#0088cc] mr-4"></i>
           <span class="text-lg font-bold text-white">@stdwis</span>
@@ -276,34 +384,6 @@
       </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- VIEW 3: VIP ZONE                           -->
-    <!-- ========================================== -->
-    <div id="view-vip" class="view-section hidden relative">
-      <div id="vip-content" class="transition-all duration-500">
-        <header class="mb-6"><h1 class="text-2xl font-semibold text-blue-50">VIP ZONE</h1></header>
-        <div class="mb-8">
-          <h2 class="text-xl font-bold text-white mb-3">SEDANG RUNNING</h2>
-          <div class="flex flex-col gap-3" id="vip-running-list"><p class="text-sm text-gray-400">Memuat...</p></div>
-        </div>
-        <div class="mb-8">
-          <h2 class="text-xl font-bold text-white mb-3">WAITING</h2>
-          <div class="flex flex-col gap-3" id="vip-waiting-list"><p class="text-sm text-gray-400">Memuat...</p></div>
-        </div>
-      </div>
-      <div id="vip-lock-overlay" class="hidden absolute inset-0 z-50 flex flex-col items-center justify-center">
-        <div class="glass-card w-full max-w-sm mx-auto p-6 flex flex-col items-center shadow-[0_0_50px_rgba(0,0,0,0.8)] border-blue-400">
-          <div class="w-24 h-24 mb-4 rounded-full border border-blue-500/50 shadow-[0_0_20px_rgba(59,130,246,0.6)] overflow-hidden flex justify-center items-center bg-[#0b1a35]">
-             <img src="logo.png" alt="Logo" class="w-full h-full object-cover">
-          </div>
-          <h2 class="font-title text-white text-lg font-bold text-center mb-6 tracking-wide leading-relaxed">JOIN VIP UNTUK<br>MEMBUKA VIP AKSES</h2>
-          <button onclick="simulasiUpgrade()" class="w-full py-3 rounded-full bg-white text-black font-bold text-sm mb-3 hover:bg-gray-200 transition">BERLANGGANAN</button>
-          <span class="text-white font-bold text-xs tracking-widest mb-3">ATAU</span>
-          <button class="w-full py-3 rounded-full bg-white text-black font-bold text-sm hover:bg-gray-200 transition">JOIN IB GRATIS</button>
-        </div>
-      </div>
-    </div>
-
   </div> 
 
   <!-- NAVBAR BAWAH -->
@@ -327,102 +407,210 @@
 
   <!-- ===== SCRIPTS ===== -->
   <script>
+    // URL API
     const API_URL_USER = "https://script.google.com/macros/s/AKfycbzMYg1pTNUbEJWJSKtwifnPkw-tTn1SjFJqK2fmVepWVKpAvupB2c5eCb-fpUXR6LK-wg/exec";
     const API_URL_PRICE = "https://script.google.com/macros/s/AKfycbzZuDUnA32CUSdU194CFo4MXBFk621PFfTeAlrY0IjJB7U2LHwEepP4dLvmDFsKxiCZ/exec";
     const API_URL_SIGNAL = "https://script.google.com/macros/s/AKfycbyd8ksBWqhE6iIT1E6IT_l1TgZO86ZLgUDDpZYxb6TzZ5TMFj93Vm10wasIgrTP3_Sx/exec";
 
-    // --- A. SETUP CHART.JS ---
+    let globalSignals = [];
+    let currentEATab = 'GLDN'; 
+    let knownSignalStatuses = {}; 
+    let currentUserRole = "NO ROLE";
+    let currentUserEmail = "";
+
+    // --- SETUP CHART.JS ---
     const ctx = document.getElementById('miniChart').getContext('2d');
     const priceChart = new Chart(ctx, {
       type: 'line', data: { labels: [], datasets: [{ data: [], borderColor: '#4ade80', borderWidth: 2, pointRadius: 0, fill: false, tension: 0.4 }] },
-      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false } }, animation: false }
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { display: false } }, animation: false }
     });
 
-    // --- B. LOGIKA HARGA LIVE ---
-    let previousPrice = 0; let sessionOpenPrice = 0; let priceHistory = [];
+    // --- HARGA LIVE ---
+    let previousPrice = 0;
     async function fetchLivePrice() {
       try {
         const res = await fetch(API_URL_PRICE); const data = await res.json();
         if (data.status === 'success' && data.price > 0) {
           const p = parseFloat(data.price);
-          if (sessionOpenPrice === 0) sessionOpenPrice = p;
           document.getElementById('goldPrice').innerText = p.toFixed(3);
-          const chg = ((p - sessionOpenPrice) / sessionOpenPrice) * 100;
+          const chg = ((p - (previousPrice || p)) / p) * 100;
           document.getElementById('priceChange').innerText = (chg > 0 ? '+' : '') + chg.toFixed(2) + ' %';
-          document.getElementById('priceChange').className = chg >= 0 ? "text-sm font-semibold mt-1 text-green-400" : "text-sm font-semibold mt-1 text-red-400";
-          priceChart.data.datasets[0].borderColor = chg >= 0 ? '#4ade80' : '#f87171';
-          if (previousPrice !== 0) {
-            const el = document.getElementById('goldPrice');
-            if (p > previousPrice) { el.classList.add('text-green-400'); setTimeout(() => el.classList.remove('text-green-400'), 1000); }
-            else if (p < previousPrice) { el.classList.add('text-red-400'); setTimeout(() => el.classList.remove('text-red-400'), 1000); }
-          }
-          previousPrice = p;
-          priceHistory.push(p); if (priceHistory.length > 20) priceHistory.shift();
-          priceChart.data.labels = priceHistory.map((_, i) => i); priceChart.data.datasets[0].data = priceHistory;
-          priceChart.options.scales.y.min = Math.min(...priceHistory) - 0.5; priceChart.options.scales.y.max = Math.max(...priceHistory) + 0.5;
+          
+          priceChart.data.datasets[0].data.push(p);
+          if(priceChart.data.datasets[0].data.length > 20) priceChart.data.datasets[0].data.shift();
           priceChart.update();
+          previousPrice = p;
         }
       } catch (e) {}
     }
 
-    // --- C. LOGIKA SINYAL ---
+    // --- FETCH & RENDER SINYAL ---
     async function fetchSignals() {
       try {
         const res = await fetch(API_URL_SIGNAL); const data = await res.json();
-        if (data.status === 'success') renderSignals(data.data);
+        if (data.status === 'success') {
+          globalSignals = data.data;
+          checkNewNotifications(); 
+          renderAllViews();
+        }
       } catch (e) {}
     }
 
-    function renderSignals(signals) {
-      let runningHTML = '', waitingHTML = '', historyHTML = '';
-      let totalProfit = 0, totalLoss = 0, historyCount = 0;
-      signals.forEach(s => {
-        const isBuy = s.arah === 'BUY'; const colorClass = isBuy ? 'text-green-400' : 'text-red-400';
+    // --- LOGIKA NOTIFIKASI HP ---
+    function checkNewNotifications() {
+      if (!("Notification" in window) || Notification.permission !== "granted") return;
+
+      globalSignals.forEach(sig => {
+        const uniqueKey = sig.id + "_" + sig.status;
+        if (!knownSignalStatuses[uniqueKey]) {
+          if (Object.keys(knownSignalStatuses).length > 0) {
+             let msg = "";
+             const source = sig.source === 'GLDN' ? 'GOLDEN' : 'MSP';
+             
+             if (sig.status === 'WAITING') msg = `ENTRY | ${sig.arah} LIMIT ${sig.pair} | ${source}`;
+             else if (sig.status === 'RUNNING') msg = `FILLED | ${sig.arah} LIMIT ${sig.pair} | ${source}`;
+             else if (sig.status.includes('TP')) msg = `${sig.status} HIT | ${sig.arah} LIMIT ${sig.pair} | ${source}`;
+             else if (sig.status === 'SL') msg = `STOP LOSS | ${sig.arah} LIMIT ${sig.pair} | ${source}`;
+
+             if (msg !== "") {
+               new Notification("Saint D. Wish - Signal Update", { body: msg, icon: "logo.png" });
+             }
+          }
+          knownSignalStatuses[uniqueKey] = true;
+        }
+      });
+    }
+
+    // --- RENDER SEMUA BAGIAN ---
+    function renderAllViews() {
+      renderDashboardCombined();
+      renderVIP();
+    }
+
+    // --- LOGIKA DASHBOARD (GABUNGAN) ---
+    function renderDashboardCombined() {
+      let historyHTML = "";
+      let monProfit = 0, monLoss = 0;
+      let weekProfit = 0, weekLoss = 0;
+      let dayProfit = 0, dayLoss = 0;
+
+      const now = new Date();
+      const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+      const startOfWeek = new Date(now); startOfWeek.setDate(now.getDate() - now.getDay() + (now.getDay() === 0 ? -6 : 1)); startOfWeek.setHours(0,0,0,0);
+      const startOfDay = new Date(now); startOfDay.setHours(0,0,0,0);
+
+      let count = 0;
+      globalSignals.forEach(s => {
+        const isBuy = s.arah === 'BUY';
         const pips = Math.abs(parseFloat(s.tp1) - parseFloat(s.entry)) * 10;
-        if (s.status === 'RUNNING') {
-          runningHTML += `<div class="glass-card p-4 border border-blue-500/40 mb-3"><div class="flex justify-between items-start mb-2"><div class="flex items-center gap-2"><span class="${colorClass} text-lg">│</span><span class="${colorClass} font-semibold text-md">${s.arah} <span class="text-gray-300 font-normal">Limit ${s.entry}</span></span></div><div class="text-right text-[10px]"><p class="text-gray-300 font-semibold mb-1"><span class="text-red-400">🎯</span> TAKE PROFIT</p><p class="text-gray-200">🎖 TP1: ${s.tp1}</p><p class="text-gray-200">🎖 TP2: ${s.tp2}</p><p class="text-gray-200">🎖 TP3: ${s.tp3}</p><p class="text-gray-200">🏆 TP4: ${s.tp4}</p></div></div><p class="text-red-400 font-bold text-xs">STOP LOSS (SL) : ${s.sl}</p></div>`;
-        } else if (s.status === 'WAITING') {
-          waitingHTML += `<div class="glass-card p-3 flex justify-between items-center border border-blue-500/30 mb-2"><div class="flex items-center gap-2"><span class="${colorClass} text-sm">│</span><span class="${colorClass} font-semibold text-sm">${s.arah} <span class="text-gray-300 font-normal">Limit ${s.entry}</span></span></div><span class="text-gray-300 text-xs">SL: ${s.sl}</span></div>`;
-        } else if (s.status.includes('TP') || s.status === 'SL') {
-          historyCount++;
-          if (s.status === 'SL') totalLoss += pips; else totalProfit += pips;
-          let resultText = s.status === 'SL' ? 'SL Hit' : `${s.status} Hit`; let resColor = s.status === 'SL' ? 'text-red-400' : 'text-green-400';
-          if (historyCount <= 3) {
-            historyHTML += `<div class="border border-blue-500/30 rounded-xl p-3 flex justify-between items-center bg-[#0b1a35]/50 mb-2"><div class="flex items-center gap-3"><i class="fa-solid fa-arrow-${isBuy ? 'up' : 'down'} ${isBuy ? 'text-green-500' : 'text-red-500'}"></i><span class="text-sm ${colorClass} font-semibold">${s.arah} <span class="text-gray-400 font-normal">Limit</span></span></div><div class="text-right"><p class="text-xs ${resColor} font-bold">${resultText}</p><p class="text-[10px] text-gray-400">+${pips} Pips</p></div></div>`;
+        
+        if (s.status.includes('TP') || s.status === 'SL') {
+          const sigDate = new Date(s.waktu);
+          const isProfit = s.status !== 'SL';
+
+          if (sigDate >= startOfMonth) { isProfit ? monProfit += pips : monLoss += pips; }
+          if (sigDate >= startOfWeek) { isProfit ? weekProfit += pips : weekLoss += pips; }
+          if (sigDate >= startOfDay) { isProfit ? dayProfit += pips : dayLoss += pips; }
+
+          if (count < 5) {
+            let resultText = s.status === 'SL' ? 'SL Hit' : `${s.status} Hit`;
+            let resColor = s.status === 'SL' ? 'text-red-400' : 'text-green-400';
+            let sourceBadge = s.source === 'GLDN' ? '<span class="text-[9px] bg-yellow-900/50 text-yellow-300 px-1 rounded ml-1">GLDN</span>' : '<span class="text-[9px] bg-purple-900/50 text-purple-300 px-1 rounded ml-1">MSP</span>';
+
+            historyHTML += `
+              <div class="border border-blue-500/30 rounded-xl p-3 flex justify-between items-center bg-[#0b1a35]/50 mb-2">
+                <div class="flex items-center gap-2">
+                  <i class="fa-solid fa-arrow-${isBuy ? 'up' : 'down'} ${isBuy ? 'text-green-500' : 'text-red-500'}"></i>
+                  <span class="text-sm ${isBuy ? 'text-green-400' : 'text-red-400'} font-semibold">${s.arah} ${sourceBadge}</span>
+                </div>
+                <div class="text-right">
+                  <p class="text-xs ${resColor} font-bold">${resultText}</p>
+                  <p class="text-[10px] text-gray-400">+${pips} Pips</p>
+                </div>
+              </div>`;
+            count++;
           }
         }
       });
+
+      if (historyHTML === "") historyHTML = '<p class="text-center text-sm text-gray-400 py-4">Belum ada riwayat.</p>';
+      document.getElementById('dashboard-history-list').innerHTML = historyHTML;
+
+      document.getElementById('mon-profit').innerText = `+${monProfit}`; document.getElementById('mon-sl').innerText = `-${monLoss}`;
+      document.getElementById('mon-total').innerText = (monProfit - monLoss >= 0 ? '+' : '') + (monProfit - monLoss);
+      
+      document.getElementById('week-profit').innerText = `+${weekProfit}`; document.getElementById('week-sl').innerText = `-${weekLoss}`;
+      document.getElementById('week-total').innerText = (weekProfit - weekLoss >= 0 ? '+' : '') + (weekProfit - weekLoss);
+
+      document.getElementById('day-profit').innerText = `+${dayProfit}`; document.getElementById('day-sl').innerText = `-${dayLoss}`;
+      document.getElementById('day-total').innerText = (dayProfit - dayLoss >= 0 ? '+' : '') + (dayProfit - dayLoss);
+    }
+
+    // --- LOGIKA VIP ZONE ---
+    function switchEATab(source) {
+      currentEATab = source;
+      document.getElementById('tab-gldn').className = `tab-btn ${source === 'GLDN' ? 'tab-active' : 'tab-inactive'}`;
+      document.getElementById('tab-msp').className = `tab-btn ${source === 'MSP' ? 'tab-active' : 'tab-inactive'}`;
+      renderVIP();
+    }
+
+    function renderVIP() {
+      let runningHTML = "", waitingHTML = "";
+      let vipDayProfit = 0, vipDayLoss = 0;
+      const startOfDay = new Date(); startOfDay.setHours(0,0,0,0);
+
+      const filteredSignals = globalSignals.filter(s => s.source === currentEATab);
+
+      filteredSignals.forEach(s => {
+        const isBuy = s.arah === 'BUY';
+        const colorClass = isBuy ? 'text-green-400' : 'text-red-400';
+        const pips = Math.abs(parseFloat(s.tp1) - parseFloat(s.entry)) * 10;
+
+        if (s.status.includes('TP') || s.status === 'SL') {
+          if (new Date(s.waktu) >= startOfDay) {
+            s.status === 'SL' ? vipDayLoss += pips : vipDayProfit += pips;
+          }
+        }
+
+        if (s.status === 'RUNNING') {
+          runningHTML += `
+            <div class="glass-card p-4 border border-blue-500/40 relative overflow-hidden mb-3">
+              <div class="flex justify-between items-start mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="${colorClass} text-lg">│</span>
+                  <span class="${colorClass} font-semibold text-md">${s.arah} <span class="text-gray-300 font-normal">Limit ${s.entry}</span></span>
+                </div>
+                <div class="text-right text-[10px]">
+                  <p class="text-gray-300 font-semibold mb-1"><span class="text-red-400">🎯</span> TAKE PROFIT</p>
+                  <p class="text-gray-200">🎖 TP1: ${s.tp1}</p><p class="text-gray-200">🎖 TP2: ${s.tp2}</p>
+                  <p class="text-gray-200">🎖 TP3: ${s.tp3}</p>${s.tp4 != "0" && s.tp4 != "0.0" ? `<p class="text-gray-200">🏆 TP4: ${s.tp4}</p>` : ''}
+                </div>
+              </div>
+              <p class="text-red-400 font-bold text-xs">STOP LOSS (SL) : ${s.sl}</p>
+            </div>`;
+        } else if (s.status === 'WAITING') {
+          waitingHTML += `
+            <div class="glass-card p-3 flex justify-between items-center border border-blue-500/30 mb-2">
+              <div class="flex items-center gap-2">
+                <span class="${colorClass} text-sm">│</span>
+                <span class="${colorClass} font-semibold text-sm">${s.arah} <span class="text-gray-300 font-normal">Limit ${s.entry}</span></span>
+              </div>
+              <span class="text-gray-300 text-xs">SL: ${s.sl}</span>
+            </div>`;
+        }
+      });
+
       document.getElementById('vip-running-list').innerHTML = runningHTML || '<p class="text-sm text-gray-400">Tidak ada posisi running.</p>';
       document.getElementById('vip-waiting-list').innerHTML = waitingHTML || '<p class="text-sm text-gray-400">Tidak ada sinyal waiting.</p>';
-      document.getElementById('dashboard-history-list').innerHTML = historyHTML || '<p class="text-center text-sm text-gray-400 py-4">Belum ada riwayat.</p>';
-      document.getElementById('recap-profit').innerText = `+${totalProfit} PIPS`; document.getElementById('recap-sl').innerText = `-${totalLoss} PIPS`;
-      const total = totalProfit - totalLoss; const recapTotal = document.getElementById('recap-total');
-      recapTotal.innerText = (total >= 0 ? '+' : '') + total + ' PIPS';
-      recapTotal.className = total >= 0 ? "text-sm font-bold text-neon-green" : "text-sm font-bold text-neon-red";
+      
+      document.getElementById('vip-recap-title').innerText = `DAILY RECAP (${currentEATab === 'GLDN' ? 'GOLDEN' : 'MSP'})`;
+      document.getElementById('vip-day-profit').innerText = `+${vipDayProfit}`;
+      document.getElementById('vip-day-sl').innerText = `-${vipDayLoss}`;
+      document.getElementById('vip-day-total').innerText = (vipDayProfit - vipDayLoss >= 0 ? '+' : '') + (vipDayProfit - vipDayLoss);
     }
 
-    // --- D. LOGIKA USER & TAMPILAN ---
-    let currentUserRole = "NO ROLE";
-    let currentUserEmail = "";
-    
+    // --- INISIALISASI & NAVIGASI ---
     if (localStorage.getItem('isLoggedIn') !== 'true') window.location.href = "login.html";
-
-    // FUNGSI UNTUK MENAMPILKAN AVATAR
-    function loadAvatar() {
-      const savedAvatar = localStorage.getItem('db_avatar');
-      const mainPP = document.getElementById('userPP');
-      const mainImg = document.getElementById('userAvatarImg');
-      const editPP = document.getElementById('editPP');
-      const editImg = document.getElementById('editAvatarImg');
-
-      if (savedAvatar) {
-        if(mainImg && mainPP) { mainImg.src = savedAvatar; mainImg.classList.remove('hidden'); mainPP.classList.add('hidden'); }
-        if(editImg && editPP) { editImg.src = savedAvatar; editImg.classList.remove('hidden'); editPP.classList.add('hidden'); }
-      } else {
-        if(mainImg && mainPP) { mainImg.classList.add('hidden'); mainPP.classList.remove('hidden'); }
-        if(editImg && editPP) { editImg.classList.add('hidden'); editPP.classList.remove('hidden'); }
-      }
-    }
 
     document.addEventListener("DOMContentLoaded", function() {
       let username = localStorage.getItem('db_user') || "User";
@@ -443,36 +631,41 @@
       
       if (Notification.permission === "granted") document.getElementById('toggleNotif').checked = true;
 
-      // Isi form edit profile
       document.getElementById('editUsername').value = username;
       document.getElementById('editPP').innerText = username.charAt(0).toUpperCase();
-      
-      // Load Avatar jika ada
       loadAvatar();
 
       fetchLivePrice(); setInterval(fetchLivePrice, 5000);
       fetchSignals(); setInterval(fetchSignals, 10000);
     });
 
-    // FUNGSI UPLOAD AVATAR
+    function loadAvatar() {
+      const savedAvatar = localStorage.getItem('db_avatar');
+      const mainPP = document.getElementById('userPP');
+      const mainImg = document.getElementById('userAvatarImg');
+      const editPP = document.getElementById('editPP');
+      const editImg = document.getElementById('editAvatarImg');
+
+      if (savedAvatar) {
+        if(mainImg && mainPP) { mainImg.src = savedAvatar; mainImg.classList.remove('hidden'); mainPP.classList.add('hidden'); }
+        if(editImg && editPP) { editImg.src = savedAvatar; editImg.classList.remove('hidden'); editPP.classList.add('hidden'); }
+      } else {
+        if(mainImg && mainPP) { mainImg.classList.add('hidden'); mainPP.classList.remove('hidden'); }
+        if(editImg && editPP) { editImg.classList.add('hidden'); editPP.classList.remove('hidden'); }
+      }
+    }
+
     function handleAvatarUpload(event) {
       const file = event.target.files[0];
       if (!file) return;
-
       const reader = new FileReader();
       reader.onload = function(e) {
-        const base64Image = e.target.result;
-        
-        // Simpan di local storage
-        localStorage.setItem('db_avatar', base64Image);
-        
-        // Update Tampilan
+        localStorage.setItem('db_avatar', e.target.result);
         loadAvatar();
       };
       reader.readAsDataURL(file);
     }
 
-    // --- E. NAVIGASI SUB-MENU ---
     function openSubAkun(subName) {
       document.getElementById('view-akun').classList.add('hidden');
       document.getElementById('sub-' + subName).classList.remove('hidden');
@@ -510,7 +703,6 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // --- F. FITUR UBAH PASSWORD ---
     document.getElementById('formUbahPass').addEventListener('submit', async function(e) {
       e.preventDefault();
       const oldPass = document.getElementById('oldPass').value;
@@ -535,7 +727,6 @@
       finally { btn.innerText = "Simpan Password Baru"; btn.disabled = false; }
     });
 
-    // --- G. FITUR EDIT PROFILE (USERNAME) ---
     document.getElementById('formEditProfil').addEventListener('submit', async function(e) {
       e.preventDefault();
       const newUsername = document.getElementById('editUsername').value;
@@ -552,11 +743,8 @@
         
         if(data.status === 'success') {
           alert(data.message);
-          // Update LocalStorage agar UI langsung berubah tanpa login ulang
           localStorage.setItem('db_user', newUsername);
-          
           document.getElementById('userName').innerText = newUsername;
-          
           closeSubAkun();
         } else {
           alert(data.message);
@@ -565,7 +753,6 @@
       finally { btn.innerText = "Simpan Perubahan"; btn.disabled = false; }
     });
 
-    // --- H. FITUR NOTIFIKASI ---
     function requestNotifPermission(checkbox) {
       if (!("Notification" in window)) { alert("Browser ini tidak mendukung notifikasi."); checkbox.checked = false; return; }
       if (checkbox.checked) {
