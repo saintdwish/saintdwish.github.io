@@ -52,21 +52,17 @@
       <div class="neon-input flex items-center px-5 py-3 w-full">
         <i class="fa-regular fa-user text-blue-300 w-6 text-center"></i>
         <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
-        <input type="text" id="loginUser" placeholder="USERNAME / EMAIL" required>
+        <input type="text" id="loginUser" placeholder="EMAIL" required>
       </div>
 
-      <!-- KOLOM PASSWORD DENGAN SHOW/HIDE -->
       <div class="neon-input flex items-center px-5 py-3 w-full">
         <i class="fa-solid fa-lock text-blue-300 w-6 text-center"></i>
         <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
         <input type="password" id="loginPass" placeholder="PASSWORD" required>
-        <!-- Ikon Mata -->
         <i class="fa-regular fa-eye text-gray-400 cursor-pointer hover:text-white transition-colors" onclick="togglePassword('loginPass', this)"></i>
       </div>
 
-      <!-- Pesan Error -->
-      <p id="errorMsg" class="text-red-500 text-xs text-center hidden mt-1">Username/Email atau Password salah!</p>
-      <p id="notRegMsg" class="text-yellow-500 text-xs text-center hidden mt-1">Anda belum terdaftar. Silakan Sign Up.</p>
+      <p id="errorMsg" class="text-red-500 text-xs text-center hidden mt-1">Email atau Password salah!</p>
 
       <button type="submit" class="neon-btn w-full py-3 rounded-full mt-2">
         <span class="font-title text-lg tracking-wider text-blue-100">Login</span>
@@ -81,47 +77,45 @@
   </div>
 
   <script>
-    // FUNGSI SHOW/HIDE PASSWORD
+    const API_URL = "https://script.google.com/macros/s/AKfycbzMYg1pTNUbEJWJSKtwifnPkw-tTn1SjFJqK2fmVepWVKpAvupB2c5eCb-fpUXR6LK-wg/exec";
+
     function togglePassword(inputId, iconElement) {
       const input = document.getElementById(inputId);
       if (input.type === "password") {
         input.type = "text";
-        iconElement.classList.remove('fa-eye');
-        iconElement.classList.add('fa-eye-slash');
+        iconElement.classList.replace('fa-eye', 'fa-eye-slash');
       } else {
         input.type = "password";
-        iconElement.classList.remove('fa-eye-slash');
-        iconElement.classList.add('fa-eye');
+        iconElement.classList.replace('fa-eye-slash', 'fa-eye');
       }
     }
 
-    // LOGIKA LOGIN
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      
-      const inputUser = document.getElementById('loginUser').value;
-      const inputPass = document.getElementById('loginPass').value;
-      
-      const dbUser = localStorage.getItem('db_user');
-      const dbEmail = localStorage.getItem('db_email');
-      const dbPass = localStorage.getItem('db_pass');
-
+      const email = document.getElementById('loginUser').value;
+      const password = document.getElementById('loginPass').value;
       const errMsg = document.getElementById('errorMsg');
-      const notRegMsg = document.getElementById('notRegMsg');
-
       errMsg.classList.add('hidden');
-      notRegMsg.classList.add('hidden');
 
-      if (!dbUser || !dbPass) {
-        notRegMsg.classList.remove('hidden');
-        return;
-      }
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'login', email: email, password: password })
+        });
+        const data = await response.json();
 
-      if ((inputUser === dbUser || inputUser === dbEmail) && inputPass === dbPass) {
-        localStorage.setItem('isLoggedIn', 'true');
-        window.location.href = "dashboard.html";
-      } else {
-        errMsg.classList.remove('hidden');
+        if (data.status === 'success') {
+          localStorage.setItem('isLoggedIn', 'true');
+          localStorage.setItem('db_user', data.user.username);
+          localStorage.setItem('db_email', data.user.email);
+          localStorage.setItem('db_role', data.user.role);
+          window.location.href = "dashboard.html";
+        } else {
+          errMsg.classList.remove('hidden');
+          errMsg.innerText = data.message;
+        }
+      } catch (error) {
+        alert("Gagal terhubung ke server database.");
       }
     });
   </script>
