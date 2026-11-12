@@ -12,47 +12,19 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
   <style>
-    /* --- THEME: DEEP BLUE AURORA GLASS --- */
-    body { 
-      font-family: 'Inter', sans-serif; 
-      background-color: #040812; /* Biru sangat gelap (Midnight) */
-      color: #ffffff; 
-      padding-bottom: 110px; 
-      overflow-x: hidden;
-    }
-
-    /* Animasi Gelombang Cahaya (Aurora) di Background */
+    body { font-family: 'Inter', sans-serif; background-color: #040812; color: #ffffff; padding-bottom: 110px; overflow-x: hidden; }
     body::before {
-      content: "";
-      position: fixed;
-      top: -50%; left: -50%; width: 200%; height: 200%;
-      background: 
-        radial-gradient(circle at 20% 30%, rgba(29, 78, 216, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at 80% 70%, rgba(56, 189, 248, 0.1) 0%, transparent 40%),
-        radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.8) 0%, #040812 100%);
-      z-index: -2;
-      animation: auroraMove 20s ease-in-out infinite alternate;
+      content: ""; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
+      background: radial-gradient(circle at 20% 30%, rgba(29, 78, 216, 0.15) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(56, 189, 248, 0.1) 0%, transparent 40%), radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.8) 0%, #040812 100%);
+      z-index: -2; animation: auroraMove 20s ease-in-out infinite alternate;
     }
+    @keyframes auroraMove { 0% { transform: scale(1) rotate(0deg); } 100% { transform: scale(1.1) rotate(5deg); } }
 
-    @keyframes auroraMove {
-      0% { transform: scale(1) rotate(0deg); }
-      100% { transform: scale(1.1) rotate(5deg); }
-    }
-
-    /* --- GLASSMORPHISM CARDS --- */
     .glass-card {
-      background: rgba(15, 25, 50, 0.5); /* Biru gelap semi transparan */
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(59, 130, 246, 0.2); /* Garis tepi biru */
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-      border-radius: 16px;
+      background: rgba(15, 25, 50, 0.5); backdrop-filter: blur(12px);
+      border: 1px solid rgba(59, 130, 246, 0.2); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); border-radius: 16px;
     }
-    .glass-card-inner {
-      background: rgba(30, 58, 138, 0.2);
-      border: 1px solid rgba(59, 130, 246, 0.15);
-      border-radius: 12px;
-    }
+    .glass-card-inner { background: rgba(30, 58, 138, 0.2); border: 1px solid rgba(59, 130, 246, 0.15); border-radius: 12px; }
 
     .text-success { color: #10b981; } 
     .text-danger { color: #ef4444; }  
@@ -60,7 +32,6 @@
     .text-neon-blue { color: #60a5fa; }
     
     ::-webkit-scrollbar { display: none; }
-    
     .view-section { animation: fadeIn 0.3s ease-in-out; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     
@@ -69,25 +40,15 @@
     .toggle-checkbox { right: 0; z-index: 1; border-color: #e2e8f0; transition: all 0.3s; position: absolute; width: 24px; height: 24px; background: white; border-width: 1px; border-radius: 50%; appearance: none; cursor: pointer; }
     .toggle-label { display: block; overflow: hidden; cursor: pointer; border-radius: 9999px; width: 48px; height: 24px; background-color: #1e293b; transition: background-color 0.3s; }
 
-    /* Tab VIP */
-    .tab-btn {
-      flex: 1; padding: 10px; text-align: center; font-weight: 600; border-radius: 10px;
-      transition: all 0.3s; cursor: pointer; border: 1px solid transparent; font-size: 14px;
-    }
-    .tab-active { 
-      background: linear-gradient(135deg, #1e40af, #3b82f6); 
-      color: #ffffff; border-color: #60a5fa; 
-      box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
-    }
+    .tab-btn { flex: 1; padding: 10px; text-align: center; font-weight: 600; border-radius: 10px; transition: all 0.3s; cursor: pointer; border: 1px solid transparent; font-size: 14px; }
+    .tab-active { background: linear-gradient(135deg, #1e40af, #3b82f6); color: #ffffff; border-color: #60a5fa; box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); }
     .tab-inactive { background-color: transparent; color: #94a3b8; }
     .tab-inactive:hover { color: #ffffff; }
 
-    /* Accordion VIP */
     .card-header { cursor: pointer; transition: background-color 0.2s; }
     .card-header:hover { background-color: rgba(30, 58, 138, 0.4); }
     .card-detail { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out; opacity: 0; }
     .card-detail.open { max-height: 300px; opacity: 1; }
-    
     .vip-blurred { filter: blur(8px); pointer-events: none; user-select: none; opacity: 0.3; }
   </style>
 </head>
@@ -120,45 +81,27 @@
       <div class="glass-card p-5 mb-4">
         <h3 class="text-md text-white font-semibold mb-4">Monthly Recap</h3>
         <div class="grid grid-cols-3 gap-3">
-          <div class="glass-card-inner p-3 text-center">
-            <p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Profit</p><p class="text-sm font-bold text-success" id="mon-profit">+0</p>
-          </div>
-          <div class="glass-card-inner p-3 text-center">
-            <p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Loss</p><p class="text-sm font-bold text-danger" id="mon-sl">-0</p>
-          </div>
-          <div class="glass-card-inner p-3 text-center">
-            <p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Total</p><p class="text-sm font-bold text-white" id="mon-total">+0</p>
-          </div>
+          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Profit</p><p class="text-sm font-bold text-success" id="mon-profit">+0</p></div>
+          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Loss</p><p class="text-sm font-bold text-danger" id="mon-sl">-0</p></div>
+          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Total</p><p class="text-sm font-bold text-white" id="mon-total">+0</p></div>
         </div>
       </div>
 
       <div class="glass-card p-5 mb-4">
         <h3 class="text-md text-white font-semibold mb-4">Weekly Recap</h3>
         <div class="grid grid-cols-3 gap-3">
-          <div class="glass-card-inner p-3 text-center">
-            <p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Profit</p><p class="text-sm font-bold text-success" id="week-profit">+0</p>
-          </div>
-          <div class="glass-card-inner p-3 text-center">
-            <p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Loss</p><p class="text-sm font-bold text-danger" id="week-sl">-0</p>
-          </div>
-          <div class="glass-card-inner p-3 text-center">
-            <p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Total</p><p class="text-sm font-bold text-white" id="week-total">+0</p>
-          </div>
+          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Profit</p><p class="text-sm font-bold text-success" id="week-profit">+0</p></div>
+          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Loss</p><p class="text-sm font-bold text-danger" id="week-sl">-0</p></div>
+          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Total</p><p class="text-sm font-bold text-white" id="week-total">+0</p></div>
         </div>
       </div>
 
       <div class="glass-card p-5 mb-8">
         <h3 class="text-md text-white font-semibold mb-4">Daily Recap</h3>
         <div class="grid grid-cols-3 gap-3">
-          <div class="glass-card-inner p-3 text-center">
-            <p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Profit</p><p class="text-sm font-bold text-success" id="day-profit">+0</p>
-          </div>
-          <div class="glass-card-inner p-3 text-center">
-            <p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Loss</p><p class="text-sm font-bold text-danger" id="day-sl">-0</p>
-          </div>
-          <div class="glass-card-inner p-3 text-center">
-            <p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Total</p><p class="text-sm font-bold text-white" id="day-total">+0</p>
-          </div>
+          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Profit</p><p class="text-sm font-bold text-success" id="day-profit">+0</p></div>
+          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Loss</p><p class="text-sm font-bold text-danger" id="day-sl">-0</p></div>
+          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Total</p><p class="text-sm font-bold text-white" id="day-total">+0</p></div>
         </div>
       </div>
     </div>
@@ -175,61 +118,36 @@
 
         <div class="mb-6">
           <h2 class="text-md text-white mb-3 font-bold">SEDANG RUNNING</h2>
-          <div class="flex flex-col gap-3" id="vip-running-list">
-            <p class="text-sm text-muted">Tidak ada posisi running.</p>
-          </div>
+          <div class="flex flex-col gap-3" id="vip-running-list"><p class="text-sm text-muted">Tidak ada posisi running.</p></div>
         </div>
 
         <div class="mb-6">
           <h2 class="text-md text-white mb-3 font-bold">WAITING</h2>
-          <div class="flex flex-col gap-2" id="vip-waiting-list">
-            <p class="text-sm text-muted">Tidak ada sinyal waiting.</p>
-          </div>
+          <div class="flex flex-col gap-2" id="vip-waiting-list"><p class="text-sm text-muted">Tidak ada sinyal waiting.</p></div>
         </div>
 
         <div class="mb-6">
           <h3 class="text-xs font-bold text-white mb-2 tracking-wide">RISK MANAGEMENT</h3>
           <ol class="text-sm text-muted space-y-1 font-medium pl-1">
-            <li>1. Use proper lot sizing</li>
-            <li>2. Maintain disciplined risk management.</li>
-            <li>3. Avoid entering outside the specified entry area.</li>
-            <li>4. Do not chase price if the setup is missed.</li>
+            <li>1. Use proper lot sizing</li><li>2. Maintain disciplined risk management.</li><li>3. Avoid entering outside the specified entry area.</li><li>4. Do not chase price if the setup is missed.</li>
           </ol>
         </div>
 
         <div class="glass-card p-5 mb-6">
           <h3 class="text-lg text-white mb-4 tracking-wide font-normal">DAILY RECAP</h3>
-          
           <div class="grid grid-cols-3 gap-2 mb-6">
-            <div class="glass-card-inner p-3 text-center">
-              <p class="text-xs text-muted mb-1">PROFIT</p>
-              <p class="text-sm font-bold text-success" id="vip-day-profit">+0 PIPS</p>
-            </div>
-            <div class="glass-card-inner p-3 text-center">
-              <p class="text-xs text-muted mb-1">STOP LOSE</p>
-              <p class="text-sm font-bold text-danger" id="vip-day-sl">-0 PIPS</p>
-            </div>
-            <div class="glass-card-inner p-3 text-center">
-              <p class="text-xs text-muted mb-1">TOTAL</p>
-              <p class="text-sm font-bold text-white" id="vip-day-total">+0 PIPS</p>
-            </div>
+            <div class="glass-card-inner p-3 text-center"><p class="text-xs text-muted mb-1">PROFIT</p><p class="text-sm font-bold text-success" id="vip-day-profit">+0 PIPS</p></div>
+            <div class="glass-card-inner p-3 text-center"><p class="text-xs text-muted mb-1">STOP LOSE</p><p class="text-sm font-bold text-danger" id="vip-day-sl">-0 PIPS</p></div>
+            <div class="glass-card-inner p-3 text-center"><p class="text-xs text-muted mb-1">TOTAL</p><p class="text-sm font-bold text-white" id="vip-day-total">+0 PIPS</p></div>
           </div>
-
           <div class="flex justify-between items-center text-sm text-gray-300 border-b border-[#3b82f6]/30 pb-2 mb-2 font-semibold">
-            <div class="w-1/2">Daily Recap</div>
-            <div class="w-1/4 text-right">Profit</div>
-            <div class="w-1/4 text-right">SL</div>
+            <div class="w-1/2">Daily Recap</div><div class="w-1/4 text-right">Profit</div><div class="w-1/4 text-right">SL</div>
           </div>
           <div class="flex flex-col gap-2" id="vip-daily-table-list"></div>
         </div>
-
-        <button class="w-full text-center text-sm text-muted hover:text-white transition mb-8">
-          Lihat Semua Riwayat
-        </button>
-
+        <button class="w-full text-center text-sm text-muted hover:text-white transition mb-8">Lihat Semua Riwayat</button>
       </div>
 
-      <!-- OVERLAY VIP TERKUNCI -->
       <div id="vip-lock-overlay" class="hidden absolute inset-0 z-50 flex flex-col items-center justify-center bg-[#040812]/80 backdrop-blur-sm rounded-xl">
         <div class="glass-card w-full max-w-sm mx-auto p-6 flex flex-col items-center shadow-lg">
           <div class="w-20 h-20 mb-4 rounded-full border border-[#3b82f6]/50 overflow-hidden flex justify-center items-center bg-[#1e3a8a]/30">
@@ -246,172 +164,96 @@
     <!-- VIEW 3: AKUN UTAMA -->
     <div id="view-akun" class="view-section hidden">
       <header class="mb-6"><h1 class="text-2xl font-bold text-white">AKUN</h1></header>
-
       <div class="glass-card rounded-xl p-4 flex items-center justify-between mb-6">
         <div class="w-14 h-14 rounded-full bg-[#1e3a8a]/50 flex items-center justify-center border border-[#3b82f6]/30 shrink-0 overflow-hidden">
-          <span id="userPP" class="text-xl font-bold text-white">?</span>
-          <img id="userAvatarImg" class="w-full h-full object-cover hidden" />
+          <span id="userPP" class="text-xl font-bold text-white">?</span><img id="userAvatarImg" class="w-full h-full object-cover hidden" />
         </div>
         <div class="flex-1 px-4 text-left">
-          <h2 id="userName" class="text-md font-semibold text-white leading-tight">Memuat...</h2>
-          <p class="text-[11px] text-muted mt-0.5">ROLE USER</p>
+          <h2 id="userName" class="text-md font-semibold text-white leading-tight">Memuat...</h2><p class="text-[11px] text-muted mt-0.5">ROLE USER</p>
         </div>
-        <div class="text-right shrink-0">
-          <p id="userRoleDisplay" class="text-xs font-bold text-success bg-emerald-900/30 px-2 py-1 rounded-md">...</p>
-        </div>
+        <div class="text-right shrink-0"><p id="userRoleDisplay" class="text-xs font-bold text-success bg-emerald-900/30 px-2 py-1 rounded-md">...</p></div>
       </div>
-
       <button onclick="openSubAkun('editprofil')" class="w-full mb-6 glass-card rounded-xl p-3 flex items-center justify-center gap-2 hover:bg-[#1e3a8a]/30 transition">
-        <i class="fa-solid fa-user-pen text-neon-blue"></i>
-        <span class="text-sm font-semibold text-white">Edit Profil</span>
+        <i class="fa-solid fa-user-pen text-neon-blue"></i><span class="text-sm font-semibold text-white">Edit Profil</span>
       </button>
-
       <h2 class="text-sm text-muted font-semibold mb-3 uppercase tracking-wider">Preferensi</h2>
-      
       <div class="flex flex-col gap-3 mb-6">
         <button onclick="openSubAkun('notif')" class="glass-card rounded-xl p-3 flex items-center w-full hover:bg-[#1e3a8a]/30 transition group">
-          <div class="w-10 h-10 rounded-lg bg-[#1e3a8a]/50 flex items-center justify-center shrink-0 border border-[#3b82f6]/30">
-            <i class="fa-solid fa-bell text-neon-blue"></i>
-          </div>
+          <div class="w-10 h-10 rounded-lg bg-[#1e3a8a]/50 flex items-center justify-center shrink-0 border border-[#3b82f6]/30"><i class="fa-solid fa-bell text-neon-blue"></i></div>
           <span class="ml-4 text-sm font-medium text-white">Pengaturan Notifikasi</span>
         </button>
-
         <button onclick="openSubAkun('password')" class="glass-card rounded-xl p-3 flex items-center w-full hover:bg-[#1e3a8a]/30 transition group">
-          <div class="w-10 h-10 rounded-lg bg-[#1e3a8a]/50 flex items-center justify-center shrink-0 border border-[#3b82f6]/30">
-            <i class="fa-solid fa-lock text-neon-blue"></i>
-          </div>
+          <div class="w-10 h-10 rounded-lg bg-[#1e3a8a]/50 flex items-center justify-center shrink-0 border border-[#3b82f6]/30"><i class="fa-solid fa-lock text-neon-blue"></i></div>
           <span class="ml-4 text-sm font-medium text-white">Ubah Password</span>
         </button>
-
         <button onclick="openSubAkun('bantuan')" class="glass-card rounded-xl p-3 flex items-center w-full hover:bg-[#1e3a8a]/30 transition group">
-          <div class="w-10 h-10 rounded-lg bg-[#1e3a8a]/50 flex items-center justify-center shrink-0 border border-[#3b82f6]/30">
-            <i class="fa-solid fa-question text-neon-blue"></i>
-          </div>
+          <div class="w-10 h-10 rounded-lg bg-[#1e3a8a]/50 flex items-center justify-center shrink-0 border border-[#3b82f6]/30"><i class="fa-solid fa-question text-neon-blue"></i></div>
           <span class="ml-4 text-sm font-medium text-white">Bantuan</span>
         </button>
       </div>
-
-      <button id="adminBtn" onclick="window.location.href='admin.html'" class="hidden w-full py-3 rounded-xl border border-[#3b82f6]/50 text-white font-semibold text-sm hover:bg-blue-900/30 transition mb-3">
-        ADMIN PANEL
-      </button>
+      <button id="adminBtn" onclick="window.location.href='admin.html'" class="hidden w-full py-3 rounded-xl border border-[#3b82f6]/50 text-white font-semibold text-sm hover:bg-blue-900/30 transition mb-3">ADMIN PANEL</button>
       <button onclick="logout()" class="w-full py-3 rounded-xl border border-red-900/50 text-red-500 hover:bg-red-900/20 transition text-sm font-semibold">Logout</button>
     </div>
 
     <!-- SUB-VIEW: EDIT PROFIL -->
     <div id="sub-editprofil" class="view-section hidden relative">
-      <button onclick="closeSubAkun()" class="absolute top-0 left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50">
-        <i class="fa-solid fa-arrow-left text-sm"></i>
-      </button>
-      
+      <button onclick="closeSubAkun()" class="absolute top-0 left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50"><i class="fa-solid fa-arrow-left text-sm"></i></button>
       <h1 class="text-xl font-bold text-white text-center mb-8 pt-1">Edit Profile</h1>
-      
       <div class="flex flex-col items-center mb-8">
         <div class="w-28 h-28 rounded-full bg-[#1e3a8a]/50 flex items-center justify-center border border-[#3b82f6]/30 mb-3 overflow-hidden relative cursor-pointer group" onclick="document.getElementById('avatarUpload').click()">
-          <span id="editPP" class="text-4xl font-bold text-white">?</span>
-          <img id="editAvatarImg" class="w-full h-full object-cover hidden" />
-          <div class="absolute inset-0 bg-black/60 hidden group-hover:flex items-center justify-center transition-all">
-            <i class="fa-solid fa-camera text-white text-xl"></i>
-          </div>
+          <span id="editPP" class="text-4xl font-bold text-white">?</span><img id="editAvatarImg" class="w-full h-full object-cover hidden" />
+          <div class="absolute inset-0 bg-black/60 hidden group-hover:flex items-center justify-center transition-all"><i class="fa-solid fa-camera text-white text-xl"></i></div>
         </div>
         <p class="text-[10px] text-muted tracking-widest uppercase">Ganti Foto Profil</p>
         <input type="file" id="avatarUpload" accept="image/*" class="hidden" onchange="handleAvatarUpload(event)">
       </div>
-
       <form id="formEditProfil" class="flex flex-col gap-4">
         <div>
           <label class="text-xs text-muted ml-1 mb-1 block">Username</label>
-          <div class="glass-card flex items-center px-4 py-3">
-            <input type="text" id="editUsername" class="bg-transparent outline-none w-full text-white text-sm" required>
-          </div>
+          <div class="glass-card flex items-center px-4 py-3"><input type="text" id="editUsername" class="bg-transparent outline-none w-full text-white text-sm" required></div>
         </div>
-
-        <button type="submit" class="mt-6 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition text-sm shadow-[0_0_15px_rgba(59,130,246,0.5)]">
-          Simpan Perubahan
-        </button>
+        <button type="submit" class="mt-6 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition text-sm shadow-[0_0_15px_rgba(59,130,246,0.5)]">Simpan Perubahan</button>
       </form>
     </div>
 
     <!-- SUB-VIEW: BANTUAN -->
     <div id="sub-bantuan" class="view-section hidden relative">
-      <button onclick="closeSubAkun()" class="absolute top-0 left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50">
-        <i class="fa-solid fa-arrow-left text-sm"></i>
-      </button>
-      
+      <button onclick="closeSubAkun()" class="absolute top-0 left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50"><i class="fa-solid fa-arrow-left text-sm"></i></button>
       <h1 class="text-xl font-bold text-white text-center mb-2 pt-1">Bantuan</h1>
       <p class="text-xs text-muted text-center mb-10">Bisa Hubungi Admin Jika Terdapat Kendala</p>
-      
       <div class="flex flex-col gap-3 px-2">
-        <a href="https://discord.com/users/SAINT_D_WISH_ID" target="_blank" class="glass-card p-4 rounded-xl flex items-center hover:bg-[#1e3a8a]/40 transition">
-          <i class="fa-brands fa-discord text-2xl text-[#5865F2] mr-4"></i>
-          <span class="text-sm font-medium text-white">@Saint D. Wish</span>
-        </a>
-        <a href="https://t.me/stdwis" target="_blank" class="glass-card p-4 rounded-xl flex items-center hover:bg-[#1e3a8a]/40 transition">
-          <i class="fa-brands fa-telegram text-2xl text-[#0088cc] mr-4"></i>
-          <span class="text-sm font-medium text-white">@stdwis</span>
-        </a>
+        <a href="https://discord.com/users/SAINT_D_WISH_ID" target="_blank" class="glass-card p-4 rounded-xl flex items-center hover:bg-[#1e3a8a]/40 transition"><i class="fa-brands fa-discord text-2xl text-[#5865F2] mr-4"></i><span class="text-sm font-medium text-white">@Saint D. Wish</span></a>
+        <a href="https://t.me/stdwis" target="_blank" class="glass-card p-4 rounded-xl flex items-center hover:bg-[#1e3a8a]/40 transition"><i class="fa-brands fa-telegram text-2xl text-[#0088cc] mr-4"></i><span class="text-sm font-medium text-white">@stdwis</span></a>
       </div>
     </div>
 
     <!-- SUB-VIEW: UBAH PASSWORD -->
     <div id="sub-password" class="view-section hidden relative">
-      <button onclick="closeSubAkun()" class="absolute top-0 left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50">
-        <i class="fa-solid fa-arrow-left text-sm"></i>
-      </button>
-      
+      <button onclick="closeSubAkun()" class="absolute top-0 left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50"><i class="fa-solid fa-arrow-left text-sm"></i></button>
       <h1 class="text-xl font-bold text-white text-center mb-2 pt-1">Ubah Password</h1>
       <p class="text-xs text-muted text-center mb-8">Ubah Password jika merasa akun tidak aman</p>
-
       <form id="formUbahPass" class="flex flex-col gap-4">
-        <div>
-          <label class="text-xs text-muted ml-1 mb-1 block">Password Lama</label>
-          <div class="glass-card flex items-center px-4 py-3">
-            <input type="password" id="oldPass" placeholder="••••••••" class="bg-transparent outline-none w-full text-white text-sm" required>
-          </div>
-        </div>
-        <div>
-          <label class="text-xs text-muted ml-1 mb-1 block">Password Baru</label>
-          <div class="glass-card flex items-center px-4 py-3">
-            <input type="password" id="newPass" placeholder="••••••••" class="bg-transparent outline-none w-full text-white text-sm" required>
-          </div>
-        </div>
-        <div>
-          <label class="text-xs text-muted ml-1 mb-1 block">Konfirmasi Password</label>
-          <div class="glass-card flex items-center px-4 py-3">
-            <input type="password" id="confirmPass" placeholder="••••••••" class="bg-transparent outline-none w-full text-white text-sm" required>
-          </div>
-        </div>
-        <button type="submit" class="mt-4 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition text-sm shadow-[0_0_15px_rgba(59,130,246,0.5)]">
-          Simpan Password
-        </button>
+        <div><label class="text-xs text-muted ml-1 mb-1 block">Password Lama</label><div class="glass-card flex items-center px-4 py-3"><input type="password" id="oldPass" placeholder="••••••••" class="bg-transparent outline-none w-full text-white text-sm" required></div></div>
+        <div><label class="text-xs text-muted ml-1 mb-1 block">Password Baru</label><div class="glass-card flex items-center px-4 py-3"><input type="password" id="newPass" placeholder="••••••••" class="bg-transparent outline-none w-full text-white text-sm" required></div></div>
+        <div><label class="text-xs text-muted ml-1 mb-1 block">Konfirmasi Password</label><div class="glass-card flex items-center px-4 py-3"><input type="password" id="confirmPass" placeholder="••••••••" class="bg-transparent outline-none w-full text-white text-sm" required></div></div>
+        <button type="submit" class="mt-4 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition text-sm shadow-[0_0_15px_rgba(59,130,246,0.5)]">Simpan Password</button>
       </form>
     </div>
 
     <!-- SUB-VIEW: PENGATURAN NOTIFIKASI -->
     <div id="sub-notif" class="view-section hidden relative">
-      <button onclick="closeSubAkun()" class="absolute top-0 left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50">
-        <i class="fa-solid fa-arrow-left text-sm"></i>
-      </button>
-      
+      <button onclick="closeSubAkun()" class="absolute top-0 left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50"><i class="fa-solid fa-arrow-left text-sm"></i></button>
       <h1 class="text-xl font-bold text-white text-center mb-10 pt-1">Notifikasi</h1>
-
       <div class="glass-card p-4 flex justify-between items-center mb-4">
         <span class="text-sm font-medium text-white">Izinkan Notifikasi Browser</span>
         <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
-          <input type="checkbox" name="toggle" id="toggleNotif" class="toggle-checkbox" onchange="requestNotifPermission(this)" />
-          <label for="toggleNotif" class="toggle-label"></label>
+          <input type="checkbox" name="toggle" id="toggleNotif" class="toggle-checkbox" onchange="requestNotifPermission(this)" /><label for="toggleNotif" class="toggle-label"></label>
         </div>
       </div>
-      
-      <p class="text-[10px] text-muted text-center mb-6 px-4 leading-relaxed">
-        *Untuk Pengguna iPhone (iOS), klik "Share" di Safari dan pilih "Add to Home Screen" agar notifikasi berfungsi.
-      </p>
-
+      <p class="text-[10px] text-muted text-center mb-6 px-4 leading-relaxed">*Untuk Pengguna iPhone (iOS), klik "Share" di Safari dan pilih "Add to Home Screen" agar notifikasi berfungsi.</p>
       <div id="adminTestNotifPanel" class="hidden glass-card p-4 border border-blue-500/30">
-        <h3 class="text-white font-bold mb-2 text-sm">Admin Panel</h3>
-        <p class="text-[10px] text-muted mb-4">Gunakan tombol ini untuk mengetes notifikasi.</p>
-        <button onclick="testNotification()" class="w-full bg-blue-600 text-white font-bold py-2 rounded-lg transition text-sm">
-          Test Notifikasi
-        </button>
+        <h3 class="text-white font-bold mb-2 text-sm">Admin Panel</h3><p class="text-[10px] text-muted mb-4">Gunakan tombol ini untuk mengetes notifikasi.</p>
+        <button onclick="testNotification()" class="w-full bg-blue-600 text-white font-bold py-2 rounded-lg transition text-sm">Test Notifikasi</button>
       </div>
     </div>
 
@@ -420,13 +262,9 @@
   <!-- NAVBAR BAWAH -->
   <div id="mainNavbar" class="fixed bottom-4 w-full max-w-md flex justify-center z-50 pointer-events-none transition-opacity duration-300">
     <nav class="relative w-[90%] bg-[#0f172a]/80 backdrop-blur-xl border border-[#3b82f6]/30 flex justify-between items-end px-6 pb-2 pt-3 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.8)] pointer-events-auto">
-      <button onclick="switchView('dashboard', this)" id="nav-dashboard" class="flex flex-col items-center justify-center w-20 gap-1 text-white transition-all">
-        <i class="fa-solid fa-house text-lg"></i><span class="text-[10px] font-medium tracking-wide">DASHBOARD</span>
-      </button>
+      <button onclick="switchView('dashboard', this)" id="nav-dashboard" class="flex flex-col items-center justify-center w-20 gap-1 text-white transition-all"><i class="fa-solid fa-house text-lg"></i><span class="text-[10px] font-medium tracking-wide">DASHBOARD</span></button>
       <div class="w-20"></div>
-      <button onclick="switchView('akun', this)" id="nav-akun" class="flex flex-col items-center justify-center w-20 gap-1 text-muted hover:text-white transition-all">
-        <i class="fa-regular fa-user text-lg"></i><span class="text-[10px] font-medium tracking-wide">AKUN</span>
-      </button>
+      <button onclick="switchView('akun', this)" id="nav-akun" class="flex flex-col items-center justify-center w-20 gap-1 text-muted hover:text-white transition-all"><i class="fa-regular fa-user text-lg"></i><span class="text-[10px] font-medium tracking-wide">AKUN</span></button>
     </nav>
     <div class="absolute bottom-[20px] left-1/2 transform -translate-x-1/2 flex flex-col items-center pointer-events-auto">
       <button onclick="switchView('vip', this)" id="nav-vip" class="w-[68px] h-[68px] rounded-full bg-[#0f172a] border-[3px] border-[#3b82f6] shadow-[0_0_25px_rgba(59,130,246,0.6)] flex items-center justify-center overflow-hidden p-1 hover:scale-105 transition-transform">
@@ -438,12 +276,9 @@
 
   <!-- ===== SCRIPTS ===== -->
   <script>
-    // URL API
     const API_URL_USER = "https://script.google.com/macros/s/AKfycbzMYg1pTNUbEJWJSKtwifnPkw-tTn1SjFJqK2fmVepWVKpAvupB2c5eCb-fpUXR6LK-wg/exec";
     const API_URL_PRICE = "https://script.google.com/macros/s/AKfycbzZuDUnA32CUSdU194CFo4MXBFk621PFfTeAlrY0IjJB7U2LHwEepP4dLvmDFsKxiCZ/exec";
     const API_URL_SIGNAL = "https://script.google.com/macros/s/AKfycbyd8ksBWqhE6iIT1E6IT_l1TgZO86ZLgUDDpZYxb6TzZ5TMFj93Vm10wasIgrTP3_Sx/exec";
-    
-    // URL VPS NGROK KAMU
     const API_URL_VPS = "https://enviable-umbilical-erupt.ngrok-free.dev"; 
 
     let globalSignals = [];
@@ -453,15 +288,12 @@
     let currentUserEmail = "";
     let priceHistory = []; 
 
-    // --- SETUP CHART.JS ---
     const ctx = document.getElementById('miniChart').getContext('2d');
     const priceChart = new Chart(ctx, {
-      type: 'line',
-      data: { labels: [], datasets: [{ data: [], borderColor: '#60a5fa', borderWidth: 2, pointRadius: 0, fill: false, tension: 0.4 }] },
+      type: 'line', data: { labels: [], datasets: [{ data: [], borderColor: '#60a5fa', borderWidth: 2, pointRadius: 0, fill: false, tension: 0.4 }] },
       options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false } }, animation: false }
     });
 
-    // --- HARGA LIVE ---
     let previousPrice = 0;
     async function fetchLivePrice() {
       try {
@@ -472,57 +304,57 @@
           
           const chg = ((p - (previousPrice || p)) / p) * 100;
           document.getElementById('priceChange').innerText = (chg > 0 ? '+' : '') + chg.toFixed(2) + ' %';
-          
           if (chg > 0) document.getElementById('priceChange').className = "text-sm font-medium mt-1 text-success";
           else if (chg < 0) document.getElementById('priceChange').className = "text-sm font-medium mt-1 text-danger";
           
-          priceHistory.push(p);
-          if(priceHistory.length > 20) priceHistory.shift();
-          
-          priceChart.data.labels = priceHistory.map((_, i) => i);
-          priceChart.data.datasets[0].data = priceHistory;
-          
+          priceHistory.push(p); if(priceHistory.length > 20) priceHistory.shift();
+          priceChart.data.labels = priceHistory.map((_, i) => i); priceChart.data.datasets[0].data = priceHistory;
           if(priceHistory.length > 1) {
-            priceChart.options.scales.y.min = Math.min(...priceHistory) - 0.5;
-            priceChart.options.scales.y.max = Math.max(...priceHistory) + 0.5;
+            priceChart.options.scales.y.min = Math.min(...priceHistory) - 0.5; priceChart.options.scales.y.max = Math.max(...priceHistory) + 0.5;
           }
-          
-          priceChart.update();
-          previousPrice = p;
+          priceChart.update(); previousPrice = p;
         }
       } catch (e) {}
     }
 
-    // --- FETCH & RENDER SINYAL ---
     async function fetchSignals() {
       try {
         const res = await fetch(API_URL_SIGNAL); const data = await res.json();
-        if (data.status === 'success') {
-          globalSignals = data.data;
-          checkNewNotifications(); 
-          renderAllViews();
-        }
+        if (data.status === 'success') { globalSignals = data.data; checkNewNotifications(); renderAllViews(); }
       } catch (e) {}
     }
 
-    // --- LOGIKA NOTIFIKASI HP ---
+    // --- LOGIKA NOTIFIKASI (SESUAI DOKUMEN) ---
     function checkNewNotifications() {
       if (!("Notification" in window) || Notification.permission !== "granted") return;
-
       globalSignals.forEach(sig => {
         const uniqueKey = sig.id + "_" + sig.status;
         if (!knownSignalStatuses[uniqueKey]) {
           if (Object.keys(knownSignalStatuses).length > 0) {
-             let msg = "";
+             let title = "";
+             let body = "";
              const source = sig.source === 'GLDN' ? 'GOLDEN' : 'MSP';
-             
-             if (sig.status === 'WAITING') msg = `ENTRY | ${sig.arah} LIMIT ${sig.pair} | ${source}`;
-             else if (sig.status === 'RUNNING') msg = `FILLED | ${sig.arah} LIMIT ${sig.pair} | ${source}`;
-             else if (sig.status.includes('TP')) msg = `TAKE PROFIT ${sig.status.replace('TP','')} HIT | ${sig.arah} LIMIT ${sig.pair} | ${source}`;
-             else if (sig.status === 'SL') msg = `STOP LOSS HIT | ${sig.arah} LIMIT ${sig.pair} | ${source}`;
+             const side = sig.arah; // BUY / SELL
 
-             if (msg !== "") {
-               new Notification("Saint D. Wish - Signal Update", { body: msg, icon: "logo.png" });
+             if (sig.status === 'WAITING') {
+                 title = `${side} LIMIT | ${source}`;
+                 body = `Market Entry ${sig.entry} | SL ${sig.sl} | TP 1 ${sig.tp1}`;
+             } 
+             else if (sig.status === 'CANCELLED') {
+                 title = `Signal Invalid | ${side} LIMIT ${sig.pair} | ${source}`;
+                 body = `Set up sudah tidak memenuhi syarat.`;
+             }
+             else if (sig.status.includes('TP')) {
+                 title = `Signal Profit | ${side} LIMIT ${sig.pair} | ${source}`;
+                 body = `Signal Hit ${sig.status}. Take Half And Set BE`;
+             }
+             else if (sig.status === 'SL') {
+                 title = `Signal Hit Stop Lose | ${side} LIMIT ${sig.pair} | ${source}`;
+                 body = `Set Up Hit Stop Lose. Get Ready For Recovery.`;
+             }
+
+             if (title !== "" && body !== "") {
+               new Notification(title, { body: body, icon: "logo.png" });
              }
           }
           knownSignalStatuses[uniqueKey] = true;
@@ -530,52 +362,27 @@
       });
     }
 
-    // --- RENDER SEMUA BAGIAN ---
-    function renderAllViews() {
-      renderDashboardCombined();
-      renderVIP();
-    }
+    function renderAllViews() { renderDashboardCombined(); renderVIP(); }
 
-    // --- LOGIKA DASHBOARD ---
     function renderDashboardCombined() {
-      let historyHTML = "";
-      let monProfit = 0, monLoss = 0;
-      let weekProfit = 0, weekLoss = 0;
-      let dayProfit = 0, dayLoss = 0;
-
+      let historyHTML = "", monProfit = 0, monLoss = 0, weekProfit = 0, weekLoss = 0, dayProfit = 0, dayLoss = 0;
       const now = new Date();
       const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
       const startOfWeek = new Date(now); startOfWeek.setDate(now.getDate() - now.getDay() + (now.getDay() === 0 ? -6 : 1)); startOfWeek.setHours(0,0,0,0);
       const startOfDay = new Date(now); startOfDay.setHours(0,0,0,0);
-
       let count = 0;
-      globalSignals.forEach(s => {
-        const isBuy = s.arah === 'BUY';
-        const pips = Math.abs(parseFloat(s.tp1) - parseFloat(s.entry)) * 10;
-        
-        if (s.status.includes('TP') || s.status === 'SL') {
-          const sigDate = new Date(s.waktu);
-          const isProfit = s.status !== 'SL';
 
+      globalSignals.forEach(s => {
+        const isBuy = s.arah === 'BUY'; const pips = Math.abs(parseFloat(s.tp1) - parseFloat(s.entry)) * 10;
+        if (s.status.includes('TP') || s.status === 'SL') {
+          const sigDate = new Date(s.waktu); const isProfit = s.status !== 'SL';
           if (sigDate >= startOfMonth) { isProfit ? monProfit += pips : monLoss += pips; }
           if (sigDate >= startOfWeek) { isProfit ? weekProfit += pips : weekLoss += pips; }
           if (sigDate >= startOfDay) { isProfit ? dayProfit += pips : dayLoss += pips; }
-
           if (count < 5) {
-            let resultText = s.status === 'SL' ? 'SL Hit' : `${s.status} Hit`;
-            let resColor = s.status === 'SL' ? 'text-danger' : 'text-success';
+            let resultText = s.status === 'SL' ? 'SL Hit' : `${s.status} Hit`; let resColor = s.status === 'SL' ? 'text-danger' : 'text-success';
             let sourceBadge = s.source === 'GLDN' ? '<span class="text-[9px] border border-yellow-700 text-yellow-500 px-1 rounded ml-1">GLDN</span>' : '<span class="text-[9px] border border-purple-700 text-purple-400 px-1 rounded ml-1">MSP</span>';
-
-            historyHTML += `
-              <div class="glass-card-inner p-3 flex justify-between items-center mb-1">
-                <div class="flex items-center gap-2">
-                  <span class="text-xs font-semibold ${isBuy ? 'text-success' : 'text-danger'}">${s.arah} ${sourceBadge}</span>
-                </div>
-                <div class="text-right">
-                  <p class="text-xs ${resColor} font-bold">${resultText}</p>
-                  <p class="text-[10px] text-muted">+${pips} Pips</p>
-                </div>
-              </div>`;
+            historyHTML += `<div class="glass-card-inner p-3 flex justify-between items-center mb-1"><div class="flex items-center gap-2"><span class="text-xs font-semibold ${isBuy ? 'text-success' : 'text-danger'}">${s.arah} ${sourceBadge}</span></div><div class="text-right"><p class="text-xs ${resColor} font-bold">${resultText}</p><p class="text-[10px] text-muted">+${pips} Pips</p></div></div>`;
             count++;
           }
         }
@@ -583,18 +390,14 @@
 
       if (historyHTML === "") historyHTML = '<p class="text-center text-sm text-muted py-4">Belum ada riwayat.</p>';
       document.getElementById('dashboard-history-list').innerHTML = historyHTML;
-
       document.getElementById('mon-profit').innerText = `+${monProfit}`; document.getElementById('mon-sl').innerText = `-${monLoss}`;
       document.getElementById('mon-total').innerText = (monProfit - monLoss >= 0 ? '+' : '') + (monProfit - monLoss);
-      
       document.getElementById('week-profit').innerText = `+${weekProfit}`; document.getElementById('week-sl').innerText = `-${weekLoss}`;
       document.getElementById('week-total').innerText = (weekProfit - weekLoss >= 0 ? '+' : '') + (weekProfit - weekLoss);
-
       document.getElementById('day-profit').innerText = `+${dayProfit}`; document.getElementById('day-sl').innerText = `-${dayLoss}`;
       document.getElementById('day-total').innerText = (dayProfit - dayLoss >= 0 ? '+' : '') + (dayProfit - dayLoss);
     }
 
-    // --- LOGIKA VIP ZONE ---
     function switchEATab(source) {
       currentEATab = source;
       document.getElementById('tab-gldn').className = `tab-btn ${source === 'GLDN' ? 'tab-active' : 'tab-inactive'}`;
@@ -603,126 +406,57 @@
     }
 
     function renderVIP() {
-      let runningHTML = "", waitingHTML = "", dailyTableHTML = "";
-      let vipDayProfit = 0, vipDayLoss = 0;
+      let runningHTML = "", waitingHTML = "", dailyTableHTML = "", vipDayProfit = 0, vipDayLoss = 0;
       const startOfDay = new Date(); startOfDay.setHours(0,0,0,0);
-
-      const filteredSignals = globalSignals.filter(s => s.source === currentEATab);
-      let tableCount = 0;
+      const filteredSignals = globalSignals.filter(s => s.source === currentEATab); let tableCount = 0;
 
       filteredSignals.forEach(s => {
-        const isBuy = s.arah === 'BUY';
-        const barColor = isBuy ? 'text-success' : 'text-danger';
-        const textColor = isBuy ? 'text-success' : 'text-danger';
+        const isBuy = s.arah === 'BUY'; const barColor = isBuy ? 'text-success' : 'text-danger'; const textColor = isBuy ? 'text-success' : 'text-danger';
         const pips = Math.abs(parseFloat(s.tp1) - parseFloat(s.entry)) * 10;
-        
         if (s.status.includes('TP') || s.status === 'SL') {
           if (new Date(s.waktu) >= startOfDay) {
             s.status === 'SL' ? vipDayLoss += pips : vipDayProfit += pips;
-            
             if (tableCount < 3) {
-              let resCol = s.status === 'SL' ? 'text-danger' : 'text-success';
-              let val = s.status === 'SL' ? `-${pips}` : `+${pips}`;
-              dailyTableHTML += `
-                <div class="flex justify-between items-center text-sm py-2 border-b border-[#3b82f6]/20">
-                  <div class="w-1/2 text-gray-300">${tableCount+1}. ${s.arah} Limit ${s.entry}</div>
-                  <div class="w-1/4 text-right ${resCol}">${val} PIPS</div>
-                  <div class="w-1/4 text-right text-gray-300">${s.status}</div>
-                </div>`;
+              let resCol = s.status === 'SL' ? 'text-danger' : 'text-success'; let val = s.status === 'SL' ? `-${pips}` : `+${pips}`;
+              dailyTableHTML += `<div class="flex justify-between items-center text-sm py-2 border-b border-[#3b82f6]/20"><div class="w-1/2 text-gray-300">${tableCount+1}. ${s.arah} Limit ${s.entry}</div><div class="w-1/4 text-right ${resCol}">${val} PIPS</div><div class="w-1/4 text-right text-gray-300">${s.status}</div></div>`;
               tableCount++;
             }
           }
         }
 
         if (s.status === 'RUNNING') {
-          runningHTML += `
-            <div class="glass-card p-4 mb-3">
-              <div class="flex justify-between items-start mb-2">
-                <div class="flex items-start gap-2">
-                  <span class="${barColor} text-lg leading-none mt-1">│</span>
-                  <div>
-                    <p class="${textColor} font-semibold text-sm">${s.arah} <span class="text-white font-normal">Limit ${s.entry}</span></p>
-                    <p class="text-danger font-bold text-xs mt-1">STOP LOSS (SL) : ${s.sl}</p>
-                  </div>
-                </div>
-                <div class="text-right text-[10px]">
-                  <p class="text-gray-300 font-semibold mb-1"><span class="text-red-400">🎯</span> TAKE <span class="text-green-400">PROFIT</span> LEVELS</p>
-                  <p class="text-gray-200">🎖 TP 1: ${s.tp1}</p>
-                  <p class="text-gray-200">🎖 TP 2: ${s.tp2}</p>
-                  <p class="text-gray-200">🎖 TP 3: ${s.tp3}</p>
-                  ${s.tp4 != "0" && s.tp4 != "0.0" ? `<p class="text-gray-200">🏆 TP 4: ${s.tp4}</p>` : ''}
-                </div>
-              </div>
-              <ul class="text-[10px] text-gray-400 space-y-1 border-t border-[#3b82f6]/20 pt-2 mt-2">
-                <li>• Setup masih sesuai dengan analisa awal.</li>
-                <li>• Jaga emosi dan tetap patuhi plan (SL & TP yang ada).</li>
-                <li>• Bagi yang belum entry, tetap tunggu harga masuk di area entry yang ditentukan.</li>
-              </ul>
-            </div>`;
-        } 
-        
-        else if (s.status === 'WAITING') {
-          waitingHTML += `
-            <div class="glass-card overflow-hidden mb-2">
-              <div class="card-header p-3 flex justify-between items-center" onclick="toggleAccordion(this)">
-                <div class="flex items-center gap-2">
-                  <span class="${barColor} text-lg leading-none mt-0.5">│</span>
-                  <span class="${textColor} font-semibold text-sm">${s.arah} <span class="text-white font-normal">Limit ${s.entry}</span></span>
-                </div>
-                <span class="text-danger font-bold text-[10px] uppercase tracking-wider">HIGH RISK</span>
-              </div>
-              <div class="card-detail px-3 pb-3">
-                <div class="pt-3 border-t border-[#3b82f6]/20 flex justify-between items-start">
-                  <div>
-                    <p class="text-danger font-bold text-xs"><span class="text-danger">⚠</span> STOP LOSS (SL) : ${s.sl}</p>
-                  </div>
-                  <div class="text-right text-[10px]">
-                    <p class="text-gray-300 font-semibold mb-1"><span class="text-red-400">🎯</span> TAKE <span class="text-green-400">PROFIT</span></p>
-                    <p class="text-gray-200">🎖 TP 1: ${s.tp1}</p>
-                    <p class="text-gray-200">🎖 TP 2: ${s.tp2}</p>
-                    <p class="text-gray-200">🎖 TP 3: ${s.tp3}</p>
-                    ${s.tp4 != "0" && s.tp4 != "0.0" ? `<p class="text-gray-200">🏆 TP 4: ${s.tp4}</p>` : ''}
-                  </div>
-                </div>
-              </div>
-            </div>`;
+          runningHTML += `<div class="glass-card p-4 mb-3"><div class="flex justify-between items-start mb-2"><div class="flex items-start gap-2"><span class="${barColor} text-lg leading-none mt-1">│</span><div><p class="${textColor} font-semibold text-sm">${s.arah} <span class="text-white font-normal">Limit ${s.entry}</span></p><p class="text-danger font-bold text-xs mt-1">STOP LOSS (SL) : ${s.sl}</p></div></div><div class="text-right text-[10px]"><p class="text-gray-300 font-semibold mb-1"><span class="text-red-400">🎯</span> TAKE <span class="text-green-400">PROFIT</span> LEVELS</p><p class="text-gray-200">🎖 TP 1: ${s.tp1}</p><p class="text-gray-200">🎖 TP 2: ${s.tp2}</p><p class="text-gray-200">🎖 TP 3: ${s.tp3}</p>${s.tp4 != "0" && s.tp4 != "0.0" ? `<p class="text-gray-200">🏆 TP 4: ${s.tp4}</p>` : ''}</div></div><ul class="text-[10px] text-gray-400 space-y-1 border-t border-[#3b82f6]/20 pt-2 mt-2"><li>• Setup masih sesuai dengan analisa awal.</li><li>• Jaga emosi dan tetap patuhi plan (SL & TP yang ada).</li><li>• Bagi yang belum entry, tetap tunggu harga masuk di area entry yang ditentukan.</li></ul></div>`;
+        } else if (s.status === 'WAITING') {
+          waitingHTML += `<div class="glass-card overflow-hidden mb-2"><div class="card-header p-3 flex justify-between items-center" onclick="toggleAccordion(this)"><div class="flex items-center gap-2"><span class="${barColor} text-lg leading-none mt-0.5">│</span><span class="${textColor} font-semibold text-sm">${s.arah} <span class="text-white font-normal">Limit ${s.entry}</span></span></div><span class="text-danger font-bold text-[10px] uppercase tracking-wider">HIGH RISK</span></div><div class="card-detail px-3 pb-3"><div class="pt-3 border-t border-[#3b82f6]/20 flex justify-between items-start"><div><p class="text-danger font-bold text-xs"><span class="text-danger">⚠</span> STOP LOSS (SL) : ${s.sl}</p></div><div class="text-right text-[10px]"><p class="text-gray-300 font-semibold mb-1"><span class="text-red-400">🎯</span> TAKE <span class="text-green-400">PROFIT</span></p><p class="text-gray-200">🎖 TP 1: ${s.tp1}</p><p class="text-gray-200">🎖 TP 2: ${s.tp2}</p><p class="text-gray-200">🎖 TP 3: ${s.tp3}</p>${s.tp4 != "0" && s.tp4 != "0.0" ? `<p class="text-gray-200">🏆 TP 4: ${s.tp4}</p>` : ''}</div></div></div></div>`;
         }
       });
 
       document.getElementById('vip-running-list').innerHTML = runningHTML || '<p class="text-sm text-muted">Tidak ada posisi running.</p>';
       document.getElementById('vip-waiting-list').innerHTML = waitingHTML || '<p class="text-sm text-muted">Tidak ada sinyal waiting.</p>';
-      
       document.getElementById('vip-day-profit').innerText = `+${vipDayProfit} PIPS`;
       document.getElementById('vip-day-sl').innerText = `-${vipDayLoss} PIPS`;
       document.getElementById('vip-day-total').innerText = (vipDayProfit - vipDayLoss >= 0 ? '+' : '') + (vipDayProfit - vipDayLoss) + ' PIPS';
-
       if (dailyTableHTML === "") dailyTableHTML = '<p class="text-xs text-muted py-2">Belum ada riwayat hari ini.</p>';
       document.getElementById('vip-daily-table-list').innerHTML = dailyTableHTML;
     }
 
     function toggleAccordion(headerElement) {
       const detail = headerElement.nextElementSibling;
-      if (detail.classList.contains('open')) {
-        detail.classList.remove('open');
-      } else {
-        document.querySelectorAll('.card-detail').forEach(el => el.classList.remove('open'));
-        detail.classList.add('open');
-      }
+      if (detail.classList.contains('open')) detail.classList.remove('open');
+      else { document.querySelectorAll('.card-detail').forEach(el => el.classList.remove('open')); detail.classList.add('open'); }
     }
 
-    // --- INISIALISASI & CEK TOKEN VPS ---
     document.addEventListener("DOMContentLoaded", function() {
       const token = localStorage.getItem('sdw_token');
-      
-      if (!token) {
-        window.location.href = "login.html";
-        return;
-      }
+      if (!token) { window.location.href = "login.html"; return; }
 
-      // Cek Tiket ke VPS
+      // --- VERIFIKASI TOKEN KE VPS (DENGAN TAMBALAN NGROK) ---
       fetch(`${API_URL_VPS}/api/verify`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 
+            'Content-Type': 'application/json',
+            'ngrok-skip-browser-warning': 'true' // MENCEGAH BLOKIR NGROK
+          },
           body: JSON.stringify({ token: token })
       })
       .then(res => res.json())
@@ -731,10 +465,8 @@
               localStorage.removeItem('sdw_token');
               window.location.href = "login.html";
           } else {
-              // Tiket Valid, muat UI
               let username = data.user.username;
-              currentUserRole = data.user.role; 
-              currentUserEmail = data.user.email;
+              currentUserRole = data.user.role; currentUserEmail = data.user.email;
               
               document.getElementById('userPP').innerText = username.charAt(0).toUpperCase();
               document.getElementById('userName').innerText = username;
@@ -747,30 +479,23 @@
                 document.getElementById('adminBtn').classList.remove('hidden');
                 document.getElementById('adminTestNotifPanel').classList.remove('hidden');
               }
-              
               if (Notification.permission === "granted") document.getElementById('toggleNotif').checked = true;
 
               document.getElementById('editUsername').value = username;
               document.getElementById('editPP').innerText = username.charAt(0).toUpperCase();
               loadAvatar();
 
-              // Mulai ambil data
               fetchLivePrice(); setInterval(fetchLivePrice, 5000);
               fetchSignals(); setInterval(fetchSignals, 10000);
           }
       })
-      .catch(() => {
-          alert("Koneksi VPS terputus (Cek Ngrok/Node.js).");
-      });
+      .catch(() => { alert("Koneksi VPS terputus. Pastikan Ngrok/Node.js menyala."); });
     });
 
     function loadAvatar() {
       const savedAvatar = localStorage.getItem('db_avatar');
-      const mainPP = document.getElementById('userPP');
-      const mainImg = document.getElementById('userAvatarImg');
-      const editPP = document.getElementById('editPP');
-      const editImg = document.getElementById('editAvatarImg');
-
+      const mainPP = document.getElementById('userPP'), mainImg = document.getElementById('userAvatarImg');
+      const editPP = document.getElementById('editPP'), editImg = document.getElementById('editAvatarImg');
       if (savedAvatar) {
         if(mainImg && mainPP) { mainImg.src = savedAvatar; mainImg.classList.remove('hidden'); mainPP.classList.add('hidden'); }
         if(editImg && editPP) { editImg.src = savedAvatar; editImg.classList.remove('hidden'); editPP.classList.add('hidden'); }
@@ -781,13 +506,9 @@
     }
 
     function handleAvatarUpload(event) {
-      const file = event.target.files[0];
-      if (!file) return;
+      const file = event.target.files[0]; if (!file) return;
       const reader = new FileReader();
-      reader.onload = function(e) {
-        localStorage.setItem('db_avatar', e.target.result);
-        loadAvatar();
-      };
+      reader.onload = function(e) { localStorage.setItem('db_avatar', e.target.result); loadAvatar(); };
       reader.readAsDataURL(file);
     }
 
@@ -799,11 +520,7 @@
     }
 
     function closeSubAkun() {
-      document.getElementById('sub-bantuan').classList.add('hidden');
-      document.getElementById('sub-password').classList.add('hidden');
-      document.getElementById('sub-notif').classList.add('hidden');
-      document.getElementById('sub-editprofil').classList.add('hidden');
-      
+      ['bantuan', 'password', 'notif', 'editprofil'].forEach(sub => document.getElementById('sub-' + sub).classList.add('hidden'));
       document.getElementById('view-akun').classList.remove('hidden');
       document.getElementById('mainNavbar').classList.remove('opacity-0', 'pointer-events-none');
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -822,22 +539,13 @@
 
       const navButtons = document.querySelectorAll('nav button');
       navButtons.forEach(btn => { btn.classList.remove('text-white'); btn.classList.add('text-muted'); });
-      if (viewName === 'vip') {
-         document.getElementById('nav-vip').classList.add('border-white');
-      } else {
-         document.getElementById('nav-vip').classList.remove('border-white');
-         btnElement.classList.remove('text-muted'); 
-         btnElement.classList.add('text-white');
-      }
+      if (viewName === 'vip') document.getElementById('nav-vip').classList.add('border-white');
+      else { document.getElementById('nav-vip').classList.remove('border-white'); btnElement.classList.remove('text-muted'); btnElement.classList.add('text-white'); }
       if(viewName !== 'vip') document.getElementById('nav-vip').classList.remove('scale-110');
-      
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function logout() { 
-      localStorage.removeItem('sdw_token'); 
-      window.location.href = "login.html"; 
-    }
+    function logout() { localStorage.removeItem('sdw_token'); window.location.href = "login.html"; }
   </script>
 </body>
 </html>
