@@ -1,454 +1,25 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Saint D. Wish - Dashboard</title>
-  
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  
-  <style>
-    body { font-family: 'Poppins', sans-serif; background-color: #030712; color: #ffffff; padding-bottom: 110px; }
-    .font-title { font-family: 'Cinzel', serif; }
-    .glass-card {
-      background: rgba(11, 26, 53, 0.7); backdrop-filter: blur(10px);
-      border: 1px solid rgba(59, 130, 246, 0.4);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(59, 130, 246, 0.1);
-      border-radius: 16px;
-    }
-    ::-webkit-scrollbar { display: none; }
-    .text-neon-green { color: #4ade80; text-shadow: 0 0 8px rgba(74, 222, 128, 0.4); }
-    .text-neon-red { color: #f87171; text-shadow: 0 0 8px rgba(248, 113, 113, 0.4); }
-    
-    .view-section { animation: fadeIn 0.3s ease-in-out; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    
-    .toggle-checkbox:checked { right: 0; border-color: #68D391; }
-    .toggle-checkbox:checked + .toggle-label { background-color: #68D391; }
-    .toggle-checkbox { right: 0; z-index: 1; border-color: #e2e8f0; transition: all 0.3s; position: absolute; width: 24px; height: 24px; background: white; border-width: 1px; border-radius: 50%; appearance: none; cursor: pointer; }
-    .toggle-label { display: block; overflow: hidden; cursor: pointer; border-radius: 9999px; width: 48px; height: 24px; background-color: #374151; transition: background-color 0.3s; }
-
-    .tab-btn {
-      flex: 1; padding: 10px; text-align: center; font-weight: 600; border-radius: 12px;
-      transition: all 0.3s; cursor: pointer; border: 1px solid transparent;
-    }
-    .tab-active {
-      background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white; border-color: #60a5fa;
-      box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
-    }
-    .tab-inactive {
-      background: rgba(30, 58, 95, 0.4); color: #9ca3af; border-color: transparent;
-    }
-    .tab-inactive:hover { background: rgba(30, 58, 95, 0.8); color: white; }
-
-    /* CSS untuk Accordion VIP */
-    .card-header { cursor: pointer; transition: background-color 0.2s; }
-    .card-header:hover { background-color: rgba(30, 58, 95, 0.5); }
-    .card-detail { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out; opacity: 0; }
-    .card-detail.open { max-height: 300px; opacity: 1; }
-    
-    .vip-blurred { filter: blur(8px); pointer-events: none; user-select: none; opacity: 0.6; }
-  </style>
-</head>
-<body class="max-w-md mx-auto relative min-h-screen">
-
-  <div class="fixed inset-0 z-0 opacity-40 bg-cover bg-center" style="background-image: url('bg.jpg');"></div>
-
-  <div class="relative z-10 px-5 pt-8 pb-4">
-    
-    <!-- ========================================== -->
-    <!-- VIEW 1: DASHBOARD UTAMA                    -->
-    <!-- ========================================== -->
-    <div id="view-dashboard" class="view-section block">
-      <header class="mb-6"><h1 class="text-2xl font-semibold text-blue-50">Dashboard</h1></header>
-
-      <!-- Live Price & Chart -->
-      <div class="glass-card p-4 mb-6 border-l-4 border-l-blue-500 flex justify-between items-center relative overflow-hidden">
-        <div class="z-10">
-          <p class="text-sm text-gray-300 mb-1">XAUUSD <span class="text-xs text-green-400 animate-pulse">live</span></p>
-          <div class="flex flex-col">
-            <span class="text-3xl font-bold text-white tracking-wide transition-colors duration-300" id="goldPrice">Memuat...</span>
-            <span class="text-sm font-semibold mt-1 text-gray-400" id="priceChange">0.00 %</span>
-          </div>
-        </div>
-        <div class="w-32 h-16 relative z-10"><canvas id="miniChart"></canvas></div>
-      </div>
-
-      <!-- Riwayat Gabungan -->
-      <div class="mb-6">
-        <h2 class="text-lg text-blue-100 mb-3 font-medium">Riwayat</h2>
-        <div class="glass-card p-3 flex flex-col gap-2 relative overflow-hidden" id="dashboard-history-list">
-          <p class="text-center text-sm text-gray-400 py-4">Memuat riwayat...</p>
-        </div>
-      </div>
-
-      <!-- REKAP GABUNGAN -->
-      <div class="glass-card p-5 mb-4">
-        <h3 class="text-lg text-blue-100 mb-4">Monthly Recap</h3>
-        <div class="flex justify-between gap-2 mb-2">
-          <div class="flex-1 border border-blue-400/40 rounded-xl p-2 text-center bg-blue-900/20">
-            <p class="text-[10px] text-gray-400 mb-1">PROFIT</p><p class="text-xs font-bold text-neon-green" id="mon-profit">+0</p>
-          </div>
-          <div class="flex-1 border border-blue-400/40 rounded-xl p-2 text-center bg-blue-900/20">
-            <p class="text-[10px] text-gray-400 mb-1">STOP LOSE</p><p class="text-xs font-bold text-neon-red" id="mon-sl">-0</p>
-          </div>
-          <div class="flex-1 border border-blue-400/40 rounded-xl p-2 text-center bg-blue-900/20">
-            <p class="text-[10px] text-gray-400 mb-1">TOTAL</p><p class="text-xs font-bold text-blue-200" id="mon-total">+0</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- REKAP MINGGUAN -->
-      <div class="glass-card p-5 mb-4">
-        <h3 class="text-lg text-blue-100 mb-4">Weekly Recap</h3>
-        <div class="flex justify-between gap-2 mb-2">
-          <div class="flex-1 border border-blue-400/40 rounded-xl p-2 text-center bg-blue-900/20">
-            <p class="text-[10px] text-gray-400 mb-1">PROFIT</p><p class="text-xs font-bold text-neon-green" id="week-profit">+0</p>
-          </div>
-          <div class="flex-1 border border-blue-400/40 rounded-xl p-2 text-center bg-blue-900/20">
-            <p class="text-[10px] text-gray-400 mb-1">STOP LOSE</p><p class="text-xs font-bold text-neon-red" id="week-sl">-0</p>
-          </div>
-          <div class="flex-1 border border-blue-400/40 rounded-xl p-2 text-center bg-blue-900/20">
-            <p class="text-[10px] text-gray-400 mb-1">TOTAL</p><p class="text-xs font-bold text-blue-200" id="week-total">+0</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- REKAP HARIAN -->
-      <div class="glass-card p-5 mb-8">
-        <h3 class="text-lg text-blue-100 mb-4">Daily Recap</h3>
-        <div class="flex justify-between gap-2 mb-2">
-          <div class="flex-1 border border-blue-400/40 rounded-xl p-2 text-center bg-blue-900/20">
-            <p class="text-[10px] text-gray-400 mb-1">PROFIT</p><p class="text-xs font-bold text-neon-green" id="day-profit">+0</p>
-          </div>
-          <div class="flex-1 border border-blue-400/40 rounded-xl p-2 text-center bg-blue-900/20">
-            <p class="text-[10px] text-gray-400 mb-1">STOP LOSE</p><p class="text-xs font-bold text-neon-red" id="day-sl">-0</p>
-          </div>
-          <div class="flex-1 border border-blue-400/40 rounded-xl p-2 text-center bg-blue-900/20">
-            <p class="text-[10px] text-gray-400 mb-1">TOTAL</p><p class="text-xs font-bold text-blue-200" id="day-total">+0</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- VIEW 2: VIP ZONE (GOLDEN & MSP)            -->
-    <!-- ========================================== -->
-    <div id="view-vip" class="view-section hidden relative">
-      <div id="vip-content" class="transition-all duration-500">
-        <header class="mb-6"><h1 class="text-2xl font-semibold text-blue-50">VIP ZONE</h1></header>
-        
-        <!-- Tab Pilihan EA -->
-        <div class="flex gap-3 mb-6">
-          <div id="tab-gldn" onclick="switchEATab('GLDN')" class="tab-btn tab-active">
-            <i class="fa-solid fa-crown mr-1"></i> GOLDEN
-          </div>
-          <div id="tab-msp" onclick="switchEATab('MSP')" class="tab-btn tab-inactive">
-            <i class="fa-solid fa-bolt mr-1"></i> MSP
-          </div>
-        </div>
-
-        <!-- SEDANG RUNNING -->
-        <div class="mb-6">
-          <h2 class="text-lg font-bold text-white mb-2">SEDANG RUNNING</h2>
-          <div class="flex flex-col gap-3" id="vip-running-list">
-            <p class="text-sm text-gray-400">Tidak ada posisi running.</p>
-          </div>
-        </div>
-
-        <!-- WAITING (Accordion) -->
-        <div class="mb-6">
-          <h2 class="text-lg font-bold text-white mb-2">WAITING</h2>
-          <div class="flex flex-col gap-3" id="vip-waiting-list">
-            <p class="text-sm text-gray-400">Tidak ada sinyal waiting.</p>
-          </div>
-        </div>
-
-        <!-- RISK MANAGEMENT -->
-        <div class="mb-6 glass-card p-4">
-          <h3 class="text-sm font-bold text-blue-300 mb-2 tracking-wide">RISK MANAGEMENT</h3>
-          <ol class="text-xs text-gray-300 space-y-1 font-medium pl-1">
-            <li>1. Use proper lot sizing</li>
-            <li>2. Maintain disciplined risk management.</li>
-            <li>3. Avoid entering outside the specified entry area.</li>
-            <li>4. Do not chase price if the setup is missed.</li>
-          </ol>
-        </div>
-
-        <!-- DAILY RECAP VIP (TANPA LABEL EA) -->
-        <div class="glass-card p-5 mb-6">
-          <h3 class="text-lg text-blue-100 mb-3">DAILY RECAP</h3>
-          <div class="flex justify-between gap-2">
-            <div class="flex-1 border border-blue-400/40 rounded-xl p-2 text-center bg-blue-900/20">
-              <p class="text-[10px] text-gray-400 mb-1">PROFIT</p><p class="text-xs font-bold text-neon-green" id="vip-day-profit">+0</p>
-            </div>
-            <div class="flex-1 border border-blue-400/40 rounded-xl p-2 text-center bg-blue-900/20">
-              <p class="text-[10px] text-gray-400 mb-1">STOP LOSE</p><p class="text-xs font-bold text-neon-red" id="vip-day-sl">-0</p>
-            </div>
-            <div class="flex-1 border border-blue-400/40 rounded-xl p-2 text-center bg-blue-900/20">
-              <p class="text-[10px] text-gray-400 mb-1">TOTAL</p><p class="text-xs font-bold text-blue-200" id="vip-day-total">+0</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- OVERLAY VIP TERKUNCI -->
-      <div id="vip-lock-overlay" class="hidden absolute inset-0 z-50 flex flex-col items-center justify-center">
-        <div class="glass-card w-full max-w-sm mx-auto p-6 flex flex-col items-center shadow-[0_0_50px_rgba(0,0,0,0.8)] border-blue-400">
-          <div class="w-24 h-24 mb-4 rounded-full border border-blue-500/50 shadow-[0_0_20px_rgba(59,130,246,0.6)] overflow-hidden flex justify-center items-center bg-[#0b1a35]">
-             <img src="logo.png" alt="Logo" class="w-full h-full object-cover">
-          </div>
-          <h2 class="font-title text-white text-lg font-bold text-center mb-6 tracking-wide leading-relaxed">JOIN VIP UNTUK<br>MEMBUKA VIP AKSES</h2>
-          <button onclick="simulasiUpgrade()" class="w-full py-3 rounded-full bg-white text-black font-bold text-sm mb-3 hover:bg-gray-200 transition">BERLANGGANAN</button>
-          <span class="text-white font-bold text-xs tracking-widest mb-3">ATAU</span>
-          <button class="w-full py-3 rounded-full bg-white text-black font-bold text-sm hover:bg-gray-200 transition">JOIN IB GRATIS</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- VIEW 3: AKUN UTAMA                         -->
-    <!-- ========================================== -->
-    <div id="view-akun" class="view-section hidden">
-      <header class="mb-6"><h1 class="text-2xl font-semibold text-blue-50">AKUN</h1></header>
-
-      <div class="glass-card rounded-full p-3 flex items-center justify-between mb-6 border border-blue-500/30">
-        <div class="w-16 h-16 rounded-full bg-[#1e3a5f] flex items-center justify-center border border-blue-400/50 shrink-0 overflow-hidden">
-          <span id="userPP" class="text-2xl font-bold text-white">?</span>
-          <img id="userAvatarImg" class="w-full h-full object-cover hidden" />
-        </div>
-        <div class="flex-1 px-4 text-left">
-          <h2 id="userName" class="text-md font-bold text-white leading-tight">Memuat...</h2>
-        </div>
-        <div class="text-right pr-4 shrink-0">
-          <p class="text-[10px] text-gray-400">ROLE USER</p>
-          <p id="userRoleDisplay" class="text-sm font-bold text-yellow-400">...</p>
-        </div>
-      </div>
-
-      <button onclick="openSubAkun('editprofil')" class="w-full mb-6 glass-card rounded-full p-3 flex items-center justify-center gap-2 hover:bg-blue-900/40 transition border border-blue-500/30">
-        <i class="fa-solid fa-user-pen text-blue-300"></i>
-        <span class="text-sm font-semibold text-gray-200">Edit Profil</span>
-      </button>
-
-      <h2 class="text-lg text-blue-100 font-medium mb-4">Preferensi</h2>
-      
-      <div class="flex flex-col gap-4 mb-6">
-        <button onclick="openSubAkun('notif')" class="glass-card rounded-full p-2 pr-6 flex items-center w-full hover:bg-blue-900/40 transition group">
-          <div class="w-12 h-12 rounded-full bg-[#1e3a5f] flex items-center justify-center shrink-0 border border-blue-500/30">
-            <i class="fa-solid fa-bell text-blue-300 text-lg"></i>
-          </div>
-          <span class="ml-5 text-md text-gray-200">Pengaturan Notifikasi</span>
-        </button>
-
-        <button onclick="openSubAkun('password')" class="glass-card rounded-full p-2 pr-6 flex items-center w-full hover:bg-blue-900/40 transition group">
-          <div class="w-12 h-12 rounded-full bg-[#1e3a5f] flex items-center justify-center shrink-0 border border-blue-500/30">
-            <i class="fa-solid fa-lock text-blue-300 text-lg"></i>
-          </div>
-          <span class="ml-5 text-md text-gray-200">Ubah Password</span>
-        </button>
-
-        <button onclick="openSubAkun('bantuan')" class="glass-card rounded-full p-2 pr-6 flex items-center w-full hover:bg-blue-900/40 transition group">
-          <div class="w-12 h-12 rounded-full bg-[#1e3a5f] flex items-center justify-center shrink-0 border border-blue-500/30">
-            <i class="fa-solid fa-question text-blue-300 text-lg"></i>
-          </div>
-          <span class="ml-5 text-md text-gray-200">Bantuan</span>
-        </button>
-      </div>
-
-      <button id="adminBtn" onclick="window.location.href='admin.html'" class="hidden glass-card rounded-full p-4 flex items-center justify-center w-full hover:bg-blue-900/40 transition border border-blue-500/50 mb-6">
-        <span class="text-md font-bold text-white tracking-widest">ADMIN</span>
-      </button>
-      <button onclick="logout()" class="w-full py-3 rounded-full border border-red-500/50 text-red-400 hover:bg-red-900/20 transition text-sm font-semibold mt-2">Logout</button>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- SUB-VIEW: EDIT PROFIL                      -->
-    <!-- ========================================== -->
-    <div id="sub-editprofil" class="view-section hidden relative">
-      <button onclick="closeSubAkun()" class="absolute top-0 left-0 w-10 h-10 rounded-full glass-card flex items-center justify-center text-blue-300 hover:text-white z-50">
-        <i class="fa-solid fa-arrow-left text-lg"></i>
-      </button>
-      
-      <h1 class="text-2xl font-bold text-blue-50 text-center mb-6 pt-2">Edit Profile</h1>
-      
-      <div class="flex flex-col items-center mb-8">
-        <div class="w-32 h-32 rounded-full bg-black flex items-center justify-center border-2 border-gray-700 shadow-[0_0_20px_rgba(0,0,0,0.8)] mb-2 overflow-hidden relative cursor-pointer group" onclick="document.getElementById('avatarUpload').click()">
-          <span id="editPP" class="text-4xl font-bold text-white">?</span>
-          <img id="editAvatarImg" class="w-full h-full object-cover hidden" />
-          <div class="absolute inset-0 bg-black/60 hidden group-hover:flex items-center justify-center transition-all">
-            <i class="fa-solid fa-camera text-white text-2xl"></i>
-          </div>
-        </div>
-        <p class="text-xs text-gray-400 tracking-wider">GANTI FOTO PROFIL</p>
-        <input type="file" id="avatarUpload" accept="image/*" class="hidden" onchange="handleAvatarUpload(event)">
-      </div>
-
-      <form id="formEditProfil" class="flex flex-col gap-4">
-        <div>
-          <label class="text-sm text-gray-300 ml-2 mb-1 block">Username</label>
-          <div class="glass-card flex items-center px-4 py-3">
-            <input type="text" id="editUsername" class="bg-transparent outline-none w-full text-white" required>
-          </div>
-        </div>
-
-        <button type="submit" class="mt-8 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition shadow-[0_0_15px_rgba(59,130,246,0.5)]">
-          Simpan Perubahan
-        </button>
-      </form>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- SUB-VIEW: BANTUAN                          -->
-    <!-- ========================================== -->
-    <div id="sub-bantuan" class="view-section hidden relative">
-      <button onclick="closeSubAkun()" class="absolute top-0 left-0 w-10 h-10 rounded-full glass-card flex items-center justify-center text-blue-300 hover:text-white z-50">
-        <i class="fa-solid fa-arrow-left text-lg"></i>
-      </button>
-      
-      <h1 class="text-3xl font-bold text-blue-50 text-center mb-6 pt-2">Bantuan</h1>
-      <p class="text-gray-300 text-center mb-10">Bisa Hubungi Admin Jika Terdapat Kendala Atau Pertanyaan</p>
-      
-      <div class="flex flex-col gap-6 px-4">
-        <a href="https://discord.com/users/SAINT_D_WISH_ID" target="_blank" class="glass-card p-5 rounded-2xl flex items-center justify-center hover:bg-[#5865F2]/20 transition border border-[#5865F2]/50">
-          <i class="fa-brands fa-discord text-3xl text-[#5865F2] mr-4"></i>
-          <span class="text-lg font-bold text-white">@Saint D. Wish</span>
-        </a>
-        <a href="https://t.me/stdwis" target="_blank" class="glass-card p-5 rounded-2xl flex items-center justify-center hover:bg-[#0088cc]/20 transition border border-[#0088cc]/50">
-          <i class="fa-brands fa-telegram text-3xl text-[#0088cc] mr-4"></i>
-          <span class="text-lg font-bold text-white">@stdwis</span>
-        </a>
-      </div>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- SUB-VIEW: UBAH PASSWORD                    -->
-    <!-- ========================================== -->
-    <div id="sub-password" class="view-section hidden relative">
-      <button onclick="closeSubAkun()" class="absolute top-0 left-0 w-10 h-10 rounded-full glass-card flex items-center justify-center text-blue-300 hover:text-white z-50">
-        <i class="fa-solid fa-arrow-left text-lg"></i>
-      </button>
-      
-      <h1 class="text-3xl font-bold text-blue-50 text-center mb-2 pt-2">Ubah Password</h1>
-      <p class="text-gray-400 text-center text-sm mb-10">Ubah Password jika merasa akun sudah tidak aman</p>
-
-      <form id="formUbahPass" class="flex flex-col gap-4">
-        <div>
-          <label class="text-sm text-gray-300 ml-2 mb-1 block">Password Lama</label>
-          <div class="glass-card flex items-center px-4 py-3">
-            <input type="password" id="oldPass" placeholder="••••••••" class="bg-transparent outline-none w-full text-white" required>
-          </div>
-        </div>
-        <div>
-          <label class="text-sm text-gray-300 ml-2 mb-1 block">Password Baru</label>
-          <div class="glass-card flex items-center px-4 py-3">
-            <input type="password" id="newPass" placeholder="••••••••" class="bg-transparent outline-none w-full text-white" required>
-          </div>
-        </div>
-        <div>
-          <label class="text-sm text-gray-300 ml-2 mb-1 block">Konfirmasi Password</label>
-          <div class="glass-card flex items-center px-4 py-3">
-            <input type="password" id="confirmPass" placeholder="••••••••" class="bg-transparent outline-none w-full text-white" required>
-          </div>
-        </div>
-        <button type="submit" class="mt-4 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition shadow-[0_0_15px_rgba(59,130,246,0.5)]">
-          Simpan Password Baru
-        </button>
-      </form>
-    </div>
-
-    <!-- ============================================ -->
-    <!-- SUB-VIEW: PENGATURAN NOTIFIKASI              -->
-    <!-- ============================================ -->
-    <div id="sub-notif" class="view-section hidden relative">
-      <button onclick="closeSubAkun()" class="absolute top-0 left-0 w-10 h-10 rounded-full glass-card flex items-center justify-center text-blue-300 hover:text-white z-50">
-        <i class="fa-solid fa-arrow-left text-lg"></i>
-      </button>
-      
-      <h1 class="text-3xl font-bold text-blue-50 text-center mb-10 pt-2">Pengaturan Notifikasi</h1>
-
-      <div class="glass-card p-5 flex justify-between items-center mb-6">
-        <span class="text-lg font-semibold text-white">Izinkan Notifikasi Browser</span>
-        <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
-          <input type="checkbox" name="toggle" id="toggleNotif" class="toggle-checkbox" onchange="requestNotifPermission(this)" />
-          <label for="toggleNotif" class="toggle-label"></label>
-        </div>
-      </div>
-      
-      <p class="text-xs text-gray-400 text-center mb-6 px-4">
-        *Untuk Pengguna iPhone (iOS), silakan klik tombol "Share" di Safari dan pilih "Add to Home Screen" agar notifikasi dapat berfungsi.
-      </p>
-
-      <div id="adminTestNotifPanel" class="hidden glass-card p-5 border border-green-500/50">
-        <h3 class="text-green-400 font-bold mb-2">Admin Panel</h3>
-        <p class="text-xs text-gray-400 mb-4">Gunakan tombol ini untuk mengetes apakah notifikasi berhasil masuk ke HP/Browser.</p>
-        <button onclick="testNotification()" class="w-full bg-green-600 hover:bg-green-500 text-white font-bold py-2 rounded-lg transition">
-          <i class="fa-solid fa-paper-plane mr-2"></i> Test Notifikasi
-        </button>
-      </div>
-    </div>
-
-  </div> 
-
-  <!-- NAVBAR BAWAH -->
-  <div id="mainNavbar" class="fixed bottom-4 w-full max-w-md flex justify-center z-50 pointer-events-none transition-opacity duration-300">
-    <nav class="relative w-[90%] bg-[#152a4d]/95 backdrop-blur-md border border-blue-500/40 flex justify-between items-end px-6 pb-2 pt-3 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.8)] pointer-events-auto">
-      <button onclick="switchView('dashboard', this)" id="nav-dashboard" class="flex flex-col items-center justify-center w-20 gap-1 text-blue-300 drop-shadow-[0_0_8px_rgba(59,130,246,0.8)] transition-all">
-        <i class="fa-solid fa-house text-xl"></i><span class="text-[10px] font-medium tracking-wide">DASHBOARD</span>
-      </button>
-      <div class="w-20"></div>
-      <button onclick="switchView('akun', this)" id="nav-akun" class="flex flex-col items-center justify-center w-20 gap-1 text-gray-400 hover:text-white transition-all">
-        <i class="fa-regular fa-user text-xl"></i><span class="text-[10px] font-medium tracking-wide">AKUN</span>
-      </button>
-    </nav>
-    <div class="absolute bottom-[20px] left-1/2 transform -translate-x-1/2 flex flex-col items-center pointer-events-auto">
-      <button onclick="switchView('vip', this)" id="nav-vip" class="w-[72px] h-[72px] rounded-full bg-[#0b1a35] border-[3px] border-[#3b82f6] shadow-[0_0_25px_rgba(59,130,246,0.8)] flex items-center justify-center overflow-hidden p-1 hover:scale-105 transition-transform">
-        <img src="logo.png" alt="VIP" class="w-full h-full object-cover rounded-full opacity-80 hover:opacity-100 transition-opacity">
-      </button>
-      <span class="text-[10px] font-bold text-blue-200 mt-1 absolute -bottom-5">VIP</span>
-    </div>
-  </div>
-
-  <!-- ===== SCRIPTS ===== -->
   <script>
     // URL API
     const API_URL_USER = "https://script.google.com/macros/s/AKfycbzMYg1pTNUbEJWJSKtwifnPkw-tTn1SjFJqK2fmVepWVKpAvupB2c5eCb-fpUXR6LK-wg/exec";
     const API_URL_PRICE = "https://script.google.com/macros/s/AKfycbzZuDUnA32CUSdU194CFo4MXBFk621PFfTeAlrY0IjJB7U2LHwEepP4dLvmDFsKxiCZ/exec";
     const API_URL_SIGNAL = "https://script.google.com/macros/s/AKfycbyd8ksBWqhE6iIT1E6IT_l1TgZO86ZLgUDDpZYxb6TzZ5TMFj93Vm10wasIgrTP3_Sx/exec";
+    
+    // URL VPS NGROK KAMU
+    const API_URL_VPS = "https://enviable-umbilical-erupt.ngrok-free.dev"; 
 
     let globalSignals = [];
     let currentEATab = 'GLDN'; 
     let knownSignalStatuses = {}; 
     let currentUserRole = "NO ROLE";
     let currentUserEmail = "";
-    let priceHistory = []; // Simpan histori harga
+    let priceHistory = []; 
 
     // --- SETUP CHART.JS ---
     const ctx = document.getElementById('miniChart').getContext('2d');
     const priceChart = new Chart(ctx, {
       type: 'line',
-      data: { 
-        labels: [], 
-        datasets: [{ 
-          data: [], 
-          borderColor: '#4ade80', 
-          borderWidth: 2, 
-          pointRadius: 0, 
-          fill: false, 
-          tension: 0.4 
-        }] 
-      },
-      options: { 
-        responsive: true, 
-        maintainAspectRatio: false, 
-        plugins: { legend: { display: false }, tooltip: { enabled: false } }, 
-        scales: { x: { display: false }, y: { display: false } }, 
-        animation: false 
-      }
+      data: { labels: [], datasets: [{ data: [], borderColor: '#4ade80', borderWidth: 2, pointRadius: 0, fill: false, tension: 0.4 }] },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false } }, animation: false }
     });
 
     // --- HARGA LIVE ---
@@ -463,14 +34,12 @@
           const chg = ((p - (previousPrice || p)) / p) * 100;
           document.getElementById('priceChange').innerText = (chg > 0 ? '+' : '') + chg.toFixed(2) + ' %';
           
-          // Update Chart
           priceHistory.push(p);
           if(priceHistory.length > 20) priceHistory.shift();
           
           priceChart.data.labels = priceHistory.map((_, i) => i);
           priceChart.data.datasets[0].data = priceHistory;
           
-          // Skala Y Dinamis agar garisnya kelihatan naik turunnya
           if(priceHistory.length > 1) {
             priceChart.options.scales.y.min = Math.min(...priceHistory) - 0.5;
             priceChart.options.scales.y.max = Math.max(...priceHistory) + 0.5;
@@ -494,7 +63,7 @@
       } catch (e) {}
     }
 
-    // --- LOGIKA NOTIFIKASI HP (FORMAT BARU) ---
+    // --- LOGIKA NOTIFIKASI HP ---
     function checkNewNotifications() {
       if (!("Notification" in window) || Notification.permission !== "granted") return;
 
@@ -525,7 +94,7 @@
       renderVIP();
     }
 
-    // --- LOGIKA DASHBOARD (GABUNGAN) ---
+    // --- LOGIKA DASHBOARD ---
     function renderDashboardCombined() {
       let historyHTML = "";
       let monProfit = 0, monLoss = 0;
@@ -610,7 +179,6 @@
           }
         }
 
-        // RUNNING CARD
         if (s.status === 'RUNNING') {
           runningHTML += `
             <div class="glass-card p-4 border border-blue-500/40 relative overflow-hidden mb-3">
@@ -627,9 +195,7 @@
               </div>
               <p class="text-red-400 font-bold text-xs">STOP LOSS (SL) : ${s.sl}</p>
             </div>`;
-        } 
-        // WAITING CARD (ACCORDION)
-        else if (s.status === 'WAITING') {
+        } else if (s.status === 'WAITING') {
           waitingHTML += `
             <div class="glass-card overflow-hidden border border-blue-500/30 mb-2">
               <div class="card-header p-3 flex justify-between items-center" onclick="toggleAccordion(this)">
@@ -665,7 +231,6 @@
       document.getElementById('vip-day-total').innerText = (vipDayProfit - vipDayLoss >= 0 ? '+' : '') + (vipDayProfit - vipDayLoss);
     }
 
-    // --- FUNGSI ACCORDION ---
     function toggleAccordion(headerElement) {
       const detail = headerElement.nextElementSibling;
       if (detail.classList.contains('open')) {
@@ -676,34 +241,58 @@
       }
     }
 
-    // --- INISIALISASI & NAVIGASI ---
-    if (localStorage.getItem('isLoggedIn') !== 'true') window.location.href = "login.html";
-
+    // --- INISIALISASI & CEK TOKEN VPS ---
     document.addEventListener("DOMContentLoaded", function() {
-      let username = localStorage.getItem('db_user') || "User";
-      currentUserRole = localStorage.getItem('db_role') || "NO ROLE"; 
-      currentUserEmail = localStorage.getItem('db_email') || "";
+      const token = localStorage.getItem('sdw_token');
       
-      document.getElementById('userPP').innerText = username.charAt(0).toUpperCase();
-      document.getElementById('userName').innerText = username;
-      document.getElementById('userRoleDisplay').innerText = currentUserRole;
-      
-      if(currentUserRole === 'VIP' || currentUserRole === 'ADMIN') document.getElementById('userRoleDisplay').className = "text-sm font-bold text-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.6)]";
-      else document.getElementById('userRoleDisplay').className = "text-sm font-bold text-gray-400";
-      
-      if(currentUserRole === 'ADMIN') {
-        document.getElementById('adminBtn').classList.remove('hidden');
-        document.getElementById('adminTestNotifPanel').classList.remove('hidden');
+      if (!token) {
+        window.location.href = "login.html";
+        return;
       }
-      
-      if (Notification.permission === "granted") document.getElementById('toggleNotif').checked = true;
 
-      document.getElementById('editUsername').value = username;
-      document.getElementById('editPP').innerText = username.charAt(0).toUpperCase();
-      loadAvatar();
+      // Cek Tiket ke VPS
+      fetch(`${API_URL_VPS}/api/verify`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: token })
+      })
+      .then(res => res.json())
+      .then(data => {
+          if (data.status !== 'success') {
+              localStorage.removeItem('sdw_token');
+              window.location.href = "login.html";
+          } else {
+              // Tiket Valid, muat UI
+              let username = data.user.username;
+              currentUserRole = data.user.role; 
+              currentUserEmail = data.user.email;
+              
+              document.getElementById('userPP').innerText = username.charAt(0).toUpperCase();
+              document.getElementById('userName').innerText = username;
+              document.getElementById('userRoleDisplay').innerText = currentUserRole;
+              
+              if(currentUserRole === 'VIP' || currentUserRole === 'ADMIN') document.getElementById('userRoleDisplay').className = "text-sm font-bold text-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.6)]";
+              else document.getElementById('userRoleDisplay').className = "text-sm font-bold text-gray-400";
+              
+              if(currentUserRole === 'ADMIN') {
+                document.getElementById('adminBtn').classList.remove('hidden');
+                document.getElementById('adminTestNotifPanel').classList.remove('hidden');
+              }
+              
+              if (Notification.permission === "granted") document.getElementById('toggleNotif').checked = true;
 
-      fetchLivePrice(); setInterval(fetchLivePrice, 5000);
-      fetchSignals(); setInterval(fetchSignals, 10000);
+              document.getElementById('editUsername').value = username;
+              document.getElementById('editPP').innerText = username.charAt(0).toUpperCase();
+              loadAvatar();
+
+              // Mulai ambil data
+              fetchLivePrice(); setInterval(fetchLivePrice, 5000);
+              fetchSignals(); setInterval(fetchSignals, 10000);
+          }
+      })
+      .catch(() => {
+          alert("Koneksi VPS terputus (Cek Ngrok/Node.js).");
+      });
     });
 
     function loadAvatar() {
@@ -770,75 +359,8 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    document.getElementById('formUbahPass').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const oldPass = document.getElementById('oldPass').value;
-      const newPass = document.getElementById('newPass').value;
-      const confirmPass = document.getElementById('confirmPass').value;
-
-      if(newPass !== confirmPass) return alert("Konfirmasi password tidak cocok!");
-      if(newPass.length < 5) return alert("Password baru minimal 5 karakter!");
-
-      const btn = this.querySelector('button[type="submit"]');
-      btn.innerText = "Menyimpan..."; btn.disabled = true;
-
-      try {
-        const res = await fetch(API_URL_USER, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'change_password', email: currentUserEmail, oldPass: oldPass, newPass: newPass })
-        });
-        const data = await res.json();
-        alert(data.message);
-        if(data.status === 'success') { this.reset(); closeSubAkun(); }
-      } catch (err) { alert("Gagal terhubung ke server."); } 
-      finally { btn.innerText = "Simpan Password Baru"; btn.disabled = false; }
-    });
-
-    document.getElementById('formEditProfil').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const newUsername = document.getElementById('editUsername').value;
-
-      const btn = this.querySelector('button[type="submit"]');
-      btn.innerText = "Menyimpan..."; btn.disabled = true;
-
-      try {
-        const res = await fetch(API_URL_USER, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'update_profile', email: currentUserEmail, newUsername: newUsername, brokerId: "", mtId: "" })
-        });
-        const data = await res.json();
-        
-        if(data.status === 'success') {
-          alert(data.message);
-          localStorage.setItem('db_user', newUsername);
-          document.getElementById('userName').innerText = newUsername;
-          closeSubAkun();
-        } else {
-          alert(data.message);
-        }
-      } catch (err) { alert("Gagal terhubung ke server."); } 
-      finally { btn.innerText = "Simpan Perubahan"; btn.disabled = false; }
-    });
-
-    function requestNotifPermission(checkbox) {
-      if (!("Notification" in window)) { alert("Browser ini tidak mendukung notifikasi."); checkbox.checked = false; return; }
-      if (checkbox.checked) {
-        Notification.requestPermission().then(permission => {
-          if (permission !== "granted") { checkbox.checked = false; alert("Izin notifikasi ditolak."); }
-        });
-      }
+    function logout() { 
+      localStorage.removeItem('sdw_token'); 
+      window.location.href = "login.html"; 
     }
-
-    function testNotification() {
-      if (Notification.permission === "granted") {
-        new Notification("Saint D. Wish Test", { body: "Selamat! Notifikasi berhasil masuk ke perangkat ini.", icon: "logo.png" });
-      } else {
-        alert("Silakan aktifkan toggle 'Izinkan Notifikasi Browser' terlebih dahulu.");
-      }
-    }
-
-    function logout() { localStorage.removeItem('isLoggedIn'); window.location.href = "login.html"; }
-    function simulasiUpgrade() { if(confirm("Simulasi: Ubah jadi VIP?")) { localStorage.setItem('db_role', 'VIP'); window.location.reload(); } }
   </script>
-</body>
-</html>
