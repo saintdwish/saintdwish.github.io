@@ -8,9 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   
-  <!-- Library Chart: Lightweight Charts (TradingView) -->
   <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
-  
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
@@ -52,6 +50,8 @@
     .card-header:hover { background-color: rgba(30, 58, 138, 0.4); }
     .card-detail { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out; opacity: 0; }
     .card-detail.open { max-height: 400px; opacity: 1; }
+    
+    /* Blur Effect */
     .vip-blurred { filter: blur(8px); pointer-events: none; user-select: none; opacity: 0.3; }
 
     .chart-container { width: 100%; height: 200px; border-radius: 8px; overflow: hidden; margin-top: 15px; border: 1px solid rgba(59, 130, 246, 0.2); position: relative; }
@@ -205,10 +205,12 @@
     <div id="view-vip" class="view-section hidden relative">
       <div id="vip-content" class="transition-all duration-500">
         <header class="mb-6"><h1 class="text-2xl font-bold text-white">VIP ZONE</h1></header>
+        
         <div class="flex gap-2 mb-6 glass-card p-1">
           <div id="tab-gldn" onclick="switchEATab('GLDN')" class="tab-btn tab-active">GOLDEN</div>
-          <div id="tab-msp" onclick="switchEATab('MSP')" class="tab-btn tab-inactive">MSP</div>
+          <div id="tab-navigator" onclick="switchEATab('NAVIGATOR')" class="tab-btn tab-inactive">NAVIGATOR</div>
         </div>
+
         <div class="mb-6">
           <h2 class="text-md text-white mb-3 font-bold">SEDANG RUNNING</h2>
           <div class="flex flex-col gap-3" id="vip-running-list"><p class="text-sm text-muted">Tidak ada posisi running.</p></div>
@@ -251,22 +253,37 @@
     </div>
 
     <!-- VIEW 4: BOOKMAP -->
-    <div id="view-bookmap" class="view-section hidden">
-      <header class="mb-6"><h1 class="text-2xl font-bold text-white">LIVE BOOKMAP</h1></header>
-      <div class="glass-card p-5 mb-6">
-        <h2 class="text-lg font-bold text-white text-center mb-4">Apa itu Bookmap?</h2>
-        <p class="text-sm text-muted text-justify leading-relaxed mb-4">
-          Bookmap adalah radar likuiditas real-time bagi trader yang ingin melihat di balik layar pergerakan harga melacak dinding order tersembunyi, volume absorption, dan momentum order flow secara visual detik demi detik.
-        </p>
-        <p class="text-sm text-muted text-justify leading-relaxed">
-          Bookmap adalah senjata visualisasi order book tingkat lanjut untuk menaklukkan volatilitas XAU/USD, mengubah tumpukan data Depth of Market menjadi peta panas intuitif agar Anda selalu selangkah di depan pergerakan smart money.
-        </p>
+    <div id="view-bookmap" class="view-section hidden relative">
+      <div id="bookmap-content" class="transition-all duration-500">
+        <header class="mb-6"><h1 class="text-2xl font-bold text-white">LIVE BOOKMAP</h1></header>
+        <div class="glass-card p-5 mb-6">
+          <h2 class="text-lg font-bold text-white text-center mb-4">Apa itu Bookmap?</h2>
+          <p class="text-sm text-muted text-justify leading-relaxed mb-4">
+            Bookmap adalah radar likuiditas real-time bagi trader yang ingin melihat di balik layar pergerakan harga melacak dinding order tersembunyi, volume absorption, dan momentum order flow secara visual detik demi detik.
+          </p>
+          <p class="text-sm text-muted text-justify leading-relaxed">
+            Bookmap adalah senjata visualisasi order book tingkat lanjut untuk menaklukkan volatilitas XAU/USD, mengubah tumpukan data Depth of Market menjadi peta panas intuitif agar Anda selalu selangkah di depan pergerakan smart money.
+          </p>
+        </div>
+        <div class="w-full rounded-xl overflow-hidden mb-8 border border-blue-500/30">
+          <img src="https://raw.githubusercontent.com/saintdwish/saintdwish.github.io/fcc77ddafb1bd0c903f8528fbc67afa46174ccba/Bookmap.png" alt="Live Bookmap" class="w-full h-auto object-cover">
+        </div>
+        <button class="w-full max-w-xs mx-auto block py-4 rounded-full bg-[#1e3a8a] text-white font-bold text-md tracking-wider hover:bg-blue-700 transition shadow-[0_0_20px_rgba(30,58,138,0.6)] border border-blue-400">LIVE BOOKMAP</button>
+        <p class="text-center text-[10px] text-muted tracking-widest mt-8">SAINT D.WISH</p>
       </div>
-      <div class="w-full rounded-xl overflow-hidden mb-8 border border-blue-500/30">
-        <img src="https://raw.githubusercontent.com/saintdwish/saintdwish.github.io/fcc77ddafb1bd0c903f8528fbc67afa46174ccba/Bookmap.png" alt="Live Bookmap" class="w-full h-auto object-cover">
+      
+      <!-- OVERLAY BOOKMAP LOCK -->
+      <div id="bookmap-lock-overlay" class="hidden absolute inset-0 z-50 flex flex-col items-center justify-center bg-[#040812]/80 backdrop-blur-sm rounded-xl">
+        <div class="glass-card w-full max-w-sm mx-auto p-6 flex flex-col items-center shadow-lg">
+          <div class="w-20 h-20 mb-4 rounded-full border border-[#3b82f6]/50 overflow-hidden flex justify-center items-center bg-[#1e3a8a]/30">
+             <img src="logo.png" alt="Logo" class="w-full h-full object-cover grayscale opacity-50">
+          </div>
+          <h2 class="text-white text-lg font-bold text-center mb-6">JOIN VIP UNTUK<br>MEMBUKA BOOKMAP</h2>
+          <button onclick="switchView('berlangganan', this)" class="w-full py-3 rounded-lg bg-blue-600 text-white font-bold text-sm mb-3 hover:bg-blue-500 transition shadow-[0_0_15px_rgba(59,130,246,0.5)]">BERLANGGANAN</button>
+          <span class="text-muted font-bold text-xs tracking-widest mb-3">ATAU</span>
+          <button onclick="switchView('joinib', this)" class="w-full py-3 rounded-lg border border-[#3b82f6]/50 text-white font-bold text-sm hover:bg-blue-900/30 transition">JOIN IB GRATIS</button>
+        </div>
       </div>
-      <button class="w-full max-w-xs mx-auto block py-4 rounded-full bg-[#1e3a8a] text-white font-bold text-md tracking-wider hover:bg-blue-700 transition shadow-[0_0_20px_rgba(30,58,138,0.6)] border border-blue-400">LIVE BOOKMAP</button>
-      <p class="text-center text-[10px] text-muted tracking-widest mt-8">SAINT D.WISH</p>
     </div>
 
     <!-- VIEW 5: AKUN UTAMA -->
@@ -369,23 +386,32 @@
 
   <!-- NAVBAR BAWAH (5 MENU) -->
   <div id="mainNavbar" class="fixed bottom-4 w-full max-w-md flex justify-center z-50 pointer-events-none transition-opacity duration-300">
-    <nav class="relative w-[95%] bg-[#0f172a]/90 backdrop-blur-xl border border-[#3b82f6]/30 flex justify-between items-center px-2 pb-2 pt-3 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.8)] pointer-events-auto">
-      <button onclick="switchView('dashboard', this)" id="nav-dashboard" class="flex flex-col items-center justify-center w-[60px] gap-1 text-white transition-all">
+    <!-- overflow-visible penting agar tombol VIP bisa keluar dari kotak -->
+    <nav class="relative w-[95%] bg-[#0f172a]/90 backdrop-blur-xl border border-[#3b82f6]/30 flex justify-between items-end px-2 pb-2 pt-3 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.8)] pointer-events-auto overflow-visible">
+      
+      <button onclick="switchView('dashboard', this)" id="nav-dashboard" class="flex flex-col items-center justify-center w-[60px] gap-1 text-white transition-all pb-1">
         <i class="fa-solid fa-house text-lg"></i><span class="text-[9px] font-medium tracking-wide">DASHBOARD</span>
       </button>
-      <button onclick="switchView('akses', this)" id="nav-akses" class="flex flex-col items-center justify-center w-[60px] gap-1 text-muted hover:text-white transition-all">
+      
+      <button onclick="switchView('akses', this)" id="nav-akses" class="flex flex-col items-center justify-center w-[60px] gap-1 text-muted hover:text-white transition-all pb-1">
         <i class="fa-solid fa-key text-lg"></i><span class="text-[9px] font-medium tracking-wide">AKSES</span>
       </button>
-      <div class="w-[60px] relative flex justify-center">
-        <button onclick="switchView('vip', this)" id="nav-vip" class="absolute -top-8 w-[60px] h-[60px] rounded-full bg-[#0f172a] border-[2px] border-[#3b82f6] shadow-[0_0_20px_rgba(59,130,246,0.6)] flex items-center justify-center overflow-hidden p-1 hover:scale-105 transition-transform">
+
+      <!-- Area Tengah Khusus VIP -->
+      <div class="relative w-[60px] flex flex-col items-center justify-end h-full">
+        <!-- Tombol Melayang ke atas -->
+        <button onclick="switchView('vip', this)" id="nav-vip" class="absolute -top-[32px] w-[64px] h-[64px] rounded-full bg-[#0f172a] border-[3px] border-[#3b82f6] shadow-[0_0_20px_rgba(59,130,246,0.6)] flex items-center justify-center overflow-hidden p-1 hover:scale-105 transition-transform z-50">
           <img src="logo.png" alt="VIP" class="w-full h-full object-cover rounded-full opacity-90 transition-all">
         </button>
-        <span class="text-[9px] font-bold text-blue-200 absolute -bottom-5">VIP</span>
+        <!-- Teks VIP diletakkan di bawah -->
+        <span class="text-[9px] font-bold text-blue-200 mt-[34px] pb-1">VIP</span>
       </div>
-      <button onclick="switchView('bookmap', this)" id="nav-bookmap" class="flex flex-col items-center justify-center w-[60px] gap-1 text-muted hover:text-white transition-all">
+
+      <button onclick="switchView('bookmap', this)" id="nav-bookmap" class="flex flex-col items-center justify-center w-[60px] gap-1 text-muted hover:text-white transition-all pb-1">
         <i class="fa-solid fa-satellite-dish text-lg"></i><span class="text-[9px] font-medium tracking-wide">BOOKMAP</span>
       </button>
-      <button onclick="switchView('akun', this)" id="nav-akun" class="flex flex-col items-center justify-center w-[60px] gap-1 text-muted hover:text-white transition-all">
+      
+      <button onclick="switchView('akun', this)" id="nav-akun" class="flex flex-col items-center justify-center w-[60px] gap-1 text-muted hover:text-white transition-all pb-1">
         <i class="fa-regular fa-user text-lg"></i><span class="text-[9px] font-medium tracking-wide">AKUN</span>
       </button>
     </nav>
@@ -447,7 +473,10 @@
         if (!knownSignalStatuses[uniqueKey]) {
           if (Object.keys(knownSignalStatuses).length > 0) {
              let title = ""; let body = "";
-             const source = sig.source === 'GLDN' ? 'GOLDEN' : 'MSP';
+             let source = sig.source;
+             if(sig.source === 'GLDN') source = 'GOLDEN';
+             else if(sig.source === 'SDW Navigator') source = 'NAVIGATOR';
+
              const side = sig.arah; 
              if (sig.status === 'WAITING') { title = `${side} LIMIT | ${source}`; body = `Market Entry ${sig.entry} | SL ${sig.sl} | TP 1 ${sig.tp1}`; } 
              else if (sig.status === 'CANCELLED') { title = `Signal Invalid | ${side} LIMIT ${sig.pair} | ${source}`; body = `Set up sudah tidak memenuhi syarat.`; }
@@ -462,6 +491,7 @@
 
     function renderAllViews() { renderDashboardCombined(); renderVIP(); }
 
+    // RENDER DASHBOARD DENGAN HITUNGAN PIPS BARU
     function renderDashboardCombined() {
       let historyHTML = "", monProfit = 0, monLoss = 0, weekProfit = 0, weekLoss = 0, dayProfit = 0, dayLoss = 0;
       const now = new Date();
@@ -471,16 +501,44 @@
       let count = 0;
 
       globalSignals.forEach(s => {
-        const isBuy = s.arah === 'BUY'; const pips = Math.abs(parseFloat(s.tp1) - parseFloat(s.entry)) * 10;
+        const isBuy = s.arah === 'BUY'; 
+        const basePips = Math.abs(parseFloat(s.tp1) - parseFloat(s.entry)) * 10; 
+        
+        let finalPips = 0;
+        let isProfit = false;
+
+        if (s.status.includes('TP')) {
+            let tpNum = parseInt(s.status.replace('TP', ''));
+            if (!isNaN(tpNum)) { finalPips = basePips * tpNum; isProfit = true; }
+        } else if (s.status === 'SL') {
+            finalPips = -basePips;
+        }
+
         if (s.status.includes('TP') || s.status === 'SL') {
-          const sigDate = new Date(s.waktu); const isProfit = s.status !== 'SL';
-          if (sigDate >= startOfMonth) { isProfit ? monProfit += pips : monLoss += pips; }
-          if (sigDate >= startOfWeek) { isProfit ? weekProfit += pips : weekLoss += pips; }
-          if (sigDate >= startOfDay) { isProfit ? dayProfit += pips : dayLoss += pips; }
+          const sigDate = new Date(s.waktu);
+          
+          if (sigDate >= startOfMonth) { isProfit ? monProfit += finalPips : monLoss += Math.abs(finalPips); }
+          if (sigDate >= startOfWeek) { isProfit ? weekProfit += finalPips : weekLoss += Math.abs(finalPips); }
+          if (sigDate >= startOfDay) { isProfit ? dayProfit += finalPips : dayLoss += Math.abs(finalPips); }
+
           if (count < 5) {
             let resultText = s.status === 'SL' ? 'SL Hit' : `${s.status} Hit`; let resColor = s.status === 'SL' ? 'text-danger' : 'text-success';
-            let sourceBadge = s.source === 'GLDN' ? '<span class="text-[9px] border border-yellow-700 text-yellow-500 px-1 rounded ml-1">GLDN</span>' : '<span class="text-[9px] border border-purple-700 text-purple-400 px-1 rounded ml-1">MSP</span>';
-            historyHTML += `<div class="glass-card-inner p-3 flex justify-between items-center mb-1"><div class="flex items-center gap-2"><span class="text-xs font-semibold ${isBuy ? 'text-success' : 'text-danger'}">${s.arah} ${sourceBadge}</span></div><div class="text-right"><p class="text-xs ${resColor} font-bold">${resultText}</p><p class="text-[10px] text-muted">+${pips} Pips</p></div></div>`;
+            
+            let sourceBadge = '';
+            if (s.source === 'GLDN') sourceBadge = '<span class="text-[9px] border border-yellow-700 text-yellow-500 px-1 rounded ml-1">GLDN</span>';
+            else if (s.source === 'SDW Navigator') sourceBadge = '<span class="text-[9px] border border-blue-700 text-blue-400 px-1 rounded ml-1">NAV</span>';
+            else sourceBadge = `<span class="text-[9px] border border-gray-600 text-gray-400 px-1 rounded ml-1">${s.source}</span>`;
+
+            historyHTML += `
+              <div class="glass-card-inner p-3 flex justify-between items-center mb-1">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-semibold ${isBuy ? 'text-success' : 'text-danger'}">${s.arah} ${sourceBadge}</span>
+                </div>
+                <div class="text-right">
+                  <p class="text-xs ${resColor} font-bold">${resultText}</p>
+                  <p class="text-[10px] text-muted">${finalPips > 0 ? '+' : ''}${finalPips} Pips</p>
+                </div>
+              </div>`;
             count++;
           }
         }
@@ -497,25 +555,43 @@
     }
 
     function switchEATab(source) {
-      currentEATab = source;
+      if (source === 'NAVIGATOR') currentEATab = 'SDW Navigator';
+      else currentEATab = source;
+      
       document.getElementById('tab-gldn').className = `tab-btn ${source === 'GLDN' ? 'tab-active' : 'tab-inactive'}`;
-      document.getElementById('tab-msp').className = `tab-btn ${source === 'MSP' ? 'tab-active' : 'tab-inactive'}`;
+      document.getElementById('tab-navigator').className = `tab-btn ${source === 'NAVIGATOR' ? 'tab-active' : 'tab-inactive'}`;
       renderVIP();
     }
 
     function renderVIP() {
       let runningHTML = "", waitingHTML = "", dailyTableHTML = "", vipDayProfit = 0, vipDayLoss = 0;
       const startOfDay = new Date(); startOfDay.setHours(0,0,0,0);
-      const filteredSignals = globalSignals.filter(s => s.source === currentEATab); let tableCount = 0;
+      
+      const filteredSignals = globalSignals.filter(s => s.source === currentEATab); 
+      let tableCount = 0;
 
       filteredSignals.forEach(s => {
-        const isBuy = s.arah === 'BUY'; const barColor = isBuy ? 'text-success' : 'text-danger'; const textColor = isBuy ? 'text-success' : 'text-danger';
-        const pips = Math.abs(parseFloat(s.tp1) - parseFloat(s.entry)) * 10;
+        const isBuy = s.arah === 'BUY'; 
+        const barColor = isBuy ? 'text-success' : 'text-danger'; 
+        const textColor = isBuy ? 'text-success' : 'text-danger';
+        const basePips = Math.abs(parseFloat(s.tp1) - parseFloat(s.entry)) * 10; 
+
+        let finalPips = 0;
+        let isProfit = false;
+
+        if (s.status.includes('TP')) {
+            let tpNum = parseInt(s.status.replace('TP', ''));
+            if (!isNaN(tpNum)) { finalPips = basePips * tpNum; isProfit = true; }
+        } else if (s.status === 'SL') {
+            finalPips = -basePips;
+        }
+
         if (s.status.includes('TP') || s.status === 'SL') {
           if (new Date(s.waktu) >= startOfDay) {
-            s.status === 'SL' ? vipDayLoss += pips : vipDayProfit += pips;
+            isProfit ? vipDayProfit += finalPips : vipDayLoss += Math.abs(finalPips);
             if (tableCount < 3) {
-              let resCol = s.status === 'SL' ? 'text-danger' : 'text-success'; let val = s.status === 'SL' ? `-${pips}` : `+${pips}`;
+              let resCol = s.status === 'SL' ? 'text-danger' : 'text-success'; 
+              let val = finalPips > 0 ? `+${finalPips}` : `${finalPips}`;
               dailyTableHTML += `<div class="flex justify-between items-center text-sm py-2 border-b border-[#3b82f6]/20"><div class="w-1/2 text-gray-300">${tableCount+1}. ${s.arah} Limit ${s.entry}</div><div class="w-1/4 text-right ${resCol}">${val} PIPS</div><div class="w-1/4 text-right text-gray-300">${s.status}</div></div>`;
               tableCount++;
             }
@@ -523,7 +599,37 @@
         }
 
         if (s.status === 'RUNNING') {
-          runningHTML += `<div class="glass-card p-4 mb-3"><div class="flex justify-between items-start mb-2"><div class="flex items-start gap-2"><span class="${barColor} text-lg leading-none mt-1">│</span><div><p class="${textColor} font-semibold text-sm">${s.arah} <span class="text-white font-normal">Limit ${s.entry}</span></p><p class="text-danger font-bold text-xs mt-1">STOP LOSS (SL) : ${s.sl}</p></div></div><div class="text-right text-[10px]"><p class="text-gray-300 font-semibold mb-1"><span class="text-red-400">🎯</span> TAKE <span class="text-green-400">PROFIT</span> LEVELS</p><p class="text-gray-200">🎖 TP 1: ${s.tp1}</p><p class="text-gray-200">🎖 TP 2: ${s.tp2}</p><p class="text-gray-200">🎖 TP 3: ${s.tp3}</p>${s.tp4 != "0" && s.tp4 != "0.0" ? `<p class="text-gray-200">🏆 TP 4: ${s.tp4}</p>` : ''}</div></div><ul class="text-[10px] text-gray-400 space-y-1 border-t border-[#3b82f6]/20 pt-2 mt-2"><li>• Setup masih sesuai dengan analisa awal.</li><li>• Jaga emosi dan tetap patuhi plan (SL & TP yang ada).</li><li>• Bagi yang belum entry, tetap tunggu harga masuk di area entry yang ditentukan.</li></ul></div>`;
+          const isTP1 = ['TP1', 'TP2', 'TP3', 'TP4'].includes(s.status);
+          const isTP2 = ['TP2', 'TP3', 'TP4'].includes(s.status);
+          const isTP3 = ['TP3', 'TP4'].includes(s.status);
+          const isTP4 = ['TP4'].includes(s.status);
+          
+          const check = '<i class="fa-solid fa-check text-success text-sm ml-2"></i>';
+
+          runningHTML += `
+            <div class="glass-card p-4 mb-3">
+              <div class="flex justify-between items-start mb-2">
+                <div class="flex items-start gap-2">
+                  <span class="${barColor} text-lg leading-none mt-1">│</span>
+                  <div>
+                    <p class="${textColor} font-semibold text-sm">${s.arah} <span class="text-white font-normal">Limit ${s.entry}</span></p>
+                    <p class="text-danger font-bold text-xs mt-1">STOP LOSS (SL) : ${s.sl}</p>
+                  </div>
+                </div>
+                <div class="text-right text-[10px]">
+                  <p class="text-gray-300 font-semibold mb-1"><span class="text-red-400">🎯</span> TAKE <span class="text-green-400">PROFIT</span> LEVELS</p>
+                  <p class="text-gray-200">🎖 TP 1: ${s.tp1} ${isTP1 ? check : ''}</p>
+                  <p class="text-gray-200">🎖 TP 2: ${s.tp2} ${isTP2 ? check : ''}</p>
+                  <p class="text-gray-200">🎖 TP 3: ${s.tp3} ${isTP3 ? check : ''}</p>
+                  ${s.tp4 != "0" && s.tp4 != "0.0" ? `<p class="text-gray-200">🏆 TP 4: ${s.tp4} ${isTP4 ? check : ''}</p>` : ''}
+                </div>
+              </div>
+              <ul class="text-[10px] text-gray-400 space-y-1 border-t border-[#3b82f6]/20 pt-2 mt-2">
+                <li>• Setup masih sesuai dengan analisa awal.</li>
+                <li>• Jaga emosi dan tetap patuhi plan (SL & TP yang ada).</li>
+                <li>• Bagi yang belum entry, tetap tunggu harga masuk di area entry yang ditentukan.</li>
+              </ul>
+            </div>`;
         } else if (s.status === 'WAITING') {
           waitingHTML += `
             <div class="glass-card overflow-hidden mb-2">
@@ -548,7 +654,6 @@
                     ${s.tp4 != "0" && s.tp4 != "0.0" ? `<p class="text-gray-200">🏆 TP 4: ${s.tp4}</p>` : ''}
                   </div>
                 </div>
-                <!-- Tempat Chart akan dirender -->
                 <div id="chart-container-${s.id}" class="chart-container"></div>
               </div>
             </div>`;
@@ -582,11 +687,10 @@
       }
     }
 
-    // --- FUNGSI MENGGAMBAR CHART CUSTOM (TANPA API) ---
     function drawStaticChart(containerId, signal) {
         const container = document.getElementById(containerId);
         if (!container) return;
-        container.innerHTML = ''; // Bersihkan container
+        container.innerHTML = ''; 
 
         const chart = LightweightCharts.createChart(container, {
             width: container.clientWidth, height: 200,
@@ -603,32 +707,21 @@
             wickUpColor: '#10b981', wickDownColor: '#ef4444',
         });
 
-        // GENERATE DATA CANDLE SIMULASI (Menuju ke arah Entry)
         const entry = parseFloat(signal.entry);
         const isBuy = signal.arah === 'BUY';
         
-        // Mulai dari harga acak yang masuk akal (sekitar 2-4 poin dari entry)
         let currentPrice = isBuy ? entry + 2.5 : entry - 2.5; 
-        let time = new Date().getTime() / 1000 - 30 * 60; // Mulai 30 menit lalu
+        let time = new Date().getTime() / 1000 - 30 * 60; 
         const candleData = [];
 
         for (let i = 0; i < 25; i++) {
             let open = currentPrice;
-            
-            // Trend umum menuju entry
             let trend = isBuy ? -0.1 : 0.1; 
-            // Noise / volatilitas acak
             let noise = (Math.random() - 0.5) * 0.8;
-            
             let close = open + trend + noise;
             
-            // Paksa candle terakhir (i = 24) untuk close pas di harga Entry
-            if (i === 24) {
-                close = entry;
-            } else if (i === 23) {
-                // Sedikit pullback sebelum entry
-                close = isBuy ? entry + 0.3 : entry - 0.3;
-            }
+            if (i === 24) { close = entry; }
+            else if (i === 23) { close = isBuy ? entry + 0.3 : entry - 0.3; }
 
             let high = Math.max(open, close) + (Math.random() * 0.3);
             let low = Math.min(open, close) - (Math.random() * 0.3);
@@ -636,16 +729,13 @@
             candleData.push({ time: Math.floor(time), open: open, high: high, low: low, close: close });
             
             currentPrice = close;
-            time += 60; // Naik 1 menit tiap candle
+            time += 60; 
         }
 
         candleSeries.setData(candleData);
 
-        // Gambar Garis Entry
         candleSeries.createPriceLine({ price: entry, color: '#ffffff', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: true, title: 'ENTRY' });
-        // Garis SL
         candleSeries.createPriceLine({ price: parseFloat(signal.sl), color: '#ef4444', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: true, title: 'SL' });
-        // Garis TP1
         candleSeries.createPriceLine({ price: parseFloat(signal.tp1), color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: true, title: 'TP1' });
         
         if (signal.tp2 && signal.tp2 !== "0") {
@@ -658,7 +748,7 @@
         chart.timeScale().fitContent();
     }
 
-    // --- INISIALISASI & CEK TOKEN VPS ---
+    // INISIALISASI
     document.addEventListener("DOMContentLoaded", function() {
       const token = localStorage.getItem('sdw_token');
       if (!token) { window.location.href = "login.html"; return; }
@@ -740,10 +830,30 @@
       document.getElementById('view-' + viewName).classList.remove('hidden');
       document.getElementById('view-' + viewName).classList.add('block');
 
+      // LOGIKA BLUR VIP
       if (viewName === 'vip') {
-        const vipContent = document.getElementById('vip-content'); const vipOverlay = document.getElementById('vip-lock-overlay');
-        if (currentUserRole === 'VIP' || currentUserRole === 'ADMIN') { vipContent.classList.remove('vip-blurred'); vipOverlay.classList.add('hidden'); } 
-        else { vipContent.classList.add('vip-blurred'); vipOverlay.classList.remove('hidden'); }
+        const vipContent = document.getElementById('vip-content'); 
+        const vipOverlay = document.getElementById('vip-lock-overlay');
+        if (currentUserRole === 'VIP' || currentUserRole === 'ADMIN') { 
+            vipContent.classList.remove('vip-blurred'); 
+            vipOverlay.classList.add('hidden'); 
+        } else { 
+            vipContent.classList.add('vip-blurred'); 
+            vipOverlay.classList.remove('hidden'); 
+        }
+      }
+
+      // LOGIKA BLUR BOOKMAP
+      if (viewName === 'bookmap') {
+        const bookmapContent = document.getElementById('bookmap-content'); 
+        const bookmapOverlay = document.getElementById('bookmap-lock-overlay');
+        if (currentUserRole === 'VIP' || currentUserRole === 'ADMIN') { 
+            bookmapContent.classList.remove('vip-blurred'); 
+            bookmapOverlay.classList.add('hidden'); 
+        } else { 
+            bookmapContent.classList.add('vip-blurred'); 
+            bookmapOverlay.classList.remove('hidden'); 
+        }
       }
 
       const navButtons = document.querySelectorAll('nav button');
