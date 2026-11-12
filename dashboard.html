@@ -12,53 +12,79 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
   <style>
-    /* GAYA BARU: FLAT DARK UI (Mirip TradingView/Exness) */
+    /* --- THEME: DEEP BLUE AURORA GLASS --- */
     body { 
       font-family: 'Inter', sans-serif; 
-      background-color: #09090b; /* Hitam pekat */
+      background-color: #040812; /* Biru sangat gelap (Midnight) */
       color: #ffffff; 
       padding-bottom: 110px; 
+      overflow-x: hidden;
     }
-    
-    /* Kartu abu-abu gelap tanpa efek kaca/glow */
-    .flat-card {
-      background-color: #121212;
-      border: 1px solid #27272a;
+
+    /* Animasi Gelombang Cahaya (Aurora) di Background */
+    body::before {
+      content: "";
+      position: fixed;
+      top: -50%; left: -50%; width: 200%; height: 200%;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(29, 78, 216, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(56, 189, 248, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.8) 0%, #040812 100%);
+      z-index: -2;
+      animation: auroraMove 20s ease-in-out infinite alternate;
+    }
+
+    @keyframes auroraMove {
+      0% { transform: scale(1) rotate(0deg); }
+      100% { transform: scale(1.1) rotate(5deg); }
+    }
+
+    /* --- GLASSMORPHISM CARDS --- */
+    .glass-card {
+      background: rgba(15, 25, 50, 0.5); /* Biru gelap semi transparan */
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(59, 130, 246, 0.2); /* Garis tepi biru */
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      border-radius: 16px;
+    }
+    .glass-card-inner {
+      background: rgba(30, 58, 138, 0.2);
+      border: 1px solid rgba(59, 130, 246, 0.15);
       border-radius: 12px;
     }
 
-    /* Warna Aksen */
-    .text-success { color: #10b981; } /* Hijau */
-    .text-danger { color: #ef4444; }  /* Merah */
-    .text-muted { color: #a1a1aa; }   /* Abu-abu */
+    .text-success { color: #10b981; } 
+    .text-danger { color: #ef4444; }  
+    .text-muted { color: #94a3b8; }   
+    .text-neon-blue { color: #60a5fa; }
     
     ::-webkit-scrollbar { display: none; }
     
     .view-section { animation: fadeIn 0.3s ease-in-out; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     
-    /* Toggle Switch */
-    .toggle-checkbox:checked { right: 0; border-color: #10b981; }
-    .toggle-checkbox:checked + .toggle-label { background-color: #10b981; }
+    .toggle-checkbox:checked { right: 0; border-color: #3b82f6; }
+    .toggle-checkbox:checked + .toggle-label { background-color: #3b82f6; }
     .toggle-checkbox { right: 0; z-index: 1; border-color: #e2e8f0; transition: all 0.3s; position: absolute; width: 24px; height: 24px; background: white; border-width: 1px; border-radius: 50%; appearance: none; cursor: pointer; }
-    .toggle-label { display: block; overflow: hidden; cursor: pointer; border-radius: 9999px; width: 48px; height: 24px; background-color: #3f3f46; transition: background-color 0.3s; }
+    .toggle-label { display: block; overflow: hidden; cursor: pointer; border-radius: 9999px; width: 48px; height: 24px; background-color: #1e293b; transition: background-color 0.3s; }
 
     /* Tab VIP */
     .tab-btn {
-      flex: 1; padding: 10px; text-align: center; font-weight: 600; border-radius: 8px;
-      transition: all 0.2s; cursor: pointer; border: 1px solid transparent; font-size: 14px;
+      flex: 1; padding: 10px; text-align: center; font-weight: 600; border-radius: 10px;
+      transition: all 0.3s; cursor: pointer; border: 1px solid transparent; font-size: 14px;
     }
-    .tab-active {
-      background-color: #27272a; color: #ffffff; border-color: #3f3f46;
+    .tab-active { 
+      background: linear-gradient(135deg, #1e40af, #3b82f6); 
+      color: #ffffff; border-color: #60a5fa; 
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
     }
-    .tab-inactive {
-      background-color: transparent; color: #a1a1aa;
-    }
+    .tab-inactive { background-color: transparent; color: #94a3b8; }
     .tab-inactive:hover { color: #ffffff; }
 
     /* Accordion VIP */
     .card-header { cursor: pointer; transition: background-color 0.2s; }
-    .card-header:hover { background-color: #1a1a1a; }
+    .card-header:hover { background-color: rgba(30, 58, 138, 0.4); }
     .card-detail { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out; opacity: 0; }
     .card-detail.open { max-height: 300px; opacity: 1; }
     
@@ -69,14 +95,11 @@
 
   <div class="relative z-10 px-5 pt-8 pb-4">
     
-    <!-- ========================================== -->
-    <!-- VIEW 1: DASHBOARD UTAMA                    -->
-    <!-- ========================================== -->
+    <!-- VIEW 1: DASHBOARD UTAMA -->
     <div id="view-dashboard" class="view-section block">
       <header class="mb-6"><h1 class="text-2xl font-bold text-white">Dashboard</h1></header>
 
-      <!-- Live Price & Chart -->
-      <div class="flat-card p-4 mb-6 flex justify-between items-center relative overflow-hidden">
+      <div class="glass-card p-4 mb-6 flex justify-between items-center relative overflow-hidden">
         <div class="z-10">
           <p class="text-sm text-muted mb-1 font-medium">XAUUSD <span class="text-xs text-success bg-emerald-900/30 px-2 py-0.5 rounded ml-1">Live</span></p>
           <div class="flex flex-col">
@@ -87,100 +110,86 @@
         <div class="w-32 h-16 relative z-10"><canvas id="miniChart"></canvas></div>
       </div>
 
-      <!-- Riwayat Gabungan -->
       <div class="mb-6">
         <h2 class="text-md text-muted mb-3 font-semibold">Riwayat</h2>
-        <div class="flat-card p-2 flex flex-col gap-2 relative overflow-hidden" id="dashboard-history-list">
+        <div class="glass-card p-2 flex flex-col gap-2 relative overflow-hidden" id="dashboard-history-list">
           <p class="text-center text-sm text-muted py-4">Memuat riwayat...</p>
         </div>
       </div>
 
-      <!-- REKAP GABUNGAN -->
-      <div class="flat-card p-5 mb-4">
+      <div class="glass-card p-5 mb-4">
         <h3 class="text-md text-white font-semibold mb-4">Monthly Recap</h3>
         <div class="grid grid-cols-3 gap-3">
-          <div class="bg-[#1a1a1a] rounded-lg p-3 text-center border border-[#27272a]">
+          <div class="glass-card-inner p-3 text-center">
             <p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Profit</p><p class="text-sm font-bold text-success" id="mon-profit">+0</p>
           </div>
-          <div class="bg-[#1a1a1a] rounded-lg p-3 text-center border border-[#27272a]">
+          <div class="glass-card-inner p-3 text-center">
             <p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Loss</p><p class="text-sm font-bold text-danger" id="mon-sl">-0</p>
           </div>
-          <div class="bg-[#1a1a1a] rounded-lg p-3 text-center border border-[#27272a]">
+          <div class="glass-card-inner p-3 text-center">
             <p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Total</p><p class="text-sm font-bold text-white" id="mon-total">+0</p>
           </div>
         </div>
       </div>
 
-      <!-- REKAP MINGGUAN -->
-      <div class="flat-card p-5 mb-4">
+      <div class="glass-card p-5 mb-4">
         <h3 class="text-md text-white font-semibold mb-4">Weekly Recap</h3>
         <div class="grid grid-cols-3 gap-3">
-          <div class="bg-[#1a1a1a] rounded-lg p-3 text-center border border-[#27272a]">
+          <div class="glass-card-inner p-3 text-center">
             <p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Profit</p><p class="text-sm font-bold text-success" id="week-profit">+0</p>
           </div>
-          <div class="bg-[#1a1a1a] rounded-lg p-3 text-center border border-[#27272a]">
+          <div class="glass-card-inner p-3 text-center">
             <p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Loss</p><p class="text-sm font-bold text-danger" id="week-sl">-0</p>
           </div>
-          <div class="bg-[#1a1a1a] rounded-lg p-3 text-center border border-[#27272a]">
+          <div class="glass-card-inner p-3 text-center">
             <p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Total</p><p class="text-sm font-bold text-white" id="week-total">+0</p>
           </div>
         </div>
       </div>
 
-      <!-- REKAP HARIAN -->
-      <div class="flat-card p-5 mb-8">
+      <div class="glass-card p-5 mb-8">
         <h3 class="text-md text-white font-semibold mb-4">Daily Recap</h3>
         <div class="grid grid-cols-3 gap-3">
-          <div class="bg-[#1a1a1a] rounded-lg p-3 text-center border border-[#27272a]">
+          <div class="glass-card-inner p-3 text-center">
             <p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Profit</p><p class="text-sm font-bold text-success" id="day-profit">+0</p>
           </div>
-          <div class="bg-[#1a1a1a] rounded-lg p-3 text-center border border-[#27272a]">
+          <div class="glass-card-inner p-3 text-center">
             <p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Loss</p><p class="text-sm font-bold text-danger" id="day-sl">-0</p>
           </div>
-          <div class="bg-[#1a1a1a] rounded-lg p-3 text-center border border-[#27272a]">
+          <div class="glass-card-inner p-3 text-center">
             <p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Total</p><p class="text-sm font-bold text-white" id="day-total">+0</p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- VIEW 2: VIP ZONE                           -->
-    <!-- ========================================== -->
+    <!-- VIEW 2: VIP ZONE -->
     <div id="view-vip" class="view-section hidden relative">
       <div id="vip-content" class="transition-all duration-500">
         <header class="mb-6"><h1 class="text-2xl font-bold text-white">VIP ZONE</h1></header>
         
-        <!-- Tab Pilihan EA -->
-        <div class="flex gap-2 mb-6 bg-[#121212] p-1 rounded-xl border border-[#27272a]">
-          <div id="tab-gldn" onclick="switchEATab('GLDN')" class="tab-btn tab-active">
-            GOLDEN
-          </div>
-          <div id="tab-msp" onclick="switchEATab('MSP')" class="tab-btn tab-inactive">
-            MSP
-          </div>
+        <div class="flex gap-2 mb-6 glass-card p-1">
+          <div id="tab-gldn" onclick="switchEATab('GLDN')" class="tab-btn tab-active">GOLDEN</div>
+          <div id="tab-msp" onclick="switchEATab('MSP')" class="tab-btn tab-inactive">MSP</div>
         </div>
 
-        <!-- SEDANG RUNNING -->
         <div class="mb-6">
-          <h2 class="text-md text-muted mb-3 font-semibold">SEDANG RUNNING</h2>
+          <h2 class="text-md text-white mb-3 font-bold">SEDANG RUNNING</h2>
           <div class="flex flex-col gap-3" id="vip-running-list">
             <p class="text-sm text-muted">Tidak ada posisi running.</p>
           </div>
         </div>
 
-        <!-- WAITING (Accordion) -->
         <div class="mb-6">
-          <h2 class="text-md text-muted mb-3 font-semibold">WAITING</h2>
+          <h2 class="text-md text-white mb-3 font-bold">WAITING</h2>
           <div class="flex flex-col gap-2" id="vip-waiting-list">
             <p class="text-sm text-muted">Tidak ada sinyal waiting.</p>
           </div>
         </div>
 
-        <!-- RISK MANAGEMENT -->
-        <div class="mb-6 flat-card p-5">
-          <h3 class="text-xs font-bold text-white mb-3 tracking-widest uppercase">RISK MANAGEMENT</h3>
-          <ol class="text-sm text-muted space-y-2 font-medium">
+        <div class="mb-6">
+          <h3 class="text-xs font-bold text-white mb-2 tracking-wide">RISK MANAGEMENT</h3>
+          <ol class="text-sm text-muted space-y-1 font-medium pl-1">
             <li>1. Use proper lot sizing</li>
             <li>2. Maintain disciplined risk management.</li>
             <li>3. Avoid entering outside the specified entry area.</li>
@@ -188,45 +197,58 @@
           </ol>
         </div>
 
-        <!-- DAILY RECAP VIP -->
-        <div class="flat-card p-5 mb-6">
-          <h3 class="text-md text-white font-semibold mb-4">DAILY RECAP</h3>
-          <div class="grid grid-cols-3 gap-3">
-            <div class="bg-[#1a1a1a] rounded-lg p-3 text-center border border-[#27272a]">
-              <p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Profit</p><p class="text-sm font-bold text-success" id="vip-day-profit">+0</p>
+        <div class="glass-card p-5 mb-6">
+          <h3 class="text-lg text-white mb-4 tracking-wide font-normal">DAILY RECAP</h3>
+          
+          <div class="grid grid-cols-3 gap-2 mb-6">
+            <div class="glass-card-inner p-3 text-center">
+              <p class="text-xs text-muted mb-1">PROFIT</p>
+              <p class="text-sm font-bold text-success" id="vip-day-profit">+0 PIPS</p>
             </div>
-            <div class="bg-[#1a1a1a] rounded-lg p-3 text-center border border-[#27272a]">
-              <p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Loss</p><p class="text-sm font-bold text-danger" id="vip-day-sl">-0</p>
+            <div class="glass-card-inner p-3 text-center">
+              <p class="text-xs text-muted mb-1">STOP LOSE</p>
+              <p class="text-sm font-bold text-danger" id="vip-day-sl">-0 PIPS</p>
             </div>
-            <div class="bg-[#1a1a1a] rounded-lg p-3 text-center border border-[#27272a]">
-              <p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Total</p><p class="text-sm font-bold text-white" id="vip-day-total">+0</p>
+            <div class="glass-card-inner p-3 text-center">
+              <p class="text-xs text-muted mb-1">TOTAL</p>
+              <p class="text-sm font-bold text-white" id="vip-day-total">+0 PIPS</p>
             </div>
           </div>
+
+          <div class="flex justify-between items-center text-sm text-gray-300 border-b border-[#3b82f6]/30 pb-2 mb-2 font-semibold">
+            <div class="w-1/2">Daily Recap</div>
+            <div class="w-1/4 text-right">Profit</div>
+            <div class="w-1/4 text-right">SL</div>
+          </div>
+          <div class="flex flex-col gap-2" id="vip-daily-table-list"></div>
         </div>
+
+        <button class="w-full text-center text-sm text-muted hover:text-white transition mb-8">
+          Lihat Semua Riwayat
+        </button>
+
       </div>
 
       <!-- OVERLAY VIP TERKUNCI -->
-      <div id="vip-lock-overlay" class="hidden absolute inset-0 z-50 flex flex-col items-center justify-center bg-[#09090b]/80 backdrop-blur-sm rounded-xl">
-        <div class="flat-card w-full max-w-sm mx-auto p-6 flex flex-col items-center shadow-lg">
-          <div class="w-20 h-20 mb-4 rounded-full border border-[#3f3f46] overflow-hidden flex justify-center items-center bg-[#1a1a1a]">
+      <div id="vip-lock-overlay" class="hidden absolute inset-0 z-50 flex flex-col items-center justify-center bg-[#040812]/80 backdrop-blur-sm rounded-xl">
+        <div class="glass-card w-full max-w-sm mx-auto p-6 flex flex-col items-center shadow-lg">
+          <div class="w-20 h-20 mb-4 rounded-full border border-[#3b82f6]/50 overflow-hidden flex justify-center items-center bg-[#1e3a8a]/30">
              <img src="logo.png" alt="Logo" class="w-full h-full object-cover grayscale opacity-50">
           </div>
           <h2 class="text-white text-lg font-bold text-center mb-6">JOIN VIP UNTUK<br>MEMBUKA VIP AKSES</h2>
-          <button onclick="simulasiUpgrade()" class="w-full py-3 rounded-lg bg-white text-black font-bold text-sm mb-3 hover:bg-gray-200 transition">BERLANGGANAN</button>
+          <button onclick="simulasiUpgrade()" class="w-full py-3 rounded-lg bg-blue-600 text-white font-bold text-sm mb-3 hover:bg-blue-500 transition shadow-[0_0_15px_rgba(59,130,246,0.5)]">BERLANGGANAN</button>
           <span class="text-muted font-bold text-xs tracking-widest mb-3">ATAU</span>
-          <button class="w-full py-3 rounded-lg border border-[#3f3f46] text-white font-bold text-sm hover:bg-[#1a1a1a] transition">JOIN IB GRATIS</button>
+          <button class="w-full py-3 rounded-lg border border-[#3b82f6]/50 text-white font-bold text-sm hover:bg-blue-900/30 transition">JOIN IB GRATIS</button>
         </div>
       </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- VIEW 3: AKUN UTAMA                         -->
-    <!-- ========================================== -->
+    <!-- VIEW 3: AKUN UTAMA -->
     <div id="view-akun" class="view-section hidden">
       <header class="mb-6"><h1 class="text-2xl font-bold text-white">AKUN</h1></header>
 
-      <div class="flat-card rounded-xl p-4 flex items-center justify-between mb-6">
-        <div class="w-14 h-14 rounded-full bg-[#1a1a1a] flex items-center justify-center border border-[#27272a] shrink-0 overflow-hidden">
+      <div class="glass-card rounded-xl p-4 flex items-center justify-between mb-6">
+        <div class="w-14 h-14 rounded-full bg-[#1e3a8a]/50 flex items-center justify-center border border-[#3b82f6]/30 shrink-0 overflow-hidden">
           <span id="userPP" class="text-xl font-bold text-white">?</span>
           <img id="userAvatarImg" class="w-full h-full object-cover hidden" />
         </div>
@@ -239,54 +261,52 @@
         </div>
       </div>
 
-      <button onclick="openSubAkun('editprofil')" class="w-full mb-6 flat-card rounded-xl p-3 flex items-center justify-center gap-2 hover:bg-[#1a1a1a] transition">
-        <i class="fa-solid fa-user-pen text-muted"></i>
+      <button onclick="openSubAkun('editprofil')" class="w-full mb-6 glass-card rounded-xl p-3 flex items-center justify-center gap-2 hover:bg-[#1e3a8a]/30 transition">
+        <i class="fa-solid fa-user-pen text-neon-blue"></i>
         <span class="text-sm font-semibold text-white">Edit Profil</span>
       </button>
 
       <h2 class="text-sm text-muted font-semibold mb-3 uppercase tracking-wider">Preferensi</h2>
       
       <div class="flex flex-col gap-3 mb-6">
-        <button onclick="openSubAkun('notif')" class="flat-card rounded-xl p-3 flex items-center w-full hover:bg-[#1a1a1a] transition group">
-          <div class="w-10 h-10 rounded-lg bg-[#1a1a1a] flex items-center justify-center shrink-0 border border-[#27272a]">
-            <i class="fa-solid fa-bell text-muted"></i>
+        <button onclick="openSubAkun('notif')" class="glass-card rounded-xl p-3 flex items-center w-full hover:bg-[#1e3a8a]/30 transition group">
+          <div class="w-10 h-10 rounded-lg bg-[#1e3a8a]/50 flex items-center justify-center shrink-0 border border-[#3b82f6]/30">
+            <i class="fa-solid fa-bell text-neon-blue"></i>
           </div>
           <span class="ml-4 text-sm font-medium text-white">Pengaturan Notifikasi</span>
         </button>
 
-        <button onclick="openSubAkun('password')" class="flat-card rounded-xl p-3 flex items-center w-full hover:bg-[#1a1a1a] transition group">
-          <div class="w-10 h-10 rounded-lg bg-[#1a1a1a] flex items-center justify-center shrink-0 border border-[#27272a]">
-            <i class="fa-solid fa-lock text-muted"></i>
+        <button onclick="openSubAkun('password')" class="glass-card rounded-xl p-3 flex items-center w-full hover:bg-[#1e3a8a]/30 transition group">
+          <div class="w-10 h-10 rounded-lg bg-[#1e3a8a]/50 flex items-center justify-center shrink-0 border border-[#3b82f6]/30">
+            <i class="fa-solid fa-lock text-neon-blue"></i>
           </div>
           <span class="ml-4 text-sm font-medium text-white">Ubah Password</span>
         </button>
 
-        <button onclick="openSubAkun('bantuan')" class="flat-card rounded-xl p-3 flex items-center w-full hover:bg-[#1a1a1a] transition group">
-          <div class="w-10 h-10 rounded-lg bg-[#1a1a1a] flex items-center justify-center shrink-0 border border-[#27272a]">
-            <i class="fa-solid fa-question text-muted"></i>
+        <button onclick="openSubAkun('bantuan')" class="glass-card rounded-xl p-3 flex items-center w-full hover:bg-[#1e3a8a]/30 transition group">
+          <div class="w-10 h-10 rounded-lg bg-[#1e3a8a]/50 flex items-center justify-center shrink-0 border border-[#3b82f6]/30">
+            <i class="fa-solid fa-question text-neon-blue"></i>
           </div>
           <span class="ml-4 text-sm font-medium text-white">Bantuan</span>
         </button>
       </div>
 
-      <button id="adminBtn" onclick="window.location.href='admin.html'" class="hidden w-full py-3 rounded-xl border border-[#3f3f46] text-white font-semibold text-sm hover:bg-[#1a1a1a] transition mb-3">
+      <button id="adminBtn" onclick="window.location.href='admin.html'" class="hidden w-full py-3 rounded-xl border border-[#3b82f6]/50 text-white font-semibold text-sm hover:bg-blue-900/30 transition mb-3">
         ADMIN PANEL
       </button>
       <button onclick="logout()" class="w-full py-3 rounded-xl border border-red-900/50 text-red-500 hover:bg-red-900/20 transition text-sm font-semibold">Logout</button>
     </div>
 
-    <!-- ========================================== -->
-    <!-- SUB-VIEW: EDIT PROFIL                      -->
-    <!-- ========================================== -->
+    <!-- SUB-VIEW: EDIT PROFIL -->
     <div id="sub-editprofil" class="view-section hidden relative">
-      <button onclick="closeSubAkun()" class="absolute top-0 left-0 w-8 h-8 rounded-full flat-card flex items-center justify-center text-muted hover:text-white z-50">
+      <button onclick="closeSubAkun()" class="absolute top-0 left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50">
         <i class="fa-solid fa-arrow-left text-sm"></i>
       </button>
       
       <h1 class="text-xl font-bold text-white text-center mb-8 pt-1">Edit Profile</h1>
       
       <div class="flex flex-col items-center mb-8">
-        <div class="w-28 h-28 rounded-full bg-[#1a1a1a] flex items-center justify-center border border-[#27272a] mb-3 overflow-hidden relative cursor-pointer group" onclick="document.getElementById('avatarUpload').click()">
+        <div class="w-28 h-28 rounded-full bg-[#1e3a8a]/50 flex items-center justify-center border border-[#3b82f6]/30 mb-3 overflow-hidden relative cursor-pointer group" onclick="document.getElementById('avatarUpload').click()">
           <span id="editPP" class="text-4xl font-bold text-white">?</span>
           <img id="editAvatarImg" class="w-full h-full object-cover hidden" />
           <div class="absolute inset-0 bg-black/60 hidden group-hover:flex items-center justify-center transition-all">
@@ -300,22 +320,20 @@
       <form id="formEditProfil" class="flex flex-col gap-4">
         <div>
           <label class="text-xs text-muted ml-1 mb-1 block">Username</label>
-          <div class="flat-card flex items-center px-4 py-3 bg-[#121212]">
+          <div class="glass-card flex items-center px-4 py-3">
             <input type="text" id="editUsername" class="bg-transparent outline-none w-full text-white text-sm" required>
           </div>
         </div>
 
-        <button type="submit" class="mt-6 bg-white hover:bg-gray-200 text-black font-bold py-3 rounded-xl transition text-sm">
+        <button type="submit" class="mt-6 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition text-sm shadow-[0_0_15px_rgba(59,130,246,0.5)]">
           Simpan Perubahan
         </button>
       </form>
     </div>
 
-    <!-- ========================================== -->
-    <!-- SUB-VIEW: BANTUAN                          -->
-    <!-- ========================================== -->
+    <!-- SUB-VIEW: BANTUAN -->
     <div id="sub-bantuan" class="view-section hidden relative">
-      <button onclick="closeSubAkun()" class="absolute top-0 left-0 w-8 h-8 rounded-full flat-card flex items-center justify-center text-muted hover:text-white z-50">
+      <button onclick="closeSubAkun()" class="absolute top-0 left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50">
         <i class="fa-solid fa-arrow-left text-sm"></i>
       </button>
       
@@ -323,22 +341,20 @@
       <p class="text-xs text-muted text-center mb-10">Bisa Hubungi Admin Jika Terdapat Kendala</p>
       
       <div class="flex flex-col gap-3 px-2">
-        <a href="https://discord.com/users/SAINT_D_WISH_ID" target="_blank" class="flat-card p-4 rounded-xl flex items-center hover:bg-[#1a1a1a] transition">
+        <a href="https://discord.com/users/SAINT_D_WISH_ID" target="_blank" class="glass-card p-4 rounded-xl flex items-center hover:bg-[#1e3a8a]/40 transition">
           <i class="fa-brands fa-discord text-2xl text-[#5865F2] mr-4"></i>
           <span class="text-sm font-medium text-white">@Saint D. Wish</span>
         </a>
-        <a href="https://t.me/stdwis" target="_blank" class="flat-card p-4 rounded-xl flex items-center hover:bg-[#1a1a1a] transition">
+        <a href="https://t.me/stdwis" target="_blank" class="glass-card p-4 rounded-xl flex items-center hover:bg-[#1e3a8a]/40 transition">
           <i class="fa-brands fa-telegram text-2xl text-[#0088cc] mr-4"></i>
           <span class="text-sm font-medium text-white">@stdwis</span>
         </a>
       </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- SUB-VIEW: UBAH PASSWORD                    -->
-    <!-- ========================================== -->
+    <!-- SUB-VIEW: UBAH PASSWORD -->
     <div id="sub-password" class="view-section hidden relative">
-      <button onclick="closeSubAkun()" class="absolute top-0 left-0 w-8 h-8 rounded-full flat-card flex items-center justify-center text-muted hover:text-white z-50">
+      <button onclick="closeSubAkun()" class="absolute top-0 left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50">
         <i class="fa-solid fa-arrow-left text-sm"></i>
       </button>
       
@@ -348,39 +364,37 @@
       <form id="formUbahPass" class="flex flex-col gap-4">
         <div>
           <label class="text-xs text-muted ml-1 mb-1 block">Password Lama</label>
-          <div class="flat-card flex items-center px-4 py-3 bg-[#121212]">
+          <div class="glass-card flex items-center px-4 py-3">
             <input type="password" id="oldPass" placeholder="••••••••" class="bg-transparent outline-none w-full text-white text-sm" required>
           </div>
         </div>
         <div>
           <label class="text-xs text-muted ml-1 mb-1 block">Password Baru</label>
-          <div class="flat-card flex items-center px-4 py-3 bg-[#121212]">
+          <div class="glass-card flex items-center px-4 py-3">
             <input type="password" id="newPass" placeholder="••••••••" class="bg-transparent outline-none w-full text-white text-sm" required>
           </div>
         </div>
         <div>
           <label class="text-xs text-muted ml-1 mb-1 block">Konfirmasi Password</label>
-          <div class="flat-card flex items-center px-4 py-3 bg-[#121212]">
+          <div class="glass-card flex items-center px-4 py-3">
             <input type="password" id="confirmPass" placeholder="••••••••" class="bg-transparent outline-none w-full text-white text-sm" required>
           </div>
         </div>
-        <button type="submit" class="mt-4 bg-white hover:bg-gray-200 text-black font-bold py-3 rounded-xl transition text-sm">
+        <button type="submit" class="mt-4 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition text-sm shadow-[0_0_15px_rgba(59,130,246,0.5)]">
           Simpan Password
         </button>
       </form>
     </div>
 
-    <!-- ============================================ -->
-    <!-- SUB-VIEW: PENGATURAN NOTIFIKASI              -->
-    <!-- ============================================ -->
+    <!-- SUB-VIEW: PENGATURAN NOTIFIKASI -->
     <div id="sub-notif" class="view-section hidden relative">
-      <button onclick="closeSubAkun()" class="absolute top-0 left-0 w-8 h-8 rounded-full flat-card flex items-center justify-center text-muted hover:text-white z-50">
+      <button onclick="closeSubAkun()" class="absolute top-0 left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50">
         <i class="fa-solid fa-arrow-left text-sm"></i>
       </button>
       
       <h1 class="text-xl font-bold text-white text-center mb-10 pt-1">Notifikasi</h1>
 
-      <div class="flat-card p-4 flex justify-between items-center mb-4">
+      <div class="glass-card p-4 flex justify-between items-center mb-4">
         <span class="text-sm font-medium text-white">Izinkan Notifikasi Browser</span>
         <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
           <input type="checkbox" name="toggle" id="toggleNotif" class="toggle-checkbox" onchange="requestNotifPermission(this)" />
@@ -392,10 +406,10 @@
         *Untuk Pengguna iPhone (iOS), klik "Share" di Safari dan pilih "Add to Home Screen" agar notifikasi berfungsi.
       </p>
 
-      <div id="adminTestNotifPanel" class="hidden flat-card p-4 border border-[#27272a]">
+      <div id="adminTestNotifPanel" class="hidden glass-card p-4 border border-blue-500/30">
         <h3 class="text-white font-bold mb-2 text-sm">Admin Panel</h3>
         <p class="text-[10px] text-muted mb-4">Gunakan tombol ini untuk mengetes notifikasi.</p>
-        <button onclick="testNotification()" class="w-full bg-white text-black font-bold py-2 rounded-lg transition text-sm">
+        <button onclick="testNotification()" class="w-full bg-blue-600 text-white font-bold py-2 rounded-lg transition text-sm">
           Test Notifikasi
         </button>
       </div>
@@ -405,7 +419,7 @@
 
   <!-- NAVBAR BAWAH -->
   <div id="mainNavbar" class="fixed bottom-4 w-full max-w-md flex justify-center z-50 pointer-events-none transition-opacity duration-300">
-    <nav class="relative w-[90%] bg-[#121212]/95 backdrop-blur-md border border-[#27272a] flex justify-between items-end px-6 pb-2 pt-3 rounded-full shadow-lg pointer-events-auto">
+    <nav class="relative w-[90%] bg-[#0f172a]/80 backdrop-blur-xl border border-[#3b82f6]/30 flex justify-between items-end px-6 pb-2 pt-3 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.8)] pointer-events-auto">
       <button onclick="switchView('dashboard', this)" id="nav-dashboard" class="flex flex-col items-center justify-center w-20 gap-1 text-white transition-all">
         <i class="fa-solid fa-house text-lg"></i><span class="text-[10px] font-medium tracking-wide">DASHBOARD</span>
       </button>
@@ -415,10 +429,10 @@
       </button>
     </nav>
     <div class="absolute bottom-[20px] left-1/2 transform -translate-x-1/2 flex flex-col items-center pointer-events-auto">
-      <button onclick="switchView('vip', this)" id="nav-vip" class="w-[68px] h-[68px] rounded-full bg-[#121212] border-[3px] border-[#3f3f46] flex items-center justify-center overflow-hidden p-1 hover:border-white transition-all">
-        <img src="logo.png" alt="VIP" class="w-full h-full object-cover rounded-full grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all">
+      <button onclick="switchView('vip', this)" id="nav-vip" class="w-[68px] h-[68px] rounded-full bg-[#0f172a] border-[3px] border-[#3b82f6] shadow-[0_0_25px_rgba(59,130,246,0.6)] flex items-center justify-center overflow-hidden p-1 hover:scale-105 transition-transform">
+        <img src="logo.png" alt="VIP" class="w-full h-full object-cover rounded-full opacity-90 transition-all">
       </button>
-      <span class="text-[10px] font-bold text-muted mt-1 absolute -bottom-5">VIP</span>
+      <span class="text-[10px] font-bold text-blue-200 mt-1 absolute -bottom-5">VIP</span>
     </div>
   </div>
 
@@ -439,11 +453,11 @@
     let currentUserEmail = "";
     let priceHistory = []; 
 
-    // --- SETUP CHART.JS (Garis Putih Halus) ---
+    // --- SETUP CHART.JS ---
     const ctx = document.getElementById('miniChart').getContext('2d');
     const priceChart = new Chart(ctx, {
       type: 'line',
-      data: { labels: [], datasets: [{ data: [], borderColor: '#ffffff', borderWidth: 1.5, pointRadius: 0, fill: false, tension: 0.4 }] },
+      data: { labels: [], datasets: [{ data: [], borderColor: '#60a5fa', borderWidth: 2, pointRadius: 0, fill: false, tension: 0.4 }] },
       options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false } }, animation: false }
     });
 
@@ -553,7 +567,7 @@
             let sourceBadge = s.source === 'GLDN' ? '<span class="text-[9px] border border-yellow-700 text-yellow-500 px-1 rounded ml-1">GLDN</span>' : '<span class="text-[9px] border border-purple-700 text-purple-400 px-1 rounded ml-1">MSP</span>';
 
             historyHTML += `
-              <div class="bg-[#1a1a1a] border border-[#27272a] rounded-lg p-3 flex justify-between items-center mb-1">
+              <div class="glass-card-inner p-3 flex justify-between items-center mb-1">
                 <div class="flex items-center gap-2">
                   <span class="text-xs font-semibold ${isBuy ? 'text-success' : 'text-danger'}">${s.arah} ${sourceBadge}</span>
                 </div>
@@ -589,64 +603,85 @@
     }
 
     function renderVIP() {
-      let runningHTML = "", waitingHTML = "";
+      let runningHTML = "", waitingHTML = "", dailyTableHTML = "";
       let vipDayProfit = 0, vipDayLoss = 0;
       const startOfDay = new Date(); startOfDay.setHours(0,0,0,0);
 
       const filteredSignals = globalSignals.filter(s => s.source === currentEATab);
+      let tableCount = 0;
 
       filteredSignals.forEach(s => {
         const isBuy = s.arah === 'BUY';
-        const colorClass = isBuy ? 'text-success' : 'text-danger';
+        const barColor = isBuy ? 'text-success' : 'text-danger';
+        const textColor = isBuy ? 'text-success' : 'text-danger';
         const pips = Math.abs(parseFloat(s.tp1) - parseFloat(s.entry)) * 10;
-
+        
         if (s.status.includes('TP') || s.status === 'SL') {
           if (new Date(s.waktu) >= startOfDay) {
             s.status === 'SL' ? vipDayLoss += pips : vipDayProfit += pips;
+            
+            if (tableCount < 3) {
+              let resCol = s.status === 'SL' ? 'text-danger' : 'text-success';
+              let val = s.status === 'SL' ? `-${pips}` : `+${pips}`;
+              dailyTableHTML += `
+                <div class="flex justify-between items-center text-sm py-2 border-b border-[#3b82f6]/20">
+                  <div class="w-1/2 text-gray-300">${tableCount+1}. ${s.arah} Limit ${s.entry}</div>
+                  <div class="w-1/4 text-right ${resCol}">${val} PIPS</div>
+                  <div class="w-1/4 text-right text-gray-300">${s.status}</div>
+                </div>`;
+              tableCount++;
+            }
           }
         }
 
         if (s.status === 'RUNNING') {
           runningHTML += `
-            <div class="flat-card p-4 mb-3 bg-[#1a1a1a]">
-              <div class="flex justify-between items-start mb-3">
-                <div class="flex items-center gap-2">
-                  <span class="${isBuy ? 'bg-emerald-900/30 text-success' : 'bg-red-900/30 text-danger'} text-xs font-bold px-2 py-1 rounded">${s.arah}</span>
-                  <span class="text-white font-semibold text-sm">@ ${s.entry}</span>
+            <div class="glass-card p-4 mb-3">
+              <div class="flex justify-between items-start mb-2">
+                <div class="flex items-start gap-2">
+                  <span class="${barColor} text-lg leading-none mt-1">│</span>
+                  <div>
+                    <p class="${textColor} font-semibold text-sm">${s.arah} <span class="text-white font-normal">Limit ${s.entry}</span></p>
+                    <p class="text-danger font-bold text-xs mt-1">STOP LOSS (SL) : ${s.sl}</p>
+                  </div>
                 </div>
-                <span class="text-[10px] text-muted">Limit</span>
+                <div class="text-right text-[10px]">
+                  <p class="text-gray-300 font-semibold mb-1"><span class="text-red-400">🎯</span> TAKE <span class="text-green-400">PROFIT</span> LEVELS</p>
+                  <p class="text-gray-200">🎖 TP 1: ${s.tp1}</p>
+                  <p class="text-gray-200">🎖 TP 2: ${s.tp2}</p>
+                  <p class="text-gray-200">🎖 TP 3: ${s.tp3}</p>
+                  ${s.tp4 != "0" && s.tp4 != "0.0" ? `<p class="text-gray-200">🏆 TP 4: ${s.tp4}</p>` : ''}
+                </div>
               </div>
-              <div class="grid grid-cols-2 gap-2 text-[11px]">
-                 <div class="bg-[#121212] p-2 rounded border border-[#27272a]">
-                    <p class="text-muted mb-1">Stop Loss</p><p class="text-danger font-bold">${s.sl}</p>
-                 </div>
-                 <div class="bg-[#121212] p-2 rounded border border-[#27272a]">
-                    <p class="text-muted mb-1">Take Profit</p>
-                    <p class="text-success">TP1: ${s.tp1}</p>
-                    <p class="text-success">TP2: ${s.tp2}</p>
-                 </div>
-              </div>
+              <ul class="text-[10px] text-gray-400 space-y-1 border-t border-[#3b82f6]/20 pt-2 mt-2">
+                <li>• Setup masih sesuai dengan analisa awal.</li>
+                <li>• Jaga emosi dan tetap patuhi plan (SL & TP yang ada).</li>
+                <li>• Bagi yang belum entry, tetap tunggu harga masuk di area entry yang ditentukan.</li>
+              </ul>
             </div>`;
-        } else if (s.status === 'WAITING') {
+        } 
+        
+        else if (s.status === 'WAITING') {
           waitingHTML += `
-            <div class="flat-card overflow-hidden mb-2 bg-[#1a1a1a]">
+            <div class="glass-card overflow-hidden mb-2">
               <div class="card-header p-3 flex justify-between items-center" onclick="toggleAccordion(this)">
                 <div class="flex items-center gap-2">
-                  <span class="${isBuy ? 'bg-emerald-900/30 text-success' : 'bg-red-900/30 text-danger'} text-[10px] font-bold px-2 py-1 rounded">${s.arah}</span>
-                  <span class="text-white font-semibold text-sm">@ ${s.entry}</span>
+                  <span class="${barColor} text-lg leading-none mt-0.5">│</span>
+                  <span class="${textColor} font-semibold text-sm">${s.arah} <span class="text-white font-normal">Limit ${s.entry}</span></span>
                 </div>
-                <span class="text-muted text-[10px]">SL: ${s.sl}</span>
+                <span class="text-danger font-bold text-[10px] uppercase tracking-wider">HIGH RISK</span>
               </div>
               <div class="card-detail px-3 pb-3">
-                <div class="pt-3 border-t border-[#27272a] flex justify-between items-center">
+                <div class="pt-3 border-t border-[#3b82f6]/20 flex justify-between items-start">
                   <div>
-                    <p class="text-muted text-[10px] mb-1">Stop Loss</p>
-                    <p class="text-danger font-bold text-xs">${s.sl}</p>
+                    <p class="text-danger font-bold text-xs"><span class="text-danger">⚠</span> STOP LOSS (SL) : ${s.sl}</p>
                   </div>
-                  <div class="text-right">
-                    <p class="text-muted text-[10px] mb-1">Take Profit</p>
-                    <p class="text-success text-[11px]">TP1: ${s.tp1}</p>
-                    <p class="text-success text-[11px]">TP2: ${s.tp2}</p>
+                  <div class="text-right text-[10px]">
+                    <p class="text-gray-300 font-semibold mb-1"><span class="text-red-400">🎯</span> TAKE <span class="text-green-400">PROFIT</span></p>
+                    <p class="text-gray-200">🎖 TP 1: ${s.tp1}</p>
+                    <p class="text-gray-200">🎖 TP 2: ${s.tp2}</p>
+                    <p class="text-gray-200">🎖 TP 3: ${s.tp3}</p>
+                    ${s.tp4 != "0" && s.tp4 != "0.0" ? `<p class="text-gray-200">🏆 TP 4: ${s.tp4}</p>` : ''}
                   </div>
                 </div>
               </div>
@@ -657,9 +692,12 @@
       document.getElementById('vip-running-list').innerHTML = runningHTML || '<p class="text-sm text-muted">Tidak ada posisi running.</p>';
       document.getElementById('vip-waiting-list').innerHTML = waitingHTML || '<p class="text-sm text-muted">Tidak ada sinyal waiting.</p>';
       
-      document.getElementById('vip-day-profit').innerText = `+${vipDayProfit}`;
-      document.getElementById('vip-day-sl').innerText = `-${vipDayLoss}`;
-      document.getElementById('vip-day-total').innerText = (vipDayProfit - vipDayLoss >= 0 ? '+' : '') + (vipDayProfit - vipDayLoss);
+      document.getElementById('vip-day-profit').innerText = `+${vipDayProfit} PIPS`;
+      document.getElementById('vip-day-sl').innerText = `-${vipDayLoss} PIPS`;
+      document.getElementById('vip-day-total').innerText = (vipDayProfit - vipDayLoss >= 0 ? '+' : '') + (vipDayProfit - vipDayLoss) + ' PIPS';
+
+      if (dailyTableHTML === "") dailyTableHTML = '<p class="text-xs text-muted py-2">Belum ada riwayat hari ini.</p>';
+      document.getElementById('vip-daily-table-list').innerHTML = dailyTableHTML;
     }
 
     function toggleAccordion(headerElement) {
@@ -703,7 +741,7 @@
               document.getElementById('userRoleDisplay').innerText = currentUserRole;
               
               if(currentUserRole === 'VIP' || currentUserRole === 'ADMIN') document.getElementById('userRoleDisplay').className = "text-xs font-bold text-success bg-emerald-900/30 px-2 py-1 rounded-md";
-              else document.getElementById('userRoleDisplay').className = "text-xs font-bold text-muted bg-[#27272a] px-2 py-1 rounded-md";
+              else document.getElementById('userRoleDisplay').className = "text-xs font-bold text-muted bg-[#1e293b] px-2 py-1 rounded-md";
               
               if(currentUserRole === 'ADMIN') {
                 document.getElementById('adminBtn').classList.remove('hidden');
