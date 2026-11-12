@@ -480,36 +480,37 @@
       }
     }
 
-    // --- FUNGSI MENGGAMBAR CHART STATIS (DATA ASLI DARI API TWELVEDATA) ---
+    // --- FUNGSI MENGGAMBAR CHART STATIS (DATA ASLI DARI BIQUOTE API) ---
     async function drawStaticChart(containerId, signal) {
         const container = document.getElementById(containerId);
         if (!container) return;
         container.innerHTML = '<p class="text-center text-xs text-muted mt-8"><i class="fa-solid fa-spinner fa-spin"></i> Memuat data chart...</p>';
 
-        // API KEY TWELVEDATA KAMU
-        const API_KEY = "9b1c275895fa42a38b01a4b8524121c9";
-        const symbol = "XAU/USD";
-        const interval = "15min"; // Timeframe M15
-        const outputsize = 60; // 60 candle terakhir
+        // Biquote API: Gratis, tanpa API key, CORS terbuka, data dari feed MT5
+        const symbol = "XAUUSD";
+        const interval = "15min";
+        const limit = 60;
 
         try {
-            const url = `https://api.twelvedata.com/time_series?symbol=${symbol}&interval=${interval}&outputsize=${outputsize}&apikey=${API_KEY}`;
+            const url = `https://biquote.io/api/${symbol}/ohlc?interval=${interval}&limit=${limit}`;
             const res = await fetch(url);
             const data = await res.json();
 
-            if (data.status === "error" || !data.values) {
-                container.innerHTML = `<p class="text-center text-xs text-danger mt-8">Gagal memuat chart: ${data.message || 'Limit API tercapai'}</p>`;
+            if (!data.bars || data.bars.length === 0) {
+                container.innerHTML = '<p class="text-center text-xs text-danger mt-8">Data candle tidak tersedia.</p>';
                 return;
             }
 
-            // TwelveData mengembalikan data dari yang terbaru ke terlama, kita balik urutannya
-            const candleData = data.values.reverse().map(c => ({
-                time: Math.floor(new Date(c.datetime).getTime() / 1000),
-                open: parseFloat(c.open),
-                high: parseFloat(c.high),
-                low: parseFloat(c.low),
-                close: parseFloat(c.close),
-            }));
+            // Format data untuk Lightweight Charts
+            const candleData = data.bars
+                .filter(c => !c.isOpen) // hanya candle yang sudah close
+                .map(c => ({
+                    time: Math.floor(new Date(c.openTime).getTime() / 1000),
+                    open: parseFloat(c.open),
+                    high: parseFloat(c.high),
+                    low: parseFloat(c.low),
+                    close: parseFloat(c.close),
+                }));
 
             container.innerHTML = ''; // Bersihkan loading text
 
@@ -548,8 +549,8 @@
             chart.timeScale().fitContent();
 
         } catch (error) {
-            console.error(error);
-            container.innerHTML = '<p class="text-center text-xs text-danger mt-8">Gagal terhubung ke API Chart.</p>';
+            console.error("Chart Error:", error);
+            container.innerHTML = '<p class="text-center text-xs text-danger mt-8">Gagal terhubung ke Biquote API.</p>';
         }
     }
 
