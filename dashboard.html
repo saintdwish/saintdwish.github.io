@@ -51,9 +51,7 @@
     .card-detail { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out; opacity: 0; }
     .card-detail.open { max-height: 400px; opacity: 1; }
     
-    /* Blur Effect */
     .vip-blurred { filter: blur(8px); pointer-events: none; user-select: none; opacity: 0.3; }
-
     .chart-container { width: 100%; height: 200px; border-radius: 8px; overflow: hidden; margin-top: 15px; border: 1px solid rgba(59, 130, 246, 0.2); position: relative; }
 
     .ib-btn { display: flex; justify-content: center; align-items: center; padding: 15px; border-radius: 12px; font-weight: 700; font-size: 16px; text-transform: uppercase; transition: transform 0.2s; }
@@ -118,12 +116,7 @@
       <div class="glass-card p-5 mb-8">
         <h2 class="text-lg font-bold text-white mb-4">FITUR YANG AKAN DIDAPATKAN JIKA AKSES VIP</h2>
         <ol class="text-sm text-muted space-y-2 list-decimal list-inside font-medium">
-          <li>Signal Ai</li>
-          <li>Notifikasi aktif saat terdapat setup</li>
-          <li>Join Komunitas Discord dan Telegram</li>
-          <li>Zona Mapping Setiap Market Open</li>
-          <li>Live BOOKMAP Gratis</li>
-          <li>Akses Semua Materi</li>
+          <li>Signal Ai</li><li>Notifikasi aktif saat terdapat setup</li><li>Join Komunitas Discord dan Telegram</li><li>Zona Mapping Setiap Market Open</li><li>Live BOOKMAP Gratis</li><li>Akses Semua Materi</li>
         </ol>
       </div>
       <div class="flex flex-col gap-4 mb-8 px-4">
@@ -133,12 +126,8 @@
       <div class="text-center mb-8">
         <p class="text-sm text-gray-300 mb-4">Masih Bingung Dan ada pertanyaan?<br>Hubungi Admin</p>
         <div class="flex justify-center gap-6">
-          <a href="https://discord.com/users/SAINT_D_WISH_ID" target="_blank" class="w-16 h-16 glass-card rounded-xl flex items-center justify-center hover:bg-[#5865F2]/20 transition">
-            <i class="fa-brands fa-discord text-3xl text-[#5865F2]"></i>
-          </a>
-          <a href="https://t.me/stdwis" target="_blank" class="w-16 h-16 glass-card rounded-xl flex items-center justify-center hover:bg-[#0088cc]/20 transition">
-            <i class="fa-brands fa-telegram text-3xl text-[#0088cc]"></i>
-          </a>
+          <a href="https://discord.com/users/SAINT_D_WISH_ID" target="_blank" class="w-16 h-16 glass-card rounded-xl flex items-center justify-center hover:bg-[#5865F2]/20 transition"><i class="fa-brands fa-discord text-3xl text-[#5865F2]"></i></a>
+          <a href="https://t.me/stdwis" target="_blank" class="w-16 h-16 glass-card rounded-xl flex items-center justify-center hover:bg-[#0088cc]/20 transition"><i class="fa-brands fa-telegram text-3xl text-[#0088cc]"></i></a>
         </div>
       </div>
     </div>
@@ -205,12 +194,10 @@
     <div id="view-vip" class="view-section hidden relative">
       <div id="vip-content" class="transition-all duration-500">
         <header class="mb-6"><h1 class="text-2xl font-bold text-white">VIP ZONE</h1></header>
-        
         <div class="flex gap-2 mb-6 glass-card p-1">
           <div id="tab-gldn" onclick="switchEATab('GLDN')" class="tab-btn tab-active">GOLDEN</div>
           <div id="tab-navigator" onclick="switchEATab('NAVIGATOR')" class="tab-btn tab-inactive">NAVIGATOR</div>
         </div>
-
         <div class="mb-6">
           <h2 class="text-md text-white mb-3 font-bold">SEDANG RUNNING</h2>
           <div class="flex flex-col gap-3" id="vip-running-list"><p class="text-sm text-muted">Tidak ada posisi running.</p></div>
@@ -272,7 +259,6 @@
         <p class="text-center text-[10px] text-muted tracking-widest mt-8">SAINT D.WISH</p>
       </div>
       
-      <!-- OVERLAY BOOKMAP LOCK -->
       <div id="bookmap-lock-overlay" class="hidden absolute inset-0 z-50 flex flex-col items-center justify-center bg-[#040812]/80 backdrop-blur-sm rounded-xl">
         <div class="glass-card w-full max-w-sm mx-auto p-6 flex flex-col items-center shadow-lg">
           <div class="w-20 h-20 mb-4 rounded-full border border-[#3b82f6]/50 overflow-hidden flex justify-center items-center bg-[#1e3a8a]/30">
@@ -369,16 +355,28 @@
     <div id="sub-notif" class="view-section hidden relative">
       <button onclick="closeSubAkun()" class="absolute top-0 left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50"><i class="fa-solid fa-arrow-left text-sm"></i></button>
       <h1 class="text-xl font-bold text-white text-center mb-10 pt-1">Notifikasi</h1>
+      
       <div class="glass-card p-4 flex justify-between items-center mb-4">
         <span class="text-sm font-medium text-white">Izinkan Notifikasi Browser</span>
         <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
           <input type="checkbox" name="toggle" id="toggleNotif" class="toggle-checkbox" onchange="requestNotifPermission(this)" /><label for="toggleNotif" class="toggle-label"></label>
         </div>
       </div>
+      
       <p class="text-[10px] text-muted text-center mb-6 px-4 leading-relaxed">*Untuk Pengguna iPhone (iOS), klik "Share" di Safari dan pilih "Add to Home Screen" agar notifikasi berfungsi.</p>
+
+      <!-- PANEL KHUSUS ADMIN UNTUK TES NOTIFIKASI & RESET DATA -->
       <div id="adminTestNotifPanel" class="hidden glass-card p-4 border border-blue-500/30">
-        <h3 class="text-white font-bold mb-2 text-sm">Admin Panel</h3><p class="text-[10px] text-muted mb-4">Gunakan tombol ini untuk mengetes notifikasi.</p>
-        <button onclick="testNotification()" class="w-full bg-blue-600 text-white font-bold py-2 rounded-lg transition text-sm">Test Notifikasi</button>
+        <h3 class="text-white font-bold mb-2 text-sm">Admin Panel</h3>
+        <p class="text-[10px] text-muted mb-4">Gunakan tombol di bawah ini untuk menguji sistem atau mereset data.</p>
+        
+        <button onclick="testNotification()" class="w-full bg-blue-600 text-white font-bold py-2 rounded-lg transition text-sm mb-2">
+          <i class="fa-solid fa-paper-plane mr-1"></i> Test Notifikasi
+        </button>
+        
+        <button onclick="resetRecapData()" class="w-full bg-red-600 text-white font-bold py-2 rounded-lg transition text-sm">
+          <i class="fa-solid fa-trash-can mr-1"></i> Reset Semua Recap
+        </button>
       </div>
     </div>
 
@@ -386,7 +384,6 @@
 
   <!-- NAVBAR BAWAH (5 MENU) -->
   <div id="mainNavbar" class="fixed bottom-4 w-full max-w-md flex justify-center z-50 pointer-events-none transition-opacity duration-300">
-    <!-- overflow-visible penting agar tombol VIP bisa keluar dari kotak -->
     <nav class="relative w-[95%] bg-[#0f172a]/90 backdrop-blur-xl border border-[#3b82f6]/30 flex justify-between items-end px-2 pb-2 pt-3 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.8)] pointer-events-auto overflow-visible">
       
       <button onclick="switchView('dashboard', this)" id="nav-dashboard" class="flex flex-col items-center justify-center w-[60px] gap-1 text-white transition-all pb-1">
@@ -399,11 +396,9 @@
 
       <!-- Area Tengah Khusus VIP -->
       <div class="relative w-[60px] flex flex-col items-center justify-end h-full">
-        <!-- Tombol Melayang ke atas -->
         <button onclick="switchView('vip', this)" id="nav-vip" class="absolute -top-[32px] w-[64px] h-[64px] rounded-full bg-[#0f172a] border-[3px] border-[#3b82f6] shadow-[0_0_20px_rgba(59,130,246,0.6)] flex items-center justify-center overflow-hidden p-1 hover:scale-105 transition-transform z-50">
           <img src="logo.png" alt="VIP" class="w-full h-full object-cover rounded-full opacity-90 transition-all">
         </button>
-        <!-- Teks VIP diletakkan di bawah -->
         <span class="text-[9px] font-bold text-blue-200 mt-[34px] pb-1">VIP</span>
       </div>
 
@@ -464,6 +459,27 @@
         const res = await fetch(API_URL_SIGNAL); const data = await res.json();
         if (data.status === 'success') { globalSignals = data.data; checkNewNotifications(); renderAllViews(); }
       } catch (e) {}
+    }
+
+    // FUNGSI RESET DATA
+    async function resetRecapData() {
+        if (!confirm("Apakah kamu yakin ingin menghapus SEMUA data sinyal? Semua Recap akan kembali ke 0.")) return;
+        try {
+            const res = await fetch(API_URL_SIGNAL, {
+                method: 'POST',
+                body: JSON.stringify({ action: 'reset_signals' })
+            });
+            const data = await res.json();
+            if(data.status === 'success') {
+                alert("Data berhasil dihapus!");
+                globalSignals = []; // Kosongkan variabel lokal
+                renderAllViews(); // Render ulang dengan data kosong
+            } else {
+                alert("Gagal: " + data.message);
+            }
+        } catch(e) {
+            alert("Terjadi kesalahan jaringan.");
+        }
     }
 
     function checkNewNotifications() {
@@ -669,6 +685,7 @@
       document.getElementById('vip-daily-table-list').innerHTML = dailyTableHTML;
     }
 
+    // PERBAIKAN CHART (ANTI BLANK)
     function toggleAccordion(headerElement) {
       const detail = headerElement.nextElementSibling;
       if (detail.classList.contains('open')) {
@@ -681,7 +698,7 @@
             const signalId = chartDiv.id.replace('chart-container-', '');
             const signalData = globalSignals.find(sig => sig.id == signalId);
             if (signalData) {
-                setTimeout(() => { drawStaticChart(chartDiv.id, signalData); }, 300); 
+                setTimeout(() => { drawStaticChart(chartDiv.id, signalData); }, 600); 
             }
         }
       }
@@ -692,11 +709,14 @@
         if (!container) return;
         container.innerHTML = ''; 
 
+        const width = container.clientWidth || 300;
+
         const chart = LightweightCharts.createChart(container, {
-            width: container.clientWidth, height: 200,
+            width: width, 
+            height: 200,
             layout: { background: { color: 'transparent' }, textColor: '#64748b' },
             grid: { vertLines: { color: 'rgba(59, 130, 246, 0.05)' }, horzLines: { color: 'rgba(59, 130, 246, 0.05)' } },
-            rightPriceScale: { visible: true, borderColor: 'rgba(59, 130, 246, 0.2)' },
+            rightPriceScale: { visible: true, borderColor: 'rgba(59, 130, 246, 0.2)', autoScale: true },
             timeScale: { visible: false, borderColor: 'rgba(59, 130, 246, 0.2)' },
             crosshair: { mode: LightweightCharts.CrosshairMode.Hidden },
             handleScroll: false, handleScale: false,
@@ -708,10 +728,12 @@
         });
 
         const entry = parseFloat(signal.entry);
+        const sl = parseFloat(signal.sl);
+        const tp1 = parseFloat(signal.tp1);
         const isBuy = signal.arah === 'BUY';
         
         let currentPrice = isBuy ? entry + 2.5 : entry - 2.5; 
-        let time = new Date().getTime() / 1000 - 30 * 60; 
+        let time = Math.floor(new Date().getTime() / 1000) - 30 * 60; 
         const candleData = [];
 
         for (let i = 0; i < 25; i++) {
@@ -726,7 +748,7 @@
             let high = Math.max(open, close) + (Math.random() * 0.3);
             let low = Math.min(open, close) - (Math.random() * 0.3);
 
-            candleData.push({ time: Math.floor(time), open: open, high: high, low: low, close: close });
+            candleData.push({ time: time, open: open, high: high, low: low, close: close });
             
             currentPrice = close;
             time += 60; 
@@ -734,18 +756,23 @@
 
         candleSeries.setData(candleData);
 
-        candleSeries.createPriceLine({ price: entry, color: '#ffffff', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: true, title: 'ENTRY' });
-        candleSeries.createPriceLine({ price: parseFloat(signal.sl), color: '#ef4444', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: true, title: 'SL' });
-        candleSeries.createPriceLine({ price: parseFloat(signal.tp1), color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: true, title: 'TP1' });
+        if (!isNaN(entry)) candleSeries.createPriceLine({ price: entry, color: '#ffffff', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: true, title: 'ENTRY' });
+        if (!isNaN(sl)) candleSeries.createPriceLine({ price: sl, color: '#ef4444', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: true, title: 'SL' });
+        if (!isNaN(tp1)) candleSeries.createPriceLine({ price: tp1, color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: true, title: 'TP1' });
         
-        if (signal.tp2 && signal.tp2 !== "0") {
+        if (signal.tp2 && signal.tp2 !== "0" && signal.tp2 !== "0.0") {
             candleSeries.createPriceLine({ price: parseFloat(signal.tp2), color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dotted, axisLabelVisible: true, title: 'TP2' });
         }
-        if (signal.tp3 && signal.tp3 !== "0") {
+        if (signal.tp3 && signal.tp3 !== "0" && signal.tp3 !== "0.0") {
             candleSeries.createPriceLine({ price: parseFloat(signal.tp3), color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dotted, axisLabelVisible: true, title: 'TP3' });
         }
 
         chart.timeScale().fitContent();
+
+        setTimeout(() => {
+            chart.applyOptions({ width: container.clientWidth || 300 });
+            chart.timeScale().fitContent();
+        }, 100);
     }
 
     // INISIALISASI
@@ -830,7 +857,6 @@
       document.getElementById('view-' + viewName).classList.remove('hidden');
       document.getElementById('view-' + viewName).classList.add('block');
 
-      // LOGIKA BLUR VIP
       if (viewName === 'vip') {
         const vipContent = document.getElementById('vip-content'); 
         const vipOverlay = document.getElementById('vip-lock-overlay');
@@ -843,7 +869,6 @@
         }
       }
 
-      // LOGIKA BLUR BOOKMAP
       if (viewName === 'bookmap') {
         const bookmapContent = document.getElementById('bookmap-content'); 
         const bookmapOverlay = document.getElementById('bookmap-lock-overlay');
