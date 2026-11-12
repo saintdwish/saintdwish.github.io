@@ -56,7 +56,6 @@
 
     .chart-container { width: 100%; height: 200px; border-radius: 8px; overflow: hidden; margin-top: 15px; border: 1px solid rgba(59, 130, 246, 0.2); position: relative; }
 
-    /* Styling Khusus Join IB */
     .ib-btn { display: flex; justify-content: center; align-items: center; padding: 15px; border-radius: 12px; font-weight: 700; font-size: 16px; text-transform: uppercase; transition: transform 0.2s; }
     .ib-btn:hover { transform: scale(1.02); }
     .ib-exness { background-color: #FFD700; color: #000; }
@@ -371,30 +370,24 @@
   <!-- NAVBAR BAWAH (5 MENU) -->
   <div id="mainNavbar" class="fixed bottom-4 w-full max-w-md flex justify-center z-50 pointer-events-none transition-opacity duration-300">
     <nav class="relative w-[95%] bg-[#0f172a]/90 backdrop-blur-xl border border-[#3b82f6]/30 flex justify-between items-center px-2 pb-2 pt-3 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.8)] pointer-events-auto">
-      
       <button onclick="switchView('dashboard', this)" id="nav-dashboard" class="flex flex-col items-center justify-center w-[60px] gap-1 text-white transition-all">
         <i class="fa-solid fa-house text-lg"></i><span class="text-[9px] font-medium tracking-wide">DASHBOARD</span>
       </button>
-      
       <button onclick="switchView('akses', this)" id="nav-akses" class="flex flex-col items-center justify-center w-[60px] gap-1 text-muted hover:text-white transition-all">
         <i class="fa-solid fa-key text-lg"></i><span class="text-[9px] font-medium tracking-wide">AKSES</span>
       </button>
-
       <div class="w-[60px] relative flex justify-center">
         <button onclick="switchView('vip', this)" id="nav-vip" class="absolute -top-8 w-[60px] h-[60px] rounded-full bg-[#0f172a] border-[2px] border-[#3b82f6] shadow-[0_0_20px_rgba(59,130,246,0.6)] flex items-center justify-center overflow-hidden p-1 hover:scale-105 transition-transform">
           <img src="logo.png" alt="VIP" class="w-full h-full object-cover rounded-full opacity-90 transition-all">
         </button>
         <span class="text-[9px] font-bold text-blue-200 absolute -bottom-5">VIP</span>
       </div>
-
       <button onclick="switchView('bookmap', this)" id="nav-bookmap" class="flex flex-col items-center justify-center w-[60px] gap-1 text-muted hover:text-white transition-all">
         <i class="fa-solid fa-satellite-dish text-lg"></i><span class="text-[9px] font-medium tracking-wide">BOOKMAP</span>
       </button>
-      
       <button onclick="switchView('akun', this)" id="nav-akun" class="flex flex-col items-center justify-center w-[60px] gap-1 text-muted hover:text-white transition-all">
         <i class="fa-regular fa-user text-lg"></i><span class="text-[9px] font-medium tracking-wide">AKUN</span>
       </button>
-
     </nav>
   </div>
 
@@ -412,14 +405,12 @@
     let currentUserEmail = "";
     let priceHistory = []; 
 
-    // SETUP CHART MINI
     const ctx = document.getElementById('miniChart').getContext('2d');
     const priceChart = new Chart(ctx, {
       type: 'line', data: { labels: [], datasets: [{ data: [], borderColor: '#60a5fa', borderWidth: 2, pointRadius: 0, fill: false, tension: 0.4 }] },
       options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false } }, animation: false }
     });
 
-    // HARGA LIVE
     let previousPrice = 0;
     async function fetchLivePrice() {
       try {
@@ -427,7 +418,6 @@
         if (data.status === 'success' && data.price > 0) {
           const p = parseFloat(data.price);
           document.getElementById('goldPrice').innerText = p.toFixed(3);
-          
           const chg = ((p - (previousPrice || p)) / p) * 100;
           document.getElementById('priceChange').innerText = (chg > 0 ? '+' : '') + chg.toFixed(2) + ' %';
           if (chg > 0) document.getElementById('priceChange').className = "text-sm font-medium mt-1 text-success";
@@ -443,7 +433,6 @@
       } catch (e) {}
     }
 
-    // FETCH SINYAL
     async function fetchSignals() {
       try {
         const res = await fetch(API_URL_SIGNAL); const data = await res.json();
@@ -451,7 +440,6 @@
       } catch (e) {}
     }
 
-    // NOTIFIKASI
     function checkNewNotifications() {
       if (!("Notification" in window) || Notification.permission !== "granted") return;
       globalSignals.forEach(sig => {
@@ -474,7 +462,6 @@
 
     function renderAllViews() { renderDashboardCombined(); renderVIP(); }
 
-    // RENDER DASHBOARD
     function renderDashboardCombined() {
       let historyHTML = "", monProfit = 0, monLoss = 0, weekProfit = 0, weekLoss = 0, dayProfit = 0, dayLoss = 0;
       const now = new Date();
@@ -509,7 +496,6 @@
       document.getElementById('day-total').innerText = (dayProfit - dayLoss >= 0 ? '+' : '') + (dayProfit - dayLoss);
     }
 
-    // RENDER VIP
     function switchEATab(source) {
       currentEATab = source;
       document.getElementById('tab-gldn').className = `tab-btn ${source === 'GLDN' ? 'tab-active' : 'tab-inactive'}`;
@@ -578,7 +564,6 @@
       document.getElementById('vip-daily-table-list').innerHTML = dailyTableHTML;
     }
 
-    // ACCORDION & CHART
     function toggleAccordion(headerElement) {
       const detail = headerElement.nextElementSibling;
       if (detail.classList.contains('open')) {
@@ -597,69 +582,83 @@
       }
     }
 
-    // FUNGSI MENGGAMBAR CHART STATIS (PAKAI TWELVEDATA + CORS PROXY)
-    async function drawStaticChart(containerId, signal) {
+    // --- FUNGSI MENGGAMBAR CHART CUSTOM (TANPA API) ---
+    function drawStaticChart(containerId, signal) {
         const container = document.getElementById(containerId);
         if (!container) return;
-        container.innerHTML = '<p class="text-center text-xs text-muted mt-8"><i class="fa-solid fa-spinner fa-spin"></i> Memuat chart...</p>';
+        container.innerHTML = ''; // Bersihkan container
 
-        const API_KEY = "9b1c275895fa42a38b01a4b8524121c9";
-        const symbol = "XAU/USD";
-        const interval = "15min"; 
-        const outputsize = 60; 
+        const chart = LightweightCharts.createChart(container, {
+            width: container.clientWidth, height: 200,
+            layout: { background: { color: 'transparent' }, textColor: '#64748b' },
+            grid: { vertLines: { color: 'rgba(59, 130, 246, 0.05)' }, horzLines: { color: 'rgba(59, 130, 246, 0.05)' } },
+            rightPriceScale: { visible: true, borderColor: 'rgba(59, 130, 246, 0.2)' },
+            timeScale: { visible: false, borderColor: 'rgba(59, 130, 246, 0.2)' },
+            crosshair: { mode: LightweightCharts.CrosshairMode.Hidden },
+            handleScroll: false, handleScale: false,
+        });
 
-        // Gunakan proxy allorigins untuk menembus CORS TwelveData
-        const targetUrl = `https://api.twelvedata.com/time_series?symbol=${symbol}&interval=${interval}&outputsize=${outputsize}&apikey=${API_KEY}`;
-        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
+        const candleSeries = chart.addCandlestickSeries({
+            upColor: '#10b981', downColor: '#ef4444', borderVisible: false,
+            wickUpColor: '#10b981', wickDownColor: '#ef4444',
+        });
 
-        try {
-            const res = await fetch(proxyUrl);
-            const data = await res.json();
+        // GENERATE DATA CANDLE SIMULASI (Menuju ke arah Entry)
+        const entry = parseFloat(signal.entry);
+        const isBuy = signal.arah === 'BUY';
+        
+        // Mulai dari harga acak yang masuk akal (sekitar 2-4 poin dari entry)
+        let currentPrice = isBuy ? entry + 2.5 : entry - 2.5; 
+        let time = new Date().getTime() / 1000 - 30 * 60; // Mulai 30 menit lalu
+        const candleData = [];
 
-            if (data.status === "error" || !data.values) {
-                container.innerHTML = `<p class="text-center text-xs text-danger mt-8">Gagal memuat chart: ${data.message || 'Limit API'}</p>`;
-                return;
+        for (let i = 0; i < 25; i++) {
+            let open = currentPrice;
+            
+            // Trend umum menuju entry
+            let trend = isBuy ? -0.1 : 0.1; 
+            // Noise / volatilitas acak
+            let noise = (Math.random() - 0.5) * 0.8;
+            
+            let close = open + trend + noise;
+            
+            // Paksa candle terakhir (i = 24) untuk close pas di harga Entry
+            if (i === 24) {
+                close = entry;
+            } else if (i === 23) {
+                // Sedikit pullback sebelum entry
+                close = isBuy ? entry + 0.3 : entry - 0.3;
             }
 
-            const candleData = data.values.reverse().map(c => ({
-                time: Math.floor(new Date(c.datetime).getTime() / 1000),
-                open: parseFloat(c.open), high: parseFloat(c.high), low: parseFloat(c.low), close: parseFloat(c.close),
-            }));
+            let high = Math.max(open, close) + (Math.random() * 0.3);
+            let low = Math.min(open, close) - (Math.random() * 0.3);
 
-            container.innerHTML = '';
-
-            const chart = LightweightCharts.createChart(container, {
-                width: container.clientWidth, height: 200,
-                layout: { background: { color: 'transparent' }, textColor: '#64748b' },
-                grid: { vertLines: { color: 'rgba(59, 130, 246, 0.05)' }, horzLines: { color: 'rgba(59, 130, 246, 0.05)' } },
-                rightPriceScale: { visible: true, borderColor: 'rgba(59, 130, 246, 0.2)' },
-                timeScale: { visible: false, borderColor: 'rgba(59, 130, 246, 0.2)' },
-                crosshair: { mode: LightweightCharts.CrosshairMode.Hidden },
-                handleScroll: false, handleScale: false,
-            });
-
-            const candleSeries = chart.addCandlestickSeries({
-                upColor: '#10b981', downColor: '#ef4444', borderVisible: false,
-                wickUpColor: '#10b981', wickDownColor: '#ef4444',
-            });
-
-            candleSeries.setData(candleData);
-
-            candleSeries.createPriceLine({ price: parseFloat(signal.entry), color: '#ffffff', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: true, title: 'ENTRY' });
-            candleSeries.createPriceLine({ price: parseFloat(signal.sl), color: '#ef4444', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: true, title: 'SL' });
-            candleSeries.createPriceLine({ price: parseFloat(signal.tp1), color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: true, title: 'TP1' });
-            if (signal.tp2 && signal.tp2 !== "0") candleSeries.createPriceLine({ price: parseFloat(signal.tp2), color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dotted, axisLabelVisible: true, title: 'TP2' });
-            if (signal.tp3 && signal.tp3 !== "0") candleSeries.createPriceLine({ price: parseFloat(signal.tp3), color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dotted, axisLabelVisible: true, title: 'TP3' });
-
-            chart.timeScale().fitContent();
-
-        } catch (error) {
-            console.error("Chart Error:", error);
-            container.innerHTML = '<p class="text-center text-xs text-danger mt-8">Gagal terhubung ke API Chart.</p>';
+            candleData.push({ time: Math.floor(time), open: open, high: high, low: low, close: close });
+            
+            currentPrice = close;
+            time += 60; // Naik 1 menit tiap candle
         }
+
+        candleSeries.setData(candleData);
+
+        // Gambar Garis Entry
+        candleSeries.createPriceLine({ price: entry, color: '#ffffff', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: true, title: 'ENTRY' });
+        // Garis SL
+        candleSeries.createPriceLine({ price: parseFloat(signal.sl), color: '#ef4444', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: true, title: 'SL' });
+        // Garis TP1
+        candleSeries.createPriceLine({ price: parseFloat(signal.tp1), color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: true, title: 'TP1' });
+        
+        if (signal.tp2 && signal.tp2 !== "0") {
+            candleSeries.createPriceLine({ price: parseFloat(signal.tp2), color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dotted, axisLabelVisible: true, title: 'TP2' });
+        }
+        if (signal.tp3 && signal.tp3 !== "0") {
+            candleSeries.createPriceLine({ price: parseFloat(signal.tp3), color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dotted, axisLabelVisible: true, title: 'TP3' });
+        }
+
+        chart.timeScale().fitContent();
     }
 
-    // NAVIGASI & AUTH
+    // --- INISIALISASI & CEK TOKEN VPS ---
     document.addEventListener("DOMContentLoaded", function() {
       const token = localStorage.getItem('sdw_token');
       if (!token) { window.location.href = "login.html"; return; }
