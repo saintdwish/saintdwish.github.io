@@ -8,9 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   
-  <!-- Library Chart: Lightweight Charts (TradingView) -->
   <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
-  
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
@@ -54,8 +52,14 @@
     .card-detail.open { max-height: 400px; opacity: 1; }
     .vip-blurred { filter: blur(8px); pointer-events: none; user-select: none; opacity: 0.3; }
 
-    /* Styling Chart di dalam Card */
     .chart-container { width: 100%; height: 200px; border-radius: 8px; overflow: hidden; margin-top: 15px; border: 1px solid rgba(59, 130, 246, 0.2); position: relative; }
+
+    /* Styling Khusus Join IB */
+    .ib-btn { display: flex; justify-content: center; align-items: center; padding: 15px; border-radius: 12px; font-weight: 700; font-size: 16px; text-transform: uppercase; transition: transform 0.2s; }
+    .ib-btn:hover { transform: scale(1.02); }
+    .ib-exness { background-color: #FFD700; color: #000; }
+    .ib-hfm { background-color: #000000; color: #fff; border: 1px solid #333; }
+    .ib-valetax { background-color: #008000; color: #fff; }
   </style>
 </head>
 <body class="max-w-md mx-auto relative min-h-screen">
@@ -65,7 +69,6 @@
     <!-- VIEW 1: DASHBOARD UTAMA -->
     <div id="view-dashboard" class="view-section block">
       <header class="mb-6"><h1 class="text-2xl font-bold text-white">Dashboard</h1></header>
-
       <div class="glass-card p-4 mb-6 flex justify-between items-center relative overflow-hidden">
         <div class="z-10">
           <p class="text-sm text-muted mb-1 font-medium">XAUUSD <span class="text-xs text-success bg-emerald-900/30 px-2 py-0.5 rounded ml-1">Live</span></p>
@@ -76,69 +79,166 @@
         </div>
         <div class="w-32 h-16 relative z-10"><canvas id="miniChart"></canvas></div>
       </div>
-
       <div class="mb-6">
         <h2 class="text-md text-muted mb-3 font-semibold">Riwayat</h2>
         <div class="glass-card p-2 flex flex-col gap-2 relative overflow-hidden" id="dashboard-history-list">
           <p class="text-center text-sm text-muted py-4">Memuat riwayat...</p>
         </div>
       </div>
-
       <div class="glass-card p-5 mb-4">
         <h3 class="text-md text-white font-semibold mb-4">Monthly Recap</h3>
         <div class="grid grid-cols-3 gap-3">
-          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Profit</p><p class="text-sm font-bold text-success" id="mon-profit">+0</p></div>
-          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Loss</p><p class="text-sm font-bold text-danger" id="mon-sl">-0</p></div>
-          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Total</p><p class="text-sm font-bold text-white" id="mon-total">+0</p></div>
+          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase font-semibold">Profit</p><p class="text-sm font-bold text-success" id="mon-profit">+0</p></div>
+          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase font-semibold">Loss</p><p class="text-sm font-bold text-danger" id="mon-sl">-0</p></div>
+          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase font-semibold">Total</p><p class="text-sm font-bold text-white" id="mon-total">+0</p></div>
         </div>
       </div>
-
       <div class="glass-card p-5 mb-4">
         <h3 class="text-md text-white font-semibold mb-4">Weekly Recap</h3>
         <div class="grid grid-cols-3 gap-3">
-          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Profit</p><p class="text-sm font-bold text-success" id="week-profit">+0</p></div>
-          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Loss</p><p class="text-sm font-bold text-danger" id="week-sl">-0</p></div>
-          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Total</p><p class="text-sm font-bold text-white" id="week-total">+0</p></div>
+          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase font-semibold">Profit</p><p class="text-sm font-bold text-success" id="week-profit">+0</p></div>
+          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase font-semibold">Loss</p><p class="text-sm font-bold text-danger" id="week-sl">-0</p></div>
+          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase font-semibold">Total</p><p class="text-sm font-bold text-white" id="week-total">+0</p></div>
         </div>
       </div>
-
       <div class="glass-card p-5 mb-8">
         <h3 class="text-md text-white font-semibold mb-4">Daily Recap</h3>
         <div class="grid grid-cols-3 gap-3">
-          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Profit</p><p class="text-sm font-bold text-success" id="day-profit">+0</p></div>
-          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Loss</p><p class="text-sm font-bold text-danger" id="day-sl">-0</p></div>
-          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase tracking-wider font-semibold">Total</p><p class="text-sm font-bold text-white" id="day-total">+0</p></div>
+          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase font-semibold">Profit</p><p class="text-sm font-bold text-success" id="day-profit">+0</p></div>
+          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase font-semibold">Loss</p><p class="text-sm font-bold text-danger" id="day-sl">-0</p></div>
+          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase font-semibold">Total</p><p class="text-sm font-bold text-white" id="day-total">+0</p></div>
         </div>
       </div>
     </div>
 
-    <!-- VIEW 2: VIP ZONE -->
+    <!-- VIEW 2: AKSES (Sesuai Gambar 1) -->
+    <div id="view-akses" class="view-section hidden">
+      <header class="mb-6"><h1 class="text-2xl font-bold text-white">AKSES MENU</h1></header>
+      
+      <div class="glass-card p-5 mb-8">
+        <h2 class="text-lg font-bold text-white mb-4">FITUR YANG AKAN DIDAPATKAN JIKA AKSES VIP</h2>
+        <ol class="text-sm text-muted space-y-2 list-decimal list-inside font-medium">
+          <li>Signal Ai</li>
+          <li>Notifikasi aktif saat terdapat setup</li>
+          <li>Join Komunitas Discord dan Telegram</li>
+          <li>Zona Mapping Setiap Market Open</li>
+          <li>Live BOOKMAP Gratis</li>
+          <li>Akses Semua Materi</li>
+        </ol>
+      </div>
+
+      <div class="flex flex-col gap-4 mb-8 px-4">
+        <button onclick="switchView('berlangganan', this)" class="w-full py-4 rounded-full bg-[#cbd5e1] text-black font-bold text-sm hover:bg-gray-300 transition shadow-lg">BERLANGGANAN</button>
+        <button onclick="switchView('joinib', this)" class="w-full py-4 rounded-full bg-[#cbd5e1] text-black font-bold text-sm hover:bg-gray-300 transition shadow-lg">JOIN IB</button>
+      </div>
+
+      <div class="text-center mb-8">
+        <p class="text-sm text-gray-300 mb-4">Masih Bingung Dan ada pertanyaan?<br>Hubungi Admin</p>
+        <div class="flex justify-center gap-6">
+          <a href="https://discord.com/users/SAINT_D_WISH_ID" target="_blank" class="w-16 h-16 glass-card rounded-xl flex items-center justify-center hover:bg-[#5865F2]/20 transition">
+            <i class="fa-brands fa-discord text-3xl text-[#5865F2]"></i>
+          </a>
+          <a href="https://t.me/stdwis" target="_blank" class="w-16 h-16 glass-card rounded-xl flex items-center justify-center hover:bg-[#0088cc]/20 transition">
+            <i class="fa-brands fa-telegram text-3xl text-[#0088cc]"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUB-VIEW: BERLANGGANAN (Sesuai Gambar 2) -->
+    <div id="view-berlangganan" class="view-section hidden relative">
+      <button onclick="switchView('akses', this)" class="absolute top-0 left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50"><i class="fa-solid fa-arrow-left text-sm"></i></button>
+      <h1 class="text-xl font-bold text-white text-center mb-8 pt-1">BERLANGGANAN</h1>
+
+      <!-- Paket Bulanan -->
+      <div class="glass-card p-6 mb-6 rounded-3xl border border-blue-500/30">
+        <h2 class="text-xl font-bold text-white mb-4">Rp. 49.000 / BULAN</h2>
+        <ul class="text-sm text-gray-300 space-y-3 mb-6">
+          <li class="flex justify-between items-center">Mapping Zone <i class="fa-solid fa-circle-check text-white"></i></li>
+          <li class="flex justify-between items-center">Signal Ai <i class="fa-solid fa-circle-check text-white"></i></li>
+          <li class="flex justify-between items-center">Video Edukasi <i class="fa-solid fa-circle-check text-white"></i></li>
+          <li class="flex justify-between items-center">Join Komunitas <i class="fa-solid fa-circle-check text-white"></i></li>
+        </ul>
+        <button class="w-full py-3 rounded-full border border-white text-white font-bold text-sm hover:bg-white hover:text-black transition">GET STARTED</button>
+      </div>
+
+      <!-- Paket Lifetime -->
+      <div class="glass-card p-6 mb-8 rounded-3xl border border-blue-500/30">
+        <h2 class="text-xl font-bold text-white mb-4">Rp. 120.000 / LIFETIME</h2>
+        <ul class="text-sm text-gray-300 space-y-3 mb-6">
+          <li class="flex justify-between items-center">Mapping Zone <i class="fa-solid fa-circle-check text-white"></i></li>
+          <li class="flex justify-between items-center">Signal Ai <i class="fa-solid fa-circle-check text-white"></i></li>
+          <li class="flex justify-between items-center">Video Edukasi <i class="fa-solid fa-circle-check text-white"></i></li>
+          <li class="flex justify-between items-center">Live BookMap <i class="fa-solid fa-circle-check text-white"></i></li>
+          <li class="flex justify-between items-center">Join Komunitas <i class="fa-solid fa-circle-check text-white"></i></li>
+        </ul>
+        <button class="w-full py-3 rounded-full border border-white text-white font-bold text-sm hover:bg-white hover:text-black transition">GET STARTED</button>
+      </div>
+
+      <p class="text-center text-[10px] text-muted tracking-widest">SAINT D.WISH</p>
+    </div>
+
+    <!-- SUB-VIEW: JOIN IB (Sesuai Gambar 3) -->
+    <div id="view-joinib" class="view-section hidden relative">
+      <button onclick="switchView('akses', this)" class="absolute top-0 left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50"><i class="fa-solid fa-arrow-left text-sm"></i></button>
+      <h1 class="text-xl font-bold text-white text-center mb-8 pt-1 text-blue-300">JOIN IB</h1>
+
+      <div class="flex flex-col gap-6 px-2">
+        <!-- Exness -->
+        <div class="flex flex-col gap-3">
+          <a href="https://www.exness.com" target="_blank" class="ib-btn ib-exness">EXNESS</a>
+          <div class="flex justify-center gap-4">
+            <a href="https://discord.gg/4qdemAKkD" target="_blank" class="w-12 h-12 bg-black rounded-full flex items-center justify-center border border-gray-700 hover:scale-110 transition"><i class="fa-brands fa-discord text-xl text-white"></i></a>
+            <a href="https://t.me/+TpiImsGHCl42ZjA1" target="_blank" class="w-12 h-12 bg-black rounded-full flex items-center justify-center border border-gray-700 hover:scale-110 transition"><i class="fa-brands fa-telegram text-xl text-white"></i></a>
+          </div>
+        </div>
+
+        <!-- HFM -->
+        <div class="flex flex-col gap-3">
+          <a href="https://www.hfm.com" target="_blank" class="ib-btn ib-hfm">HFM</a>
+          <div class="flex justify-center gap-4">
+            <a href="https://discord.gg/Fyy5yU7da" target="_blank" class="w-12 h-12 bg-black rounded-full flex items-center justify-center border border-gray-700 hover:scale-110 transition"><i class="fa-brands fa-discord text-xl text-white"></i></a>
+            <a href="https://t.me/+seAjjeEk1co2OGI1" target="_blank" class="w-12 h-12 bg-black rounded-full flex items-center justify-center border border-gray-700 hover:scale-110 transition"><i class="fa-brands fa-telegram text-xl text-white"></i></a>
+          </div>
+        </div>
+
+        <!-- Valetax -->
+        <div class="flex flex-col gap-3 mb-6">
+          <a href="https://www.valetax.com" target="_blank" class="ib-btn ib-valetax">VALETAX</a>
+          <div class="flex justify-center gap-4">
+            <a href="https://discord.gg/wTYzUj4Gj" target="_blank" class="w-12 h-12 bg-black rounded-full flex items-center justify-center border border-gray-700 hover:scale-110 transition"><i class="fa-brands fa-discord text-xl text-white"></i></a>
+            <a href="https://t.me/+FPYkamzqoDNkYzM1" target="_blank" class="w-12 h-12 bg-black rounded-full flex items-center justify-center border border-gray-700 hover:scale-110 transition"><i class="fa-brands fa-telegram text-xl text-white"></i></a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flex justify-center mt-4">
+        <img src="logo.png" alt="Saint D Wish" class="w-16 h-16 object-contain opacity-50">
+      </div>
+    </div>
+
+    <!-- VIEW 3: VIP ZONE -->
     <div id="view-vip" class="view-section hidden relative">
       <div id="vip-content" class="transition-all duration-500">
         <header class="mb-6"><h1 class="text-2xl font-bold text-white">VIP ZONE</h1></header>
-        
         <div class="flex gap-2 mb-6 glass-card p-1">
           <div id="tab-gldn" onclick="switchEATab('GLDN')" class="tab-btn tab-active">GOLDEN</div>
           <div id="tab-msp" onclick="switchEATab('MSP')" class="tab-btn tab-inactive">MSP</div>
         </div>
-
         <div class="mb-6">
           <h2 class="text-md text-white mb-3 font-bold">SEDANG RUNNING</h2>
           <div class="flex flex-col gap-3" id="vip-running-list"><p class="text-sm text-muted">Tidak ada posisi running.</p></div>
         </div>
-
         <div class="mb-6">
           <h2 class="text-md text-white mb-3 font-bold">WAITING</h2>
           <div class="flex flex-col gap-2" id="vip-waiting-list"><p class="text-sm text-muted">Tidak ada sinyal waiting.</p></div>
         </div>
-
         <div class="mb-6">
           <h3 class="text-xs font-bold text-white mb-2 tracking-wide">RISK MANAGEMENT</h3>
           <ol class="text-sm text-muted space-y-1 font-medium pl-1">
             <li>1. Use proper lot sizing</li><li>2. Maintain disciplined risk management.</li><li>3. Avoid entering outside the specified entry area.</li><li>4. Do not chase price if the setup is missed.</li>
           </ol>
         </div>
-
         <div class="glass-card p-5 mb-6">
           <h3 class="text-lg text-white mb-4 tracking-wide font-normal">DAILY RECAP</h3>
           <div class="grid grid-cols-3 gap-2 mb-6">
@@ -160,14 +260,41 @@
              <img src="logo.png" alt="Logo" class="w-full h-full object-cover grayscale opacity-50">
           </div>
           <h2 class="text-white text-lg font-bold text-center mb-6">JOIN VIP UNTUK<br>MEMBUKA VIP AKSES</h2>
-          <button onclick="simulasiUpgrade()" class="w-full py-3 rounded-lg bg-blue-600 text-white font-bold text-sm mb-3 hover:bg-blue-500 transition shadow-[0_0_15px_rgba(59,130,246,0.5)]">BERLANGGANAN</button>
+          <button onclick="switchView('berlangganan', this)" class="w-full py-3 rounded-lg bg-blue-600 text-white font-bold text-sm mb-3 hover:bg-blue-500 transition shadow-[0_0_15px_rgba(59,130,246,0.5)]">BERLANGGANAN</button>
           <span class="text-muted font-bold text-xs tracking-widest mb-3">ATAU</span>
-          <button class="w-full py-3 rounded-lg border border-[#3b82f6]/50 text-white font-bold text-sm hover:bg-blue-900/30 transition">JOIN IB GRATIS</button>
+          <button onclick="switchView('joinib', this)" class="w-full py-3 rounded-lg border border-[#3b82f6]/50 text-white font-bold text-sm hover:bg-blue-900/30 transition">JOIN IB GRATIS</button>
         </div>
       </div>
     </div>
 
-    <!-- VIEW 3: AKUN UTAMA -->
+    <!-- VIEW 4: BOOKMAP (Sesuai Gambar 4) -->
+    <div id="view-bookmap" class="view-section hidden">
+      <header class="mb-6"><h1 class="text-2xl font-bold text-white">LIVE BOOKMAP</h1></header>
+      
+      <div class="glass-card p-5 mb-6">
+        <h2 class="text-lg font-bold text-white text-center mb-4">Apa itu Bookmap?</h2>
+        <p class="text-sm text-muted text-justify leading-relaxed mb-4">
+          Bookmap adalah radar likuiditas real-time bagi trader yang ingin melihat di balik layar pergerakan harga melacak dinding order tersembunyi, volume absorption, dan momentum order flow secara visual detik demi detik.
+        </p>
+        <p class="text-sm text-muted text-justify leading-relaxed">
+          Bookmap adalah senjata visualisasi order book tingkat lanjut untuk menaklukkan volatilitas XAU/USD, mengubah tumpukan data Depth of Market menjadi peta panas intuitif agar Anda selalu selangkah di depan pergerakan smart money.
+        </p>
+      </div>
+
+      <!-- Gambar Bookmap (Menggunakan URL raw github yang kamu kasih) -->
+      <div class="w-full rounded-xl overflow-hidden mb-8 border border-blue-500/30">
+        <img src="https://raw.githubusercontent.com/saintdwish/saintdwish.github.io/fcc77ddafb1bd0c903f8528fbc67afa46174ccba/Bookmap.png" alt="Live Bookmap" class="w-full h-auto object-cover">
+      </div>
+
+      <!-- Tombol Live Bookmap -->
+      <button class="w-full max-w-xs mx-auto block py-4 rounded-full bg-[#1e3a8a] text-white font-bold text-md tracking-wider hover:bg-blue-700 transition shadow-[0_0_20px_rgba(30,58,138,0.6)] border border-blue-400">
+        LIVE BOOKMAP
+      </button>
+      
+      <p class="text-center text-[10px] text-muted tracking-widest mt-8">SAINT D.WISH</p>
+    </div>
+
+    <!-- VIEW 5: AKUN UTAMA -->
     <div id="view-akun" class="view-section hidden">
       <header class="mb-6"><h1 class="text-2xl font-bold text-white">AKUN</h1></header>
       <div class="glass-card rounded-xl p-4 flex items-center justify-between mb-6">
@@ -265,19 +392,34 @@
 
   </div> 
 
-  <!-- NAVBAR BAWAH -->
+  <!-- NAVBAR BAWAH (5 MENU) -->
   <div id="mainNavbar" class="fixed bottom-4 w-full max-w-md flex justify-center z-50 pointer-events-none transition-opacity duration-300">
-    <nav class="relative w-[90%] bg-[#0f172a]/80 backdrop-blur-xl border border-[#3b82f6]/30 flex justify-between items-end px-6 pb-2 pt-3 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.8)] pointer-events-auto">
-      <button onclick="switchView('dashboard', this)" id="nav-dashboard" class="flex flex-col items-center justify-center w-20 gap-1 text-white transition-all"><i class="fa-solid fa-house text-lg"></i><span class="text-[10px] font-medium tracking-wide">DASHBOARD</span></button>
-      <div class="w-20"></div>
-      <button onclick="switchView('akun', this)" id="nav-akun" class="flex flex-col items-center justify-center w-20 gap-1 text-muted hover:text-white transition-all"><i class="fa-regular fa-user text-lg"></i><span class="text-[10px] font-medium tracking-wide">AKUN</span></button>
-    </nav>
-    <div class="absolute bottom-[20px] left-1/2 transform -translate-x-1/2 flex flex-col items-center pointer-events-auto">
-      <button onclick="switchView('vip', this)" id="nav-vip" class="w-[68px] h-[68px] rounded-full bg-[#0f172a] border-[3px] border-[#3b82f6] shadow-[0_0_25px_rgba(59,130,246,0.6)] flex items-center justify-center overflow-hidden p-1 hover:scale-105 transition-transform">
-        <img src="logo.png" alt="VIP" class="w-full h-full object-cover rounded-full opacity-90 transition-all">
+    <nav class="relative w-[95%] bg-[#0f172a]/90 backdrop-blur-xl border border-[#3b82f6]/30 flex justify-between items-center px-2 pb-2 pt-3 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.8)] pointer-events-auto">
+      
+      <button onclick="switchView('dashboard', this)" id="nav-dashboard" class="flex flex-col items-center justify-center w-[60px] gap-1 text-white transition-all">
+        <i class="fa-solid fa-house text-lg"></i><span class="text-[9px] font-medium tracking-wide">DASHBOARD</span>
       </button>
-      <span class="text-[10px] font-bold text-blue-200 mt-1 absolute -bottom-5">VIP</span>
-    </div>
+      
+      <button onclick="switchView('akses', this)" id="nav-akses" class="flex flex-col items-center justify-center w-[60px] gap-1 text-muted hover:text-white transition-all">
+        <i class="fa-solid fa-key text-lg"></i><span class="text-[9px] font-medium tracking-wide">AKSES</span>
+      </button>
+
+      <div class="w-[60px] relative flex justify-center">
+        <button onclick="switchView('vip', this)" id="nav-vip" class="absolute -top-8 w-[60px] h-[60px] rounded-full bg-[#0f172a] border-[2px] border-[#3b82f6] shadow-[0_0_20px_rgba(59,130,246,0.6)] flex items-center justify-center overflow-hidden p-1 hover:scale-105 transition-transform">
+          <img src="logo.png" alt="VIP" class="w-full h-full object-cover rounded-full opacity-90 transition-all">
+        </button>
+        <span class="text-[9px] font-bold text-blue-200 absolute -bottom-5">VIP</span>
+      </div>
+
+      <button onclick="switchView('bookmap', this)" id="nav-bookmap" class="flex flex-col items-center justify-center w-[60px] gap-1 text-muted hover:text-white transition-all">
+        <i class="fa-solid fa-satellite-dish text-lg"></i><span class="text-[9px] font-medium tracking-wide">BOOKMAP</span>
+      </button>
+      
+      <button onclick="switchView('akun', this)" id="nav-akun" class="flex flex-col items-center justify-center w-[60px] gap-1 text-muted hover:text-white transition-all">
+        <i class="fa-regular fa-user text-lg"></i><span class="text-[9px] font-medium tracking-wide">AKUN</span>
+      </button>
+
+    </nav>
   </div>
 
   <!-- ===== SCRIPTS ===== -->
@@ -294,12 +436,14 @@
     let currentUserEmail = "";
     let priceHistory = []; 
 
+    // SETUP CHART
     const ctx = document.getElementById('miniChart').getContext('2d');
     const priceChart = new Chart(ctx, {
       type: 'line', data: { labels: [], datasets: [{ data: [], borderColor: '#60a5fa', borderWidth: 2, pointRadius: 0, fill: false, tension: 0.4 }] },
       options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false } }, animation: false }
     });
 
+    // HARGA LIVE
     let previousPrice = 0;
     async function fetchLivePrice() {
       try {
@@ -323,6 +467,7 @@
       } catch (e) {}
     }
 
+    // FETCH SINYAL
     async function fetchSignals() {
       try {
         const res = await fetch(API_URL_SIGNAL); const data = await res.json();
@@ -330,6 +475,7 @@
       } catch (e) {}
     }
 
+    // NOTIFIKASI
     function checkNewNotifications() {
       if (!("Notification" in window) || Notification.permission !== "granted") return;
       globalSignals.forEach(sig => {
@@ -352,6 +498,7 @@
 
     function renderAllViews() { renderDashboardCombined(); renderVIP(); }
 
+    // RENDER DASHBOARD
     function renderDashboardCombined() {
       let historyHTML = "", monProfit = 0, monLoss = 0, weekProfit = 0, weekLoss = 0, dayProfit = 0, dayLoss = 0;
       const now = new Date();
@@ -386,6 +533,7 @@
       document.getElementById('day-total').innerText = (dayProfit - dayLoss >= 0 ? '+' : '') + (dayProfit - dayLoss);
     }
 
+    // RENDER VIP
     function switchEATab(source) {
       currentEATab = source;
       document.getElementById('tab-gldn').className = `tab-btn ${source === 'GLDN' ? 'tab-active' : 'tab-inactive'}`;
@@ -454,45 +602,32 @@
       document.getElementById('vip-daily-table-list').innerHTML = dailyTableHTML;
     }
 
-    // --- FUNGSI ACCORDION & MUNCULKAN CHART ---
+    // ACCORDION & CHART
     function toggleAccordion(headerElement) {
       const detail = headerElement.nextElementSibling;
-      
       if (detail.classList.contains('open')) {
         detail.classList.remove('open');
       } else {
-        // Tutup semua detail lain
         document.querySelectorAll('.card-detail').forEach(el => el.classList.remove('open'));
         detail.classList.add('open');
-
-        // Cari ID sinyal dari elemen chart di dalam detail
         const chartDiv = detail.querySelector('.chart-container');
         if (chartDiv) {
             const signalId = chartDiv.id.replace('chart-container-', '');
             const signalData = globalSignals.find(sig => sig.id == signalId);
             if (signalData) {
-                // Render chart setelah animasi buka selesai (500ms)
-                setTimeout(() => {
-                    drawStaticChart(chartDiv.id, signalData);
-                }, 300); 
+                setTimeout(() => { drawStaticChart(chartDiv.id, signalData); }, 300); 
             }
         }
       }
     }
 
-    // --- FUNGSI MENGGAMBAR CHART STATIS (DATA ASLI DARI BIQUOTE API) ---
     async function drawStaticChart(containerId, signal) {
         const container = document.getElementById(containerId);
         if (!container) return;
-        container.innerHTML = '<p class="text-center text-xs text-muted mt-8"><i class="fa-solid fa-spinner fa-spin"></i> Memuat data chart...</p>';
-
-        // Biquote API: Gratis, tanpa API key, CORS terbuka, data dari feed MT5
-        const symbol = "XAUUSD";
-        const interval = "15min";
-        const limit = 60;
+        container.innerHTML = '<p class="text-center text-xs text-muted mt-8"><i class="fa-solid fa-spinner fa-spin"></i> Memuat chart...</p>';
 
         try {
-            const url = `https://biquote.io/api/${symbol}/ohlc?interval=${interval}&limit=${limit}`;
+            const url = `https://biquote.io/api/XAUUSD/ohlc?interval=15min&limit=60`;
             const res = await fetch(url);
             const data = await res.json();
 
@@ -501,22 +636,15 @@
                 return;
             }
 
-            // Format data untuk Lightweight Charts
-            const candleData = data.bars
-                .filter(c => !c.isOpen) // hanya candle yang sudah close
-                .map(c => ({
-                    time: Math.floor(new Date(c.openTime).getTime() / 1000),
-                    open: parseFloat(c.open),
-                    high: parseFloat(c.high),
-                    low: parseFloat(c.low),
-                    close: parseFloat(c.close),
-                }));
+            const candleData = data.bars.filter(c => !c.isOpen).map(c => ({
+                time: Math.floor(new Date(c.openTime).getTime() / 1000),
+                open: parseFloat(c.open), high: parseFloat(c.high), low: parseFloat(c.low), close: parseFloat(c.close),
+            }));
 
-            container.innerHTML = ''; // Bersihkan loading text
+            container.innerHTML = '';
 
             const chart = LightweightCharts.createChart(container, {
-                width: container.clientWidth,
-                height: 200,
+                width: container.clientWidth, height: 200,
                 layout: { background: { color: 'transparent' }, textColor: '#64748b' },
                 grid: { vertLines: { color: 'rgba(59, 130, 246, 0.05)' }, horzLines: { color: 'rgba(59, 130, 246, 0.05)' } },
                 rightPriceScale: { visible: true, borderColor: 'rgba(59, 130, 246, 0.2)' },
@@ -532,19 +660,11 @@
 
             candleSeries.setData(candleData);
 
-            // Gambar Garis Entry
             candleSeries.createPriceLine({ price: parseFloat(signal.entry), color: '#ffffff', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: true, title: 'ENTRY' });
-            // Garis SL
             candleSeries.createPriceLine({ price: parseFloat(signal.sl), color: '#ef4444', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: true, title: 'SL' });
-            // Garis TP1
             candleSeries.createPriceLine({ price: parseFloat(signal.tp1), color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: true, title: 'TP1' });
-            
-            if (signal.tp2 && signal.tp2 !== "0") {
-                candleSeries.createPriceLine({ price: parseFloat(signal.tp2), color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dotted, axisLabelVisible: true, title: 'TP2' });
-            }
-            if (signal.tp3 && signal.tp3 !== "0") {
-                candleSeries.createPriceLine({ price: parseFloat(signal.tp3), color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dotted, axisLabelVisible: true, title: 'TP3' });
-            }
+            if (signal.tp2 && signal.tp2 !== "0") candleSeries.createPriceLine({ price: parseFloat(signal.tp2), color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dotted, axisLabelVisible: true, title: 'TP2' });
+            if (signal.tp3 && signal.tp3 !== "0") candleSeries.createPriceLine({ price: parseFloat(signal.tp3), color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dotted, axisLabelVisible: true, title: 'TP3' });
 
             chart.timeScale().fitContent();
 
@@ -554,12 +674,11 @@
         }
     }
 
-    // --- INISIALISASI & CEK TOKEN VPS ---
+    // NAVIGASI & AUTH
     document.addEventListener("DOMContentLoaded", function() {
       const token = localStorage.getItem('sdw_token');
       if (!token) { window.location.href = "login.html"; return; }
 
-      // --- VERIFIKASI TOKEN KE VPS ---
       fetch(`${API_URL_VPS}/api/verify`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
@@ -591,7 +710,6 @@
               document.getElementById('editPP').innerText = username.charAt(0).toUpperCase();
               loadAvatar();
 
-              // Mulai ambil data
               fetchLivePrice(); setInterval(fetchLivePrice, 5000);
               fetchSignals(); setInterval(fetchSignals, 10000);
           }
@@ -638,17 +756,31 @@
       document.getElementById('view-' + viewName).classList.remove('hidden');
       document.getElementById('view-' + viewName).classList.add('block');
 
+      // Logika VIP Blur
       if (viewName === 'vip') {
         const vipContent = document.getElementById('vip-content'); const vipOverlay = document.getElementById('vip-lock-overlay');
         if (currentUserRole === 'VIP' || currentUserRole === 'ADMIN') { vipContent.classList.remove('vip-blurred'); vipOverlay.classList.add('hidden'); } 
         else { vipContent.classList.add('vip-blurred'); vipOverlay.classList.remove('hidden'); }
       }
 
+      // Logika Warna Navbar
       const navButtons = document.querySelectorAll('nav button');
-      navButtons.forEach(btn => { btn.classList.remove('text-white'); btn.classList.add('text-muted'); });
-      if (viewName === 'vip') document.getElementById('nav-vip').classList.add('border-white');
-      else { document.getElementById('nav-vip').classList.remove('border-white'); btnElement.classList.remove('text-muted'); btnElement.classList.add('text-white'); }
-      if(viewName !== 'vip') document.getElementById('nav-vip').classList.remove('scale-110');
+      navButtons.forEach(btn => { 
+          if(btn.id !== 'nav-vip') { // Jangan sentuh yang tengah
+              btn.classList.remove('text-white'); btn.classList.add('text-muted'); 
+          }
+      });
+      
+      const activeBtn = document.getElementById('nav-' + viewName);
+      if (activeBtn && viewName !== 'vip') {
+          activeBtn.classList.remove('text-muted'); activeBtn.classList.add('text-white');
+      }
+      
+      // Khusus untuk Bookmap dan Akses, kita reset border tengah VIP jika bukan VIP
+      if (viewName !== 'vip') {
+          document.getElementById('nav-vip').classList.remove('border-white');
+      }
+      
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
