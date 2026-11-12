@@ -8,7 +8,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   
+  <!-- Library Chart: Lightweight Charts (TradingView) -->
   <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+  
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
@@ -111,10 +113,9 @@
       </div>
     </div>
 
-    <!-- VIEW 2: AKSES (Sesuai Gambar 1) -->
+    <!-- VIEW 2: AKSES -->
     <div id="view-akses" class="view-section hidden">
       <header class="mb-6"><h1 class="text-2xl font-bold text-white">AKSES MENU</h1></header>
-      
       <div class="glass-card p-5 mb-8">
         <h2 class="text-lg font-bold text-white mb-4">FITUR YANG AKAN DIDAPATKAN JIKA AKSES VIP</h2>
         <ol class="text-sm text-muted space-y-2 list-decimal list-inside font-medium">
@@ -126,12 +127,10 @@
           <li>Akses Semua Materi</li>
         </ol>
       </div>
-
       <div class="flex flex-col gap-4 mb-8 px-4">
         <button onclick="switchView('berlangganan', this)" class="w-full py-4 rounded-full bg-[#cbd5e1] text-black font-bold text-sm hover:bg-gray-300 transition shadow-lg">BERLANGGANAN</button>
         <button onclick="switchView('joinib', this)" class="w-full py-4 rounded-full bg-[#cbd5e1] text-black font-bold text-sm hover:bg-gray-300 transition shadow-lg">JOIN IB</button>
       </div>
-
       <div class="text-center mb-8">
         <p class="text-sm text-gray-300 mb-4">Masih Bingung Dan ada pertanyaan?<br>Hubungi Admin</p>
         <div class="flex justify-center gap-6">
@@ -145,12 +144,10 @@
       </div>
     </div>
 
-    <!-- SUB-VIEW: BERLANGGANAN (Sesuai Gambar 2) -->
+    <!-- SUB-VIEW: BERLANGGANAN -->
     <div id="view-berlangganan" class="view-section hidden relative">
       <button onclick="switchView('akses', this)" class="absolute top-0 left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50"><i class="fa-solid fa-arrow-left text-sm"></i></button>
       <h1 class="text-xl font-bold text-white text-center mb-8 pt-1">BERLANGGANAN</h1>
-
-      <!-- Paket Bulanan -->
       <div class="glass-card p-6 mb-6 rounded-3xl border border-blue-500/30">
         <h2 class="text-xl font-bold text-white mb-4">Rp. 49.000 / BULAN</h2>
         <ul class="text-sm text-gray-300 space-y-3 mb-6">
@@ -161,8 +158,6 @@
         </ul>
         <button class="w-full py-3 rounded-full border border-white text-white font-bold text-sm hover:bg-white hover:text-black transition">GET STARTED</button>
       </div>
-
-      <!-- Paket Lifetime -->
       <div class="glass-card p-6 mb-8 rounded-3xl border border-blue-500/30">
         <h2 class="text-xl font-bold text-white mb-4">Rp. 120.000 / LIFETIME</h2>
         <ul class="text-sm text-gray-300 space-y-3 mb-6">
@@ -174,17 +169,14 @@
         </ul>
         <button class="w-full py-3 rounded-full border border-white text-white font-bold text-sm hover:bg-white hover:text-black transition">GET STARTED</button>
       </div>
-
       <p class="text-center text-[10px] text-muted tracking-widest">SAINT D.WISH</p>
     </div>
 
-    <!-- SUB-VIEW: JOIN IB (Sesuai Gambar 3) -->
+    <!-- SUB-VIEW: JOIN IB -->
     <div id="view-joinib" class="view-section hidden relative">
       <button onclick="switchView('akses', this)" class="absolute top-0 left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50"><i class="fa-solid fa-arrow-left text-sm"></i></button>
       <h1 class="text-xl font-bold text-white text-center mb-8 pt-1 text-blue-300">JOIN IB</h1>
-
       <div class="flex flex-col gap-6 px-2">
-        <!-- Exness -->
         <div class="flex flex-col gap-3">
           <a href="https://www.exness.com" target="_blank" class="ib-btn ib-exness">EXNESS</a>
           <div class="flex justify-center gap-4">
@@ -192,8 +184,6 @@
             <a href="https://t.me/+TpiImsGHCl42ZjA1" target="_blank" class="w-12 h-12 bg-black rounded-full flex items-center justify-center border border-gray-700 hover:scale-110 transition"><i class="fa-brands fa-telegram text-xl text-white"></i></a>
           </div>
         </div>
-
-        <!-- HFM -->
         <div class="flex flex-col gap-3">
           <a href="https://www.hfm.com" target="_blank" class="ib-btn ib-hfm">HFM</a>
           <div class="flex justify-center gap-4">
@@ -201,8 +191,6 @@
             <a href="https://t.me/+seAjjeEk1co2OGI1" target="_blank" class="w-12 h-12 bg-black rounded-full flex items-center justify-center border border-gray-700 hover:scale-110 transition"><i class="fa-brands fa-telegram text-xl text-white"></i></a>
           </div>
         </div>
-
-        <!-- Valetax -->
         <div class="flex flex-col gap-3 mb-6">
           <a href="https://www.valetax.com" target="_blank" class="ib-btn ib-valetax">VALETAX</a>
           <div class="flex justify-center gap-4">
@@ -211,10 +199,7 @@
           </div>
         </div>
       </div>
-      
-      <div class="flex justify-center mt-4">
-        <img src="logo.png" alt="Saint D Wish" class="w-16 h-16 object-contain opacity-50">
-      </div>
+      <div class="flex justify-center mt-4"><img src="logo.png" alt="Saint D Wish" class="w-16 h-16 object-contain opacity-50"></div>
     </div>
 
     <!-- VIEW 3: VIP ZONE -->
@@ -253,7 +238,6 @@
         </div>
         <button class="w-full text-center text-sm text-muted hover:text-white transition mb-8">Lihat Semua Riwayat</button>
       </div>
-
       <div id="vip-lock-overlay" class="hidden absolute inset-0 z-50 flex flex-col items-center justify-center bg-[#040812]/80 backdrop-blur-sm rounded-xl">
         <div class="glass-card w-full max-w-sm mx-auto p-6 flex flex-col items-center shadow-lg">
           <div class="w-20 h-20 mb-4 rounded-full border border-[#3b82f6]/50 overflow-hidden flex justify-center items-center bg-[#1e3a8a]/30">
@@ -267,10 +251,9 @@
       </div>
     </div>
 
-    <!-- VIEW 4: BOOKMAP (Sesuai Gambar 4) -->
+    <!-- VIEW 4: BOOKMAP -->
     <div id="view-bookmap" class="view-section hidden">
       <header class="mb-6"><h1 class="text-2xl font-bold text-white">LIVE BOOKMAP</h1></header>
-      
       <div class="glass-card p-5 mb-6">
         <h2 class="text-lg font-bold text-white text-center mb-4">Apa itu Bookmap?</h2>
         <p class="text-sm text-muted text-justify leading-relaxed mb-4">
@@ -280,17 +263,10 @@
           Bookmap adalah senjata visualisasi order book tingkat lanjut untuk menaklukkan volatilitas XAU/USD, mengubah tumpukan data Depth of Market menjadi peta panas intuitif agar Anda selalu selangkah di depan pergerakan smart money.
         </p>
       </div>
-
-      <!-- Gambar Bookmap (Menggunakan URL raw github yang kamu kasih) -->
       <div class="w-full rounded-xl overflow-hidden mb-8 border border-blue-500/30">
         <img src="https://raw.githubusercontent.com/saintdwish/saintdwish.github.io/fcc77ddafb1bd0c903f8528fbc67afa46174ccba/Bookmap.png" alt="Live Bookmap" class="w-full h-auto object-cover">
       </div>
-
-      <!-- Tombol Live Bookmap -->
-      <button class="w-full max-w-xs mx-auto block py-4 rounded-full bg-[#1e3a8a] text-white font-bold text-md tracking-wider hover:bg-blue-700 transition shadow-[0_0_20px_rgba(30,58,138,0.6)] border border-blue-400">
-        LIVE BOOKMAP
-      </button>
-      
+      <button class="w-full max-w-xs mx-auto block py-4 rounded-full bg-[#1e3a8a] text-white font-bold text-md tracking-wider hover:bg-blue-700 transition shadow-[0_0_20px_rgba(30,58,138,0.6)] border border-blue-400">LIVE BOOKMAP</button>
       <p class="text-center text-[10px] text-muted tracking-widest mt-8">SAINT D.WISH</p>
     </div>
 
@@ -436,7 +412,7 @@
     let currentUserEmail = "";
     let priceHistory = []; 
 
-    // SETUP CHART
+    // SETUP CHART MINI
     const ctx = document.getElementById('miniChart').getContext('2d');
     const priceChart = new Chart(ctx, {
       type: 'line', data: { labels: [], datasets: [{ data: [], borderColor: '#60a5fa', borderWidth: 2, pointRadius: 0, fill: false, tension: 0.4 }] },
@@ -621,23 +597,32 @@
       }
     }
 
+    // FUNGSI MENGGAMBAR CHART STATIS (PAKAI TWELVEDATA + CORS PROXY)
     async function drawStaticChart(containerId, signal) {
         const container = document.getElementById(containerId);
         if (!container) return;
         container.innerHTML = '<p class="text-center text-xs text-muted mt-8"><i class="fa-solid fa-spinner fa-spin"></i> Memuat chart...</p>';
 
+        const API_KEY = "9b1c275895fa42a38b01a4b8524121c9";
+        const symbol = "XAU/USD";
+        const interval = "15min"; 
+        const outputsize = 60; 
+
+        // Gunakan proxy allorigins untuk menembus CORS TwelveData
+        const targetUrl = `https://api.twelvedata.com/time_series?symbol=${symbol}&interval=${interval}&outputsize=${outputsize}&apikey=${API_KEY}`;
+        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
+
         try {
-            const url = `https://biquote.io/api/XAUUSD/ohlc?interval=15min&limit=60`;
-            const res = await fetch(url);
+            const res = await fetch(proxyUrl);
             const data = await res.json();
 
-            if (!data.bars || data.bars.length === 0) {
-                container.innerHTML = '<p class="text-center text-xs text-danger mt-8">Data candle tidak tersedia.</p>';
+            if (data.status === "error" || !data.values) {
+                container.innerHTML = `<p class="text-center text-xs text-danger mt-8">Gagal memuat chart: ${data.message || 'Limit API'}</p>`;
                 return;
             }
 
-            const candleData = data.bars.filter(c => !c.isOpen).map(c => ({
-                time: Math.floor(new Date(c.openTime).getTime() / 1000),
+            const candleData = data.values.reverse().map(c => ({
+                time: Math.floor(new Date(c.datetime).getTime() / 1000),
                 open: parseFloat(c.open), high: parseFloat(c.high), low: parseFloat(c.low), close: parseFloat(c.close),
             }));
 
@@ -670,7 +655,7 @@
 
         } catch (error) {
             console.error("Chart Error:", error);
-            container.innerHTML = '<p class="text-center text-xs text-danger mt-8">Gagal terhubung ke Biquote API.</p>';
+            container.innerHTML = '<p class="text-center text-xs text-danger mt-8">Gagal terhubung ke API Chart.</p>';
         }
     }
 
@@ -756,17 +741,15 @@
       document.getElementById('view-' + viewName).classList.remove('hidden');
       document.getElementById('view-' + viewName).classList.add('block');
 
-      // Logika VIP Blur
       if (viewName === 'vip') {
         const vipContent = document.getElementById('vip-content'); const vipOverlay = document.getElementById('vip-lock-overlay');
         if (currentUserRole === 'VIP' || currentUserRole === 'ADMIN') { vipContent.classList.remove('vip-blurred'); vipOverlay.classList.add('hidden'); } 
         else { vipContent.classList.add('vip-blurred'); vipOverlay.classList.remove('hidden'); }
       }
 
-      // Logika Warna Navbar
       const navButtons = document.querySelectorAll('nav button');
       navButtons.forEach(btn => { 
-          if(btn.id !== 'nav-vip') { // Jangan sentuh yang tengah
+          if(btn.id !== 'nav-vip') { 
               btn.classList.remove('text-white'); btn.classList.add('text-muted'); 
           }
       });
@@ -776,7 +759,6 @@
           activeBtn.classList.remove('text-muted'); activeBtn.classList.add('text-white');
       }
       
-      // Khusus untuk Bookmap dan Akses, kita reset border tengah VIP jika bukan VIP
       if (viewName !== 'vip') {
           document.getElementById('nav-vip').classList.remove('border-white');
       }
