@@ -8,6 +8,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   
+  <!-- Library Chart: Lightweight Charts (TradingView) -->
+  <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+  
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
@@ -47,9 +50,12 @@
 
     .card-header { cursor: pointer; transition: background-color 0.2s; }
     .card-header:hover { background-color: rgba(30, 58, 138, 0.4); }
-    .card-detail { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out; opacity: 0; }
-    .card-detail.open { max-height: 300px; opacity: 1; }
+    .card-detail { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out; opacity: 0; }
+    .card-detail.open { max-height: 400px; opacity: 1; }
     .vip-blurred { filter: blur(8px); pointer-events: none; user-select: none; opacity: 0.3; }
+
+    /* Styling Chart di dalam Card */
+    .chart-container { width: 100%; height: 200px; border-radius: 8px; overflow: hidden; margin-top: 15px; border: 1px solid rgba(59, 130, 246, 0.2); position: relative; }
   </style>
 </head>
 <body class="max-w-md mx-auto relative min-h-screen">
@@ -324,38 +330,20 @@
       } catch (e) {}
     }
 
-    // --- LOGIKA NOTIFIKASI (SESUAI DOKUMEN) ---
     function checkNewNotifications() {
       if (!("Notification" in window) || Notification.permission !== "granted") return;
       globalSignals.forEach(sig => {
         const uniqueKey = sig.id + "_" + sig.status;
         if (!knownSignalStatuses[uniqueKey]) {
           if (Object.keys(knownSignalStatuses).length > 0) {
-             let title = "";
-             let body = "";
+             let title = ""; let body = "";
              const source = sig.source === 'GLDN' ? 'GOLDEN' : 'MSP';
-             const side = sig.arah; // BUY / SELL
-
-             if (sig.status === 'WAITING') {
-                 title = `${side} LIMIT | ${source}`;
-                 body = `Market Entry ${sig.entry} | SL ${sig.sl} | TP 1 ${sig.tp1}`;
-             } 
-             else if (sig.status === 'CANCELLED') {
-                 title = `Signal Invalid | ${side} LIMIT ${sig.pair} | ${source}`;
-                 body = `Set up sudah tidak memenuhi syarat.`;
-             }
-             else if (sig.status.includes('TP')) {
-                 title = `Signal Profit | ${side} LIMIT ${sig.pair} | ${source}`;
-                 body = `Signal Hit ${sig.status}. Take Half And Set BE`;
-             }
-             else if (sig.status === 'SL') {
-                 title = `Signal Hit Stop Lose | ${side} LIMIT ${sig.pair} | ${source}`;
-                 body = `Set Up Hit Stop Lose. Get Ready For Recovery.`;
-             }
-
-             if (title !== "" && body !== "") {
-               new Notification(title, { body: body, icon: "logo.png" });
-             }
+             const side = sig.arah; 
+             if (sig.status === 'WAITING') { title = `${side} LIMIT | ${source}`; body = `Market Entry ${sig.entry} | SL ${sig.sl} | TP 1 ${sig.tp1}`; } 
+             else if (sig.status === 'CANCELLED') { title = `Signal Invalid | ${side} LIMIT ${sig.pair} | ${source}`; body = `Set up sudah tidak memenuhi syarat.`; }
+             else if (sig.status.includes('TP')) { title = `Signal Profit | ${side} LIMIT ${sig.pair} | ${source}`; body = `Signal Hit ${sig.status}. Take Half And Set BE`; }
+             else if (sig.status === 'SL') { title = `Signal Hit Stop Lose | ${side} LIMIT ${sig.pair} | ${source}`; body = `Set Up Hit Stop Lose. Get Ready For Recovery.`; }
+             if (title !== "" && body !== "") new Notification(title, { body: body, icon: "logo.png" });
           }
           knownSignalStatuses[uniqueKey] = true;
         }
@@ -427,7 +415,33 @@
         if (s.status === 'RUNNING') {
           runningHTML += `<div class="glass-card p-4 mb-3"><div class="flex justify-between items-start mb-2"><div class="flex items-start gap-2"><span class="${barColor} text-lg leading-none mt-1">│</span><div><p class="${textColor} font-semibold text-sm">${s.arah} <span class="text-white font-normal">Limit ${s.entry}</span></p><p class="text-danger font-bold text-xs mt-1">STOP LOSS (SL) : ${s.sl}</p></div></div><div class="text-right text-[10px]"><p class="text-gray-300 font-semibold mb-1"><span class="text-red-400">🎯</span> TAKE <span class="text-green-400">PROFIT</span> LEVELS</p><p class="text-gray-200">🎖 TP 1: ${s.tp1}</p><p class="text-gray-200">🎖 TP 2: ${s.tp2}</p><p class="text-gray-200">🎖 TP 3: ${s.tp3}</p>${s.tp4 != "0" && s.tp4 != "0.0" ? `<p class="text-gray-200">🏆 TP 4: ${s.tp4}</p>` : ''}</div></div><ul class="text-[10px] text-gray-400 space-y-1 border-t border-[#3b82f6]/20 pt-2 mt-2"><li>• Setup masih sesuai dengan analisa awal.</li><li>• Jaga emosi dan tetap patuhi plan (SL & TP yang ada).</li><li>• Bagi yang belum entry, tetap tunggu harga masuk di area entry yang ditentukan.</li></ul></div>`;
         } else if (s.status === 'WAITING') {
-          waitingHTML += `<div class="glass-card overflow-hidden mb-2"><div class="card-header p-3 flex justify-between items-center" onclick="toggleAccordion(this)"><div class="flex items-center gap-2"><span class="${barColor} text-lg leading-none mt-0.5">│</span><span class="${textColor} font-semibold text-sm">${s.arah} <span class="text-white font-normal">Limit ${s.entry}</span></span></div><span class="text-danger font-bold text-[10px] uppercase tracking-wider">HIGH RISK</span></div><div class="card-detail px-3 pb-3"><div class="pt-3 border-t border-[#3b82f6]/20 flex justify-between items-start"><div><p class="text-danger font-bold text-xs"><span class="text-danger">⚠</span> STOP LOSS (SL) : ${s.sl}</p></div><div class="text-right text-[10px]"><p class="text-gray-300 font-semibold mb-1"><span class="text-red-400">🎯</span> TAKE <span class="text-green-400">PROFIT</span></p><p class="text-gray-200">🎖 TP 1: ${s.tp1}</p><p class="text-gray-200">🎖 TP 2: ${s.tp2}</p><p class="text-gray-200">🎖 TP 3: ${s.tp3}</p>${s.tp4 != "0" && s.tp4 != "0.0" ? `<p class="text-gray-200">🏆 TP 4: ${s.tp4}</p>` : ''}</div></div></div></div>`;
+          waitingHTML += `
+            <div class="glass-card overflow-hidden mb-2">
+              <div class="card-header p-3 flex justify-between items-center" onclick="toggleAccordion(this)">
+                <div class="flex items-center gap-2">
+                  <span class="${barColor} text-lg leading-none mt-0.5">│</span>
+                  <span class="${textColor} font-semibold text-sm">${s.arah} <span class="text-white font-normal">Limit ${s.entry}</span></span>
+                </div>
+                <span class="text-danger font-bold text-[10px] uppercase tracking-wider">HIGH RISK</span>
+              </div>
+              
+              <div class="card-detail px-3 pb-3">
+                <div class="pt-3 border-t border-[#3b82f6]/20 flex justify-between items-start">
+                  <div>
+                    <p class="text-danger font-bold text-xs"><span class="text-danger">⚠</span> STOP LOSS (SL) : ${s.sl}</p>
+                  </div>
+                  <div class="text-right text-[10px]">
+                    <p class="text-gray-300 font-semibold mb-1"><span class="text-red-400">🎯</span> TAKE <span class="text-green-400">PROFIT</span></p>
+                    <p class="text-gray-200">🎖 TP 1: ${s.tp1}</p>
+                    <p class="text-gray-200">🎖 TP 2: ${s.tp2}</p>
+                    <p class="text-gray-200">🎖 TP 3: ${s.tp3}</p>
+                    ${s.tp4 != "0" && s.tp4 != "0.0" ? `<p class="text-gray-200">🏆 TP 4: ${s.tp4}</p>` : ''}
+                  </div>
+                </div>
+                <!-- Tempat Chart akan dirender -->
+                <div id="chart-container-${s.id}" class="chart-container"></div>
+              </div>
+            </div>`;
         }
       });
 
@@ -440,23 +454,114 @@
       document.getElementById('vip-daily-table-list').innerHTML = dailyTableHTML;
     }
 
+    // --- FUNGSI ACCORDION & MUNCULKAN CHART ---
     function toggleAccordion(headerElement) {
       const detail = headerElement.nextElementSibling;
-      if (detail.classList.contains('open')) detail.classList.remove('open');
-      else { document.querySelectorAll('.card-detail').forEach(el => el.classList.remove('open')); detail.classList.add('open'); }
+      
+      if (detail.classList.contains('open')) {
+        detail.classList.remove('open');
+      } else {
+        // Tutup semua detail lain
+        document.querySelectorAll('.card-detail').forEach(el => el.classList.remove('open'));
+        detail.classList.add('open');
+
+        // Cari ID sinyal dari elemen chart di dalam detail
+        const chartDiv = detail.querySelector('.chart-container');
+        if (chartDiv) {
+            const signalId = chartDiv.id.replace('chart-container-', '');
+            const signalData = globalSignals.find(sig => sig.id == signalId);
+            if (signalData) {
+                // Render chart setelah animasi buka selesai (500ms)
+                setTimeout(() => {
+                    drawStaticChart(chartDiv.id, signalData);
+                }, 300); 
+            }
+        }
+      }
     }
 
+    // --- FUNGSI MENGGAMBAR CHART STATIS (DATA ASLI DARI API TWELVEDATA) ---
+    async function drawStaticChart(containerId, signal) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.innerHTML = '<p class="text-center text-xs text-muted mt-8"><i class="fa-solid fa-spinner fa-spin"></i> Memuat data chart...</p>';
+
+        // API KEY TWELVEDATA KAMU
+        const API_KEY = "9b1c275895fa42a38b01a4b8524121c9";
+        const symbol = "XAU/USD";
+        const interval = "15min"; // Timeframe M15
+        const outputsize = 60; // 60 candle terakhir
+
+        try {
+            const url = `https://api.twelvedata.com/time_series?symbol=${symbol}&interval=${interval}&outputsize=${outputsize}&apikey=${API_KEY}`;
+            const res = await fetch(url);
+            const data = await res.json();
+
+            if (data.status === "error" || !data.values) {
+                container.innerHTML = `<p class="text-center text-xs text-danger mt-8">Gagal memuat chart: ${data.message || 'Limit API tercapai'}</p>`;
+                return;
+            }
+
+            // TwelveData mengembalikan data dari yang terbaru ke terlama, kita balik urutannya
+            const candleData = data.values.reverse().map(c => ({
+                time: Math.floor(new Date(c.datetime).getTime() / 1000),
+                open: parseFloat(c.open),
+                high: parseFloat(c.high),
+                low: parseFloat(c.low),
+                close: parseFloat(c.close),
+            }));
+
+            container.innerHTML = ''; // Bersihkan loading text
+
+            const chart = LightweightCharts.createChart(container, {
+                width: container.clientWidth,
+                height: 200,
+                layout: { background: { color: 'transparent' }, textColor: '#64748b' },
+                grid: { vertLines: { color: 'rgba(59, 130, 246, 0.05)' }, horzLines: { color: 'rgba(59, 130, 246, 0.05)' } },
+                rightPriceScale: { visible: true, borderColor: 'rgba(59, 130, 246, 0.2)' },
+                timeScale: { visible: false, borderColor: 'rgba(59, 130, 246, 0.2)' },
+                crosshair: { mode: LightweightCharts.CrosshairMode.Hidden },
+                handleScroll: false, handleScale: false,
+            });
+
+            const candleSeries = chart.addCandlestickSeries({
+                upColor: '#10b981', downColor: '#ef4444', borderVisible: false,
+                wickUpColor: '#10b981', wickDownColor: '#ef4444',
+            });
+
+            candleSeries.setData(candleData);
+
+            // Gambar Garis Entry
+            candleSeries.createPriceLine({ price: parseFloat(signal.entry), color: '#ffffff', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: true, title: 'ENTRY' });
+            // Garis SL
+            candleSeries.createPriceLine({ price: parseFloat(signal.sl), color: '#ef4444', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: true, title: 'SL' });
+            // Garis TP1
+            candleSeries.createPriceLine({ price: parseFloat(signal.tp1), color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: true, title: 'TP1' });
+            
+            if (signal.tp2 && signal.tp2 !== "0") {
+                candleSeries.createPriceLine({ price: parseFloat(signal.tp2), color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dotted, axisLabelVisible: true, title: 'TP2' });
+            }
+            if (signal.tp3 && signal.tp3 !== "0") {
+                candleSeries.createPriceLine({ price: parseFloat(signal.tp3), color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dotted, axisLabelVisible: true, title: 'TP3' });
+            }
+
+            chart.timeScale().fitContent();
+
+        } catch (error) {
+            console.error(error);
+            container.innerHTML = '<p class="text-center text-xs text-danger mt-8">Gagal terhubung ke API Chart.</p>';
+        }
+    }
+
+    // --- INISIALISASI & CEK TOKEN VPS ---
     document.addEventListener("DOMContentLoaded", function() {
       const token = localStorage.getItem('sdw_token');
       if (!token) { window.location.href = "login.html"; return; }
 
-      // --- VERIFIKASI TOKEN KE VPS (DENGAN TAMBALAN NGROK) ---
+      // --- VERIFIKASI TOKEN KE VPS ---
       fetch(`${API_URL_VPS}/api/verify`, {
           method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json',
-            'ngrok-skip-browser-warning': 'true' // MENCEGAH BLOKIR NGROK
-          },
+          headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
           body: JSON.stringify({ token: token })
       })
       .then(res => res.json())
@@ -485,6 +590,7 @@
               document.getElementById('editPP').innerText = username.charAt(0).toUpperCase();
               loadAvatar();
 
+              // Mulai ambil data
               fetchLivePrice(); setInterval(fetchLivePrice, 5000);
               fetchSignals(); setInterval(fetchSignals, 10000);
           }
