@@ -41,8 +41,11 @@
     .toggle-checkbox { right: 0; z-index: 1; border-color: #e2e8f0; transition: all 0.3s; position: absolute; width: 24px; height: 24px; background: white; border-width: 1px; border-radius: 50%; appearance: none; cursor: pointer; }
     .toggle-label { display: block; overflow: hidden; cursor: pointer; border-radius: 9999px; width: 48px; height: 24px; background-color: #1e293b; transition: background-color 0.3s; }
 
-    .tab-btn { flex: 1; padding: 10px; text-align: center; font-weight: 600; border-radius: 10px; transition: all 0.3s; cursor: pointer; border: 1px solid transparent; font-size: 14px; }
-    .tab-active { background: linear-gradient(135deg, #1e40af, #3b82f6); color: #ffffff; border-color: #60a5fa; box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); }
+    /* Tab Styling */
+    .tab-container { display: flex; overflow-x: auto; gap: 4px; scrollbar-width: none; -ms-overflow-style: none; }
+    .tab-container::-webkit-scrollbar { display: none; }
+    .tab-btn { flex: 0 0 auto; padding: 8px 16px; text-align: center; font-weight: 600; border-radius: 8px; transition: all 0.3s; cursor: pointer; border: 1px solid transparent; font-size: 12px; }
+    .tab-active { background: linear-gradient(135deg, #1e40af, #3b82f6); color: #ffffff; border-color: #60a5fa; box-shadow: 0 0 10px rgba(59, 130, 246, 0.3); }
     .tab-inactive { background-color: transparent; color: #94a3b8; }
     .tab-inactive:hover { color: #ffffff; }
 
@@ -194,38 +197,81 @@
     <div id="view-vip" class="view-section hidden relative">
       <div id="vip-content" class="transition-all duration-500">
         <header class="mb-6"><h1 class="text-2xl font-bold text-white">VIP ZONE</h1></header>
-        <div class="flex gap-2 mb-6 glass-card p-1">
-          <div id="tab-gldn" onclick="switchEATab('GLDN')" class="tab-btn tab-active">GOLDEN</div>
+        
+        <!-- TABS: MAPPING | GOLDEN | MSP | ICT | NAVIGATOR -->
+        <div class="tab-container mb-6 glass-card p-1">
+          <div id="tab-mapping" onclick="switchEATab('MAPPING')" class="tab-btn tab-active">MAPPING</div>
+          <div id="tab-gldn" onclick="switchEATab('GLDN')" class="tab-btn tab-inactive">GOLDEN</div>
+          <div id="tab-msp" onclick="switchEATab('MSP')" class="tab-btn tab-inactive">MSP</div>
+          <div id="tab-ict" onclick="switchEATab('ICT')" class="tab-btn tab-inactive">ICT</div>
           <div id="tab-navigator" onclick="switchEATab('NAVIGATOR')" class="tab-btn tab-inactive">NAVIGATOR</div>
         </div>
-        <div class="mb-6">
-          <h2 class="text-md text-white mb-3 font-bold">SEDANG RUNNING</h2>
-          <div class="flex flex-col gap-3" id="vip-running-list"><p class="text-sm text-muted">Tidak ada posisi running.</p></div>
-        </div>
-        <div class="mb-6">
-          <h2 class="text-md text-white mb-3 font-bold">WAITING</h2>
-          <div class="flex flex-col gap-2" id="vip-waiting-list"><p class="text-sm text-muted">Tidak ada sinyal waiting.</p></div>
-        </div>
-        <div class="mb-6">
-          <h3 class="text-xs font-bold text-white mb-2 tracking-wide">RISK MANAGEMENT</h3>
-          <ol class="text-sm text-muted space-y-1 font-medium pl-1">
-            <li>1. Use proper lot sizing</li><li>2. Maintain disciplined risk management.</li><li>3. Avoid entering outside the specified entry area.</li><li>4. Do not chase price if the setup is missed.</li>
-          </ol>
-        </div>
-        <div class="glass-card p-5 mb-6">
-          <h3 class="text-lg text-white mb-4 tracking-wide font-normal">DAILY RECAP</h3>
-          <div class="grid grid-cols-3 gap-2 mb-6">
-            <div class="glass-card-inner p-3 text-center"><p class="text-xs text-muted mb-1">PROFIT</p><p class="text-sm font-bold text-success" id="vip-day-profit">+0 PIPS</p></div>
-            <div class="glass-card-inner p-3 text-center"><p class="text-xs text-muted mb-1">STOP LOSE</p><p class="text-sm font-bold text-danger" id="vip-day-sl">-0 PIPS</p></div>
-            <div class="glass-card-inner p-3 text-center"><p class="text-xs text-muted mb-1">TOTAL</p><p class="text-sm font-bold text-white" id="vip-day-total">+0 PIPS</p></div>
+
+        <!-- KONTEN MAPPING (Khusus Tab MAPPING) -->
+        <div id="mapping-content" class="block">
+          <!-- Zona Sell -->
+          <div class="glass-card p-4 mb-4 border-l-4 border-red-500">
+            <h2 class="text-lg font-bold text-white mb-3 flex items-center gap-2"><div class="w-3 h-3 bg-red-500 rounded-full"></div> Zona Sell :</h2>
+            <div class="text-sm text-gray-300 space-y-1 font-medium">
+              <p>HIGH RISK : <span id="sell-high" class="text-white">-</span></p>
+              <p>MEDIUM RISK : <span id="sell-med" class="text-white">-</span></p>
+              <p>LOW RISK : <span id="sell-low" class="text-white">-</span></p>
+            </div>
           </div>
-          <div class="flex justify-between items-center text-sm text-gray-300 border-b border-[#3b82f6]/30 pb-2 mb-2 font-semibold">
-            <div class="w-1/2">Daily Recap</div><div class="w-1/4 text-right">Profit</div><div class="w-1/4 text-right">SL</div>
+
+          <!-- Zona Buy -->
+          <div class="glass-card p-4 mb-4 border-l-4 border-green-500">
+            <h2 class="text-lg font-bold text-white mb-3 flex items-center gap-2"><div class="w-3 h-3 bg-green-500 rounded-full"></div> Zona Buy :</h2>
+            <div class="text-sm text-gray-300 space-y-1 font-medium">
+              <p>HIGH RISK : <span id="buy-high" class="text-white">-</span></p>
+              <p>MEDIUM RISK : <span id="buy-med" class="text-white">-</span></p>
+              <p>LOW RISK : <span id="buy-low" class="text-white">-</span></p>
+            </div>
           </div>
-          <div class="flex flex-col gap-2" id="vip-daily-table-list"></div>
+
+          <!-- Screenshot Mapping -->
+          <div class="glass-card p-2 mb-6">
+            <div id="mapping-image-container" class="w-full rounded-xl overflow-hidden bg-[#0f172a] flex items-center justify-center min-h-[200px]">
+               <p class="text-xs text-muted text-center px-4">Menunggu gambar mapping dari server...</p>
+            </div>
+          </div>
+
+          <p class="text-center text-[10px] text-muted tracking-widest mb-8">SAINT D.WISH MAPPING</p>
         </div>
-        <button class="w-full text-center text-sm text-muted hover:text-white transition mb-8">Lihat Semua Riwayat</button>
+
+        <!-- KONTEN SINYAL (Untuk Tab EA) -->
+        <div id="signal-content" class="hidden">
+          <div class="mb-6">
+            <h2 class="text-md text-white mb-3 font-bold">SEDANG RUNNING</h2>
+            <div class="flex flex-col gap-3" id="vip-running-list"><p class="text-sm text-muted">Tidak ada posisi running.</p></div>
+          </div>
+          <div class="mb-6">
+            <h2 class="text-md text-white mb-3 font-bold">WAITING</h2>
+            <div class="flex flex-col gap-2" id="vip-waiting-list"><p class="text-sm text-muted">Tidak ada sinyal waiting.</p></div>
+          </div>
+          <div class="mb-6">
+            <h3 class="text-xs font-bold text-white mb-2 tracking-wide">RISK MANAGEMENT</h3>
+            <ol class="text-sm text-muted space-y-1 font-medium pl-1">
+              <li>1. Use proper lot sizing</li><li>2. Maintain disciplined risk management.</li><li>3. Avoid entering outside the specified entry area.</li><li>4. Do not chase price if the setup is missed.</li>
+            </ol>
+          </div>
+          <div class="glass-card p-5 mb-6">
+            <h3 class="text-lg text-white mb-4 tracking-wide font-normal">DAILY RECAP</h3>
+            <div class="grid grid-cols-3 gap-2 mb-6">
+              <div class="glass-card-inner p-3 text-center"><p class="text-xs text-muted mb-1">PROFIT</p><p class="text-sm font-bold text-success" id="vip-day-profit">+0 PIPS</p></div>
+              <div class="glass-card-inner p-3 text-center"><p class="text-xs text-muted mb-1">STOP LOSE</p><p class="text-sm font-bold text-danger" id="vip-day-sl">-0 PIPS</p></div>
+              <div class="glass-card-inner p-3 text-center"><p class="text-xs text-muted mb-1">TOTAL</p><p class="text-sm font-bold text-white" id="vip-day-total">+0 PIPS</p></div>
+            </div>
+            <div class="flex justify-between items-center text-sm text-gray-300 border-b border-[#3b82f6]/30 pb-2 mb-2 font-semibold">
+              <div class="w-1/2">Daily Recap</div><div class="w-1/4 text-right">Profit</div><div class="w-1/4 text-right">SL</div>
+            </div>
+            <div class="flex flex-col gap-2" id="vip-daily-table-list"></div>
+          </div>
+          <button class="w-full text-center text-sm text-muted hover:text-white transition mb-8">Lihat Semua Riwayat</button>
+        </div>
+
       </div>
+
       <div id="vip-lock-overlay" class="hidden absolute inset-0 z-50 flex flex-col items-center justify-center bg-[#040812]/80 backdrop-blur-sm rounded-xl">
         <div class="glass-card w-full max-w-sm mx-auto p-6 flex flex-col items-center shadow-lg">
           <div class="w-20 h-20 mb-4 rounded-full border border-[#3b82f6]/50 overflow-hidden flex justify-center items-center bg-[#1e3a8a]/30">
@@ -365,7 +411,6 @@
       
       <p class="text-[10px] text-muted text-center mb-6 px-4 leading-relaxed">*Untuk Pengguna iPhone (iOS), klik "Share" di Safari dan pilih "Add to Home Screen" agar notifikasi berfungsi.</p>
 
-      <!-- PANEL KHUSUS ADMIN UNTUK TES NOTIFIKASI & RESET DATA -->
       <div id="adminTestNotifPanel" class="hidden glass-card p-4 border border-blue-500/30">
         <h3 class="text-white font-bold mb-2 text-sm">Admin Panel</h3>
         <p class="text-[10px] text-muted mb-4">Gunakan tombol di bawah ini untuk menguji sistem atau mereset data.</p>
@@ -394,7 +439,6 @@
         <i class="fa-solid fa-key text-lg"></i><span class="text-[9px] font-medium tracking-wide">AKSES</span>
       </button>
 
-      <!-- Area Tengah Khusus VIP -->
       <div class="relative w-[60px] flex flex-col items-center justify-end h-full">
         <button onclick="switchView('vip', this)" id="nav-vip" class="absolute -top-[32px] w-[64px] h-[64px] rounded-full bg-[#0f172a] border-[3px] border-[#3b82f6] shadow-[0_0_20px_rgba(59,130,246,0.6)] flex items-center justify-center overflow-hidden p-1 hover:scale-105 transition-transform z-50">
           <img src="logo.png" alt="VIP" class="w-full h-full object-cover rounded-full opacity-90 transition-all">
@@ -420,7 +464,8 @@
     const API_URL_VPS = "https://enviable-umbilical-erupt.ngrok-free.dev"; 
 
     let globalSignals = [];
-    let currentEATab = 'GLDN'; 
+    let latestMapping = null;
+    let currentEATab = 'MAPPING'; 
     let knownSignalStatuses = {}; 
     let currentUserRole = "NO ROLE";
     let currentUserEmail = "";
@@ -454,14 +499,22 @@
       } catch (e) {}
     }
 
+    // FETCH SIGNAL & MAPPING
     async function fetchSignals() {
       try {
         const res = await fetch(API_URL_SIGNAL); const data = await res.json();
-        if (data.status === 'success') { globalSignals = data.data; checkNewNotifications(); renderAllViews(); }
+        if (data.status === 'success') { 
+            globalSignals = data.data; 
+            
+            // Pisahkan sinyal dan mapping
+            latestMapping = globalSignals.find(s => s.action === "new_mapping" || s.source === "MAPPING");
+            
+            checkNewNotifications(); 
+            renderAllViews(); 
+        }
       } catch (e) {}
     }
 
-    // FUNGSI RESET DATA
     async function resetRecapData() {
         if (!confirm("Apakah kamu yakin ingin menghapus SEMUA data sinyal? Semua Recap akan kembali ke 0.")) return;
         try {
@@ -472,19 +525,16 @@
             const data = await res.json();
             if(data.status === 'success') {
                 alert("Data berhasil dihapus!");
-                globalSignals = []; // Kosongkan variabel lokal
-                renderAllViews(); // Render ulang dengan data kosong
-            } else {
-                alert("Gagal: " + data.message);
-            }
-        } catch(e) {
-            alert("Terjadi kesalahan jaringan.");
-        }
+                globalSignals = []; renderAllViews();
+            } else { alert("Gagal: " + data.message); }
+        } catch(e) { alert("Terjadi kesalahan jaringan."); }
     }
 
     function checkNewNotifications() {
       if (!("Notification" in window) || Notification.permission !== "granted") return;
       globalSignals.forEach(sig => {
+        if(sig.action === 'new_mapping') return; // Jangan notif untuk mapping
+        
         const uniqueKey = sig.id + "_" + sig.status;
         if (!knownSignalStatuses[uniqueKey]) {
           if (Object.keys(knownSignalStatuses).length > 0) {
@@ -492,6 +542,7 @@
              let source = sig.source;
              if(sig.source === 'GLDN') source = 'GOLDEN';
              else if(sig.source === 'SDW Navigator') source = 'NAVIGATOR';
+             else if(sig.source === 'SDW ICT') source = 'ICT';
 
              const side = sig.arah; 
              if (sig.status === 'WAITING') { title = `${side} LIMIT | ${source}`; body = `Market Entry ${sig.entry} | SL ${sig.sl} | TP 1 ${sig.tp1}`; } 
@@ -507,7 +558,6 @@
 
     function renderAllViews() { renderDashboardCombined(); renderVIP(); }
 
-    // RENDER DASHBOARD DENGAN HITUNGAN PIPS BARU
     function renderDashboardCombined() {
       let historyHTML = "", monProfit = 0, monLoss = 0, weekProfit = 0, weekLoss = 0, dayProfit = 0, dayLoss = 0;
       const now = new Date();
@@ -517,12 +567,12 @@
       let count = 0;
 
       globalSignals.forEach(s => {
+        if(s.action === 'new_mapping' || s.source === "MAPPING") return; // Skip mapping di riwayat
+
         const isBuy = s.arah === 'BUY'; 
         const basePips = Math.abs(parseFloat(s.tp1) - parseFloat(s.entry)) * 10; 
         
-        let finalPips = 0;
-        let isProfit = false;
-
+        let finalPips = 0; let isProfit = false;
         if (s.status.includes('TP')) {
             let tpNum = parseInt(s.status.replace('TP', ''));
             if (!isNaN(tpNum)) { finalPips = basePips * tpNum; isProfit = true; }
@@ -539,10 +589,10 @@
 
           if (count < 5) {
             let resultText = s.status === 'SL' ? 'SL Hit' : `${s.status} Hit`; let resColor = s.status === 'SL' ? 'text-danger' : 'text-success';
-            
             let sourceBadge = '';
             if (s.source === 'GLDN') sourceBadge = '<span class="text-[9px] border border-yellow-700 text-yellow-500 px-1 rounded ml-1">GLDN</span>';
             else if (s.source === 'SDW Navigator') sourceBadge = '<span class="text-[9px] border border-blue-700 text-blue-400 px-1 rounded ml-1">NAV</span>';
+            else if (s.source === 'SDW ICT') sourceBadge = '<span class="text-[9px] border border-green-700 text-green-400 px-1 rounded ml-1">ICT</span>';
             else sourceBadge = `<span class="text-[9px] border border-gray-600 text-gray-400 px-1 rounded ml-1">${s.source}</span>`;
 
             historyHTML += `
@@ -571,19 +621,73 @@
     }
 
     function switchEATab(source) {
-      if (source === 'NAVIGATOR') currentEATab = 'SDW Navigator';
-      else currentEATab = source;
+      currentEATab = source;
       
-      document.getElementById('tab-gldn').className = `tab-btn ${source === 'GLDN' ? 'tab-active' : 'tab-inactive'}`;
-      document.getElementById('tab-navigator').className = `tab-btn ${source === 'NAVIGATOR' ? 'tab-active' : 'tab-inactive'}`;
-      renderVIP();
+      // Reset semua tab
+      const tabs = ['mapping', 'gldn', 'msp', 'ict', 'navigator'];
+      tabs.forEach(t => {
+          const el = document.getElementById('tab-' + t);
+          if(el) el.className = `tab-btn tab-inactive`;
+      });
+      
+      const activeMap = { 'MAPPING':'mapping', 'GLDN':'gldn', 'MSP':'msp', 'ICT':'ict', 'NAVIGATOR':'navigator' };
+      const activeEl = document.getElementById('tab-' + activeMap[source]);
+      if(activeEl) activeEl.className = `tab-btn tab-active`;
+      
+      // Tampilkan konten yang sesuai
+      if (source === 'MAPPING') {
+          document.getElementById('mapping-content').classList.remove('hidden');
+          document.getElementById('signal-content').classList.add('hidden');
+          renderMapping();
+      } else {
+          document.getElementById('mapping-content').classList.add('hidden');
+          document.getElementById('signal-content').classList.remove('hidden');
+          renderVIP();
+      }
+    }
+
+    function renderMapping() {
+        if (!latestMapping) {
+            document.getElementById('sell-high').innerText = "-";
+            document.getElementById('sell-med').innerText = "-";
+            document.getElementById('sell-low').innerText = "-";
+            document.getElementById('buy-high').innerText = "-";
+            document.getElementById('buy-med').innerText = "-";
+            document.getElementById('buy-low').innerText = "-";
+            document.getElementById('mapping-image-container').innerHTML = '<p class="text-xs text-muted text-center px-4">Belum ada data mapping untuk hari ini.</p>';
+            return;
+        }
+
+        document.getElementById('sell-high').innerText = `${latestMapping.sell_high_lo} - ${latestMapping.sell_high_hi}`;
+        document.getElementById('sell-med').innerText = `${latestMapping.sell_med_lo} - ${latestMapping.sell_med_hi}`;
+        document.getElementById('sell-low').innerText = `${latestMapping.sell_low_lo} - ${latestMapping.sell_low_hi}`;
+        
+        document.getElementById('buy-high').innerText = `${latestMapping.buy_high_lo} - ${latestMapping.buy_high_hi}`;
+        document.getElementById('buy-med').innerText = `${latestMapping.buy_med_lo} - ${latestMapping.buy_med_hi}`;
+        document.getElementById('buy-low').innerText = `${latestMapping.buy_low_lo} - ${latestMapping.buy_low_hi}`;
+
+        if(latestMapping.buy_image && latestMapping.buy_image !== "none") {
+            // Menampilkan gambar BUY jika ada
+            document.getElementById('mapping-image-container').innerHTML = `<img src="${latestMapping.buy_image}" class="w-full h-auto object-cover">`;
+        } else if (latestMapping.sell_image && latestMapping.sell_image !== "none") {
+            // Menampilkan gambar SELL jika ada
+            document.getElementById('mapping-image-container').innerHTML = `<img src="${latestMapping.sell_image}" class="w-full h-auto object-cover">`;
+        } else {
+            document.getElementById('mapping-image-container').innerHTML = '<p class="text-xs text-muted text-center px-4">Screenshot tidak tersedia.</p>';
+        }
     }
 
     function renderVIP() {
       let runningHTML = "", waitingHTML = "", dailyTableHTML = "", vipDayProfit = 0, vipDayLoss = 0;
       const startOfDay = new Date(); startOfDay.setHours(0,0,0,0);
       
-      const filteredSignals = globalSignals.filter(s => s.source === currentEATab); 
+      let filterSource = currentEATab;
+      if(currentEATab === 'GLDN') filterSource = 'GLDN';
+      else if(currentEATab === 'NAVIGATOR') filterSource = 'SDW Navigator';
+      else if(currentEATab === 'ICT') filterSource = 'SDW ICT';
+      else if(currentEATab === 'MSP') filterSource = 'MSP';
+
+      const filteredSignals = globalSignals.filter(s => s.source === filterSource && s.action !== 'new_mapping'); 
       let tableCount = 0;
 
       filteredSignals.forEach(s => {
@@ -592,9 +696,7 @@
         const textColor = isBuy ? 'text-success' : 'text-danger';
         const basePips = Math.abs(parseFloat(s.tp1) - parseFloat(s.entry)) * 10; 
 
-        let finalPips = 0;
-        let isProfit = false;
-
+        let finalPips = 0; let isProfit = false;
         if (s.status.includes('TP')) {
             let tpNum = parseInt(s.status.replace('TP', ''));
             if (!isNaN(tpNum)) { finalPips = basePips * tpNum; isProfit = true; }
@@ -619,7 +721,6 @@
           const isTP2 = ['TP2', 'TP3', 'TP4'].includes(s.status);
           const isTP3 = ['TP3', 'TP4'].includes(s.status);
           const isTP4 = ['TP4'].includes(s.status);
-          
           const check = '<i class="fa-solid fa-check text-success text-sm ml-2"></i>';
 
           runningHTML += `
@@ -656,18 +757,13 @@
                 </div>
                 <span class="text-danger font-bold text-[10px] uppercase tracking-wider">HIGH RISK</span>
               </div>
-              
               <div class="card-detail px-3 pb-3">
                 <div class="pt-3 border-t border-[#3b82f6]/20 flex justify-between items-start">
-                  <div>
-                    <p class="text-danger font-bold text-xs"><span class="text-danger">⚠</span> STOP LOSS (SL) : ${s.sl}</p>
-                  </div>
+                  <div><p class="text-danger font-bold text-xs"><span class="text-danger">⚠</span> STOP LOSS (SL) : ${s.sl}</p></div>
                   <div class="text-right text-[10px]">
                     <p class="text-gray-300 font-semibold mb-1"><span class="text-red-400">🎯</span> TAKE <span class="text-green-400">PROFIT</span></p>
-                    <p class="text-gray-200">🎖 TP 1: ${s.tp1}</p>
-                    <p class="text-gray-200">🎖 TP 2: ${s.tp2}</p>
-                    <p class="text-gray-200">🎖 TP 3: ${s.tp3}</p>
-                    ${s.tp4 != "0" && s.tp4 != "0.0" ? `<p class="text-gray-200">🏆 TP 4: ${s.tp4}</p>` : ''}
+                    <p class="text-gray-200">🎖 TP 1: ${s.tp1}</p><p class="text-gray-200">🎖 TP 2: ${s.tp2}</p>
+                    <p class="text-gray-200">🎖 TP 3: ${s.tp3}</p>${s.tp4 != "0" && s.tp4 != "0.0" ? `<p class="text-gray-200">🏆 TP 4: ${s.tp4}</p>` : ''}
                   </div>
                 </div>
                 <div id="chart-container-${s.id}" class="chart-container"></div>
@@ -685,7 +781,6 @@
       document.getElementById('vip-daily-table-list').innerHTML = dailyTableHTML;
     }
 
-    // PERBAIKAN CHART (ANTI BLANK)
     function toggleAccordion(headerElement) {
       const detail = headerElement.nextElementSibling;
       if (detail.classList.contains('open')) {
@@ -697,9 +792,7 @@
         if (chartDiv) {
             const signalId = chartDiv.id.replace('chart-container-', '');
             const signalData = globalSignals.find(sig => sig.id == signalId);
-            if (signalData) {
-                setTimeout(() => { drawStaticChart(chartDiv.id, signalData); }, 600); 
-            }
+            if (signalData) { setTimeout(() => { drawStaticChart(chartDiv.id, signalData); }, 600); }
         }
       }
     }
@@ -708,12 +801,10 @@
         const container = document.getElementById(containerId);
         if (!container) return;
         container.innerHTML = ''; 
-
         const width = container.clientWidth || 300;
 
         const chart = LightweightCharts.createChart(container, {
-            width: width, 
-            height: 200,
+            width: width, height: 200,
             layout: { background: { color: 'transparent' }, textColor: '#64748b' },
             grid: { vertLines: { color: 'rgba(59, 130, 246, 0.05)' }, horzLines: { color: 'rgba(59, 130, 246, 0.05)' } },
             rightPriceScale: { visible: true, borderColor: 'rgba(59, 130, 246, 0.2)', autoScale: true },
@@ -722,60 +813,31 @@
             handleScroll: false, handleScale: false,
         });
 
-        const candleSeries = chart.addCandlestickSeries({
-            upColor: '#10b981', downColor: '#ef4444', borderVisible: false,
-            wickUpColor: '#10b981', wickDownColor: '#ef4444',
-        });
-
-        const entry = parseFloat(signal.entry);
-        const sl = parseFloat(signal.sl);
-        const tp1 = parseFloat(signal.tp1);
-        const isBuy = signal.arah === 'BUY';
+        const candleSeries = chart.addCandlestickSeries({ upColor: '#10b981', downColor: '#ef4444', borderVisible: false, wickUpColor: '#10b981', wickDownColor: '#ef4444' });
+        const entry = parseFloat(signal.entry); const sl = parseFloat(signal.sl); const tp1 = parseFloat(signal.tp1); const isBuy = signal.arah === 'BUY';
         
-        let currentPrice = isBuy ? entry + 2.5 : entry - 2.5; 
-        let time = Math.floor(new Date().getTime() / 1000) - 30 * 60; 
+        let currentPrice = isBuy ? entry + 2.5 : entry - 2.5; let time = Math.floor(new Date().getTime() / 1000) - 30 * 60; 
         const candleData = [];
-
         for (let i = 0; i < 25; i++) {
-            let open = currentPrice;
-            let trend = isBuy ? -0.1 : 0.1; 
-            let noise = (Math.random() - 0.5) * 0.8;
-            let close = open + trend + noise;
-            
-            if (i === 24) { close = entry; }
-            else if (i === 23) { close = isBuy ? entry + 0.3 : entry - 0.3; }
-
-            let high = Math.max(open, close) + (Math.random() * 0.3);
-            let low = Math.min(open, close) - (Math.random() * 0.3);
-
+            let open = currentPrice; let trend = isBuy ? -0.1 : 0.1; let noise = (Math.random() - 0.5) * 0.8; let close = open + trend + noise;
+            if (i === 24) { close = entry; } else if (i === 23) { close = isBuy ? entry + 0.3 : entry - 0.3; }
+            let high = Math.max(open, close) + (Math.random() * 0.3); let low = Math.min(open, close) - (Math.random() * 0.3);
             candleData.push({ time: time, open: open, high: high, low: low, close: close });
-            
-            currentPrice = close;
-            time += 60; 
+            currentPrice = close; time += 60; 
         }
-
         candleSeries.setData(candleData);
 
         if (!isNaN(entry)) candleSeries.createPriceLine({ price: entry, color: '#ffffff', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: true, title: 'ENTRY' });
         if (!isNaN(sl)) candleSeries.createPriceLine({ price: sl, color: '#ef4444', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: true, title: 'SL' });
         if (!isNaN(tp1)) candleSeries.createPriceLine({ price: tp1, color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: true, title: 'TP1' });
         
-        if (signal.tp2 && signal.tp2 !== "0" && signal.tp2 !== "0.0") {
-            candleSeries.createPriceLine({ price: parseFloat(signal.tp2), color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dotted, axisLabelVisible: true, title: 'TP2' });
-        }
-        if (signal.tp3 && signal.tp3 !== "0" && signal.tp3 !== "0.0") {
-            candleSeries.createPriceLine({ price: parseFloat(signal.tp3), color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dotted, axisLabelVisible: true, title: 'TP3' });
-        }
+        if (signal.tp2 && signal.tp2 !== "0" && signal.tp2 !== "0.0") candleSeries.createPriceLine({ price: parseFloat(signal.tp2), color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dotted, axisLabelVisible: true, title: 'TP2' });
+        if (signal.tp3 && signal.tp3 !== "0" && signal.tp3 !== "0.0") candleSeries.createPriceLine({ price: parseFloat(signal.tp3), color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dotted, axisLabelVisible: true, title: 'TP3' });
 
         chart.timeScale().fitContent();
-
-        setTimeout(() => {
-            chart.applyOptions({ width: container.clientWidth || 300 });
-            chart.timeScale().fitContent();
-        }, 100);
+        setTimeout(() => { chart.applyOptions({ width: container.clientWidth || 300 }); chart.timeScale().fitContent(); }, 100);
     }
 
-    // INISIALISASI
     document.addEventListener("DOMContentLoaded", function() {
       const token = localStorage.getItem('sdw_token');
       if (!token) { window.location.href = "login.html"; return; }
@@ -813,6 +875,9 @@
 
               fetchLivePrice(); setInterval(fetchLivePrice, 5000);
               fetchSignals(); setInterval(fetchSignals, 10000);
+              
+              // Panggil mapping di awal
+              switchEATab('MAPPING');
           }
       })
       .catch(() => { alert("Koneksi VPS terputus. Pastikan Ngrok/Node.js menyala."); });
@@ -858,34 +923,23 @@
       document.getElementById('view-' + viewName).classList.add('block');
 
       if (viewName === 'vip') {
-        const vipContent = document.getElementById('vip-content'); 
-        const vipOverlay = document.getElementById('vip-lock-overlay');
-        if (currentUserRole === 'VIP' || currentUserRole === 'ADMIN') { 
-            vipContent.classList.remove('vip-blurred'); 
-            vipOverlay.classList.add('hidden'); 
-        } else { 
-            vipContent.classList.add('vip-blurred'); 
-            vipOverlay.classList.remove('hidden'); 
-        }
+        const vipContent = document.getElementById('vip-content'); const vipOverlay = document.getElementById('vip-lock-overlay');
+        if (currentUserRole === 'VIP' || currentUserRole === 'ADMIN') { vipContent.classList.remove('vip-blurred'); vipOverlay.classList.add('hidden'); } 
+        else { vipContent.classList.add('vip-blurred'); vipOverlay.classList.remove('hidden'); }
+        
+        // Saat masuk VIP, pastikan tab yang aktif di-render ulang
+        switchEATab(currentEATab);
       }
 
       if (viewName === 'bookmap') {
-        const bookmapContent = document.getElementById('bookmap-content'); 
-        const bookmapOverlay = document.getElementById('bookmap-lock-overlay');
-        if (currentUserRole === 'VIP' || currentUserRole === 'ADMIN') { 
-            bookmapContent.classList.remove('vip-blurred'); 
-            bookmapOverlay.classList.add('hidden'); 
-        } else { 
-            bookmapContent.classList.add('vip-blurred'); 
-            bookmapOverlay.classList.remove('hidden'); 
-        }
+        const bookmapContent = document.getElementById('bookmap-content'); const bookmapOverlay = document.getElementById('bookmap-lock-overlay');
+        if (currentUserRole === 'VIP' || currentUserRole === 'ADMIN') { bookmapContent.classList.remove('vip-blurred'); bookmapOverlay.classList.add('hidden'); } 
+        else { bookmapContent.classList.add('vip-blurred'); bookmapOverlay.classList.remove('hidden'); }
       }
 
       const navButtons = document.querySelectorAll('nav button');
       navButtons.forEach(btn => { 
-          if(btn.id !== 'nav-vip') { 
-              btn.classList.remove('text-white'); btn.classList.add('text-muted'); 
-          }
+          if(btn.id !== 'nav-vip') { btn.classList.remove('text-white'); btn.classList.add('text-muted'); }
       });
       
       const activeBtn = document.getElementById('nav-' + viewName);
@@ -893,10 +947,7 @@
           activeBtn.classList.remove('text-muted'); activeBtn.classList.add('text-white');
       }
       
-      if (viewName !== 'vip') {
-          document.getElementById('nav-vip').classList.remove('border-white');
-      }
-      
+      if (viewName !== 'vip') document.getElementById('nav-vip').classList.remove('border-white');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
