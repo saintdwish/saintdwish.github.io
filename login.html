@@ -91,7 +91,9 @@
   </div>
 
   <script>
-    // URL VPS NGROK KAMU
+    // ==========================================
+    // ⚠️ GANTI URL DI BAWAH INI DENGAN URL NGROK KAMU
+    // ==========================================
     const API_URL_VPS = "https://enviable-umbilical-erupt.ngrok-free.dev"; 
 
     function togglePassword(inputId, iconElement) {
@@ -119,16 +121,27 @@
       errMsg.classList.add('hidden');
 
       try {
+        // Tembak API dengan header anti-blokir Ngrok
         const response = await fetch(`${API_URL_VPS}/api/login`, {
           method: 'POST',
           headers: { 
             'Content-Type': 'application/json',
-            'ngrok-skip-browser-warning': 'true' // Mencegah blokir Ngrok
+            'ngrok-skip-browser-warning': 'true' 
           },
           body: JSON.stringify({ email: email, password: password })
         });
         
-        const data = await response.json();
+        // Baca sebagai teks dulu (untuk nangkep kalau Ngrok nampilin halaman HTML warning)
+        const textData = await response.text();
+        let data;
+        
+        try {
+            data = JSON.parse(textData);
+        } catch (err) {
+            // Kalau gagal di-parse, berarti yang dibales bukan JSON (kemungkinan halaman warning Ngrok di HP)
+            console.error("Respon server bukan JSON:", textData);
+            throw new Error("Server ngirim HTML (Ngrok Warning). Buka URL Ngrok di tab baru & klik 'Visit Site'.");
+        }
 
         if (data.status === 'success') {
           localStorage.setItem('sdw_token', data.token);
@@ -142,7 +155,9 @@
           errMsg.innerText = data.message;
         }
       } catch (error) {
-        alert("Koneksi VPS terputus. Pastikan Ngrok & Node.js menyala.");
+        // ALERT INI AKAN MUNCUL DI HP KAMU, BIAR KETAHUAN ERROR ASLINYA
+        console.error("Detail Error:", error);
+        alert("Login Gagal di HP!\n\nPesan Error: " + error.message + "\n\nSolusi: Pastikan Node.js & Ngrok nyala, lalu buka URL Ngrok di tab baru HP kamu dan klik 'Visit Site'.");
       } finally {
         btn.innerHTML = originalText;
         btn.disabled = false;
