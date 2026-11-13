@@ -67,6 +67,7 @@
 
   <div class="relative z-10 px-5 pt-8 pb-4">
     
+    <!-- VIEW 1: DASHBOARD UTAMA -->
     <div id="view-dashboard" class="view-section block">
       <header class="mb-6"><h1 class="text-2xl font-bold text-white">Dashboard</h1></header>
       <div class="glass-card p-4 mb-6 flex justify-between items-center relative overflow-hidden">
@@ -111,6 +112,7 @@
       </div>
     </div>
 
+    <!-- VIEW 2: AKSES -->
     <div id="view-akses" class="view-section hidden">
       <header class="mb-6"><h1 class="text-2xl font-bold text-white">AKSES MENU</h1></header>
       <div class="glass-card p-5 mb-8">
@@ -132,6 +134,7 @@
       </div>
     </div>
 
+    <!-- SUB-VIEW: BERLANGGANAN -->
     <div id="view-berlangganan" class="view-section hidden relative">
       <button onclick="switchView('akses', this)" class="absolute top-0 left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50"><i class="fa-solid fa-arrow-left text-sm"></i></button>
       <h1 class="text-xl font-bold text-white text-center mb-8 pt-1">BERLANGGANAN</h1>
@@ -159,6 +162,7 @@
       <p class="text-center text-[10px] text-muted tracking-widest">SAINT D.WISH</p>
     </div>
 
+    <!-- SUB-VIEW: JOIN IB -->
     <div id="view-joinib" class="view-section hidden relative">
       <button onclick="switchView('akses', this)" class="absolute top-0 left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50"><i class="fa-solid fa-arrow-left text-sm"></i></button>
       <h1 class="text-xl font-bold text-white text-center mb-8 pt-1 text-blue-300">JOIN IB</h1>
@@ -188,6 +192,7 @@
       <div class="flex justify-center mt-4"><img src="logo.png" alt="Saint D Wish" class="w-16 h-16 object-contain opacity-50"></div>
     </div>
 
+    <!-- VIEW 3: VIP ZONE -->
     <div id="view-vip" class="view-section hidden relative">
       <div id="vip-content" class="transition-all duration-500">
         <header class="mb-6"><h1 class="text-2xl font-bold text-white">VIP ZONE</h1></header>
@@ -271,6 +276,7 @@
       </div>
     </div>
 
+    <!-- VIEW 4: BOOKMAP -->
     <div id="view-bookmap" class="view-section hidden relative">
       <div id="bookmap-content" class="transition-all duration-500">
         <header class="mb-6"><h1 class="text-2xl font-bold text-white">LIVE BOOKMAP</h1></header>
@@ -303,6 +309,7 @@
       </div>
     </div>
 
+    <!-- VIEW 5: AKUN UTAMA -->
     <div id="view-akun" class="view-section hidden">
       <header class="mb-6"><h1 class="text-2xl font-bold text-white">AKUN</h1></header>
       <div class="glass-card rounded-xl p-4 flex items-center justify-between mb-6">
@@ -336,6 +343,7 @@
       <button onclick="logout()" class="w-full py-3 rounded-xl border border-red-900/50 text-red-500 hover:bg-red-900/20 transition text-sm font-semibold">Logout</button>
     </div>
 
+    <!-- SUB-VIEW: EDIT PROFIL -->
     <div id="sub-editprofil" class="view-section hidden relative">
       <button onclick="closeSubAkun()" class="absolute top-0 left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50"><i class="fa-solid fa-arrow-left text-sm"></i></button>
       <h1 class="text-xl font-bold text-white text-center mb-8 pt-1">Edit Profile</h1>
@@ -356,6 +364,7 @@
       </form>
     </div>
 
+    <!-- SUB-VIEW: BANTUAN -->
     <div id="sub-bantuan" class="view-section hidden relative">
       <button onclick="closeSubAkun()" class="absolute top-0 left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50"><i class="fa-solid fa-arrow-left text-sm"></i></button>
       <h1 class="text-xl font-bold text-white text-center mb-2 pt-1">Bantuan</h1>
@@ -366,6 +375,7 @@
       </div>
     </div>
 
+    <!-- SUB-VIEW: UBAH PASSWORD -->
     <div id="sub-password" class="view-section hidden relative">
       <button onclick="closeSubAkun()" class="absolute top-0 left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50"><i class="fa-solid fa-arrow-left text-sm"></i></button>
       <h1 class="text-xl font-bold text-white text-center mb-2 pt-1">Ubah Password</h1>
@@ -378,6 +388,7 @@
       </form>
     </div>
 
+    <!-- SUB-VIEW: PENGATURAN NOTIFIKASI -->
     <div id="sub-notif" class="view-section hidden relative">
       <button onclick="closeSubAkun()" class="absolute top-0 left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50"><i class="fa-solid fa-arrow-left text-sm"></i></button>
       <h1 class="text-xl font-bold text-white text-center mb-10 pt-1">Notifikasi</h1>
@@ -407,6 +418,7 @@
 
   </div> 
 
+  <!-- NAVBAR BAWAH -->
   <div id="mainNavbar" class="fixed bottom-4 w-full max-w-md flex justify-center z-50 pointer-events-none transition-opacity duration-300">
     <nav class="relative w-[95%] bg-[#0f172a]/90 backdrop-blur-xl border border-[#3b82f6]/30 flex justify-between items-end px-2 pb-2 pt-3 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.8)] pointer-events-auto overflow-visible">
       
@@ -435,6 +447,7 @@
     </nav>
   </div>
 
+  <!-- ===== SCRIPTS ===== -->
   <script>
     const API_URL_USER = "https://script.google.com/macros/s/AKfycbzMYg1pTNUbEJWJSKtwifnPkw-tTn1SjFJqK2fmVepWVKpAvupB2c5eCb-fpUXR6LK-wg/exec";
     const API_URL_PRICE = "https://script.google.com/macros/s/AKfycbzZuDUnA32CUSdU194CFo4MXBFk621PFfTeAlrY0IjJB7U2LHwEepP4dLvmDFsKxiCZ/exec";
@@ -534,8 +547,8 @@
           if (Object.keys(knownSignalStatuses).length > 0) {
              let title = ""; let body = "";
              let source = sig.source;
-             if(sig.source === 'GLDN') source = 'GOLDEN';
-             else if(sig.source === 'SDW Navigator') source = 'NAVIGATOR';
+             if(sig.source === 'SDW GLDN') source = 'GOLDEN';
+             else if(sig.source === 'SDW SK' || sig.source === 'SDW Navigator') source = 'NAVIGATOR';
              else if(sig.source === 'SDW ICT') source = 'ICT';
 
              const side = sig.arah; 
@@ -581,9 +594,11 @@
 
           if (count < 5) {
             let resultText = s.status === 'SL' ? 'SL Hit' : `${s.status} Hit`; let resColor = s.status === 'SL' ? 'text-danger' : 'text-success';
+            
+            // PERBAIKAN BADGE: Cocokkan dengan nama yang dikirim EA (SDW GLDN, SDW SK, SDW ICT)
             let sourceBadge = '';
-            if (s.source === 'GLDN') sourceBadge = '<span class="text-[9px] border border-yellow-700 text-yellow-500 px-1 rounded ml-1">GLDN</span>';
-            else if (s.source === 'SDW Navigator') sourceBadge = '<span class="text-[9px] border border-blue-700 text-blue-400 px-1 rounded ml-1">NAV</span>';
+            if (s.source === 'SDW GLDN') sourceBadge = '<span class="text-[9px] border border-yellow-700 text-yellow-500 px-1 rounded ml-1">GLDN</span>';
+            else if (s.source === 'SDW SK' || s.source === 'SDW Navigator') sourceBadge = '<span class="text-[9px] border border-blue-700 text-blue-400 px-1 rounded ml-1">NAV</span>';
             else if (s.source === 'SDW ICT') sourceBadge = '<span class="text-[9px] border border-green-700 text-green-400 px-1 rounded ml-1">ICT</span>';
             else sourceBadge = `<span class="text-[9px] border border-gray-600 text-gray-400 px-1 rounded ml-1">${s.source}</span>`;
 
@@ -667,9 +682,10 @@
       let runningHTML = "", waitingHTML = "", dailyTableHTML = "", vipDayProfit = 0, vipDayLoss = 0;
       const startOfDay = new Date(); startOfDay.setHours(0,0,0,0);
       
+      // PERBAIKAN FILTER: Cocokkan dengan nama source dari EA
       let filterSource = currentEATab;
-      if(currentEATab === 'GLDN') filterSource = 'GLDN';
-      else if(currentEATab === 'NAVIGATOR') filterSource = 'SDW Navigator';
+      if(currentEATab === 'GLDN') filterSource = 'SDW GLDN';
+      else if(currentEATab === 'NAVIGATOR') filterSource = 'SDW SK';
       else if(currentEATab === 'ICT') filterSource = 'SDW ICT';
       else if(currentEATab === 'MSP') filterSource = 'MSP';
 
@@ -865,7 +881,6 @@
                 document.getElementById('adminTestNotifPanel').classList.remove('hidden');
               }
               
-              // FIX SAFARI: Cek apakah Notification didukung sebelum dipanggil
               if (typeof Notification !== "undefined" && Notification.permission === "granted") {
                   document.getElementById('toggleNotif').checked = true;
               }
