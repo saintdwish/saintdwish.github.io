@@ -197,12 +197,14 @@
       <div id="vip-content" class="transition-all duration-500">
         <header class="mb-6"><h1 class="text-2xl font-bold text-white">VIP ZONE</h1></header>
         
+        <!-- TAMBAHAN TAB SK METHODE DI SINI -->
         <div class="tab-container mb-6 glass-card p-1">
           <div id="tab-mapping" onclick="switchEATab('MAPPING')" class="tab-btn tab-active">MAPPING</div>
           <div id="tab-gldn" onclick="switchEATab('GLDN')" class="tab-btn tab-inactive">GOLDEN</div>
           <div id="tab-msp" onclick="switchEATab('MSP')" class="tab-btn tab-inactive">MSP</div>
           <div id="tab-ict" onclick="switchEATab('ICT')" class="tab-btn tab-inactive">ICT</div>
           <div id="tab-navigator" onclick="switchEATab('NAVIGATOR')" class="tab-btn tab-inactive">NAVIGATOR</div>
+          <div id="tab-sk" onclick="switchEATab('SK')" class="tab-btn tab-inactive">SK METHODE</div>
         </div>
 
         <div id="mapping-content" class="block">
@@ -468,7 +470,6 @@
       options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false } }, animation: false }
     });
 
-    // FIX BUG SAFARI: Tambahkan pengaman agar tidak crash kalau Notification tidak ada
     function requestNotifPermission(toggle) {
         if (typeof Notification === "undefined") {
             alert("Browser HP kamu (Safari) tidak mendukung fitur notifikasi web secara langsung. Gunakan fitur 'Add to Home Screen' (Tambahkan ke Layar Utama) di iPhone untuk mengaktifkannya.");
@@ -548,7 +549,8 @@
              let title = ""; let body = "";
              let source = sig.source;
              if(sig.source === 'SDW GLDN') source = 'GOLDEN';
-             else if(sig.source === 'SDW SK' || sig.source === 'SDW Navigator') source = 'NAVIGATOR';
+             else if(sig.source === 'SDW Navigator') source = 'NAVIGATOR';
+             else if(sig.source === 'SDW SK') source = 'SK METHODE';
              else if(sig.source === 'SDW ICT') source = 'ICT';
 
              const side = sig.arah; 
@@ -595,10 +597,10 @@
           if (count < 5) {
             let resultText = s.status === 'SL' ? 'SL Hit' : `${s.status} Hit`; let resColor = s.status === 'SL' ? 'text-danger' : 'text-success';
             
-            // PERBAIKAN BADGE: Cocokkan dengan nama yang dikirim EA (SDW GLDN, SDW SK, SDW ICT)
             let sourceBadge = '';
             if (s.source === 'SDW GLDN') sourceBadge = '<span class="text-[9px] border border-yellow-700 text-yellow-500 px-1 rounded ml-1">GLDN</span>';
-            else if (s.source === 'SDW SK' || s.source === 'SDW Navigator') sourceBadge = '<span class="text-[9px] border border-blue-700 text-blue-400 px-1 rounded ml-1">NAV</span>';
+            else if (s.source === 'SDW Navigator') sourceBadge = '<span class="text-[9px] border border-blue-700 text-blue-400 px-1 rounded ml-1">NAV</span>';
+            else if (s.source === 'SDW SK') sourceBadge = '<span class="text-[9px] border border-purple-700 text-purple-400 px-1 rounded ml-1">SK</span>';
             else if (s.source === 'SDW ICT') sourceBadge = '<span class="text-[9px] border border-green-700 text-green-400 px-1 rounded ml-1">ICT</span>';
             else sourceBadge = `<span class="text-[9px] border border-gray-600 text-gray-400 px-1 rounded ml-1">${s.source}</span>`;
 
@@ -629,12 +631,12 @@
 
     function switchEATab(source) {
       currentEATab = source;
-      const tabs = ['mapping', 'gldn', 'msp', 'ict', 'navigator'];
+      const tabs = ['mapping', 'gldn', 'msp', 'ict', 'navigator', 'sk'];
       tabs.forEach(t => {
           const el = document.getElementById('tab-' + t);
           if(el) el.className = `tab-btn tab-inactive`;
       });
-      const activeMap = { 'MAPPING':'mapping', 'GLDN':'gldn', 'MSP':'msp', 'ICT':'ict', 'NAVIGATOR':'navigator' };
+      const activeMap = { 'MAPPING':'mapping', 'GLDN':'gldn', 'MSP':'msp', 'ICT':'ict', 'NAVIGATOR':'navigator', 'SK':'sk' };
       const activeEl = document.getElementById('tab-' + activeMap[source]);
       if(activeEl) activeEl.className = `tab-btn tab-active`;
       
@@ -685,7 +687,8 @@
       // PERBAIKAN FILTER: Cocokkan dengan nama source dari EA
       let filterSource = currentEATab;
       if(currentEATab === 'GLDN') filterSource = 'SDW GLDN';
-      else if(currentEATab === 'NAVIGATOR') filterSource = 'SDW SK';
+      else if(currentEATab === 'NAVIGATOR') filterSource = 'SDW Navigator';
+      else if(currentEATab === 'SK') filterSource = 'SDW SK'; // TAMBAHAN UNTUK SK METHODE
       else if(currentEATab === 'ICT') filterSource = 'SDW ICT';
       else if(currentEATab === 'MSP') filterSource = 'MSP';
 
