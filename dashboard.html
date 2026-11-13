@@ -41,7 +41,6 @@
     .toggle-checkbox { right: 0; z-index: 1; border-color: #e2e8f0; transition: all 0.3s; position: absolute; width: 24px; height: 24px; background: white; border-width: 1px; border-radius: 50%; appearance: none; cursor: pointer; }
     .toggle-label { display: block; overflow: hidden; cursor: pointer; border-radius: 9999px; width: 48px; height: 24px; background-color: #1e293b; transition: background-color 0.3s; }
 
-    /* Tab Styling (Bisa digeser) */
     .tab-container { display: flex; overflow-x: auto; gap: 4px; scrollbar-width: none; -ms-overflow-style: none; }
     .tab-container::-webkit-scrollbar { display: none; }
     .tab-btn { flex: 0 0 auto; padding: 8px 16px; text-align: center; font-weight: 600; border-radius: 8px; transition: all 0.3s; cursor: pointer; border: 1px solid transparent; font-size: 12px; }
@@ -198,7 +197,6 @@
       <div id="vip-content" class="transition-all duration-500">
         <header class="mb-6"><h1 class="text-2xl font-bold text-white">VIP ZONE</h1></header>
         
-        <!-- TABS: MAPPING | GOLDEN | MSP | ICT | NAVIGATOR -->
         <div class="tab-container mb-6 glass-card p-1">
           <div id="tab-mapping" onclick="switchEATab('MAPPING')" class="tab-btn tab-active">MAPPING</div>
           <div id="tab-gldn" onclick="switchEATab('GLDN')" class="tab-btn tab-inactive">GOLDEN</div>
@@ -207,9 +205,7 @@
           <div id="tab-navigator" onclick="switchEATab('NAVIGATOR')" class="tab-btn tab-inactive">NAVIGATOR</div>
         </div>
 
-        <!-- KONTEN MAPPING (Khusus Tab MAPPING) -->
         <div id="mapping-content" class="block">
-          <!-- Zona Sell -->
           <div class="glass-card p-4 mb-4 border-l-4 border-red-500">
             <h2 class="text-lg font-bold text-white mb-3 flex items-center gap-2"><div class="w-3 h-3 bg-red-500 rounded-full"></div> Zona Sell :</h2>
             <div class="text-sm text-gray-300 space-y-1 font-medium">
@@ -219,7 +215,6 @@
             </div>
           </div>
 
-          <!-- Zona Buy -->
           <div class="glass-card p-4 mb-4 border-l-4 border-green-500">
             <h2 class="text-lg font-bold text-white mb-3 flex items-center gap-2"><div class="w-3 h-3 bg-green-500 rounded-full"></div> Zona Buy :</h2>
             <div class="text-sm text-gray-300 space-y-1 font-medium">
@@ -229,17 +224,14 @@
             </div>
           </div>
 
-          <!-- Screenshot Mapping -->
           <div class="glass-card p-2 mb-6">
             <div id="mapping-image-container" class="w-full rounded-xl overflow-hidden bg-[#0f172a] flex items-center justify-center min-h-[200px]">
                <p class="text-xs text-muted text-center px-4">Menunggu gambar mapping dari server...</p>
             </div>
           </div>
-
           <p class="text-center text-[10px] text-muted tracking-widest mb-8">SAINT D.WISH MAPPING</p>
         </div>
 
-        <!-- KONTEN SINYAL (Untuk Tab EA) -->
         <div id="signal-content" class="hidden">
           <div class="mb-6">
             <h2 class="text-md text-white mb-3 font-bold">SEDANG RUNNING</h2>
@@ -269,7 +261,6 @@
           </div>
           <button class="w-full text-center text-sm text-muted hover:text-white transition mb-8">Lihat Semua Riwayat</button>
         </div>
-
       </div>
 
       <div id="vip-lock-overlay" class="hidden absolute inset-0 z-50 flex flex-col items-center justify-center bg-[#040812]/80 backdrop-blur-sm rounded-xl">
@@ -427,7 +418,7 @@
 
   </div> 
 
-  <!-- NAVBAR BAWAH (5 MENU) -->
+  <!-- NAVBAR BAWAH -->
   <div id="mainNavbar" class="fixed bottom-4 w-full max-w-md flex justify-center z-50 pointer-events-none transition-opacity duration-300">
     <nav class="relative w-[95%] bg-[#0f172a]/90 backdrop-blur-xl border border-[#3b82f6]/30 flex justify-between items-end px-2 pb-2 pt-3 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.8)] pointer-events-auto overflow-visible">
       
@@ -499,14 +490,12 @@
       } catch (e) {}
     }
 
-    // FETCH SIGNAL & MAPPING
     async function fetchSignals() {
       try {
         const res = await fetch(API_URL_SIGNAL); const data = await res.json();
         if (data.status === 'success') { 
             globalSignals = data.data; 
-            latestMapping = data.mapping; // Mengambil data mapping dari API
-            
+            latestMapping = data.mapping; 
             checkNewNotifications(); 
             renderAllViews(); 
         }
@@ -616,13 +605,11 @@
 
     function switchEATab(source) {
       currentEATab = source;
-      
       const tabs = ['mapping', 'gldn', 'msp', 'ict', 'navigator'];
       tabs.forEach(t => {
           const el = document.getElementById('tab-' + t);
           if(el) el.className = `tab-btn tab-inactive`;
       });
-      
       const activeMap = { 'MAPPING':'mapping', 'GLDN':'gldn', 'MSP':'msp', 'ICT':'ict', 'NAVIGATOR':'navigator' };
       const activeEl = document.getElementById('tab-' + activeMap[source]);
       if(activeEl) activeEl.className = `tab-btn tab-active`;
@@ -639,7 +626,7 @@
     }
 
     function renderMapping() {
-        if (!latestMapping) {
+        if (!latestMapping || !latestMapping.sell_high_lo || latestMapping.sell_high_lo === "") {
             document.getElementById('sell-high').innerText = "-";
             document.getElementById('sell-med').innerText = "-";
             document.getElementById('sell-low').innerText = "-";
@@ -658,9 +645,9 @@
         document.getElementById('buy-med').innerText = `${latestMapping.buy_med_lo} - ${latestMapping.buy_med_hi}`;
         document.getElementById('buy-low').innerText = `${latestMapping.buy_low_lo} - ${latestMapping.buy_low_hi}`;
 
-        if(latestMapping.buy_image && latestMapping.buy_image !== "none") {
+        if(latestMapping.buy_image && latestMapping.buy_image !== "none" && latestMapping.buy_image !== "") {
             document.getElementById('mapping-image-container').innerHTML = `<img src="${latestMapping.buy_image}" class="w-full h-auto object-cover">`;
-        } else if (latestMapping.sell_image && latestMapping.sell_image !== "none") {
+        } else if (latestMapping.sell_image && latestMapping.sell_image !== "none" && latestMapping.sell_image !== "") {
             document.getElementById('mapping-image-container').innerHTML = `<img src="${latestMapping.sell_image}" class="w-full h-auto object-cover">`;
         } else {
             document.getElementById('mapping-image-container').innerHTML = '<p class="text-xs text-muted text-center px-4">Screenshot tidak tersedia.</p>';
@@ -834,10 +821,21 @@
 
       fetch(`${API_URL_VPS}/api/verify`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
+          headers: { 
+            'Content-Type': 'application/json', 
+            'ngrok-skip-browser-warning': 'true' 
+          },
           body: JSON.stringify({ token: token })
       })
-      .then(res => res.json())
+      .then(async (res) => {
+          const textData = await res.text();
+          try {
+              return JSON.parse(textData);
+          } catch (err) {
+              console.error("Respon Ngrok Bukan JSON (Mungkin HTML):", textData);
+              throw new Error("Safari diblokir Ngrok Warning");
+          }
+      })
       .then(data => {
           if (data.status !== 'success') {
               localStorage.removeItem('sdw_token');
@@ -869,7 +867,10 @@
               switchEATab('MAPPING');
           }
       })
-      .catch(() => { alert("Koneksi VPS terputus. Pastikan Ngrok/Node.js menyala."); });
+      .catch((error) => { 
+          console.error("Error Asli:", error);
+          alert("ERROR DARI SAFARI: " + error.message + "\n\n(Tolong buka URL Ngrok di tab baru Safari dan klik 'Visit Site')"); 
+      });
     });
 
     function loadAvatar() {
