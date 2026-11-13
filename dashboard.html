@@ -41,7 +41,7 @@
     .toggle-checkbox { right: 0; z-index: 1; border-color: #e2e8f0; transition: all 0.3s; position: absolute; width: 24px; height: 24px; background: white; border-width: 1px; border-radius: 50%; appearance: none; cursor: pointer; }
     .toggle-label { display: block; overflow: hidden; cursor: pointer; border-radius: 9999px; width: 48px; height: 24px; background-color: #1e293b; transition: background-color 0.3s; }
 
-    /* Tab Styling */
+    /* Tab Styling (Bisa digeser) */
     .tab-container { display: flex; overflow-x: auto; gap: 4px; scrollbar-width: none; -ms-overflow-style: none; }
     .tab-container::-webkit-scrollbar { display: none; }
     .tab-btn { flex: 0 0 auto; padding: 8px 16px; text-align: center; font-weight: 600; border-radius: 8px; transition: all 0.3s; cursor: pointer; border: 1px solid transparent; font-size: 12px; }
@@ -505,9 +505,7 @@
         const res = await fetch(API_URL_SIGNAL); const data = await res.json();
         if (data.status === 'success') { 
             globalSignals = data.data; 
-            
-            // Pisahkan sinyal dan mapping
-            latestMapping = globalSignals.find(s => s.action === "new_mapping" || s.source === "MAPPING");
+            latestMapping = data.mapping; // Mengambil data mapping dari API
             
             checkNewNotifications(); 
             renderAllViews(); 
@@ -533,8 +531,6 @@
     function checkNewNotifications() {
       if (!("Notification" in window) || Notification.permission !== "granted") return;
       globalSignals.forEach(sig => {
-        if(sig.action === 'new_mapping') return; // Jangan notif untuk mapping
-        
         const uniqueKey = sig.id + "_" + sig.status;
         if (!knownSignalStatuses[uniqueKey]) {
           if (Object.keys(knownSignalStatuses).length > 0) {
@@ -556,7 +552,7 @@
       });
     }
 
-    function renderAllViews() { renderDashboardCombined(); renderVIP(); }
+    function renderAllViews() { renderDashboardCombined(); renderVIP(); renderMapping(); }
 
     function renderDashboardCombined() {
       let historyHTML = "", monProfit = 0, monLoss = 0, weekProfit = 0, weekLoss = 0, dayProfit = 0, dayLoss = 0;
@@ -567,8 +563,6 @@
       let count = 0;
 
       globalSignals.forEach(s => {
-        if(s.action === 'new_mapping' || s.source === "MAPPING") return; // Skip mapping di riwayat
-
         const isBuy = s.arah === 'BUY'; 
         const basePips = Math.abs(parseFloat(s.tp1) - parseFloat(s.entry)) * 10; 
         
@@ -623,7 +617,6 @@
     function switchEATab(source) {
       currentEATab = source;
       
-      // Reset semua tab
       const tabs = ['mapping', 'gldn', 'msp', 'ict', 'navigator'];
       tabs.forEach(t => {
           const el = document.getElementById('tab-' + t);
@@ -634,7 +627,6 @@
       const activeEl = document.getElementById('tab-' + activeMap[source]);
       if(activeEl) activeEl.className = `tab-btn tab-active`;
       
-      // Tampilkan konten yang sesuai
       if (source === 'MAPPING') {
           document.getElementById('mapping-content').classList.remove('hidden');
           document.getElementById('signal-content').classList.add('hidden');
@@ -667,10 +659,8 @@
         document.getElementById('buy-low').innerText = `${latestMapping.buy_low_lo} - ${latestMapping.buy_low_hi}`;
 
         if(latestMapping.buy_image && latestMapping.buy_image !== "none") {
-            // Menampilkan gambar BUY jika ada
             document.getElementById('mapping-image-container').innerHTML = `<img src="${latestMapping.buy_image}" class="w-full h-auto object-cover">`;
         } else if (latestMapping.sell_image && latestMapping.sell_image !== "none") {
-            // Menampilkan gambar SELL jika ada
             document.getElementById('mapping-image-container').innerHTML = `<img src="${latestMapping.sell_image}" class="w-full h-auto object-cover">`;
         } else {
             document.getElementById('mapping-image-container').innerHTML = '<p class="text-xs text-muted text-center px-4">Screenshot tidak tersedia.</p>';
@@ -687,7 +677,7 @@
       else if(currentEATab === 'ICT') filterSource = 'SDW ICT';
       else if(currentEATab === 'MSP') filterSource = 'MSP';
 
-      const filteredSignals = globalSignals.filter(s => s.source === filterSource && s.action !== 'new_mapping'); 
+      const filteredSignals = globalSignals.filter(s => s.source === filterSource); 
       let tableCount = 0;
 
       filteredSignals.forEach(s => {
@@ -876,7 +866,6 @@
               fetchLivePrice(); setInterval(fetchLivePrice, 5000);
               fetchSignals(); setInterval(fetchSignals, 10000);
               
-              // Panggil mapping di awal
               switchEATab('MAPPING');
           }
       })
@@ -926,8 +915,6 @@
         const vipContent = document.getElementById('vip-content'); const vipOverlay = document.getElementById('vip-lock-overlay');
         if (currentUserRole === 'VIP' || currentUserRole === 'ADMIN') { vipContent.classList.remove('vip-blurred'); vipOverlay.classList.add('hidden'); } 
         else { vipContent.classList.add('vip-blurred'); vipOverlay.classList.remove('hidden'); }
-        
-        // Saat masuk VIP, pastikan tab yang aktif di-render ulang
         switchEATab(currentEATab);
       }
 
