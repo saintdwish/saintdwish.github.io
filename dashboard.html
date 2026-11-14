@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Saint D. Wish - Dashboard</title>
   
-  <!-- META PWA -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#040812">
   <link rel="apple-touch-icon" href="logo.png">
@@ -253,12 +252,21 @@
               <p>LOW RISK : <span id="buy-low" class="text-white">-</span></p>
             </div>
           </div>
-          <div class="glass-card p-2 mb-6">
+          <div class="glass-card p-2 mb-4">
             <div id="mapping-image-container" class="w-full rounded-xl overflow-hidden bg-[#0f172a] flex items-center justify-center min-h-[200px]">
                <p class="text-xs text-muted text-center px-4">Menunggu gambar mapping dari server...</p>
             </div>
           </div>
-          <p class="text-center text-[10px] text-muted tracking-widest mb-8">SAINT D.WISH MAPPING</p>
+
+          <div class="glass-card p-4 mb-8 border border-blue-900/50 shadow-[0_0_20px_rgba(59,130,246,0.1)]">
+            <div class="flex justify-between items-center mb-4">
+              <h2 class="text-md font-bold text-white flex items-center gap-2"><i class="fa-solid fa-bell text-blue-400"></i> Alert Update</h2>
+              <span class="text-xs text-success bg-emerald-900/30 px-2 py-1 rounded-md border border-emerald-500/30"><i class="fa-solid fa-circle text-[8px] mr-1"></i> Live</span>
+            </div>
+            <div class="flex flex-col gap-2" id="alert-list-container">
+              <p class="text-sm text-muted">Belum ada update alert hari ini.</p>
+            </div>
+          </div>
         </div>
 
         <div id="signal-content" class="hidden">
@@ -520,7 +528,6 @@
     const API_URL_SIGNAL = "https://script.google.com/macros/s/AKfycbyd8ksBWqhE6iIT1E6IT_l1TgZO86ZLgUDDpZYxb6TzZ5TMFj93Vm10wasIgrTP3_Sx/exec";
     const API_URL_VPS = "https://enviable-umbilical-erupt.ngrok-free.dev"; 
     
-    // VAPID PUBLIC KEY KAMU
     const VAPID_PUBLIC_KEY = 'BEl7RzRvhaJr08AN64MjzLB5pGdgc3e9DmjtzbvELXyOxNTt-J9DWwK35Vzj7ps1U1aamD6jXow2_sNg_JDuha4';
 
     if ('serviceWorker' in navigator) {
@@ -545,6 +552,7 @@
     }
 
     let globalSignals = [];
+    let globalAlerts = [];
     let latestMapping = null;
     let currentEATab = 'MAPPING'; 
     let knownSignalStatuses = {}; 
@@ -570,13 +578,11 @@
                     toggle.checked = false;
                     return;
                 }
-                // DAFTARKAN KE PUSH SERVER
                 navigator.serviceWorker.ready.then(registration => {
                     registration.pushManager.subscribe({
                         userVisibleOnly: true,
                         applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
                     }).then(subscription => {
-                        // Kirim subscription ke Node.js via Ngrok
                         fetch(`${API_URL_VPS}/api/subscribe`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
@@ -630,10 +636,12 @@
 
     async function fetchSignals() {
       try {
-        const res = await fetch(API_URL_SIGNAL); const data = await res.json();
+        const res = await fetch(API_URL_SIGNAL + '?t=' + new Date().getTime()); 
+        const data = await res.json();
         if (data.status === 'success') { 
             globalSignals = data.data; 
             latestMapping = data.mapping; 
+            globalAlerts = data.alerts || []; 
             renderAllViews(); 
         }
       } catch (e) {}
@@ -654,7 +662,40 @@
         } catch(e) { alert("Terjadi kesalahan jaringan."); }
     }
 
-    function renderAllViews() { renderDashboardCombined(); renderVIP(); renderMapping(); }
+    function renderAllViews() { renderDashboardCombined(); renderVIP(); renderMapping(); renderAlerts(); }
+
+    function renderAlerts() {
+        const container = document.getElementById('alert-list-container');
+        if (!globalAlerts || globalAlerts.length === 0) {
+            container.innerHTML = '<p class="text-sm text-muted">Belum ada update alert hari ini.</p>';
+            return;
+        }
+
+        let html = "";
+        globalAlerts.forEach((a, i) => {
+            const timeStr = new Date(a.time).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+            const cleanMsg = a.msg.replace(/\*\*/g, '').replace(/\*/g, '').replace(/\n/g, '<br>');
+            
+            html += `
+            <div class="bg-[#0f172a]/60 rounded-lg border border-blue-900/30 overflow-hidden">
+                <div class="p-3 flex items-start gap-3 cursor-pointer hover:bg-[#1e3a8a]/20 transition" onclick="document.getElementById('alert-detail-${i}').classList.toggle('hidden')">
+                    <div class="w-2 h-2 rounded-full mt-1.5 ${a.type.includes('REJECT') ? 'bg-green-500' : (a.type.includes('BREAKOUT') ? 'bg-red-500' : 'bg-yellow-500')}"></div>
+                    <div class="flex-1">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-[10px] text-muted font-mono">${timeStr}</span>
+                            <span class="text-[10px] text-blue-300 font-bold uppercase">${a.type}</span>
+                        </div>
+                        <p class="text-xs text-white font-semibold">${a.type.includes('REJECT') ? 'Harga berhasil masuk ke Zona dan menunjukkan reaksi rejection.' : (a.type.includes('BREAKOUT') ? 'Harga berhasil menembus dan close di luar zona.' : 'Harga menyentuh zona.')}</p>
+                    </div>
+                </div>
+                <div id="alert-detail-${i}" class="hidden px-3 pb-3 pt-1 text-xs text-gray-400 border-t border-blue-900/30 leading-relaxed">
+                    ${cleanMsg}
+                </div>
+            </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
 
     function renderDashboardCombined() {
       let historyHTML = "", monProfit = 0, monLoss = 0, weekProfit = 0, weekLoss = 0, dayProfit = 0, dayLoss = 0;
@@ -733,6 +774,7 @@
           document.getElementById('mapping-content').classList.remove('hidden');
           document.getElementById('signal-content').classList.add('hidden');
           renderMapping();
+          renderAlerts();
       } else {
           document.getElementById('mapping-content').classList.add('hidden');
           document.getElementById('signal-content').classList.remove('hidden');
