@@ -5,17 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Saint D. Wish - Dashboard</title>
   
-  <!-- ========================================== -->
-  <!-- META PWA & ICON (BIAR MUNCUL DI HOME SCREEN) -->
-  <!-- ========================================== -->
+  <!-- META PWA -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#040812">
-  <!-- Khusus untuk iPhone (Safari) -->
   <link rel="apple-touch-icon" href="logo.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="SDW">
-  <!-- ========================================== -->
   
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -27,41 +23,33 @@
   <style>
     body { font-family: 'Inter', sans-serif; color: #ffffff; padding-bottom: 110px; overflow-x: hidden; background-image: url('bg.png'); background-size: cover; background-position: center top; background-attachment: fixed; background-repeat: no-repeat; }
     body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(2, 8, 19, 0.7) 0%, rgba(2, 8, 19, 0.95) 100%); z-index: -1; }
-    
     .glass-card { background: rgba(10, 18, 38, 0.7); backdrop-filter: blur(15px); border: 1px solid rgba(59, 130, 246, 0.2); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); border-radius: 16px; }
     .glass-card-inner { background: rgba(20, 35, 70, 0.4); border: 1px solid rgba(59, 130, 246, 0.15); border-radius: 12px; }
     .text-success { color: #10b981; } .text-danger { color: #ef4444; } .text-muted { color: #94a3b8; } .text-neon-blue { color: #60a5fa; }
-    
     ::-webkit-scrollbar { display: none; }
     .view-section { animation: fadeIn 0.3s ease-in-out; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    
     .toggle-checkbox:checked { right: 0; border-color: #3b82f6; }
     .toggle-checkbox:checked + .toggle-label { background-color: #3b82f6; }
     .toggle-checkbox { right: 0; z-index: 1; border-color: #e2e8f0; transition: all 0.3s; position: absolute; width: 24px; height: 24px; background: white; border-width: 1px; border-radius: 50%; appearance: none; cursor: pointer; }
     .toggle-label { display: block; overflow: hidden; cursor: pointer; border-radius: 9999px; width: 48px; height: 24px; background-color: #1e293b; transition: background-color 0.3s; }
-
     .tab-container { display: flex; overflow-x: auto; gap: 4px; scrollbar-width: none; -ms-overflow-style: none; padding: 5px; }
     .tab-container::-webkit-scrollbar { display: none; }
     .tab-btn { flex: 0 0 auto; padding: 8px 16px; text-align: center; font-weight: 600; border-radius: 8px; transition: all 0.3s; cursor: pointer; border: 1px solid transparent; font-size: 12px; }
     .tab-active { background: linear-gradient(135deg, #1e40af, #3b82f6); color: #ffffff; border-color: #60a5fa; box-shadow: 0 0 15px rgba(59, 130, 246, 0.5); }
     .tab-inactive { background-color: transparent; color: #94a3b8; }
     .tab-inactive:hover { color: #ffffff; }
-
     .card-header { cursor: pointer; transition: background-color 0.2s; }
     .card-header:hover { background-color: rgba(30, 58, 138, 0.4); }
     .card-detail { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out; opacity: 0; }
     .card-detail.open { max-height: 400px; opacity: 1; }
-    
     .vip-blurred { filter: blur(8px); pointer-events: none; user-select: none; opacity: 0.3; }
     .chart-container { width: 100%; height: 200px; border-radius: 8px; overflow: hidden; margin-top: 15px; border: 1px solid rgba(59, 130, 246, 0.2); position: relative; }
-
     .ib-btn { display: flex; justify-content: center; align-items: center; padding: 15px; border-radius: 12px; font-weight: 700; font-size: 16px; text-transform: uppercase; transition: transform 0.2s; }
     .ib-btn:hover { transform: scale(1.02); }
     .ib-exness { background-color: #FFD700; color: #000; }
     .ib-hfm { background-color: #000000; color: #fff; border: 1px solid #333; }
     .ib-valetax { background-color: #008000; color: #fff; }
-
     .main-header { background: rgba(5, 15, 35, 0.6); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 16px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(59, 130, 246, 0.1); backdrop-filter: blur(10px); }
     .card-running-sell { border-left: 4px solid #ef4444; background: linear-gradient(90deg, rgba(239, 68, 68, 0.1) 0%, rgba(10, 18, 38, 0.7) 100%); }
     .card-running-buy { border-left: 4px solid #10b981; background: linear-gradient(90deg, rgba(16, 185, 129, 0.1) 0%, rgba(10, 18, 38, 0.7) 100%); }
@@ -531,8 +519,10 @@
     const API_URL_PRICE = "https://script.google.com/macros/s/AKfycbzZuDUnA32CUSdU194CFo4MXBFk621PFfTeAlrY0IjJB7U2LHwEepP4dLvmDFsKxiCZ/exec";
     const API_URL_SIGNAL = "https://script.google.com/macros/s/AKfycbyd8ksBWqhE6iIT1E6IT_l1TgZO86ZLgUDDpZYxb6TzZ5TMFj93Vm10wasIgrTP3_Sx/exec";
     const API_URL_VPS = "https://enviable-umbilical-erupt.ngrok-free.dev"; 
+    
+    // VAPID PUBLIC KEY KAMU
+    const VAPID_PUBLIC_KEY = 'BEl7RzRvhaJr08AN64MjzLB5pGdgc3e9DmjtzbvELXyOxNTt-J9DWwK35Vzj7ps1U1aamD6jXow2_sNg_JDuha4';
 
-    // DAFTARKAN SERVICE WORKER UNTUK IOS PWA
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('sw.js').then(reg => {
@@ -541,6 +531,17 @@
                 console.log('Service Worker gagal', err);
             });
         });
+    }
+
+    function urlBase64ToUint8Array(base64String) {
+        const padding = '='.repeat((4 - base64String.length % 4) % 4);
+        const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+        const rawData = window.atob(base64);
+        const outputArray = new Uint8Array(rawData.length);
+        for (let i = 0; i < rawData.length; ++i) {
+            outputArray[i] = rawData.charCodeAt(i);
+        }
+        return outputArray;
     }
 
     let globalSignals = [];
@@ -565,7 +566,24 @@
         }
         if (toggle.checked) {
             Notification.requestPermission().then(permission => {
-                if (permission !== "granted") toggle.checked = false;
+                if (permission !== "granted") {
+                    toggle.checked = false;
+                    return;
+                }
+                // DAFTARKAN KE PUSH SERVER
+                navigator.serviceWorker.ready.then(registration => {
+                    registration.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+                    }).then(subscription => {
+                        // Kirim subscription ke Node.js via Ngrok
+                        fetch(`${API_URL_VPS}/api/subscribe`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
+                            body: JSON.stringify(subscription)
+                        }).then(res => console.log("Berhasil subscribe push", res)).catch(err => console.error(err));
+                    }).catch(err => console.error('Gagal Subscribe', err));
+                });
             });
         }
     }
@@ -616,7 +634,6 @@
         if (data.status === 'success') { 
             globalSignals = data.data; 
             latestMapping = data.mapping; 
-            checkNewNotifications(); 
             renderAllViews(); 
         }
       } catch (e) {}
@@ -635,41 +652,6 @@
                 globalSignals = []; renderAllViews();
             } else { alert("Gagal: " + data.message); }
         } catch(e) { alert("Terjadi kesalahan jaringan."); }
-    }
-
-    function checkNewNotifications() {
-      if (typeof Notification === "undefined" || Notification.permission !== "granted") return;
-      globalSignals.forEach(sig => {
-        const uniqueKey = sig.id + "_" + sig.status;
-        if (!knownSignalStatuses[uniqueKey]) {
-          if (Object.keys(knownSignalStatuses).length > 0) {
-             let title = ""; let body = "";
-             let source = sig.source;
-             if(sig.source === 'SDW GLDN') source = 'GOLDEN';
-             else if(sig.source === 'SDW Navigator') source = 'NAVIGATOR';
-             else if(sig.source === 'SDW SK') source = 'SK METHODE';
-             else if(sig.source === 'SDW ICT') source = 'ICT';
-
-             const side = sig.arah; 
-             if (sig.status === 'WAITING') { title = `${side} LIMIT | ${source}`; body = `Market Entry ${sig.entry} | SL ${sig.sl} | TP 1 ${sig.tp1}`; } 
-             else if (sig.status === 'CANCELLED') { title = `Signal Invalid | ${side} LIMIT ${sig.pair} | ${source}`; body = `Set up sudah tidak memenuhi syarat.`; }
-             else if (sig.status.includes('TP')) { title = `Signal Profit | ${side} LIMIT ${sig.pair} | ${source}`; body = `Signal Hit ${sig.status}. Take Half And Set BE`; }
-             else if (sig.status === 'SL') { title = `Signal Hit Stop Lose | ${side} LIMIT ${sig.pair} | ${source}`; body = `Set Up Hit Stop Lose. Get Ready For Recovery.`; }
-             
-             if (title !== "" && body !== "") {
-                const iconUrl = "https://raw.githubusercontent.com/saintdwish/saintdwish.github.io/main/logo.png";
-                if ('serviceWorker' in navigator) {
-                    navigator.serviceWorker.ready.then(function(registration) {
-                        registration.showNotification(title, { body: body, icon: iconUrl });
-                    });
-                } else {
-                    new Notification(title, { body: body, icon: iconUrl });
-                }
-             }
-          }
-          knownSignalStatuses[uniqueKey] = true;
-        }
-      });
     }
 
     function renderAllViews() { renderDashboardCombined(); renderVIP(); renderMapping(); }
