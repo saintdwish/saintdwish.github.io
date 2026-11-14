@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Saint D. Wish - Dashboard</title>
   
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   
   <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
@@ -13,19 +13,31 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
   <style>
-    body { font-family: 'Inter', sans-serif; background-color: #040812; color: #ffffff; padding-bottom: 110px; overflow-x: hidden; }
+    body { font-family: 'Inter', sans-serif; background-color: #020813; color: #ffffff; padding-bottom: 110px; overflow-x: hidden; }
+    
+    /* BACKGROUND LUAR ANGKASA + CAHAYA BUMI */
     body::before {
-      content: ""; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
-      background: radial-gradient(circle at 20% 30%, rgba(29, 78, 216, 0.15) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(56, 189, 248, 0.1) 0%, transparent 40%), radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.8) 0%, #040812 100%);
-      z-index: -2; animation: auroraMove 20s ease-in-out infinite alternate;
+      content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: 
+        radial-gradient(circle at 50% -20%, rgba(0, 100, 255, 0.4) 0%, transparent 50%),
+        radial-gradient(circle at 50% 120%, rgba(0, 100, 255, 0.3) 0%, transparent 50%),
+        linear-gradient(to bottom, #020813, #06122b, #020813);
+      z-index: -2;
     }
-    @keyframes auroraMove { 0% { transform: scale(1) rotate(0deg); } 100% { transform: scale(1.1) rotate(5deg); } }
+    /* EFEK BINTANG */
+    body::after {
+      content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background-image: radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px);
+      background-size: 50px 50px;
+      opacity: 0.1;
+      z-index: -1;
+    }
 
     .glass-card {
-      background: rgba(15, 25, 50, 0.5); backdrop-filter: blur(12px);
-      border: 1px solid rgba(59, 130, 246, 0.2); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); border-radius: 16px;
+      background: rgba(10, 18, 38, 0.7); backdrop-filter: blur(15px);
+      border: 1px solid rgba(59, 130, 246, 0.2); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); border-radius: 16px;
     }
-    .glass-card-inner { background: rgba(30, 58, 138, 0.2); border: 1px solid rgba(59, 130, 246, 0.15); border-radius: 12px; }
+    .glass-card-inner { background: rgba(20, 35, 70, 0.4); border: 1px solid rgba(59, 130, 246, 0.15); border-radius: 12px; }
 
     .text-success { color: #10b981; } 
     .text-danger { color: #ef4444; }  
@@ -41,10 +53,11 @@
     .toggle-checkbox { right: 0; z-index: 1; border-color: #e2e8f0; transition: all 0.3s; position: absolute; width: 24px; height: 24px; background: white; border-width: 1px; border-radius: 50%; appearance: none; cursor: pointer; }
     .toggle-label { display: block; overflow: hidden; cursor: pointer; border-radius: 9999px; width: 48px; height: 24px; background-color: #1e293b; transition: background-color 0.3s; }
 
-    .tab-container { display: flex; overflow-x: auto; gap: 4px; scrollbar-width: none; -ms-overflow-style: none; }
+    /* TAB STYLING */
+    .tab-container { display: flex; overflow-x: auto; gap: 4px; scrollbar-width: none; -ms-overflow-style: none; padding: 5px; }
     .tab-container::-webkit-scrollbar { display: none; }
     .tab-btn { flex: 0 0 auto; padding: 8px 16px; text-align: center; font-weight: 600; border-radius: 8px; transition: all 0.3s; cursor: pointer; border: 1px solid transparent; font-size: 12px; }
-    .tab-active { background: linear-gradient(135deg, #1e40af, #3b82f6); color: #ffffff; border-color: #60a5fa; box-shadow: 0 0 10px rgba(59, 130, 246, 0.3); }
+    .tab-active { background: linear-gradient(135deg, #1e40af, #3b82f6); color: #ffffff; border-color: #60a5fa; box-shadow: 0 0 15px rgba(59, 130, 246, 0.5); }
     .tab-inactive { background-color: transparent; color: #94a3b8; }
     .tab-inactive:hover { color: #ffffff; }
 
@@ -61,20 +74,38 @@
     .ib-exness { background-color: #FFD700; color: #000; }
     .ib-hfm { background-color: #000000; color: #fff; border: 1px solid #333; }
     .ib-valetax { background-color: #008000; color: #fff; }
+
+    /* STYLING KHUSUS VIP ZONE HEADER */
+    .vip-header-box {
+      background: rgba(5, 15, 35, 0.8);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 16px;
+      padding: 12px 16px;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(59, 130, 246, 0.1);
+    }
+    
+    /* RUNNING CARD GLOW */
+    .card-running-sell { border-left: 4px solid #ef4444; background: linear-gradient(90deg, rgba(239, 68, 68, 0.1) 0%, rgba(10, 18, 38, 0.7) 100%); }
+    .card-running-buy { border-left: 4px solid #10b981; background: linear-gradient(90deg, rgba(16, 185, 129, 0.1) 0%, rgba(10, 18, 38, 0.7) 100%); }
+    
+    /* WAITING BADGE */
+    .badge-high-risk { border: 1px solid rgba(239, 68, 68, 0.5); color: #ef4444; background: rgba(239, 68, 68, 0.1); padding: 2px 8px; border-radius: 999px; font-size: 9px; font-weight: 700; }
   </style>
 </head>
 <body class="max-w-md mx-auto relative min-h-screen">
 
-  <div class="relative z-10 px-5 pt-8 pb-4">
+  <div class="relative z-10 px-4 pt-6 pb-4">
     
     <!-- VIEW 1: DASHBOARD UTAMA -->
     <div id="view-dashboard" class="view-section block">
-      <header class="mb-6"><h1 class="text-2xl font-bold text-white">Dashboard</h1></header>
+      <header class="mb-6"><h1 class="text-2xl font-extrabold text-white">Dashboard</h1></header>
       <div class="glass-card p-4 mb-6 flex justify-between items-center relative overflow-hidden">
         <div class="z-10">
           <p class="text-sm text-muted mb-1 font-medium">XAUUSD <span class="text-xs text-success bg-emerald-900/30 px-2 py-0.5 rounded ml-1">Live</span></p>
           <div class="flex flex-col">
-            <span class="text-3xl font-bold text-white tracking-tight transition-colors duration-300" id="goldPrice">Memuat...</span>
+            <span class="text-3xl font-extrabold text-white tracking-tight transition-colors duration-300" id="goldPrice">Memuat...</span>
             <span class="text-sm font-medium mt-1 text-muted" id="priceChange">0.00 %</span>
           </div>
         </div>
@@ -87,7 +118,7 @@
         </div>
       </div>
       <div class="glass-card p-5 mb-4">
-        <h3 class="text-md text-white font-semibold mb-4">Monthly Recap</h3>
+        <h3 class="text-md text-white font-bold mb-4">Monthly Recap</h3>
         <div class="grid grid-cols-3 gap-3">
           <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase font-semibold">Profit</p><p class="text-sm font-bold text-success" id="mon-profit">+0</p></div>
           <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase font-semibold">Loss</p><p class="text-sm font-bold text-danger" id="mon-sl">-0</p></div>
@@ -95,7 +126,7 @@
         </div>
       </div>
       <div class="glass-card p-5 mb-4">
-        <h3 class="text-md text-white font-semibold mb-4">Weekly Recap</h3>
+        <h3 class="text-md text-white font-bold mb-4">Weekly Recap</h3>
         <div class="grid grid-cols-3 gap-3">
           <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase font-semibold">Profit</p><p class="text-sm font-bold text-success" id="week-profit">+0</p></div>
           <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase font-semibold">Loss</p><p class="text-sm font-bold text-danger" id="week-sl">-0</p></div>
@@ -103,7 +134,7 @@
         </div>
       </div>
       <div class="glass-card p-5 mb-8">
-        <h3 class="text-md text-white font-semibold mb-4">Daily Recap</h3>
+        <h3 class="text-md text-white font-bold mb-4">Daily Recap</h3>
         <div class="grid grid-cols-3 gap-3">
           <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase font-semibold">Profit</p><p class="text-sm font-bold text-success" id="day-profit">+0</p></div>
           <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase font-semibold">Loss</p><p class="text-sm font-bold text-danger" id="day-sl">-0</p></div>
@@ -114,7 +145,7 @@
 
     <!-- VIEW 2: AKSES -->
     <div id="view-akses" class="view-section hidden">
-      <header class="mb-6"><h1 class="text-2xl font-bold text-white">AKSES MENU</h1></header>
+      <header class="mb-6"><h1 class="text-2xl font-extrabold text-white">AKSES MENU</h1></header>
       <div class="glass-card p-5 mb-8">
         <h2 class="text-lg font-bold text-white mb-4">FITUR YANG AKAN DIDAPATKAN JIKA AKSES VIP</h2>
         <ol class="text-sm text-muted space-y-2 list-decimal list-inside font-medium">
@@ -195,10 +226,24 @@
     <!-- VIEW 3: VIP ZONE -->
     <div id="view-vip" class="view-section hidden relative">
       <div id="vip-content" class="transition-all duration-500">
-        <header class="mb-6"><h1 class="text-2xl font-bold text-white">VIP ZONE</h1></header>
         
-        <!-- TAMBAHAN TAB SK METHODE DI SINI -->
-        <div class="tab-container mb-6 glass-card p-1">
+        <!-- HEADER VIP ZONE BARU (SESUAI GAMBAR) -->
+        <div class="vip-header-box">
+          <div class="flex items-center gap-3">
+            <img src="logo.png" alt="Logo" class="w-10 h-10 object-contain drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]">
+            <div>
+              <h1 class="text-lg font-extrabold text-white tracking-wider italic">VIP ZONE</h1>
+              <p class="text-[10px] text-blue-300">Smart Trading - Higher Probability</p>
+            </div>
+          </div>
+          <div class="relative cursor-pointer hover:scale-110 transition">
+            <i class="fa-regular fa-bell text-xl text-gray-300"></i>
+            <span class="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 border-2 border-[#0a1226] rounded-full"></span>
+          </div>
+        </div>
+
+        <!-- TAB MENU -->
+        <div class="tab-container mb-6 glass-card">
           <div id="tab-mapping" onclick="switchEATab('MAPPING')" class="tab-btn tab-active">MAPPING</div>
           <div id="tab-gldn" onclick="switchEATab('GLDN')" class="tab-btn tab-inactive">GOLDEN</div>
           <div id="tab-msp" onclick="switchEATab('MSP')" class="tab-btn tab-inactive">MSP</div>
@@ -208,8 +253,8 @@
         </div>
 
         <div id="mapping-content" class="block">
-          <div class="glass-card p-4 mb-4 border-l-4 border-red-500">
-            <h2 class="text-lg font-bold text-white mb-3 flex items-center gap-2"><div class="w-3 h-3 bg-red-500 rounded-full"></div> Zona Sell :</h2>
+          <div class="glass-card p-4 mb-4 border-l-4 border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
+            <h2 class="text-lg font-bold text-white mb-3 flex items-center gap-2"><div class="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div> Zona Sell :</h2>
             <div class="text-sm text-gray-300 space-y-1 font-medium">
               <p>HIGH RISK : <span id="sell-high" class="text-white">-</span></p>
               <p>MEDIUM RISK : <span id="sell-med" class="text-white">-</span></p>
@@ -217,8 +262,8 @@
             </div>
           </div>
 
-          <div class="glass-card p-4 mb-4 border-l-4 border-green-500">
-            <h2 class="text-lg font-bold text-white mb-3 flex items-center gap-2"><div class="w-3 h-3 bg-green-500 rounded-full"></div> Zona Buy :</h2>
+          <div class="glass-card p-4 mb-4 border-l-4 border-green-500 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+            <h2 class="text-lg font-bold text-white mb-3 flex items-center gap-2"><div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div> Zona Buy :</h2>
             <div class="text-sm text-gray-300 space-y-1 font-medium">
               <p>HIGH RISK : <span id="buy-high" class="text-white">-</span></p>
               <p>MEDIUM RISK : <span id="buy-med" class="text-white">-</span></p>
@@ -236,32 +281,44 @@
 
         <div id="signal-content" class="hidden">
           <div class="mb-6">
-            <h2 class="text-md text-white mb-3 font-bold">SEDANG RUNNING</h2>
-            <div class="flex flex-col gap-3" id="vip-running-list"><p class="text-sm text-muted">Tidak ada posisi running.</p></div>
+            <h2 class="text-[13px] text-white mb-3 font-bold uppercase tracking-widest border-l-2 border-blue-500 pl-2">SEDANG RUNNING</h2>
+            <div class="flex flex-col gap-3" id="vip-running-list"><p class="text-sm text-muted pl-2">Tidak ada posisi running.</p></div>
           </div>
           <div class="mb-6">
-            <h2 class="text-md text-white mb-3 font-bold">WAITING</h2>
-            <div class="flex flex-col gap-2" id="vip-waiting-list"><p class="text-sm text-muted">Tidak ada sinyal waiting.</p></div>
+            <h2 class="text-[13px] text-white mb-3 font-bold uppercase tracking-widest border-l-2 border-blue-500 pl-2">WAITING</h2>
+            <div class="flex flex-col gap-2" id="vip-waiting-list"><p class="text-sm text-muted pl-2">Tidak ada sinyal waiting.</p></div>
           </div>
           <div class="mb-6">
-            <h3 class="text-xs font-bold text-white mb-2 tracking-wide">RISK MANAGEMENT</h3>
+            <h3 class="text-xs font-bold text-white mb-2 tracking-wide uppercase">RISK MANAGEMENT</h3>
             <ol class="text-sm text-muted space-y-1 font-medium pl-1">
-              <li>1. Use proper lot sizing</li><li>2. Maintain disciplined risk management.</li><li>3. Avoid entering outside the specified entry area.</li><li>4. Do not chase price if the setup is missed.</li>
+              <li>1. Use proper lot sizing.</li><li>2. Maintain disciplined risk management.</li><li>3. Avoid entering outside the specified entry area.</li><li>4. Do not chase price if the setup is missed.</li>
             </ol>
           </div>
-          <div class="glass-card p-5 mb-6">
-            <h3 class="text-lg text-white mb-4 tracking-wide font-normal">DAILY RECAP</h3>
+          <div class="glass-card p-5 mb-6 border border-blue-900/50 shadow-[0_0_20px_rgba(59,130,246,0.1)]">
+            <h3 class="text-md text-white mb-4 tracking-widest font-bold uppercase">DAILY RECAP</h3>
             <div class="grid grid-cols-3 gap-2 mb-6">
-              <div class="glass-card-inner p-3 text-center"><p class="text-xs text-muted mb-1">PROFIT</p><p class="text-sm font-bold text-success" id="vip-day-profit">+0 PIPS</p></div>
-              <div class="glass-card-inner p-3 text-center"><p class="text-xs text-muted mb-1">STOP LOSE</p><p class="text-sm font-bold text-danger" id="vip-day-sl">-0 PIPS</p></div>
-              <div class="glass-card-inner p-3 text-center"><p class="text-xs text-muted mb-1">TOTAL</p><p class="text-sm font-bold text-white" id="vip-day-total">+0 PIPS</p></div>
+              <div class="glass-card-inner p-3 text-center flex flex-col items-center justify-center">
+                <i class="fa-solid fa-chart-line text-blue-400 text-lg mb-1"></i>
+                <p class="text-[10px] text-muted mb-1 uppercase font-bold">PROFIT</p>
+                <p class="text-sm font-extrabold text-success" id="vip-day-profit">+0 PIPS</p>
+              </div>
+              <div class="glass-card-inner p-3 text-center flex flex-col items-center justify-center">
+                <i class="fa-solid fa-arrow-trend-down text-red-400 text-lg mb-1"></i>
+                <p class="text-[10px] text-muted mb-1 uppercase font-bold">STOP LOSE</p>
+                <p class="text-sm font-extrabold text-danger" id="vip-day-sl">-0 PIPS</p>
+              </div>
+              <div class="glass-card-inner p-3 text-center flex flex-col items-center justify-center">
+                <i class="fa-solid fa-calculator text-gray-300 text-lg mb-1"></i>
+                <p class="text-[10px] text-muted mb-1 uppercase font-bold">TOTAL</p>
+                <p class="text-sm font-extrabold text-white" id="vip-day-total">+0 PIPS</p>
+              </div>
             </div>
             <div class="flex justify-between items-center text-sm text-gray-300 border-b border-[#3b82f6]/30 pb-2 mb-2 font-semibold">
               <div class="w-1/2">Daily Recap</div><div class="w-1/4 text-right">Profit</div><div class="w-1/4 text-right">SL</div>
             </div>
             <div class="flex flex-col gap-2" id="vip-daily-table-list"></div>
           </div>
-          <button class="w-full text-center text-sm text-muted hover:text-white transition mb-8">Lihat Semua Riwayat</button>
+          <button class="w-full text-center text-xs text-muted hover:text-white transition mb-8 uppercase tracking-widest">Lihat Semua Riwayat <i class="fa-solid fa-chevron-right ml-1"></i></button>
         </div>
       </div>
 
@@ -420,9 +477,9 @@
 
   </div> 
 
-  <!-- NAVBAR BAWAH -->
+  <!-- NAVBAR BAWAH (TETAP SAMA) -->
   <div id="mainNavbar" class="fixed bottom-4 w-full max-w-md flex justify-center z-50 pointer-events-none transition-opacity duration-300">
-    <nav class="relative w-[95%] bg-[#0f172a]/90 backdrop-blur-xl border border-[#3b82f6]/30 flex justify-between items-end px-2 pb-2 pt-3 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.8)] pointer-events-auto overflow-visible">
+    <nav class="relative w-[95%] bg-[#0f172a]/95 backdrop-blur-xl border border-[#3b82f6]/30 flex justify-between items-end px-2 pb-2 pt-3 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.8)] pointer-events-auto overflow-visible">
       
       <button onclick="switchView('dashboard', this)" id="nav-dashboard" class="flex flex-col items-center justify-center w-[60px] gap-1 text-white transition-all pb-1">
         <i class="fa-solid fa-house text-lg"></i><span class="text-[9px] font-medium tracking-wide">DASHBOARD</span>
@@ -449,7 +506,7 @@
     </nav>
   </div>
 
-  <!-- ===== SCRIPTS ===== -->
+  <!-- ===== SCRIPTS (TIDAK DIUBAH SAMA SEKALI) ===== -->
   <script>
     const API_URL_USER = "https://script.google.com/macros/s/AKfycbzMYg1pTNUbEJWJSKtwifnPkw-tTn1SjFJqK2fmVepWVKpAvupB2c5eCb-fpUXR6LK-wg/exec";
     const API_URL_PRICE = "https://script.google.com/macros/s/AKfycbzZuDUnA32CUSdU194CFo4MXBFk621PFfTeAlrY0IjJB7U2LHwEepP4dLvmDFsKxiCZ/exec";
@@ -684,11 +741,10 @@
       let runningHTML = "", waitingHTML = "", dailyTableHTML = "", vipDayProfit = 0, vipDayLoss = 0;
       const startOfDay = new Date(); startOfDay.setHours(0,0,0,0);
       
-      // PERBAIKAN FILTER: Cocokkan dengan nama source dari EA
       let filterSource = currentEATab;
       if(currentEATab === 'GLDN') filterSource = 'SDW GLDN';
       else if(currentEATab === 'NAVIGATOR') filterSource = 'SDW Navigator';
-      else if(currentEATab === 'SK') filterSource = 'SDW SK'; // TAMBAHAN UNTUK SK METHODE
+      else if(currentEATab === 'SK') filterSource = 'SDW SK';
       else if(currentEATab === 'ICT') filterSource = 'SDW ICT';
       else if(currentEATab === 'MSP') filterSource = 'MSP';
 
@@ -727,14 +783,16 @@
           const isTP3 = ['TP3', 'TP4'].includes(s.status);
           const isTP4 = ['TP4'].includes(s.status);
           const check = '<i class="fa-solid fa-check text-success text-sm ml-2"></i>';
+          
+          const cardBg = isBuy ? 'card-running-buy' : 'card-running-sell';
 
           runningHTML += `
-            <div class="glass-card p-4 mb-3">
+            <div class="glass-card p-4 mb-3 ${cardBg}">
               <div class="flex justify-between items-start mb-2">
                 <div class="flex items-start gap-2">
                   <span class="${barColor} text-lg leading-none mt-1">│</span>
                   <div>
-                    <p class="${textColor} font-semibold text-sm">${s.arah} <span class="text-white font-normal">Limit ${s.entry}</span></p>
+                    <p class="${textColor} font-bold text-[15px]">${s.arah} <span class="text-white font-normal text-sm">Limit ${s.entry}</span></p>
                     <p class="text-danger font-bold text-xs mt-1">STOP LOSS (SL) : ${s.sl}</p>
                   </div>
                 </div>
@@ -758,9 +816,9 @@
               <div class="card-header p-3 flex justify-between items-center" onclick="toggleAccordion(this)">
                 <div class="flex items-center gap-2">
                   <span class="${barColor} text-lg leading-none mt-0.5">│</span>
-                  <span class="${textColor} font-semibold text-sm">${s.arah} <span class="text-white font-normal">Limit ${s.entry}</span></span>
+                  <span class="${textColor} font-bold text-[15px]">${s.arah} <span class="text-white font-normal text-sm">Limit ${s.entry}</span></span>
                 </div>
-                <span class="text-danger font-bold text-[10px] uppercase tracking-wider">HIGH RISK</span>
+                <span class="badge-high-risk uppercase tracking-wider">HIGH RISK</span>
               </div>
               <div class="card-detail px-3 pb-3">
                 <div class="pt-3 border-t border-[#3b82f6]/20 flex justify-between items-start">
@@ -777,8 +835,8 @@
         }
       });
 
-      document.getElementById('vip-running-list').innerHTML = runningHTML || '<p class="text-sm text-muted">Tidak ada posisi running.</p>';
-      document.getElementById('vip-waiting-list').innerHTML = waitingHTML || '<p class="text-sm text-muted">Tidak ada sinyal waiting.</p>';
+      document.getElementById('vip-running-list').innerHTML = runningHTML || '<p class="text-sm text-muted pl-2">Tidak ada posisi running.</p>';
+      document.getElementById('vip-waiting-list').innerHTML = waitingHTML || '<p class="text-sm text-muted pl-2">Tidak ada sinyal waiting.</p>';
       document.getElementById('vip-day-profit').innerText = `+${vipDayProfit} PIPS`;
       document.getElementById('vip-day-sl').innerText = `-${vipDayLoss} PIPS`;
       document.getElementById('vip-day-total').innerText = (vipDayProfit - vipDayLoss >= 0 ? '+' : '') + (vipDayProfit - vipDayLoss) + ' PIPS';
