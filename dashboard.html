@@ -720,19 +720,16 @@
         const isBuy = s.arah === 'BUY'; 
         const basePips = Math.abs(parseFloat(s.tp1) - parseFloat(s.entry)) * 10; 
         
-        // --- PERBAIKAN LOGIKA PROFIT BE & SL ---
         let finalPips = 0; let isProfit = false;
         if (s.status.startsWith('TP')) {
             let tpNum = parseInt(s.status.replace('TP', ''));
             if (!isNaN(tpNum)) { finalPips = basePips * tpNum; isProfit = true; }
         } else if (s.status.startsWith('BE')) {
-            // BE1 = Profit TP1. BE2 = Profit TP2.
             let beNum = parseInt(s.status.replace('BE', ''));
             if (!isNaN(beNum)) { finalPips = basePips * beNum; isProfit = true; }
         } else if (s.status === 'SL') {
             finalPips = -basePips;
         }
-        // ---------------------------------------
 
         if (s.status.includes('TP') || s.status === 'SL' || s.status.startsWith('BE')) {
           const sigDate = new Date(s.waktu);
@@ -743,18 +740,16 @@
 
           if (count < 5) {
             
-            // --- PERBAIKAN TAMPILAN TEKS "BE" ---
             let resultText = ''; let resColor = '';
             if (s.status === 'SL') {
                 resultText = 'SL Hit'; resColor = 'text-danger';
             } else if (s.status.startsWith('BE')) {
                 let beNum = s.status.replace('BE', '');
-                resultText = `TP${beNum} Hit (Protected)`; // Teks diganti biar ga keliatan BE
+                resultText = `TP${beNum} Hit (Protected)`;
                 resColor = 'text-success';
             } else {
                 resultText = `${s.status} Hit`; resColor = 'text-success';
             }
-            // ------------------------------------
 
             let sourceBadge = '';
             if (s.source === 'SDW GLDN') sourceBadge = '<span class="text-[9px] border border-yellow-700 text-yellow-500 px-1 rounded ml-1">GLDN</span>';
@@ -861,7 +856,6 @@
         const textColor = isBuy ? 'text-success' : 'text-danger';
         const basePips = Math.abs(parseFloat(s.tp1) - parseFloat(s.entry)) * 10; 
 
-        // --- PERBAIKAN LOGIKA PROFIT BE & SL ---
         let finalPips = 0; let isProfit = false;
         if (s.status.startsWith('TP')) {
             let tpNum = parseInt(s.status.replace('TP', ''));
@@ -872,7 +866,6 @@
         } else if (s.status === 'SL') {
             finalPips = -basePips;
         }
-        // ---------------------------------------
 
         if (s.status.includes('TP') || s.status === 'SL' || s.status.startsWith('BE')) {
           if (new Date(s.waktu) >= startOfDay) {
@@ -881,7 +874,6 @@
               let resCol = s.status === 'SL' ? 'text-danger' : 'text-success'; 
               let val = finalPips > 0 ? `+${finalPips}` : `${finalPips}`;
               
-              // Tampilkan teks TP jika BE
               let statusText = s.status;
               if(s.status.startsWith('BE')) statusText = 'TP' + s.status.replace('BE','') + ' (BE)';
 
@@ -958,6 +950,7 @@
       document.getElementById('vip-daily-table-list').innerHTML = dailyTableHTML;
     }
 
+    // --- PERBAIKAN FASE 3: BUG CHART GEPENG ---
     function toggleAccordion(headerElement) {
       const detail = headerElement.nextElementSibling;
       if (detail.classList.contains('open')) {
@@ -965,11 +958,17 @@
       } else {
         document.querySelectorAll('.card-detail').forEach(el => el.classList.remove('open'));
         detail.classList.add('open');
+        
         const chartDiv = detail.querySelector('.chart-container');
         if (chartDiv) {
             const signalId = chartDiv.id.replace('chart-container-', '');
             const signalData = globalSignals.find(sig => sig.id == signalId);
-            if (signalData) { setTimeout(() => { drawStaticChart(chartDiv.id, signalData); }, 600); }
+            // Kasih waktu animasi CSS (500ms) selesai dulu baru gambar chart
+            if (signalData) { 
+                setTimeout(() => { 
+                    drawStaticChart(chartDiv.id, signalData); 
+                }, 600); 
+            }
         }
       }
     }
@@ -978,7 +977,10 @@
         const container = document.getElementById(containerId);
         if (!container) return;
         container.innerHTML = ''; 
-        const width = container.clientWidth || 300;
+        
+        // FIX: Pastikan container udah punya lebar sebelum digambar
+        let width = container.clientWidth;
+        if (width === 0) width = window.innerWidth - 40; // Fallback kalau masih 0
 
         const chart = LightweightCharts.createChart(container, {
             width: width, height: 200,
@@ -1012,7 +1014,11 @@
         if (signal.tp3 && signal.tp3 !== "0" && signal.tp3 !== "0.0") candleSeries.createPriceLine({ price: parseFloat(signal.tp3), color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dotted, axisLabelVisible: true, title: 'TP3' });
 
         chart.timeScale().fitContent();
-        setTimeout(() => { chart.applyOptions({ width: container.clientWidth || 300 }); chart.timeScale().fitContent(); }, 100);
+        // Paksa resize setelah render biar ga gepeng
+        setTimeout(() => { 
+            chart.applyOptions({ width: container.clientWidth || width }); 
+            chart.timeScale().fitContent(); 
+        }, 150);
     }
 
     document.addEventListener("DOMContentLoaded", function() {
