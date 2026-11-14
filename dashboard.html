@@ -13,36 +13,12 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
   <style>
-    /* BACKGROUND GAMBAR BUMI DARI GITHUB */
-    body { 
-      font-family: 'Inter', sans-serif; 
-      color: #ffffff; 
-      padding-bottom: 110px; 
-      overflow-x: hidden;
-      background-image: url('bg.png');
-      background-size: cover;
-      background-position: center top;
-      background-attachment: fixed;
-      background-repeat: no-repeat;
-    }
+    body { font-family: 'Inter', sans-serif; color: #ffffff; padding-bottom: 110px; overflow-x: hidden; background-image: url('bg.png'); background-size: cover; background-position: center top; background-attachment: fixed; background-repeat: no-repeat; }
+    body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(2, 8, 19, 0.7) 0%, rgba(2, 8, 19, 0.95) 100%); z-index: -1; }
     
-    /* OVERLAY GELAP BIAR TEKS TERBACA */
-    body::before {
-      content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(to bottom, rgba(2, 8, 19, 0.7) 0%, rgba(2, 8, 19, 0.9) 100%);
-      z-index: -1;
-    }
-
-    .glass-card {
-      background: rgba(10, 18, 38, 0.7); backdrop-filter: blur(15px);
-      border: 1px solid rgba(59, 130, 246, 0.2); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); border-radius: 16px;
-    }
+    .glass-card { background: rgba(10, 18, 38, 0.7); backdrop-filter: blur(15px); border: 1px solid rgba(59, 130, 246, 0.2); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); border-radius: 16px; }
     .glass-card-inner { background: rgba(20, 35, 70, 0.4); border: 1px solid rgba(59, 130, 246, 0.15); border-radius: 12px; }
-
-    .text-success { color: #10b981; } 
-    .text-danger { color: #ef4444; }  
-    .text-muted { color: #94a3b8; }   
-    .text-neon-blue { color: #60a5fa; }
+    .text-success { color: #10b981; } .text-danger { color: #ef4444; } .text-muted { color: #94a3b8; } .text-neon-blue { color: #60a5fa; }
     
     ::-webkit-scrollbar { display: none; }
     .view-section { animation: fadeIn 0.3s ease-in-out; }
@@ -53,7 +29,6 @@
     .toggle-checkbox { right: 0; z-index: 1; border-color: #e2e8f0; transition: all 0.3s; position: absolute; width: 24px; height: 24px; background: white; border-width: 1px; border-radius: 50%; appearance: none; cursor: pointer; }
     .toggle-label { display: block; overflow: hidden; cursor: pointer; border-radius: 9999px; width: 48px; height: 24px; background-color: #1e293b; transition: background-color 0.3s; }
 
-    /* TAB STYLING */
     .tab-container { display: flex; overflow-x: auto; gap: 4px; scrollbar-width: none; -ms-overflow-style: none; padding: 5px; }
     .tab-container::-webkit-scrollbar { display: none; }
     .tab-btn { flex: 0 0 auto; padding: 8px 16px; text-align: center; font-weight: 600; border-radius: 8px; transition: all 0.3s; cursor: pointer; border: 1px solid transparent; font-size: 12px; }
@@ -75,18 +50,7 @@
     .ib-hfm { background-color: #000000; color: #fff; border: 1px solid #333; }
     .ib-valetax { background-color: #008000; color: #fff; }
 
-    /* STYLING HEADER BARU (BERLAKU UNTUK SEMUA HALAMAN) */
-    .main-header {
-      background: rgba(5, 15, 35, 0.6);
-      border: 1px solid rgba(59, 130, 246, 0.3);
-      border-radius: 16px;
-      padding: 12px 16px;
-      display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(59, 130, 246, 0.1);
-      backdrop-filter: blur(10px);
-    }
-    
+    .main-header { background: rgba(5, 15, 35, 0.6); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 16px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(59, 130, 246, 0.1); backdrop-filter: blur(10px); }
     .card-running-sell { border-left: 4px solid #ef4444; background: linear-gradient(90deg, rgba(239, 68, 68, 0.1) 0%, rgba(10, 18, 38, 0.7) 100%); }
     .card-running-buy { border-left: 4px solid #10b981; background: linear-gradient(90deg, rgba(16, 185, 129, 0.1) 0%, rgba(10, 18, 38, 0.7) 100%); }
     .badge-high-risk { border: 1px solid rgba(239, 68, 68, 0.5); color: #ef4444; background: rgba(239, 68, 68, 0.1); padding: 2px 8px; border-radius: 999px; font-size: 9px; font-weight: 700; }
@@ -96,9 +60,8 @@
 
   <div class="relative z-10 px-4 pt-6 pb-4">
     
-    <!-- VIEW 1: DASHBOARD UTAMA -->
+    <!-- VIEW 1: DASHBOARD -->
     <div id="view-dashboard" class="view-section block">
-      <!-- HEADER BARU -->
       <div class="main-header">
         <div class="flex items-center gap-3">
           <img src="logo.png" alt="Logo" class="w-12 h-12 object-contain drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]">
@@ -157,7 +120,6 @@
 
     <!-- VIEW 2: AKSES -->
     <div id="view-akses" class="view-section hidden">
-      <!-- HEADER BARU -->
       <div class="main-header">
         <div class="flex items-center gap-3">
           <img src="logo.png" alt="Logo" class="w-12 h-12 object-contain drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]">
@@ -171,7 +133,6 @@
           <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 border border-[#0a1226] rounded-full"></span>
         </div>
       </div>
-
       <div class="glass-card p-5 mb-8">
         <h2 class="text-lg font-bold text-white mb-4">FITUR YANG AKAN DIDAPATKAN JIKA AKSES VIP</h2>
         <ol class="text-sm text-muted space-y-2 list-decimal list-inside font-medium">
@@ -252,8 +213,6 @@
     <!-- VIEW 3: VIP ZONE -->
     <div id="view-vip" class="view-section hidden relative">
       <div id="vip-content" class="transition-all duration-500">
-        
-        <!-- HEADER BARU -->
         <div class="main-header">
           <div class="flex items-center gap-3">
             <img src="logo.png" alt="Logo" class="w-12 h-12 object-contain drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]">
@@ -268,7 +227,6 @@
           </div>
         </div>
 
-        <!-- TAB MENU -->
         <div class="tab-container mb-6 glass-card">
           <div id="tab-mapping" onclick="switchEATab('MAPPING')" class="tab-btn tab-active">MAPPING</div>
           <div id="tab-gldn" onclick="switchEATab('GLDN')" class="tab-btn tab-inactive">GOLDEN</div>
@@ -287,7 +245,6 @@
               <p>LOW RISK : <span id="sell-low" class="text-white">-</span></p>
             </div>
           </div>
-
           <div class="glass-card p-4 mb-4 border-l-4 border-green-500 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
             <h2 class="text-lg font-bold text-white mb-3 flex items-center gap-2"><div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div> Zona Buy :</h2>
             <div class="text-sm text-gray-300 space-y-1 font-medium">
@@ -296,7 +253,6 @@
               <p>LOW RISK : <span id="buy-low" class="text-white">-</span></p>
             </div>
           </div>
-
           <div class="glass-card p-2 mb-6">
             <div id="mapping-image-container" class="w-full rounded-xl overflow-hidden bg-[#0f172a] flex items-center justify-center min-h-[200px]">
                <p class="text-xs text-muted text-center px-4">Menunggu gambar mapping dari server...</p>
@@ -364,7 +320,6 @@
     <!-- VIEW 4: BOOKMAP -->
     <div id="view-bookmap" class="view-section hidden relative">
       <div id="bookmap-content" class="transition-all duration-500">
-        <!-- HEADER BARU -->
         <div class="main-header">
           <div class="flex items-center gap-3">
             <img src="logo.png" alt="Logo" class="w-12 h-12 object-contain drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]">
@@ -410,7 +365,6 @@
 
     <!-- VIEW 5: AKUN UTAMA -->
     <div id="view-akun" class="view-section hidden">
-      <!-- HEADER BARU -->
       <div class="main-header">
         <div class="flex items-center gap-3">
           <img src="logo.png" alt="Logo" class="w-12 h-12 object-contain drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]">
@@ -531,7 +485,7 @@
 
   </div> 
 
-  <!-- NAVBAR BAWAH (TETAP SAMA) -->
+  <!-- NAVBAR BAWAH -->
   <div id="mainNavbar" class="fixed bottom-4 w-full max-w-md flex justify-center z-50 pointer-events-none transition-opacity duration-300">
     <nav class="relative w-[95%] bg-[#0f172a]/95 backdrop-blur-xl border border-[#3b82f6]/30 flex justify-between items-end px-2 pb-2 pt-3 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.8)] pointer-events-auto overflow-visible">
       
@@ -560,12 +514,22 @@
     </nav>
   </div>
 
-  <!-- ===== SCRIPTS (TIDAK DIUBAH SAMA SEKALI) ===== -->
   <script>
     const API_URL_USER = "https://script.google.com/macros/s/AKfycbzMYg1pTNUbEJWJSKtwifnPkw-tTn1SjFJqK2fmVepWVKpAvupB2c5eCb-fpUXR6LK-wg/exec";
     const API_URL_PRICE = "https://script.google.com/macros/s/AKfycbzZuDUnA32CUSdU194CFo4MXBFk621PFfTeAlrY0IjJB7U2LHwEepP4dLvmDFsKxiCZ/exec";
     const API_URL_SIGNAL = "https://script.google.com/macros/s/AKfycbyd8ksBWqhE6iIT1E6IT_l1TgZO86ZLgUDDpZYxb6TzZ5TMFj93Vm10wasIgrTP3_Sx/exec";
     const API_URL_VPS = "https://enviable-umbilical-erupt.ngrok-free.dev"; 
+
+    // DAFTARKAN SERVICE WORKER UNTUK IOS PWA
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw.js').then(reg => {
+                console.log('Service Worker berhasil didaftarkan', reg);
+            }).catch(err => {
+                console.log('Service Worker gagal', err);
+            });
+        });
+    }
 
     let globalSignals = [];
     let latestMapping = null;
@@ -596,7 +560,17 @@
 
     function testNotification() {
         if (typeof Notification !== "undefined" && Notification.permission === "granted") {
-            new Notification("Test Notifikasi", { body: "Sistem notifikasi berjalan dengan baik!", icon: "logo.png" });
+            const iconUrl = "https://raw.githubusercontent.com/saintdwish/saintdwish.github.io/main/logo.png";
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.ready.then(function(registration) {
+                    registration.showNotification("Test Notifikasi", { 
+                        body: "Sistem notifikasi PWA berjalan sempurna!", 
+                        icon: iconUrl 
+                    });
+                });
+            } else {
+                new Notification("Test Notifikasi", { body: "Sistem notifikasi berjalan!", icon: iconUrl });
+            }
         } else {
             alert("Notifikasi belum diizinkan atau tidak didukung di browser ini.");
         }
@@ -669,7 +643,17 @@
              else if (sig.status === 'CANCELLED') { title = `Signal Invalid | ${side} LIMIT ${sig.pair} | ${source}`; body = `Set up sudah tidak memenuhi syarat.`; }
              else if (sig.status.includes('TP')) { title = `Signal Profit | ${side} LIMIT ${sig.pair} | ${source}`; body = `Signal Hit ${sig.status}. Take Half And Set BE`; }
              else if (sig.status === 'SL') { title = `Signal Hit Stop Lose | ${side} LIMIT ${sig.pair} | ${source}`; body = `Set Up Hit Stop Lose. Get Ready For Recovery.`; }
-             if (title !== "" && body !== "") new Notification(title, { body: body, icon: "logo.png" });
+             
+             if (title !== "" && body !== "") {
+                const iconUrl = "https://raw.githubusercontent.com/saintdwish/saintdwish.github.io/main/logo.png";
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.ready.then(function(registration) {
+                        registration.showNotification(title, { body: body, icon: iconUrl });
+                    });
+                } else {
+                    new Notification(title, { body: body, icon: iconUrl });
+                }
+             }
           }
           knownSignalStatuses[uniqueKey] = true;
         }
@@ -961,20 +945,12 @@
 
       fetch(`${API_URL_VPS}/api/verify`, {
           method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json', 
-            'ngrok-skip-browser-warning': 'true' 
-          },
+          headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
           body: JSON.stringify({ token: token })
       })
       .then(async (res) => {
           const textData = await res.text();
-          try {
-              return JSON.parse(textData);
-          } catch (err) {
-              console.error("Respon Ngrok Bukan JSON (Mungkin HTML):", textData);
-              throw new Error("Safari diblokir Ngrok Warning");
-          }
+          try { return JSON.parse(textData); } catch (err) { throw new Error("Safari diblokir Ngrok Warning"); }
       })
       .then(data => {
           if (data.status !== 'success') {
