@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="SDW">
   
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cinzel:wght@700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   
   <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
@@ -254,6 +254,12 @@
       -webkit-background-clip: text; 
       -webkit-text-fill-color: transparent; 
     }
+
+    /* Styling untuk Overlay Header */
+    .header-font { 
+      font-family: 'Cinzel', serif; 
+      text-shadow: 0 2px 4px rgba(0,0,0,0.8), 0 0 10px rgba(59,130,246,0.5); 
+    }
   </style>
 </head>
 <body class="max-w-md mx-auto relative min-h-screen">
@@ -284,36 +290,69 @@
             <span class="text-sm font-medium mt-1 text-muted" id="priceChange">0.00 %</span>
           </div>
         </div>
-        <div class="w-32 h-16 relative z-10"><canvas id="miniChart"></canvas></div>
+        <div class="w-32 h-16 relative z-10">
+          <canvas id="miniChart"></canvas>
+        </div>
       </div>
+      
       <div class="mb-6">
         <h2 class="text-md text-muted mb-3 font-semibold">Riwayat</h2>
         <div class="glass-card p-2 flex flex-col gap-2 relative overflow-hidden" id="dashboard-history-list">
           <p class="text-center text-sm text-muted py-4">Memuat riwayat...</p>
         </div>
       </div>
+      
       <div class="glass-card p-5 mb-4">
         <h3 class="text-md text-white font-bold mb-4">Monthly Recap</h3>
         <div class="grid grid-cols-3 gap-3">
-          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase font-semibold">Profit</p><p class="text-sm font-bold text-success" id="mon-profit">+0</p></div>
-          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase font-semibold">Loss</p><p class="text-sm font-bold text-danger" id="mon-sl">-0</p></div>
-          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase font-semibold">Total</p><p class="text-sm font-bold text-white" id="mon-total">+0</p></div>
+          <div class="glass-card-inner p-3 text-center">
+            <p class="text-[10px] text-muted mb-1 uppercase font-semibold">Profit</p>
+            <p class="text-sm font-bold text-success" id="mon-profit">+0</p>
+          </div>
+          <div class="glass-card-inner p-3 text-center">
+            <p class="text-[10px] text-muted mb-1 uppercase font-semibold">Loss</p>
+            <p class="text-sm font-bold text-danger" id="mon-sl">-0</p>
+          </div>
+          <div class="glass-card-inner p-3 text-center">
+            <p class="text-[10px] text-muted mb-1 uppercase font-semibold">Total</p>
+            <p class="text-sm font-bold text-white" id="mon-total">+0</p>
+          </div>
         </div>
       </div>
+      
       <div class="glass-card p-5 mb-4">
         <h3 class="text-md text-white font-bold mb-4">Weekly Recap</h3>
         <div class="grid grid-cols-3 gap-3">
-          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase font-semibold">Profit</p><p class="text-sm font-bold text-success" id="week-profit">+0</p></div>
-          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase font-semibold">Loss</p><p class="text-sm font-bold text-danger" id="week-sl">-0</p></div>
-          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase font-semibold">Total</p><p class="text-sm font-bold text-white" id="week-total">+0</p></div>
+          <div class="glass-card-inner p-3 text-center">
+            <p class="text-[10px] text-muted mb-1 uppercase font-semibold">Profit</p>
+            <p class="text-sm font-bold text-success" id="week-profit">+0</p>
+          </div>
+          <div class="glass-card-inner p-3 text-center">
+            <p class="text-[10px] text-muted mb-1 uppercase font-semibold">Loss</p>
+            <p class="text-sm font-bold text-danger" id="week-sl">-0</p>
+          </div>
+          <div class="glass-card-inner p-3 text-center">
+            <p class="text-[10px] text-muted mb-1 uppercase font-semibold">Total</p>
+            <p class="text-sm font-bold text-white" id="week-total">+0</p>
+          </div>
         </div>
       </div>
+      
       <div class="glass-card p-5 mb-8">
         <h3 class="text-md text-white font-bold mb-4">Daily Recap</h3>
         <div class="grid grid-cols-3 gap-3">
-          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase font-semibold">Profit</p><p class="text-sm font-bold text-success" id="day-profit">+0</p></div>
-          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase font-semibold">Loss</p><p class="text-sm font-bold text-danger" id="day-sl">-0</p></div>
-          <div class="glass-card-inner p-3 text-center"><p class="text-[10px] text-muted mb-1 uppercase font-semibold">Total</p><p class="text-sm font-bold text-white" id="day-total">+0</p></div>
+          <div class="glass-card-inner p-3 text-center">
+            <p class="text-[10px] text-muted mb-1 uppercase font-semibold">Profit</p>
+            <p class="text-sm font-bold text-success" id="day-profit">+0</p>
+          </div>
+          <div class="glass-card-inner p-3 text-center">
+            <p class="text-[10px] text-muted mb-1 uppercase font-semibold">Loss</p>
+            <p class="text-sm font-bold text-danger" id="day-sl">-0</p>
+          </div>
+          <div class="glass-card-inner p-3 text-center">
+            <p class="text-[10px] text-muted mb-1 uppercase font-semibold">Total</p>
+            <p class="text-sm font-bold text-white" id="day-total">+0</p>
+          </div>
         </div>
       </div>
     </div>
@@ -339,62 +378,84 @@
         <div class="glass-card p-5 mb-6 border border-blue-500/30">
             <h2 class="text-[13px] font-bold text-white mb-6 flex items-center gap-2"><i class="fa-solid fa-lock text-blue-400 text-lg"></i> FITUR YANG AKAN DIDAPATKAN JIKA AKSES VIP</h2>
             <div class="flex flex-col gap-5">
+              
               <div class="flex items-start gap-3">
-                <div class="w-10 h-10 rounded-xl bg-blue-900/40 border border-blue-500/30 flex items-center justify-center shrink-0"><i class="fa-solid fa-microchip text-blue-400 text-lg"></i></div>
+                <div class="w-10 h-10 rounded-xl bg-blue-900/40 border border-blue-500/30 flex items-center justify-center shrink-0">
+                  <i class="fa-solid fa-microchip text-blue-400 text-lg"></i>
+                </div>
                 <div>
                   <p class="text-sm font-bold text-white mb-0.5">1. Signal Ai</p>
                   <p class="text-[11px] text-gray-400 leading-tight">Analisa pasar dengan kecerdasan buatan untuk peluang terbaik.</p>
                 </div>
               </div>
+              
               <div class="flex items-start gap-3">
-                <div class="w-10 h-10 rounded-xl bg-blue-900/40 border border-blue-500/30 flex items-center justify-center shrink-0"><i class="fa-solid fa-bell text-blue-400 text-lg"></i></div>
+                <div class="w-10 h-10 rounded-xl bg-blue-900/40 border border-blue-500/30 flex items-center justify-center shrink-0">
+                  <i class="fa-solid fa-bell text-blue-400 text-lg"></i>
+                </div>
                 <div>
                   <p class="text-sm font-bold text-white mb-0.5">2. Notifikasi aktif saat terdapat setup</p>
                   <p class="text-[11px] text-gray-400 leading-tight">Dapatkan notifikasi real-time saat ada setup potensial di market.</p>
                 </div>
               </div>
+              
               <div class="flex items-start gap-3">
-                <div class="w-10 h-10 rounded-xl bg-blue-900/40 border border-blue-500/30 flex items-center justify-center shrink-0"><i class="fa-solid fa-paper-plane text-blue-400 text-lg"></i></div>
+                <div class="w-10 h-10 rounded-xl bg-blue-900/40 border border-blue-500/30 flex items-center justify-center shrink-0">
+                  <i class="fa-solid fa-paper-plane text-blue-400 text-lg"></i>
+                </div>
                 <div>
                   <p class="text-sm font-bold text-white mb-0.5">3. Join Komunitas Discord dan Telegram</p>
                   <p class="text-[11px] text-gray-400 leading-tight">Bergabung dengan komunitas eksklusif untuk update terbaru.</p>
                 </div>
               </div>
+              
               <div class="flex items-start gap-3">
-                <div class="w-10 h-10 rounded-xl bg-blue-900/40 border border-blue-500/30 flex items-center justify-center shrink-0"><i class="fa-solid fa-location-dot text-blue-400 text-lg"></i></div>
+                <div class="w-10 h-10 rounded-xl bg-blue-900/40 border border-blue-500/30 flex items-center justify-center shrink-0">
+                  <i class="fa-solid fa-location-dot text-blue-400 text-lg"></i>
+                </div>
                 <div>
                   <p class="text-sm font-bold text-white mb-0.5">4. Zona Mapping Setiap Market Open</p>
                   <p class="text-[11px] text-gray-400 leading-tight">Akses zona mapping di setiap sesi market.</p>
                 </div>
               </div>
+              
               <div class="flex items-start gap-3">
-                <div class="w-10 h-10 rounded-xl bg-blue-900/40 border border-blue-500/30 flex items-center justify-center shrink-0"><i class="fa-solid fa-gift text-blue-400 text-lg"></i></div>
+                <div class="w-10 h-10 rounded-xl bg-blue-900/40 border border-blue-500/30 flex items-center justify-center shrink-0">
+                  <i class="fa-solid fa-gift text-blue-400 text-lg"></i>
+                </div>
                 <div>
                   <p class="text-sm font-bold text-white mb-0.5">5. Live BOOKMAP Gratis</p>
                   <p class="text-[11px] text-gray-400 leading-tight">Nikmati fitur Bookmap secara gratis.</p>
                 </div>
               </div>
+              
               <div class="flex items-start gap-3">
-                <div class="w-10 h-10 rounded-xl bg-blue-900/40 border border-blue-500/30 flex items-center justify-center shrink-0"><i class="fa-solid fa-users text-blue-400 text-lg"></i></div>
+                <div class="w-10 h-10 rounded-xl bg-blue-900/40 border border-blue-500/30 flex items-center justify-center shrink-0">
+                  <i class="fa-solid fa-users text-blue-400 text-lg"></i>
+                </div>
                 <div>
                   <p class="text-sm font-bold text-white mb-0.5">6. Akses Semua Materi</p>
                   <p class="text-[11px] text-gray-400 leading-tight">Dapatkan akses penuh ke semua materi edukasi.</p>
                 </div>
               </div>
+
             </div>
         </div>
+        
         <div class="flex flex-col gap-3 mb-8 px-2">
           <button onclick="switchView('berlangganan', this)" class="btn-neon-blue w-full py-3.5 rounded-xl text-white font-bold text-sm flex justify-between items-center px-4 transition">
             <span class="w-6"></span> 
             <span class="flex items-center gap-2"><i class="fa-solid fa-crown text-yellow-300"></i> BERLANGGANAN</span> 
             <i class="fa-solid fa-chevron-right text-white/70"></i>
           </button>
+          
           <button onclick="switchView('joinib', this)" class="btn-outline-blue w-full py-3.5 rounded-xl text-white font-bold text-sm flex justify-between items-center px-4 hover:bg-blue-900/30 transition">
             <span class="w-6"></span> 
             <span class="flex items-center gap-2"><i class="fa-solid fa-user-plus text-blue-300"></i> JOIN IB</span> 
             <i class="fa-solid fa-chevron-right text-white/70"></i>
           </button>
         </div>
+        
         <div class="text-center mb-8">
           <p class="text-xs text-gray-400 mb-3">Masih Bingung Dan ada pertanyaan?<br>Hubungi Admin</p>
           <div class="flex justify-center gap-4">
@@ -828,17 +889,19 @@
         </div>
       </div>
 
-      <div class="glass-card rounded-xl p-4 flex items-center justify-between mb-6">
-        <div class="w-14 h-14 rounded-full bg-[#1e3a8a]/50 flex items-center justify-center border border-[#3b82f6]/30 shrink-0 overflow-hidden">
-          <span id="userPP" class="text-xl font-bold text-white">?</span>
-          <img id="userAvatarImg" class="w-full h-full object-cover hidden" />
+      <!-- BANNER PROFILE BARU (DYNAMIC HEADER) -->
+      <div class="relative w-full rounded-2xl overflow-hidden mb-6 border-2 border-blue-500/60 shadow-[0_0_25px_rgba(59,130,246,0.4)] bg-[#0a1226]">
+        <!-- Image Header -->
+        <img id="mainHeaderImg" src="headeradmin.png" alt="Header Profile" class="w-full h-auto object-cover">
+        
+        <!-- Overlay Teks Username & Role -->
+        <!-- Username Slot -->
+        <div class="absolute top-[25%] right-[12%] w-[45%] text-right">
+            <h2 id="userName" class="header-font text-xl md:text-2xl font-bold text-white tracking-wide">Memuat...</h2>
         </div>
-        <div class="flex-1 px-4 text-left">
-          <h2 id="userName" class="text-md font-semibold text-white leading-tight">Memuat...</h2>
-          <p class="text-[11px] text-muted mt-0.5">ROLE USER</p>
-        </div>
-        <div class="text-right shrink-0">
-          <p id="userRoleDisplay" class="text-xs font-bold text-success bg-emerald-900/30 px-2 py-1 rounded-md">...</p>
+        <!-- Role Slot -->
+        <div class="absolute top-[65%] right-[14%] w-[16%] text-center flex items-center justify-center">
+            <p id="userRoleDisplay" class="text-[10px] md:text-xs font-bold text-white tracking-widest uppercase">...</p>
         </div>
       </div>
       
@@ -869,21 +932,20 @@
 
     <!-- SUB-VIEW: EDIT PROFIL -->
     <div id="sub-editprofil" class="view-section hidden relative">
-      <button onclick="closeSubAkun()" class="absolute top-0 left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50">
-        <i class="fa-solid fa-arrow-left text-sm"></i>
-      </button>
-      <h1 class="text-xl font-bold text-white text-center mb-8 pt-1">Edit Profile</h1>
+      <div class="relative flex items-center justify-center mb-8">
+        <button onclick="closeSubAkun()" class="absolute left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50">
+          <i class="fa-solid fa-arrow-left text-sm"></i>
+        </button>
+        <h1 class="text-xl font-bold text-white">Edit Profile</h1>
+      </div>
       
+      <!-- Fitur Ganti Header (Menggantikan Ganti Foto Profil) -->
       <div class="flex flex-col items-center mb-8">
-        <div class="w-28 h-28 rounded-full bg-[#1e3a8a]/50 flex items-center justify-center border border-[#3b82f6]/30 mb-3 overflow-hidden relative cursor-pointer group" onclick="document.getElementById('avatarUpload').click()">
-          <span id="editPP" class="text-4xl font-bold text-white">?</span>
-          <img id="editAvatarImg" class="w-full h-full object-cover hidden" />
-          <div class="absolute inset-0 bg-black/60 hidden group-hover:flex items-center justify-center transition-all">
-            <i class="fa-solid fa-camera text-white text-xl"></i>
-          </div>
-        </div>
-        <p class="text-[10px] text-muted tracking-widest uppercase">Ganti Foto Profil</p>
-        <input type="file" id="avatarUpload" accept="image/*" class="hidden" onchange="handleAvatarUpload(event)">
+        <button onclick="switchView('gantiheader')" class="w-full glass-card p-5 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-[#1e3a8a]/40 transition border-2 border-blue-500/40 shadow-[0_0_15px_rgba(59,130,246,0.2)]">
+            <i class="fa-solid fa-image text-4xl text-blue-400 mb-2 drop-shadow-[0_0_10px_rgba(96,165,250,0.8)]"></i>
+            <span class="text-lg font-bold text-white">Ganti Header</span>
+            <span class="text-xs text-gray-400">Pilih header favorit Anda</span>
+        </button>
       </div>
       
       <form id="formEditProfil" class="flex flex-col gap-4">
@@ -895,6 +957,58 @@
         </div>
         <button type="submit" class="mt-6 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition text-sm shadow-[0_0_15px_rgba(59,130,246,0.5)]">Simpan Perubahan</button>
       </form>
+    </div>
+
+    <!-- SUB-VIEW: PILIH HEADER (BARU) -->
+    <div id="sub-gantiheader" class="view-section hidden relative">
+      <div class="relative flex items-center justify-center mb-6">
+        <button onclick="switchView('editprofil', null)" class="absolute left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50">
+          <i class="fa-solid fa-arrow-left text-sm"></i>
+        </button>
+        <div class="text-center">
+            <h1 class="text-lg font-bold text-white flex items-center justify-center gap-2"><i class="fa-solid fa-image text-blue-400"></i> Ganti Header</h1>
+            <p class="text-[10px] text-gray-400 mt-1">Pilih header favorit Anda</p>
+        </div>
+      </div>
+
+      <!-- Preview Header Saat Ini -->
+      <div class="relative w-full rounded-2xl overflow-hidden mb-6 border border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.3)]">
+          <img id="previewHeaderImg" src="headeradmin.png" class="w-full h-auto object-cover">
+          <div class="absolute top-[25%] right-[12%] w-[45%] text-right">
+              <h2 id="previewUserName" class="header-font text-lg font-bold text-white">Username</h2>
+          </div>
+          <div class="absolute top-[65%] right-[14%] w-[16%] text-center flex items-center justify-center">
+              <p id="previewUserRole" class="text-[8px] font-bold text-white uppercase">ROLE</p>
+          </div>
+      </div>
+
+      <!-- Tab Filter (Dummy) -->
+      <div class="tab-container mb-6 glass-card rounded-full">
+        <div id="tab-head-all" onclick="filterHeaders('all', this)" class="tab-btn tab-active flex-1 rounded-full">✨ Semua</div>
+        <div id="tab-head-premium" onclick="filterHeaders('premium', this)" class="tab-btn tab-inactive flex-1 rounded-full"><i class="fa-solid fa-lock mr-1 text-[10px]"></i> Premium</div>
+        <div id="tab-head-exclusive" onclick="filterHeaders('exclusive', this)" class="tab-btn tab-inactive flex-1 rounded-full"><i class="fa-solid fa-gem mr-1 text-[10px]"></i> Eksklusif</div>
+      </div>
+
+      <!-- Grid Header (Hanya 1 Test Item) -->
+      <div class="grid grid-cols-2 gap-3 mb-6" id="headerGrid">
+          
+          <!-- Item Test: Header Zeus Admin -->
+          <div id="header-admin" onclick="selectHeader('headeradmin.png', false, 'header-admin')" class="header-item relative rounded-xl overflow-hidden border-2 border-blue-500 cursor-pointer shadow-[0_0_10px_rgba(59,130,246,0.5)]" data-category="all">
+              <img src="headeradmin.png" class="w-full h-24 object-cover">
+              <div class="absolute top-2 right-2 bg-blue-500 rounded-full w-5 h-5 flex items-center justify-center check-icon"><i class="fa-solid fa-check text-white text-[10px]"></i></div>
+              <div class="absolute bottom-2 left-2 bg-black/60 px-2 py-1 rounded text-[8px] text-white">ADMIN ONLY</div>
+          </div>
+
+      </div>
+
+      <div class="glass-card p-3 flex items-start gap-3 mb-6 border border-blue-500/20">
+          <i class="fa-solid fa-circle-info text-blue-400 text-sm mt-0.5"></i>
+          <p class="text-[10px] text-gray-300 leading-relaxed">Header ini hanya tersedia untuk role ADMIN.</p>
+      </div>
+
+      <button onclick="saveHeader()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition text-sm shadow-[0_0_15px_rgba(59,130,246,0.5)] mb-8 flex items-center justify-center gap-2">
+          <i class="fa-solid fa-floppy-disk"></i> Simpan Header
+      </button>
     </div>
 
     <!-- SUB-VIEW: BANTUAN -->
@@ -1036,6 +1150,8 @@
     let currentUserRole = "NO ROLE";
     let currentUserEmail = "";
     let currentUserValidUntil = "";
+    let currentUsername = ""; 
+    let selectedHeaderPath = "headeradmin.png"; 
     let priceHistory = []; 
 
     const ctx = document.getElementById('miniChart').getContext('2d');
@@ -1149,37 +1265,37 @@
     }
 
     function renderBias() {
-        const container = document.getElementById('bias-container');
-        const icon = document.getElementById('bias-icon');
+        const container = document.getElementById('bias-container'); 
+        const icon = document.getElementById('bias-icon'); 
         const text = document.getElementById('bias-text');
         
-        if (!latestMapping || !latestMapping.bias) {
-            container.classList.add('hidden');
-            return;
+        if (!latestMapping || !latestMapping.bias) { 
+            container.classList.add('hidden'); 
+            return; 
         }
         
         container.classList.remove('hidden');
         
         if (latestMapping.bias === 'BULLISH') {
-            container.className = "glass-card p-4 mb-4 flex items-center justify-between border-2 border-green-500/50 shadow-[0_0_15px_rgba(16,185,129,0.3)] transition-all";
-            icon.className = "fa-solid fa-arrow-trend-up text-3xl text-success drop-shadow-[0_0_10px_rgba(16,185,129,0.8)]";
-            text.className = "text-2xl font-black italic text-success tracking-widest drop-shadow-[0_0_5px_rgba(16,185,129,0.5)]";
+            container.className = "glass-card p-4 mb-4 flex items-center justify-between border-2 border-green-500/50 shadow-[0_0_15px_rgba(16,185,129,0.3)] transition-all"; 
+            icon.className = "fa-solid fa-arrow-trend-up text-3xl text-success"; 
+            text.className = "text-2xl font-black italic text-success tracking-widest"; 
             text.innerText = "BULLISH";
         } else {
-            container.className = "glass-card p-4 mb-4 flex items-center justify-between border-2 border-red-500/50 shadow-[0_0_15px_rgba(239,68,68,0.3)] transition-all";
-            icon.className = "fa-solid fa-arrow-trend-down text-3xl text-danger drop-shadow-[0_0_10px_rgba(239,68,68,0.8)]";
-            text.className = "text-2xl font-black italic text-danger tracking-widest drop-shadow-[0_0_5px_rgba(239,68,68,0.5)]";
+            container.className = "glass-card p-4 mb-4 flex items-center justify-between border-2 border-red-500/50 shadow-[0_0_15px_rgba(239,68,68,0.3)] transition-all"; 
+            icon.className = "fa-solid fa-arrow-trend-down text-3xl text-danger"; 
+            text.className = "text-2xl font-black italic text-danger tracking-widest"; 
             text.innerText = "BEARISH";
         }
     }
 
     function renderAlerts() {
         const container = document.getElementById('alert-list-container');
-        if (!globalAlerts || globalAlerts.length === 0) {
-            container.innerHTML = '<p class="text-sm text-muted">Belum ada update alert hari ini.</p>';
-            return;
+        if (!globalAlerts || globalAlerts.length === 0) { 
+            container.innerHTML = '<p class="text-sm text-muted">Belum ada update alert hari ini.</p>'; 
+            return; 
         }
-
+        
         let html = "";
         globalAlerts.forEach((a, i) => {
             const timeStr = new Date(a.time).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
@@ -1194,7 +1310,7 @@
                             <span class="text-[10px] text-muted font-mono">${timeStr}</span>
                             <span class="text-[10px] text-blue-300 font-bold uppercase">${a.type}</span>
                         </div>
-                        <p class="text-xs text-white font-semibold">${a.type.includes('REJECT') ? 'Harga berhasil masuk ke Zona dan menunjukkan reaksi rejection.' : (a.type.includes('BREAKOUT') ? 'Harga berhasil menembus dan close di luar zona.' : 'Harga menyentuh zona.')}</p>
+                        <p class="text-xs text-white font-semibold">${a.type.includes('REJECT') ? 'Rejection.' : (a.type.includes('BREAKOUT') ? 'Breakout.' : 'Harga menyentuh zona.')}</p>
                     </div>
                 </div>
                 <div id="alert-detail-${i}" class="hidden px-3 pb-3 pt-1 text-xs text-gray-400 border-t border-blue-900/30 leading-relaxed">
@@ -1208,10 +1324,10 @@
 
     function renderDashboardCombined() {
       let historyHTML = "", monProfit = 0, monLoss = 0, weekProfit = 0, weekLoss = 0, dayProfit = 0, dayLoss = 0;
-      const now = new Date();
-      const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-      const startOfWeek = new Date(now); startOfWeek.setDate(now.getDate() - now.getDay() + (now.getDay() === 0 ? -6 : 1)); startOfWeek.setHours(0,0,0,0);
-      const startOfDay = new Date(now); startOfDay.setHours(0,0,0,0);
+      const now = new Date(); 
+      const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1); 
+      const startOfWeek = new Date(now); startOfWeek.setDate(now.getDate() - now.getDay() + (now.getDay() === 0 ? -6 : 1)); startOfWeek.setHours(0,0,0,0); 
+      const startOfDay = new Date(now); startOfDay.setHours(0,0,0,0); 
       let count = 0;
 
       globalSignals.forEach(s => {
@@ -1221,14 +1337,14 @@
         let finalPips = 0; 
         let isProfit = false;
         
-        if (s.status.startsWith('TP')) {
-            let tpNum = parseInt(s.status.replace('TP', ''));
-            if (!isNaN(tpNum)) { finalPips = basePips * tpNum; isProfit = true; }
-        } else if (s.status.startsWith('BE')) {
-            let beNum = parseInt(s.status.replace('BE', ''));
-            if (!isNaN(beNum)) { finalPips = basePips * beNum; isProfit = true; }
-        } else if (s.status === 'SL') {
-            finalPips = -basePips;
+        if (s.status.startsWith('TP')) { 
+            let tpNum = parseInt(s.status.replace('TP', '')); 
+            if (!isNaN(tpNum)) { finalPips = basePips * tpNum; isProfit = true; } 
+        } else if (s.status.startsWith('BE')) { 
+            let beNum = parseInt(s.status.replace('BE', '')); 
+            if (!isNaN(beNum)) { finalPips = basePips * beNum; isProfit = true; } 
+        } else if (s.status === 'SL') { 
+            finalPips = -basePips; 
         }
 
         if (s.status.includes('TP') || s.status === 'SL' || s.status.startsWith('BE')) {
@@ -1237,29 +1353,27 @@
           if (sigDate >= startOfMonth) { isProfit ? monProfit += finalPips : monLoss += Math.abs(finalPips); }
           if (sigDate >= startOfWeek) { isProfit ? weekProfit += finalPips : weekLoss += Math.abs(finalPips); }
           if (sigDate >= startOfDay) { isProfit ? dayProfit += finalPips : dayLoss += Math.abs(finalPips); }
-
+          
           if (count < 5) {
-            
             let resultText = ''; 
             let resColor = '';
             
-            if (s.status === 'SL') {
-                resultText = 'SL Hit'; resColor = 'text-danger';
-            } else if (s.status.startsWith('BE')) {
-                let beNum = s.status.replace('BE', '');
-                resultText = `TP${beNum} Hit (Protected)`;
-                resColor = 'text-success';
-            } else {
-                resultText = `${s.status} Hit`; resColor = 'text-success';
+            if (s.status === 'SL') { 
+                resultText = 'SL Hit'; resColor = 'text-danger'; 
+            } else if (s.status.startsWith('BE')) { 
+                let beNum = s.status.replace('BE', ''); 
+                resultText = `TP${beNum} Hit (Protected)`; resColor = 'text-success'; 
+            } else { 
+                resultText = `${s.status} Hit`; resColor = 'text-success'; 
             }
-
-            let sourceBadge = '';
-            if (s.source === 'SDW GLDN') sourceBadge = '<span class="text-[9px] border border-yellow-700 text-yellow-500 px-1 rounded ml-1">GLDN</span>';
-            else if (s.source === 'SDW Navigator') sourceBadge = '<span class="text-[9px] border border-blue-700 text-blue-400 px-1 rounded ml-1">NAV</span>';
-            else if (s.source === 'SDW SK') sourceBadge = '<span class="text-[9px] border border-purple-700 text-purple-400 px-1 rounded ml-1">SK</span>';
-            else if (s.source === 'SDW ICT') sourceBadge = '<span class="text-[9px] border border-green-700 text-green-400 px-1 rounded ml-1">ICT</span>';
+            
+            let sourceBadge = ''; 
+            if (s.source === 'SDW GLDN') sourceBadge = '<span class="text-[9px] border border-yellow-700 text-yellow-500 px-1 rounded ml-1">GLDN</span>'; 
+            else if (s.source === 'SDW Navigator') sourceBadge = '<span class="text-[9px] border border-blue-700 text-blue-400 px-1 rounded ml-1">NAV</span>'; 
+            else if (s.source === 'SDW SK') sourceBadge = '<span class="text-[9px] border border-purple-700 text-purple-400 px-1 rounded ml-1">SK</span>'; 
+            else if (s.source === 'SDW ICT') sourceBadge = '<span class="text-[9px] border border-green-700 text-green-400 px-1 rounded ml-1">ICT</span>'; 
             else sourceBadge = `<span class="text-[9px] border border-gray-600 text-gray-400 px-1 rounded ml-1">${s.source}</span>`;
-
+            
             historyHTML += `
               <div class="glass-card-inner p-3 flex justify-between items-center mb-1">
                 <div class="flex items-center gap-2">
@@ -1274,20 +1388,19 @@
           }
         }
       });
-
+      
       if (historyHTML === "") historyHTML = '<p class="text-center text-sm text-muted py-4">Belum ada riwayat.</p>';
       document.getElementById('dashboard-history-list').innerHTML = historyHTML;
-      
       document.getElementById('mon-profit').innerText = `+${monProfit}`; 
-      document.getElementById('mon-sl').innerText = `-${monLoss}`;
+      document.getElementById('mon-sl').innerText = `-${monLoss}`; 
       document.getElementById('mon-total').innerText = (monProfit - monLoss >= 0 ? '+' : '') + (monProfit - monLoss);
       
       document.getElementById('week-profit').innerText = `+${weekProfit}`; 
-      document.getElementById('week-sl').innerText = `-${weekLoss}`;
+      document.getElementById('week-sl').innerText = `-${weekLoss}`; 
       document.getElementById('week-total').innerText = (weekProfit - weekLoss >= 0 ? '+' : '') + (weekProfit - weekLoss);
       
       document.getElementById('day-profit').innerText = `+${dayProfit}`; 
-      document.getElementById('day-sl').innerText = `-${dayLoss}`;
+      document.getElementById('day-sl').innerText = `-${dayLoss}`; 
       document.getElementById('day-total').innerText = (dayProfit - dayLoss >= 0 ? '+' : '') + (dayProfit - dayLoss);
     }
 
@@ -1295,114 +1408,110 @@
       currentEATab = source;
       const tabs = ['mapping', 'gldn', 'msp', 'ict', 'navigator', 'sk'];
       
-      tabs.forEach(t => {
-          const el = document.getElementById('tab-' + t);
-          if(el) el.className = `tab-btn tab-inactive`;
+      tabs.forEach(t => { 
+          const el = document.getElementById('tab-' + t); 
+          if(el) el.className = `tab-btn tab-inactive`; 
       });
       
       const activeMap = { 'MAPPING':'mapping', 'GLDN':'gldn', 'MSP':'msp', 'ICT':'ict', 'NAVIGATOR':'navigator', 'SK':'sk' };
-      const activeEl = document.getElementById('tab-' + activeMap[source]);
+      const activeEl = document.getElementById('tab-' + activeMap[source]); 
       if(activeEl) activeEl.className = `tab-btn tab-active`;
       
-      if (source === 'MAPPING') {
-          document.getElementById('mapping-content').classList.remove('hidden');
-          document.getElementById('signal-content').classList.add('hidden');
-          renderMapping();
-          renderAlerts();
-          renderBias();
-      } else {
-          document.getElementById('mapping-content').classList.add('hidden');
-          document.getElementById('signal-content').classList.remove('hidden');
-          renderVIP();
+      if (source === 'MAPPING') { 
+          document.getElementById('mapping-content').classList.remove('hidden'); 
+          document.getElementById('signal-content').classList.add('hidden'); 
+          renderMapping(); 
+          renderAlerts(); 
+          renderBias(); 
+      } else { 
+          document.getElementById('mapping-content').classList.add('hidden'); 
+          document.getElementById('signal-content').classList.remove('hidden'); 
+          renderVIP(); 
       }
     }
 
     function renderMapping() {
-        if (!latestMapping || !latestMapping.sell_high_lo || latestMapping.sell_high_lo === "") {
-            document.getElementById('sell-high').innerText = "-";
-            document.getElementById('sell-med').innerText = "-";
-            document.getElementById('sell-low').innerText = "-";
-            document.getElementById('buy-high').innerText = "-";
-            document.getElementById('buy-med').innerText = "-";
-            document.getElementById('buy-low').innerText = "-";
-            document.getElementById('mapping-image-container').innerHTML = '<p class="text-xs text-muted text-center px-4">Belum ada data mapping untuk hari ini.</p>';
-            return;
+        if (!latestMapping || !latestMapping.sell_high_lo) { 
+            ['sell-high','sell-med','sell-low','buy-high','buy-med','buy-low'].forEach(id=>document.getElementById(id).innerText="-"); 
+            document.getElementById('mapping-image-container').innerHTML = '<p class="text-xs text-muted text-center px-4">Belum ada data mapping.</p>'; 
+            return; 
         }
-
-        document.getElementById('sell-high').innerText = `${latestMapping.sell_high_lo} - ${latestMapping.sell_high_hi}`;
-        document.getElementById('sell-med').innerText = `${latestMapping.sell_med_lo} - ${latestMapping.sell_med_hi}`;
+        
+        document.getElementById('sell-high').innerText = `${latestMapping.sell_high_lo} - ${latestMapping.sell_high_hi}`; 
+        document.getElementById('sell-med').innerText = `${latestMapping.sell_med_lo} - ${latestMapping.sell_med_hi}`; 
         document.getElementById('sell-low').innerText = `${latestMapping.sell_low_lo} - ${latestMapping.sell_low_hi}`;
         
-        document.getElementById('buy-high').innerText = `${latestMapping.buy_high_lo} - ${latestMapping.buy_high_hi}`;
-        document.getElementById('buy-med').innerText = `${latestMapping.buy_med_lo} - ${latestMapping.buy_med_hi}`;
+        document.getElementById('buy-high').innerText = `${latestMapping.buy_high_lo} - ${latestMapping.buy_high_hi}`; 
+        document.getElementById('buy-med').innerText = `${latestMapping.buy_med_lo} - ${latestMapping.buy_med_hi}`; 
         document.getElementById('buy-low').innerText = `${latestMapping.buy_low_lo} - ${latestMapping.buy_low_hi}`;
-
-        if(latestMapping.buy_image && latestMapping.buy_image !== "none" && latestMapping.buy_image !== "") {
-            document.getElementById('mapping-image-container').innerHTML = `<img src="${latestMapping.buy_image}" class="w-full h-auto object-cover">`;
-        } else if (latestMapping.sell_image && latestMapping.sell_image !== "none" && latestMapping.sell_image !== "") {
-            document.getElementById('mapping-image-container').innerHTML = `<img src="${latestMapping.sell_image}" class="w-full h-auto object-cover">`;
-        } else {
-            document.getElementById('mapping-image-container').innerHTML = '<p class="text-xs text-muted text-center px-4">Screenshot tidak tersedia.</p>';
+        
+        if(latestMapping.buy_image && latestMapping.buy_image !== "none") { 
+            document.getElementById('mapping-image-container').innerHTML = `<img src="${latestMapping.buy_image}" class="w-full h-auto object-cover">`; 
+        } else { 
+            document.getElementById('mapping-image-container').innerHTML = '<p class="text-xs text-muted text-center px-4">Screenshot tidak tersedia.</p>'; 
         }
     }
 
     function renderVIP() {
-      let runningHTML = "", waitingHTML = "", dailyTableHTML = "", vipDayProfit = 0, vipDayLoss = 0;
+      let runningHTML = "", waitingHTML = "", dailyTableHTML = "", vipDayProfit = 0, vipDayLoss = 0; 
       const startOfDay = new Date(); startOfDay.setHours(0,0,0,0);
       
-      let filterSource = currentEATab;
-      if(currentEATab === 'GLDN') filterSource = 'SDW GLDN';
-      else if(currentEATab === 'NAVIGATOR') filterSource = 'SDW Navigator';
-      else if(currentEATab === 'SK') filterSource = 'SDW SK';
-      else if(currentEATab === 'ICT') filterSource = 'SDW ICT';
+      let filterSource = currentEATab; 
+      if(currentEATab === 'GLDN') filterSource = 'SDW GLDN'; 
+      else if(currentEATab === 'NAVIGATOR') filterSource = 'SDW Navigator'; 
+      else if(currentEATab === 'SK') filterSource = 'SDW SK'; 
+      else if(currentEATab === 'ICT') filterSource = 'SDW ICT'; 
       else if(currentEATab === 'MSP') filterSource = 'MSP';
-
+      
       const filteredSignals = globalSignals.filter(s => s.source === filterSource); 
       let tableCount = 0;
 
       filteredSignals.forEach(s => {
         const isBuy = s.arah === 'BUY'; 
         const barColor = isBuy ? 'text-success' : 'text-danger'; 
-        const textColor = isBuy ? 'text-success' : 'text-danger';
+        const textColor = isBuy ? 'text-success' : 'text-danger'; 
         const basePips = Math.abs(parseFloat(s.tp1) - parseFloat(s.entry)) * 10; 
-
+        
         let finalPips = 0; 
         let isProfit = false;
         
-        if (s.status.startsWith('TP')) {
-            let tpNum = parseInt(s.status.replace('TP', ''));
-            if (!isNaN(tpNum)) { finalPips = basePips * tpNum; isProfit = true; }
-        } else if (s.status.startsWith('BE')) {
-            let beNum = parseInt(s.status.replace('BE', ''));
-            if (!isNaN(beNum)) { finalPips = basePips * beNum; isProfit = true; }
-        } else if (s.status === 'SL') {
-            finalPips = -basePips;
+        if (s.status.startsWith('TP')) { 
+            let tpNum = parseInt(s.status.replace('TP', '')); 
+            if (!isNaN(tpNum)) { finalPips = basePips * tpNum; isProfit = true; } 
+        } else if (s.status.startsWith('BE')) { 
+            let beNum = parseInt(s.status.replace('BE', '')); 
+            if (!isNaN(beNum)) { finalPips = basePips * beNum; isProfit = true; } 
+        } else if (s.status === 'SL') { 
+            finalPips = -basePips; 
         }
 
         if (s.status.includes('TP') || s.status === 'SL' || s.status.startsWith('BE')) {
           if (new Date(s.waktu) >= startOfDay) {
             isProfit ? vipDayProfit += finalPips : vipDayLoss += Math.abs(finalPips);
-            if (tableCount < 3) {
-              let resCol = s.status === 'SL' ? 'text-danger' : 'text-success'; 
-              let val = finalPips > 0 ? `+${finalPips}` : `${finalPips}`;
-              
-              let statusText = s.status;
-              if(s.status.startsWith('BE')) statusText = 'TP' + s.status.replace('BE','') + ' (BE)';
-
-              dailyTableHTML += `<div class="flex justify-between items-center text-sm py-2 border-b border-[#3b82f6]/20"><div class="w-1/2 text-gray-300">${tableCount+1}. ${s.arah} Limit ${s.entry}</div><div class="w-1/4 text-right ${resCol}">${val} PIPS</div><div class="w-1/4 text-right text-gray-300">${statusText}</div></div>`;
-              tableCount++;
+            if (tableCount < 3) { 
+                let resCol = s.status === 'SL' ? 'text-danger' : 'text-success'; 
+                let val = finalPips > 0 ? `+${finalPips}` : `${finalPips}`; 
+                let statusText = s.status; 
+                if(s.status.startsWith('BE')) statusText = 'TP' + s.status.replace('BE','') + ' (BE)'; 
+                dailyTableHTML += `
+                <div class="flex justify-between items-center text-sm py-2 border-b border-[#3b82f6]/20">
+                    <div class="w-1/2 text-gray-300">${tableCount+1}. ${s.arah} Limit ${s.entry}</div>
+                    <div class="w-1/4 text-right ${resCol}">${val} PIPS</div>
+                    <div class="w-1/4 text-right text-gray-300">${statusText}</div>
+                </div>`; 
+                tableCount++; 
             }
           }
         }
 
         if (s.status === 'RUNNING') {
-          const isTP1 = ['TP1', 'TP2', 'TP3', 'TP4'].includes(s.status);
-          const isTP2 = ['TP2', 'TP3', 'TP4'].includes(s.status);
-          const isTP3 = ['TP3', 'TP4'].includes(s.status);
-          const isTP4 = ['TP4'].includes(s.status);
-          const check = '<i class="fa-solid fa-check text-success text-sm ml-2"></i>';
+          const isTP1 = ['TP1', 'TP2', 'TP3', 'TP4'].includes(s.status); 
+          const isTP2 = ['TP2', 'TP3', 'TP4'].includes(s.status); 
+          const isTP3 = ['TP3', 'TP4'].includes(s.status); 
+          const isTP4 = ['TP4'].includes(s.status); 
+          const check = '<i class="fa-solid fa-check text-success text-sm ml-2"></i>'; 
           const cardBg = isBuy ? 'card-running-buy' : 'card-running-sell';
-
+          
           runningHTML += `
             <div class="glass-card p-4 mb-3 ${cardBg}">
               <div class="flex justify-between items-start mb-2">
@@ -1414,7 +1523,7 @@
                   </div>
                 </div>
                 <div class="text-right text-[10px]">
-                  <p class="text-gray-300 font-semibold mb-1"><span class="text-red-400">🎯</span> TAKE <span class="text-green-400">PROFIT</span> LEVELS</p>
+                  <p class="text-gray-300 font-semibold mb-1"><span class="text-red-400">🎯</span> TAKE <span class="text-green-400">PROFIT</span></p>
                   <p class="text-gray-200">🎖 TP 1: ${s.tp1} ${isTP1 ? check : ''}</p>
                   <p class="text-gray-200">🎖 TP 2: ${s.tp2} ${isTP2 ? check : ''}</p>
                   <p class="text-gray-200">🎖 TP 3: ${s.tp3} ${isTP3 ? check : ''}</p>
@@ -1423,8 +1532,8 @@
               </div>
               <ul class="text-[10px] text-gray-400 space-y-1 border-t border-[#3b82f6]/20 pt-2 mt-2">
                 <li>• Setup masih sesuai dengan analisa awal.</li>
-                <li>• Jaga emosi dan tetap patuhi plan (SL & TP yang ada).</li>
-                <li>• Bagi yang belum entry, tetap tunggu harga masuk di area entry yang ditentukan.</li>
+                <li>• Jaga emosi dan tetap patuhi plan.</li>
+                <li>• Bagi yang belum entry, tunggu harga masuk.</li>
               </ul>
             </div>`;
         } else if (s.status === 'WAITING') {
@@ -1453,58 +1562,55 @@
             </div>`;
         }
       });
-
-      document.getElementById('vip-running-list').innerHTML = runningHTML || '<p class="text-sm text-muted pl-2">Tidak ada posisi running.</p>';
+      
+      document.getElementById('vip-running-list').innerHTML = runningHTML || '<p class="text-sm text-muted pl-2">Tidak ada posisi running.</p>'; 
       document.getElementById('vip-waiting-list').innerHTML = waitingHTML || '<p class="text-sm text-muted pl-2">Tidak ada sinyal waiting.</p>';
       
-      document.getElementById('vip-day-profit').innerText = `+${vipDayProfit} PIPS`;
-      document.getElementById('vip-day-sl').innerText = `-${vipDayLoss} PIPS`;
+      document.getElementById('vip-day-profit').innerText = `+${vipDayProfit} PIPS`; 
+      document.getElementById('vip-day-sl').innerText = `-${vipDayLoss} PIPS`; 
       document.getElementById('vip-day-total').innerText = (vipDayProfit - vipDayLoss >= 0 ? '+' : '') + (vipDayProfit - vipDayLoss) + ' PIPS';
       
-      if (dailyTableHTML === "") dailyTableHTML = '<p class="text-xs text-muted py-2">Belum ada riwayat hari ini.</p>';
+      if (dailyTableHTML === "") dailyTableHTML = '<p class="text-xs text-muted py-2">Belum ada riwayat hari ini.</p>'; 
       document.getElementById('vip-daily-table-list').innerHTML = dailyTableHTML;
     }
 
     function toggleAccordion(headerElement) {
       const detail = headerElement.nextElementSibling;
-      if (detail.classList.contains('open')) {
-        detail.classList.remove('open');
+      if (detail.classList.contains('open')) { 
+          detail.classList.remove('open'); 
       } else {
-        document.querySelectorAll('.card-detail').forEach(el => el.classList.remove('open'));
+        document.querySelectorAll('.card-detail').forEach(el => el.classList.remove('open')); 
         detail.classList.add('open');
-        
         const chartDiv = detail.querySelector('.chart-container');
-        if (chartDiv) {
-            const signalId = chartDiv.id.replace('chart-container-', '');
-            const signalData = globalSignals.find(sig => sig.id == signalId);
+        if (chartDiv) { 
+            const signalId = chartDiv.id.replace('chart-container-', ''); 
+            const signalData = globalSignals.find(sig => sig.id == signalId); 
             if (signalData) { 
-                setTimeout(() => { 
-                    drawStaticChart(chartDiv.id, signalData); 
-                }, 600); 
-            }
+                setTimeout(() => { drawStaticChart(chartDiv.id, signalData); }, 600); 
+            } 
         }
       }
     }
 
     function drawStaticChart(containerId, signal) {
-        const container = document.getElementById(containerId);
-        if (!container) return;
+        const container = document.getElementById(containerId); 
+        if (!container) return; 
         container.innerHTML = ''; 
-        
-        let width = container.clientWidth;
+        let width = container.clientWidth; 
         if (width === 0) width = window.innerWidth - 40; 
-
-        const chart = LightweightCharts.createChart(container, {
+        
+        const chart = LightweightCharts.createChart(container, { 
             width: width, 
-            height: 200,
-            layout: { background: { color: 'transparent' }, textColor: '#64748b' },
-            grid: { vertLines: { color: 'rgba(59, 130, 246, 0.05)' }, horzLines: { color: 'rgba(59, 130, 246, 0.05)' } },
-            rightPriceScale: { visible: true, borderColor: 'rgba(59, 130, 246, 0.2)', autoScale: true },
-            timeScale: { visible: false, borderColor: 'rgba(59, 130, 246, 0.2)' },
-            crosshair: { mode: LightweightCharts.CrosshairMode.Hidden },
-            handleScroll: false, handleScale: false,
+            height: 200, 
+            layout: { background: { color: 'transparent' }, textColor: '#64748b' }, 
+            grid: { vertLines: { color: 'rgba(59, 130, 246, 0.05)' }, horzLines: { color: 'rgba(59, 130, 246, 0.05)' } }, 
+            rightPriceScale: { visible: true, borderColor: 'rgba(59, 130, 246, 0.2)', autoScale: true }, 
+            timeScale: { visible: false, borderColor: 'rgba(59, 130, 246, 0.2)' }, 
+            crosshair: { mode: LightweightCharts.CrosshairMode.Hidden }, 
+            handleScroll: false, 
+            handleScale: false 
         });
-
+        
         const candleSeries = chart.addCandlestickSeries({ upColor: '#10b981', downColor: '#ef4444', borderVisible: false, wickUpColor: '#10b981', wickDownColor: '#ef4444' });
         const entry = parseFloat(signal.entry); 
         const sl = parseFloat(signal.sl); 
@@ -1515,73 +1621,96 @@
         let time = Math.floor(new Date().getTime() / 1000) - 30 * 60; 
         const candleData = [];
         
-        for (let i = 0; i < 25; i++) {
+        for (let i = 0; i < 25; i++) { 
             let open = currentPrice; 
             let trend = isBuy ? -0.1 : 0.1; 
             let noise = (Math.random() - 0.5) * 0.8; 
-            let close = open + trend + noise;
+            let close = open + trend + noise; 
             if (i === 24) { close = entry; } 
-            else if (i === 23) { close = isBuy ? entry + 0.3 : entry - 0.3; }
+            else if (i === 23) { close = isBuy ? entry + 0.3 : entry - 0.3; } 
             let high = Math.max(open, close) + (Math.random() * 0.3); 
-            let low = Math.min(open, close) - (Math.random() * 0.3);
-            candleData.push({ time: time, open: open, high: high, low: low, close: close });
+            let low = Math.min(open, close) - (Math.random() * 0.3); 
+            candleData.push({ time: time, open: open, high: high, low: low, close: close }); 
             currentPrice = close; 
             time += 60; 
         }
+        
         candleSeries.setData(candleData);
-
+        
         if (!isNaN(entry)) candleSeries.createPriceLine({ price: entry, color: '#ffffff', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: true, title: 'ENTRY' });
         if (!isNaN(sl)) candleSeries.createPriceLine({ price: sl, color: '#ef4444', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: true, title: 'SL' });
         if (!isNaN(tp1)) candleSeries.createPriceLine({ price: tp1, color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dashed, axisLabelVisible: true, title: 'TP1' });
         
-        if (signal.tp2 && signal.tp2 !== "0" && signal.tp2 !== "0.0") candleSeries.createPriceLine({ price: parseFloat(signal.tp2), color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dotted, axisLabelVisible: true, title: 'TP2' });
-        if (signal.tp3 && signal.tp3 !== "0" && signal.tp3 !== "0.0") candleSeries.createPriceLine({ price: parseFloat(signal.tp3), color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dotted, axisLabelVisible: true, title: 'TP3' });
-
-        chart.timeScale().fitContent();
-        
-        setTimeout(() => { 
-            chart.applyOptions({ width: container.clientWidth || width }); 
-            chart.timeScale().fitContent(); 
-        }, 150);
+        chart.timeScale().fitContent(); 
+        setTimeout(() => { chart.applyOptions({ width: container.clientWidth || width }); chart.timeScale().fitContent(); }, 150);
     }
 
-    // Data Broker
-    const brokers = {
-      'exness': {
-        title: 'EXNESS',
-        img: 'exness.jpeg',
-        desc: 'Exness adalah salah satu broker utama partner resmi SAINT D.WISH yang mendukung eksekusi cepat, spread rendah, dan transparansi penuh untuk transaksi trading harian kamu.',
-        discord: 'https://discord.gg/AghEZ4CQN',
-        tele: 'https://t.me/+TpiImsGHCl42ZjA1'
-      },
-      'hfm': {
-        title: 'HFM',
-        img: 'hfm.png',
-        desc: 'HFM adalah salah satu broker utama partner resmi SAINT D.WISH yang mendukung eksekusi cepat, spread rendah, dan transparansi penuh untuk transaksi trading harian kamu.',
-        discord: 'https://discord.gg/xfM8N9cVF',
-        tele: 'https://t.me/+seAjjeEk1co2OGI1'
-      },
-      'valetax': {
-        title: 'VALETAX',
-        img: 'valetax.jpeg',
-        desc: 'Valetax adalah salah satu broker utama partner resmi SAINT D.WISH yang mendukung eksekusi cepat, spread rendah, dan transparansi penuh untuk transaksi trading harian kamu.',
-        discord: 'https://discord.gg/rJHyaQ3Ss',
-        tele: 'https://t.me/+FPYkamzqoDNkYzM1'
-      }
+    const brokers = { 
+        'exness': { title: 'EXNESS', img: 'exness.jpeg', desc: 'Exness adalah partner resmi...', discord: 'https://discord.gg/AghEZ4CQN', tele: 'https://t.me/+TpiImsGHCl42ZjA1' }, 
+        'hfm': { title: 'HFM', img: 'hfm.png', desc: 'HFM adalah partner resmi...', discord: 'https://discord.gg/xfM8N9cVF', tele: 'https://t.me/+seAjjeEk1co2OGI1' }, 
+        'valetax': { title: 'VALETAX', img: 'valetax.jpeg', desc: 'Valetax adalah partner resmi...', discord: 'https://discord.gg/rJHyaQ3Ss', tele: 'https://t.me/+FPYkamzqoDNkYzM1' } 
     };
+    
+    function openBroker(id) { 
+        const b = brokers[id]; 
+        if (!b) return; 
+        document.getElementById('broker-title').innerText = b.title; 
+        document.getElementById('broker-subtitle').innerText = b.title + ' - SAINT D.WISH'; 
+        document.getElementById('broker-desc').innerText = b.desc; 
+        document.getElementById('broker-logo-img').src = b.img; 
+        document.getElementById('broker-discord').href = b.discord; 
+        document.getElementById('broker-tele').href = b.tele; 
+        switchView('broker-detail', null); 
+    }
 
-    function openBroker(brokerId) {
-      const b = brokers[brokerId];
-      if (!b) return;
-      
-      document.getElementById('broker-title').innerText = b.title;
-      document.getElementById('broker-subtitle').innerText = b.title + ' - SAINT D.WISH';
-      document.getElementById('broker-desc').innerText = b.desc;
-      document.getElementById('broker-logo-img').src = b.img;
-      document.getElementById('broker-discord').href = b.discord;
-      document.getElementById('broker-tele').href = b.tele;
-      
-      switchView('broker-detail', null);
+    // ==========================================
+    // LOGIKA HEADER PROFILE (BARU)
+    // ==========================================
+    
+    function selectHeader(imgPath, isLocked, elementId) {
+        if (isLocked) {
+            alert("Header ini terkunci! Hanya tersedia untuk role tertentu.");
+            return;
+        }
+        
+        document.querySelectorAll('.header-item').forEach(el => {
+            el.classList.remove('border-blue-500', 'shadow-[0_0_10px_rgba(59,130,246,0.5)]');
+            el.classList.add('border-transparent');
+            const checkIcon = el.querySelector('.check-icon');
+            if(checkIcon) checkIcon.classList.add('hidden');
+        });
+
+        const selectedEl = document.getElementById(elementId);
+        if(selectedEl) {
+            selectedEl.classList.remove('border-transparent');
+            selectedEl.classList.add('border-blue-500', 'shadow-[0_0_10px_rgba(59,130,246,0.5)]');
+            const checkIcon = selectedEl.querySelector('.check-icon');
+            if(checkIcon) checkIcon.classList.remove('hidden');
+        }
+
+        selectedHeaderPath = imgPath;
+        document.getElementById('previewHeaderImg').src = imgPath;
+    }
+
+    function saveHeader() {
+        localStorage.setItem('sdw_header', selectedHeaderPath);
+        document.getElementById('mainHeaderImg').src = selectedHeaderPath;
+        alert("Header berhasil disimpan!");
+        switchView('akun', null);
+    }
+
+    function filterHeaders(category, btnElement) {
+        document.querySelectorAll('.tab-container .tab-btn').forEach(el => el.className = 'tab-btn tab-inactive flex-1 rounded-full');
+        btnElement.className = 'tab-btn tab-active flex-1 rounded-full';
+        
+        const items = document.querySelectorAll('.header-item');
+        items.forEach(item => {
+            if(category === 'all' || item.getAttribute('data-category') === category) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
     }
 
     document.addEventListener("DOMContentLoaded", function() {
@@ -1606,15 +1735,24 @@
               currentUserRole = data.user.role; 
               currentUserEmail = data.user.email;
               currentUserValidUntil = data.user.validUntil || "";
+              currentUsername = username; 
               
-              document.getElementById('userPP').innerText = username.charAt(0).toUpperCase();
               document.getElementById('userName').innerText = username;
               document.getElementById('userRoleDisplay').innerText = currentUserRole;
               
+              const savedHeader = localStorage.getItem('sdw_header');
+              if(savedHeader) {
+                  selectedHeaderPath = savedHeader;
+                  document.getElementById('mainHeaderImg').src = savedHeader;
+              }
+              
+              document.getElementById('previewUserName').innerText = username;
+              document.getElementById('previewUserRole').innerText = currentUserRole;
+
               if(currentUserRole === 'VIP' || currentUserRole === 'VVIP' || currentUserRole === 'ADMIN') {
-                  document.getElementById('userRoleDisplay').className = "text-xs font-bold text-success bg-emerald-900/30 px-2 py-1 rounded-md";
+                  document.getElementById('userRoleDisplay').className = "text-[10px] md:text-xs font-bold text-white tracking-widest uppercase drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]"; 
               } else {
-                  document.getElementById('userRoleDisplay').className = "text-xs font-bold text-muted bg-[#1e293b] px-2 py-1 rounded-md";
+                  document.getElementById('userRoleDisplay').className = "text-[10px] md:text-xs font-bold text-gray-300 tracking-widest uppercase drop-shadow-[0_0_5px_rgba(0,0,0,0.8)]";
               }
               
               if(currentUserRole === 'ADMIN') {
@@ -1627,9 +1765,6 @@
               }
 
               document.getElementById('editUsername').value = username;
-              document.getElementById('editPP').innerText = username.charAt(0).toUpperCase();
-              loadAvatar();
-
               fetchLivePrice(); setInterval(fetchLivePrice, 5000);
               fetchSignals(); setInterval(fetchSignals, 10000);
               
@@ -1642,26 +1777,6 @@
       });
     });
 
-    function loadAvatar() {
-      const savedAvatar = localStorage.getItem('db_avatar');
-      const mainPP = document.getElementById('userPP'), mainImg = document.getElementById('userAvatarImg');
-      const editPP = document.getElementById('editPP'), editImg = document.getElementById('editAvatarImg');
-      if (savedAvatar) {
-        if(mainImg && mainPP) { mainImg.src = savedAvatar; mainImg.classList.remove('hidden'); mainPP.classList.add('hidden'); }
-        if(editImg && editPP) { editImg.src = savedAvatar; editImg.classList.remove('hidden'); editPP.classList.add('hidden'); }
-      } else {
-        if(mainImg && mainPP) { mainImg.classList.add('hidden'); mainPP.classList.remove('hidden'); }
-        if(editImg && editPP) { editImg.classList.add('hidden'); editPP.classList.remove('hidden'); }
-      }
-    }
-
-    function handleAvatarUpload(event) {
-      const file = event.target.files[0]; if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(e) { localStorage.setItem('db_avatar', e.target.result); loadAvatar(); };
-      reader.readAsDataURL(file);
-    }
-
     function openSubAkun(subName) {
       document.getElementById('view-akun').classList.add('hidden');
       document.getElementById('sub-' + subName).classList.remove('hidden');
@@ -1670,7 +1785,7 @@
     }
 
     function closeSubAkun() {
-      ['bantuan', 'password', 'notif', 'editprofil'].forEach(sub => document.getElementById('sub-' + sub).classList.add('hidden'));
+      ['bantuan', 'password', 'notif', 'editprofil', 'gantiheader'].forEach(sub => document.getElementById('sub-' + sub).classList.add('hidden'));
       document.getElementById('view-akun').classList.remove('hidden');
       document.getElementById('mainNavbar').classList.remove('opacity-0', 'pointer-events-none');
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1681,7 +1796,6 @@
       document.getElementById('view-' + viewName).classList.remove('hidden');
       document.getElementById('view-' + viewName).classList.add('block');
 
-      // LOGIKA AKSES: Ganti tampilan berdasarkan ROLE
       if (viewName === 'akses') {
           if (currentUserRole === 'VIP' || currentUserRole === 'VVIP' || currentUserRole === 'ADMIN') {
               document.getElementById('akses-no-role').classList.add('hidden');
@@ -1696,7 +1810,6 @@
 
               roleText.innerText = currentUserRole;
 
-              // TEMA VVIP / ADMIN (GOLD/PURPLE)
               if (currentUserRole === 'VVIP' || currentUserRole === 'ADMIN') {
                   card.className = "member-card-vvip rounded-3xl p-6 text-center mb-6 relative overflow-hidden transition-all duration-500";
                   roleText.className = "text-5xl font-black text-gradient-gold mb-6";
@@ -1709,9 +1822,7 @@
 
                   document.getElementById('status-period').innerText = "Selamanya";
                   document.getElementById('status-date').innerText = "LIFETIME";
-              } 
-              // TEMA VIP (BIRU)
-              else {
+              } else {
                   card.className = "member-card-vip rounded-3xl p-6 text-center mb-6 relative overflow-hidden transition-all duration-500";
                   roleText.className = "text-5xl font-black text-gradient-blue mb-6";
                   iconBg.className = "w-20 h-20 mx-auto bg-[#1e3a8a]/40 border border-blue-500/50 rounded-full flex items-center justify-center mb-4 shadow-[0_0_20px_rgba(59,130,246,0.4)]";
