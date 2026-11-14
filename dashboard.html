@@ -57,6 +57,10 @@
     .broker-exness { border: 2px solid #FCD34D; box-shadow: 0 0 15px rgba(252, 211, 77, 0.4); }
     .broker-hfm { border: 2px solid #94a3b8; box-shadow: 0 0 15px rgba(148, 163, 184, 0.4); }
     .broker-valetax { border: 2px solid #22c55e; box-shadow: 0 0 15px rgba(34, 197, 94, 0.4); }
+    
+    /* CSS untuk menghilangkan background putih pada gambar logo (khusus yg punya background putih) */
+    .logo-transparent { mix-blend-mode: multiply; filter: brightness(1.2) contrast(1.1); }
+    .logo-dark { mix-blend-mode: screen; }
   </style>
 </head>
 <body class="max-w-md mx-auto relative min-h-screen">
@@ -212,19 +216,17 @@
 
     <!-- SUB-VIEW: BERLANGGANAN (GAMBAR 7) -->
     <div id="view-berlangganan" class="view-section hidden relative">
-      <div class="flex items-center mb-6">
-        <button onclick="switchView('akses', this)" class="w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white mr-3"><i class="fa-solid fa-arrow-left text-sm"></i></button>
-        <div>
-          <h1 class="text-xl font-extrabold text-white tracking-widest uppercase text-center w-full pr-8">BERLANGGANAN</h1>
-          <p class="text-[10px] text-gray-400 text-center w-full pr-8 mt-1">Pilih paket langganan yang sesuai dengan kebutuhan Anda</p>
+      <div class="relative flex items-center justify-center mb-6">
+        <button onclick="switchView('akses', this)" class="absolute left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-10"><i class="fa-solid fa-arrow-left text-sm"></i></button>
+        <div class="text-center">
+          <h1 class="text-xl font-extrabold text-white tracking-widest uppercase">BERLANGGANAN</h1>
+          <p class="text-[10px] text-gray-400 mt-1">Pilih paket langganan yang sesuai dengan kebutuhan Anda</p>
         </div>
       </div>
 
       <!-- Card Bulanan -->
       <div class="relative rounded-3xl overflow-hidden mb-6 border border-blue-500/40 shadow-[0_0_20px_rgba(59,130,246,0.3)] bg-[#0a1226]">
-        <!-- Bg Image -->
         <div class="absolute inset-0 bg-cover bg-center opacity-50" style="background-image: url('bgb.png');"></div>
-        <!-- Popular Badge -->
         <div class="absolute top-0 right-0 bg-blue-500 text-white text-[10px] font-bold px-3 py-1.5 rounded-bl-xl flex items-center gap-1 shadow-lg z-20">
           <i class="fa-solid fa-fire text-yellow-300"></i> POPULER
         </div>
@@ -299,13 +301,13 @@
       </div>
     </div>
 
-    <!-- SUB-VIEW: JOIN IB (GAMBAR 2) -->
+    <!-- SUB-VIEW: JOIN IB (GAMBAR 2 & 3) -->
     <div id="view-joinib" class="view-section hidden relative">
-      <div class="flex items-center mb-6">
-        <button onclick="switchView('akses', this)" class="w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white mr-3"><i class="fa-solid fa-arrow-left text-sm"></i></button>
-        <div>
-          <h1 class="text-xl font-extrabold text-white tracking-widest uppercase text-center w-full pr-8">JOIN IB</h1>
-          <p class="text-[10px] text-blue-300 text-center w-full pr-8 mt-1">Pilih broker yang ingin digunakan untuk join</p>
+      <div class="relative flex items-center justify-center mb-6">
+        <button onclick="switchView('akses', this)" class="absolute left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-10"><i class="fa-solid fa-arrow-left text-sm"></i></button>
+        <div class="text-center">
+          <h1 class="text-xl font-extrabold text-white tracking-widest uppercase">JOIN IB</h1>
+          <p class="text-[10px] text-blue-300 mt-1">Pilih broker yang ingin digunakan untuk join</p>
         </div>
       </div>
 
@@ -313,8 +315,8 @@
         
         <!-- Exness -->
         <div onclick="openBroker('exness')" class="broker-card broker-exness bg-[#0a1226] rounded-xl p-3 flex items-center justify-between cursor-pointer">
-          <div class="w-20 h-12 flex items-center justify-start bg-white rounded p-1">
-            <img src="exness.jpeg" alt="Exness" class="max-h-full max-w-full object-contain">
+          <div class="w-16 h-12 flex items-center justify-start overflow-hidden rounded-lg">
+            <img src="exness.jpeg" alt="Exness" class="max-h-full max-w-full object-contain logo-transparent">
           </div>
           <div class="flex-1 px-3">
             <h3 class="text-sm font-bold text-white tracking-wider">EXNESS</h3>
@@ -326,8 +328,8 @@
 
         <!-- HFM -->
         <div onclick="openBroker('hfm')" class="broker-card broker-hfm bg-[#0a1226] rounded-xl p-3 flex items-center justify-between cursor-pointer">
-          <div class="w-20 h-12 flex items-center justify-start bg-white rounded p-1">
-            <img src="hfm.png" alt="HFM" class="max-h-full max-w-full object-contain">
+          <div class="w-16 h-12 flex items-center justify-start overflow-hidden rounded-lg">
+            <img src="hfm.png" alt="HFM" class="max-h-full max-w-full object-contain logo-dark">
           </div>
           <div class="flex-1 px-3">
             <h3 class="text-sm font-bold text-white tracking-wider">HFM</h3>
@@ -339,8 +341,8 @@
 
         <!-- Valetax -->
         <div onclick="openBroker('valetax')" class="broker-card broker-valetax bg-[#0a1226] rounded-xl p-3 flex items-center justify-between cursor-pointer">
-          <div class="w-20 h-12 flex items-center justify-start bg-white rounded p-1">
-            <img src="valetax.jpeg" alt="Valetax" class="max-h-full max-w-full object-contain">
+          <div class="w-16 h-12 flex items-center justify-start overflow-hidden rounded-lg">
+            <img src="valetax.jpeg" alt="Valetax" class="max-h-full max-w-full object-contain logo-transparent">
           </div>
           <div class="flex-1 px-3">
             <h3 class="text-sm font-bold text-white tracking-wider">VALETAX</h3>
@@ -355,14 +357,15 @@
 
     <!-- SUB-VIEW: BROKER DETAILS (EXNESS, HFM, VALETAX) -->
     <div id="view-broker-detail" class="view-section hidden relative">
-      <div class="flex items-center mb-6">
-        <button onclick="switchView('joinib', this)" class="w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white mr-3"><i class="fa-solid fa-arrow-left text-sm"></i></button>
-        <h1 class="text-xl font-extrabold text-white tracking-widest uppercase text-center w-full pr-8" id="broker-title">BROKER</h1>
+      <div class="relative flex items-center justify-center mb-6">
+        <button onclick="switchView('joinib', this)" class="absolute left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-10"><i class="fa-solid fa-arrow-left text-sm"></i></button>
+        <h1 class="text-xl font-extrabold text-white tracking-widest uppercase" id="broker-title">BROKER</h1>
       </div>
 
       <div class="glass-card p-6 mb-6 text-center flex flex-col items-center">
-        <div class="w-40 h-24 bg-white rounded-xl flex items-center justify-center p-3 mb-4 shadow-lg">
-          <img id="broker-logo-img" src="" alt="Broker" class="max-h-full max-w-full object-contain">
+        <!-- Logo Container tanpa bg-white keras -->
+        <div class="w-32 h-20 flex items-center justify-center mb-4 p-2">
+          <img id="broker-logo-img" src="" alt="Broker" class="max-h-full max-w-full object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
         </div>
         <h2 id="broker-subtitle" class="text-lg font-bold text-white mb-2">BROKER - SAINT D.WISH</h2>
         <p id="broker-desc" class="text-xs text-gray-400 leading-relaxed text-center mb-6">
@@ -1227,6 +1230,15 @@
       document.getElementById('broker-subtitle').innerText = b.title + ' - SAINT D.WISH';
       document.getElementById('broker-desc').innerText = b.desc;
       document.getElementById('broker-logo-img').src = b.img;
+      
+      // Terapkan class untuk menghilangkan background putih pada logo secara otomatis
+      const imgEl = document.getElementById('broker-logo-img');
+      if (brokerId === 'hfm') {
+          imgEl.className = "max-h-full max-w-full object-contain logo-dark drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]";
+      } else {
+          imgEl.className = "max-h-full max-w-full object-contain logo-transparent drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]";
+      }
+
       document.getElementById('broker-discord').href = b.discord;
       document.getElementById('broker-tele').href = b.tele;
       
