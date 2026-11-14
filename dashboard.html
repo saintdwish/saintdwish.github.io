@@ -255,10 +255,11 @@
       -webkit-text-fill-color: transparent; 
     }
 
-    /* Styling untuk Overlay Header */
+    /* CSS UNTUK TEKS DI HEADER AGAR MENYALA SEPERTI GAMBAR */
     .header-font { 
       font-family: 'Cinzel', serif; 
-      text-shadow: 0 2px 4px rgba(0,0,0,0.8), 0 0 10px rgba(59,130,246,0.5); 
+      color: #ffffff;
+      text-shadow: 0 0 5px #fff, 0 0 10px #60a5fa, 0 0 20px #3b82f6, 0 0 30px #3b82f6;
     }
   </style>
 </head>
@@ -890,18 +891,19 @@
       </div>
 
       <!-- BANNER PROFILE BARU (DYNAMIC HEADER) -->
-      <div class="relative w-full rounded-2xl overflow-hidden mb-6 border-2 border-blue-500/60 shadow-[0_0_25px_rgba(59,130,246,0.4)] bg-[#0a1226]">
-        <!-- Image Header -->
+      <!-- Sesuai perintah: DIHAPUS KOLOMNYA, TINGGAL GAMBAR DAN TEKS -->
+      <div class="relative w-full rounded-2xl overflow-hidden mb-6 bg-[#0a1226]">
+        <!-- Gambar Header -->
         <img id="mainHeaderImg" src="headeradmin.png" alt="Header Profile" class="w-full h-auto object-cover">
         
-        <!-- Overlay Teks Username & Role -->
-        <!-- Username Slot -->
-        <div class="absolute top-[25%] right-[12%] w-[45%] text-right">
-            <h2 id="userName" class="header-font text-xl md:text-2xl font-bold text-white tracking-wide">Memuat...</h2>
+        <!-- Tempat Tulisan Username (Di tengah ruang kosong kanan) -->
+        <div class="absolute top-[35%] left-[55%] w-[40%] flex justify-center">
+            <h2 id="userName" class="header-font text-2xl md:text-4xl font-bold tracking-widest uppercase">USERNAME</h2>
         </div>
-        <!-- Role Slot -->
-        <div class="absolute top-[65%] right-[14%] w-[16%] text-center flex items-center justify-center">
-            <p id="userRoleDisplay" class="text-[10px] md:text-xs font-bold text-white tracking-widest uppercase">...</p>
+
+        <!-- Tempat Tulisan Role (Masuk ke dalam Pill kanan bawah) -->
+        <div class="absolute top-[72%] left-[73%] w-[20%] h-[15%] flex items-center justify-center">
+            <p id="userRoleDisplay" class="header-font text-xs md:text-lg font-bold tracking-widest">ADMIN</p>
         </div>
       </div>
       
@@ -974,11 +976,11 @@
       <!-- Preview Header Saat Ini -->
       <div class="relative w-full rounded-2xl overflow-hidden mb-6 border border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.3)]">
           <img id="previewHeaderImg" src="headeradmin.png" class="w-full h-auto object-cover">
-          <div class="absolute top-[25%] right-[12%] w-[45%] text-right">
+          <div class="absolute top-[35%] left-[55%] w-[40%] flex justify-center">
               <h2 id="previewUserName" class="header-font text-lg font-bold text-white">Username</h2>
           </div>
-          <div class="absolute top-[65%] right-[14%] w-[16%] text-center flex items-center justify-center">
-              <p id="previewUserRole" class="text-[8px] font-bold text-white uppercase">ROLE</p>
+          <div class="absolute top-[72%] left-[73%] w-[20%] h-[15%] flex items-center justify-center">
+              <p id="previewUserRole" class="header-font text-[8px] font-bold text-white uppercase">ROLE</p>
           </div>
       </div>
 
@@ -1122,7 +1124,8 @@
     </nav>
   </div>
 
-  <script>
+  <!-- SISA KODE JAVASCRIPT ADA DI PESAN SELANJUTNYA -->
+    <script>
     // ==========================================
     // ⚠️ PASTIKAN URL INI SAMA DENGAN URL NGROK LU
     // ==========================================
@@ -1737,7 +1740,7 @@
               currentUserValidUntil = data.user.validUntil || "";
               currentUsername = username; 
               
-              document.getElementById('userName').innerText = username;
+              document.getElementById('userName').innerText = username.toUpperCase();
               document.getElementById('userRoleDisplay').innerText = currentUserRole;
               
               const savedHeader = localStorage.getItem('sdw_header');
@@ -1746,13 +1749,13 @@
                   document.getElementById('mainHeaderImg').src = savedHeader;
               }
               
-              document.getElementById('previewUserName').innerText = username;
+              document.getElementById('previewUserName').innerText = username.toUpperCase();
               document.getElementById('previewUserRole').innerText = currentUserRole;
 
               if(currentUserRole === 'VIP' || currentUserRole === 'VVIP' || currentUserRole === 'ADMIN') {
-                  document.getElementById('userRoleDisplay').className = "text-[10px] md:text-xs font-bold text-white tracking-widest uppercase drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]"; 
+                  document.getElementById('userRoleDisplay').className = "header-font text-xs md:text-lg font-bold tracking-widest"; 
               } else {
-                  document.getElementById('userRoleDisplay').className = "text-[10px] md:text-xs font-bold text-gray-300 tracking-widest uppercase drop-shadow-[0_0_5px_rgba(0,0,0,0.8)]";
+                  document.getElementById('userRoleDisplay').className = "header-font text-xs md:text-lg font-bold tracking-widest text-gray-300";
               }
               
               if(currentUserRole === 'ADMIN') {
