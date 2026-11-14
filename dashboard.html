@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="SDW">
   
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   
   <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
@@ -44,15 +44,19 @@
     .card-detail.open { max-height: 400px; opacity: 1; }
     .vip-blurred { filter: blur(8px); pointer-events: none; user-select: none; opacity: 0.3; }
     .chart-container { width: 100%; height: 200px; border-radius: 8px; overflow: hidden; margin-top: 15px; border: 1px solid rgba(59, 130, 246, 0.2); position: relative; }
-    .ib-btn { display: flex; justify-content: center; align-items: center; padding: 15px; border-radius: 12px; font-weight: 700; font-size: 16px; text-transform: uppercase; transition: transform 0.2s; }
-    .ib-btn:hover { transform: scale(1.02); }
-    .ib-exness { background-color: #FFD700; color: #000; }
-    .ib-hfm { background-color: #000000; color: #fff; border: 1px solid #333; }
-    .ib-valetax { background-color: #008000; color: #fff; }
     .main-header { background: rgba(5, 15, 35, 0.6); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 16px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(59, 130, 246, 0.1); backdrop-filter: blur(10px); }
     .card-running-sell { border-left: 4px solid #ef4444; background: linear-gradient(90deg, rgba(239, 68, 68, 0.1) 0%, rgba(10, 18, 38, 0.7) 100%); }
     .card-running-buy { border-left: 4px solid #10b981; background: linear-gradient(90deg, rgba(16, 185, 129, 0.1) 0%, rgba(10, 18, 38, 0.7) 100%); }
     .badge-high-risk { border: 1px solid rgba(239, 68, 68, 0.5); color: #ef4444; background: rgba(239, 68, 68, 0.1); padding: 2px 8px; border-radius: 999px; font-size: 9px; font-weight: 700; }
+    
+    /* Custom Styling for New Views */
+    .btn-neon-blue { background: linear-gradient(90deg, #1e3a8a, #3b82f6); box-shadow: 0 0 15px rgba(59, 130, 246, 0.6); border: 1px solid #60a5fa; }
+    .btn-outline-blue { border: 1px solid #3b82f6; box-shadow: inset 0 0 10px rgba(59, 130, 246, 0.2); }
+    .broker-card { transition: all 0.3s ease; }
+    .broker-card:hover { transform: scale(1.02); }
+    .broker-exness { border: 2px solid #FCD34D; box-shadow: 0 0 15px rgba(252, 211, 77, 0.4); }
+    .broker-hfm { border: 2px solid #94a3b8; box-shadow: 0 0 15px rgba(148, 163, 184, 0.4); }
+    .broker-valetax { border: 2px solid #22c55e; box-shadow: 0 0 15px rgba(34, 197, 94, 0.4); }
   </style>
 </head>
 <body class="max-w-md mx-auto relative min-h-screen">
@@ -117,7 +121,7 @@
       </div>
     </div>
 
-    <!-- VIEW 2: AKSES -->
+    <!-- VIEW 2: AKSES (GAMBAR 1) -->
     <div id="view-akses" class="view-section hidden">
       <div class="main-header">
         <div class="flex items-center gap-3">
@@ -132,81 +136,254 @@
           <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 border border-[#0a1226] rounded-full"></span>
         </div>
       </div>
-      <div class="glass-card p-5 mb-8">
-        <h2 class="text-lg font-bold text-white mb-4">FITUR YANG AKAN DIDAPATKAN JIKA AKSES VIP</h2>
-        <ol class="text-sm text-muted space-y-2 list-decimal list-inside font-medium">
-          <li>Signal Ai</li><li>Notifikasi aktif saat terdapat setup</li><li>Join Komunitas Discord dan Telegram</li><li>Zona Mapping Setiap Market Open</li><li>Live BOOKMAP Gratis</li><li>Akses Semua Materi</li>
-        </ol>
+      
+      <div class="glass-card p-5 mb-6 border border-blue-500/30">
+        <h2 class="text-[13px] font-bold text-white mb-6 flex items-center gap-2"><i class="fa-solid fa-lock text-blue-400 text-lg"></i> FITUR YANG AKAN DIDAPATKAN JIKA AKSES VIP</h2>
+        <div class="flex flex-col gap-5">
+          
+          <div class="flex items-start gap-3">
+            <div class="w-10 h-10 rounded-xl bg-blue-900/40 border border-blue-500/30 flex items-center justify-center shrink-0"><i class="fa-solid fa-microchip text-blue-400 text-lg"></i></div>
+            <div>
+              <p class="text-sm font-bold text-white mb-0.5">1. Signal Ai</p>
+              <p class="text-[11px] text-gray-400 leading-tight">Analisa pasar dengan kecerdasan buatan untuk peluang terbaik.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <div class="w-10 h-10 rounded-xl bg-blue-900/40 border border-blue-500/30 flex items-center justify-center shrink-0"><i class="fa-solid fa-bell text-blue-400 text-lg"></i></div>
+            <div>
+              <p class="text-sm font-bold text-white mb-0.5">2. Notifikasi aktif saat terdapat setup</p>
+              <p class="text-[11px] text-gray-400 leading-tight">Dapatkan notifikasi real-time saat ada setup potensial di market.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <div class="w-10 h-10 rounded-xl bg-blue-900/40 border border-blue-500/30 flex items-center justify-center shrink-0"><i class="fa-solid fa-paper-plane text-blue-400 text-lg"></i></div>
+            <div>
+              <p class="text-sm font-bold text-white mb-0.5">3. Join Komunitas Discord dan Telegram</p>
+              <p class="text-[11px] text-gray-400 leading-tight">Bergabung dengan komunitas eksklusif untuk update terbaru.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <div class="w-10 h-10 rounded-xl bg-blue-900/40 border border-blue-500/30 flex items-center justify-center shrink-0"><i class="fa-solid fa-location-dot text-blue-400 text-lg"></i></div>
+            <div>
+              <p class="text-sm font-bold text-white mb-0.5">4. Zona Mapping Setiap Market Open</p>
+              <p class="text-[11px] text-gray-400 leading-tight">Akses zona mapping di setiap sesi market.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <div class="w-10 h-10 rounded-xl bg-blue-900/40 border border-blue-500/30 flex items-center justify-center shrink-0"><i class="fa-solid fa-gift text-blue-400 text-lg"></i></div>
+            <div>
+              <p class="text-sm font-bold text-white mb-0.5">5. Live BOOKMAP Gratis</p>
+              <p class="text-[11px] text-gray-400 leading-tight">Nikmati fitur Bookmap secara gratis.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <div class="w-10 h-10 rounded-xl bg-blue-900/40 border border-blue-500/30 flex items-center justify-center shrink-0"><i class="fa-solid fa-users text-blue-400 text-lg"></i></div>
+            <div>
+              <p class="text-sm font-bold text-white mb-0.5">6. Akses Semua Materi</p>
+              <p class="text-[11px] text-gray-400 leading-tight">Dapatkan akses penuh ke semua materi edukasi.</p>
+            </div>
+          </div>
+
+        </div>
       </div>
-      <div class="flex flex-col gap-4 mb-8 px-4">
-        <button onclick="switchView('berlangganan', this)" class="w-full py-4 rounded-full bg-[#cbd5e1] text-black font-bold text-sm hover:bg-gray-300 transition shadow-lg">BERLANGGANAN</button>
-        <button onclick="switchView('joinib', this)" class="w-full py-4 rounded-full bg-[#cbd5e1] text-black font-bold text-sm hover:bg-gray-300 transition shadow-lg">JOIN IB</button>
+
+      <div class="flex flex-col gap-3 mb-8 px-2">
+        <button onclick="switchView('berlangganan', this)" class="btn-neon-blue w-full py-3.5 rounded-xl text-white font-bold text-sm flex justify-between items-center px-4 transition">
+          <span class="w-6"></span> <span class="flex items-center gap-2"><i class="fa-solid fa-crown text-yellow-300"></i> BERLANGGANAN</span> <i class="fa-solid fa-chevron-right text-white/70"></i>
+        </button>
+        <button onclick="switchView('joinib', this)" class="btn-outline-blue w-full py-3.5 rounded-xl text-white font-bold text-sm flex justify-between items-center px-4 hover:bg-blue-900/30 transition">
+          <span class="w-6"></span> <span class="flex items-center gap-2"><i class="fa-solid fa-user-plus text-blue-300"></i> JOIN IB</span> <i class="fa-solid fa-chevron-right text-white/70"></i>
+        </button>
       </div>
+
       <div class="text-center mb-8">
-        <p class="text-sm text-gray-300 mb-4">Masih Bingung Dan ada pertanyaan?<br>Hubungi Admin</p>
-        <div class="flex justify-center gap-6">
-          <a href="https://discord.com/users/SAINT_D_WISH_ID" target="_blank" class="w-16 h-16 glass-card rounded-xl flex items-center justify-center hover:bg-[#5865F2]/20 transition"><i class="fa-brands fa-discord text-3xl text-[#5865F2]"></i></a>
-          <a href="https://t.me/stdwis" target="_blank" class="w-16 h-16 glass-card rounded-xl flex items-center justify-center hover:bg-[#0088cc]/20 transition"><i class="fa-brands fa-telegram text-3xl text-[#0088cc]"></i></a>
+        <p class="text-xs text-gray-400 mb-3">Masih Bingung Dan ada pertanyaan?<br>Hubungi Admin</p>
+        <div class="flex justify-center gap-4">
+          <a href="https://discord.com/users/SAINT_D_WISH_ID" target="_blank" class="w-12 h-12 bg-[#0a1226] border border-blue-500/30 rounded-xl flex items-center justify-center hover:bg-[#5865F2]/20 transition"><i class="fa-brands fa-discord text-xl text-[#5865F2]"></i></a>
+          <a href="https://t.me/stdwis" target="_blank" class="w-12 h-12 bg-[#0a1226] border border-blue-500/30 rounded-xl flex items-center justify-center hover:bg-[#0088cc]/20 transition"><i class="fa-brands fa-telegram text-xl text-[#0088cc]"></i></a>
         </div>
       </div>
     </div>
 
-    <!-- SUB-VIEW: BERLANGGANAN -->
+    <!-- SUB-VIEW: BERLANGGANAN (GAMBAR 7) -->
     <div id="view-berlangganan" class="view-section hidden relative">
-      <button onclick="switchView('akses', this)" class="absolute top-0 left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50"><i class="fa-solid fa-arrow-left text-sm"></i></button>
-      <h1 class="text-xl font-bold text-white text-center mb-8 pt-1">BERLANGGANAN</h1>
-      <div class="glass-card p-6 mb-6 rounded-3xl border border-blue-500/30">
-        <h2 class="text-xl font-bold text-white mb-4">Rp. 49.000 / BULAN</h2>
-        <ul class="text-sm text-gray-300 space-y-3 mb-6">
-          <li class="flex justify-between items-center">Mapping Zone <i class="fa-solid fa-circle-check text-white"></i></li>
-          <li class="flex justify-between items-center">Signal Ai <i class="fa-solid fa-circle-check text-white"></i></li>
-          <li class="flex justify-between items-center">Video Edukasi <i class="fa-solid fa-circle-check text-white"></i></li>
-          <li class="flex justify-between items-center">Join Komunitas <i class="fa-solid fa-circle-check text-white"></i></li>
-        </ul>
-        <button class="w-full py-3 rounded-full border border-white text-white font-bold text-sm hover:bg-white hover:text-black transition">GET STARTED</button>
+      <div class="flex items-center mb-6">
+        <button onclick="switchView('akses', this)" class="w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white mr-3"><i class="fa-solid fa-arrow-left text-sm"></i></button>
+        <div>
+          <h1 class="text-xl font-extrabold text-white tracking-widest uppercase text-center w-full pr-8">BERLANGGANAN</h1>
+          <p class="text-[10px] text-gray-400 text-center w-full pr-8 mt-1">Pilih paket langganan yang sesuai dengan kebutuhan Anda</p>
+        </div>
       </div>
-      <div class="glass-card p-6 mb-8 rounded-3xl border border-blue-500/30">
-        <h2 class="text-xl font-bold text-white mb-4">Rp. 120.000 / LIFETIME</h2>
-        <ul class="text-sm text-gray-300 space-y-3 mb-6">
-          <li class="flex justify-between items-center">Mapping Zone <i class="fa-solid fa-circle-check text-white"></i></li>
-          <li class="flex justify-between items-center">Signal Ai <i class="fa-solid fa-circle-check text-white"></i></li>
-          <li class="flex justify-between items-center">Video Edukasi <i class="fa-solid fa-circle-check text-white"></i></li>
-          <li class="flex justify-between items-center">Live BookMap <i class="fa-solid fa-circle-check text-white"></i></li>
-          <li class="flex justify-between items-center">Join Komunitas <i class="fa-solid fa-circle-check text-white"></i></li>
-        </ul>
-        <button class="w-full py-3 rounded-full border border-white text-white font-bold text-sm hover:bg-white hover:text-black transition">GET STARTED</button>
+
+      <!-- Card Bulanan -->
+      <div class="relative rounded-3xl overflow-hidden mb-6 border border-blue-500/40 shadow-[0_0_20px_rgba(59,130,246,0.3)] bg-[#0a1226]">
+        <!-- Bg Image -->
+        <div class="absolute inset-0 bg-cover bg-center opacity-50" style="background-image: url('bgb.png');"></div>
+        <!-- Popular Badge -->
+        <div class="absolute top-0 right-0 bg-blue-500 text-white text-[10px] font-bold px-3 py-1.5 rounded-bl-xl flex items-center gap-1 shadow-lg z-20">
+          <i class="fa-solid fa-fire text-yellow-300"></i> POPULER
+        </div>
+        
+        <div class="relative p-5 z-10">
+          <div class="flex items-center gap-4 mb-3">
+            <img src="cm.png" class="w-14 h-14 object-contain drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]">
+            <div>
+              <h2 class="text-2xl font-black text-white">Rp. 49.000 <span class="text-sm font-semibold text-blue-300">/ BULAN</span></h2>
+              <p class="text-[10px] text-gray-400 leading-tight mt-1">Akses premium dengan fitur lengkap untuk trading lebih maksimal.</p>
+            </div>
+          </div>
+          
+          <hr class="border-blue-500/30 my-4">
+          
+          <ul class="text-xs text-gray-300 space-y-2.5 mb-6 font-medium pl-1">
+            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-blue-400"></i> Mapping Zone</li>
+            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-blue-400"></i> Signal Ai</li>
+            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-blue-400"></i> Video Edukasi</li>
+            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-blue-400"></i> Join Komunitas</li>
+          </ul>
+          
+          <button class="w-full py-3 rounded-xl bg-gradient-to-r from-blue-700 to-blue-500 text-white font-bold text-sm hover:scale-[1.02] transition shadow-[0_0_15px_rgba(59,130,246,0.5)] border border-blue-400 flex justify-between items-center px-4">
+            <i class="fa-solid fa-crown text-yellow-300"></i> BERLANGGANAN SEKARANG <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
       </div>
-      <p class="text-center text-[10px] text-muted tracking-widest">SAINT D.WISH</p>
+
+      <!-- Card Lifetime -->
+      <div class="relative rounded-3xl overflow-hidden mb-6 border border-gray-400/30 shadow-[0_0_20px_rgba(255,255,255,0.1)] bg-[#0a1226]">
+        <div class="absolute inset-0 bg-cover bg-center opacity-50" style="background-image: url('bglife.png');"></div>
+        
+        <div class="relative p-5 z-10">
+          <div class="flex items-center gap-4 mb-3">
+            <img src="clife.png" class="w-14 h-14 object-contain drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">
+            <div>
+              <h2 class="text-2xl font-black text-white">Rp. 120.000 <span class="text-sm font-semibold text-gray-300">/ LIFETIME</span></h2>
+              <p class="text-[10px] text-gray-400 leading-tight mt-1">Akses seumur hidup, tanpa biaya berlangganan lagi.</p>
+            </div>
+          </div>
+          
+          <hr class="border-gray-500/30 my-4">
+          
+          <ul class="text-xs text-gray-300 space-y-2.5 mb-6 font-medium pl-1">
+            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-gray-400"></i> Mapping Zone</li>
+            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-gray-400"></i> Signal Ai</li>
+            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-gray-400"></i> Video Edukasi</li>
+            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-gray-400"></i> Live BookMap</li>
+            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-gray-400"></i> Join Komunitas</li>
+          </ul>
+          
+          <button class="w-full py-3 rounded-xl bg-transparent border border-gray-300 text-white font-bold text-sm hover:bg-gray-800/50 transition flex justify-between items-center px-4">
+            <i class="fa-solid fa-gem text-blue-200"></i> BERLANGGANAN LIFETIME <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Footer Badges -->
+      <div class="glass-card p-3 flex justify-between items-center mb-4">
+        <div class="text-center flex-1 border-r border-blue-500/20 px-1">
+          <i class="fa-solid fa-shield-check text-blue-400 mb-1"></i>
+          <p class="text-[9px] text-gray-300 leading-tight">Pembayaran<br>Aman & Terpercaya</p>
+        </div>
+        <div class="text-center flex-1 border-r border-blue-500/20 px-1">
+          <i class="fa-solid fa-bolt text-blue-400 mb-1"></i>
+          <p class="text-[9px] text-gray-300 leading-tight">Akses Instan<br>Setelah Pembayaran</p>
+        </div>
+        <div class="text-center flex-1 px-1">
+          <i class="fa-solid fa-headset text-blue-400 mb-1"></i>
+          <p class="text-[9px] text-gray-300 leading-tight">Dukungan<br>Admin 24/7</p>
+        </div>
+      </div>
     </div>
 
-    <!-- SUB-VIEW: JOIN IB -->
+    <!-- SUB-VIEW: JOIN IB (GAMBAR 2) -->
     <div id="view-joinib" class="view-section hidden relative">
-      <button onclick="switchView('akses', this)" class="absolute top-0 left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50"><i class="fa-solid fa-arrow-left text-sm"></i></button>
-      <h1 class="text-xl font-bold text-white text-center mb-8 pt-1 text-blue-300">JOIN IB</h1>
-      <div class="flex flex-col gap-6 px-2">
-        <div class="flex flex-col gap-3">
-          <a href="https://www.exness.com" target="_blank" class="ib-btn ib-exness">EXNESS</a>
-          <div class="flex justify-center gap-4">
-            <a href="https://discord.gg/4qdemAKkD" target="_blank" class="w-12 h-12 bg-black rounded-full flex items-center justify-center border border-gray-700 hover:scale-110 transition"><i class="fa-brands fa-discord text-xl text-white"></i></a>
-            <a href="https://t.me/+TpiImsGHCl42ZjA1" target="_blank" class="w-12 h-12 bg-black rounded-full flex items-center justify-center border border-gray-700 hover:scale-110 transition"><i class="fa-brands fa-telegram text-xl text-white"></i></a>
-          </div>
-        </div>
-        <div class="flex flex-col gap-3">
-          <a href="https://www.hfm.com" target="_blank" class="ib-btn ib-hfm">HFM</a>
-          <div class="flex justify-center gap-4">
-            <a href="https://discord.gg/Fyy5yU7da" target="_blank" class="w-12 h-12 bg-black rounded-full flex items-center justify-center border border-gray-700 hover:scale-110 transition"><i class="fa-brands fa-discord text-xl text-white"></i></a>
-            <a href="https://t.me/+seAjjeEk1co2OGI1" target="_blank" class="w-12 h-12 bg-black rounded-full flex items-center justify-center border border-gray-700 hover:scale-110 transition"><i class="fa-brands fa-telegram text-xl text-white"></i></a>
-          </div>
-        </div>
-        <div class="flex flex-col gap-3 mb-6">
-          <a href="https://www.valetax.com" target="_blank" class="ib-btn ib-valetax">VALETAX</a>
-          <div class="flex justify-center gap-4">
-            <a href="https://discord.gg/wTYzUj4Gj" target="_blank" class="w-12 h-12 bg-black rounded-full flex items-center justify-center border border-gray-700 hover:scale-110 transition"><i class="fa-brands fa-discord text-xl text-white"></i></a>
-            <a href="https://t.me/+FPYkamzqoDNkYzM1" target="_blank" class="w-12 h-12 bg-black rounded-full flex items-center justify-center border border-gray-700 hover:scale-110 transition"><i class="fa-brands fa-telegram text-xl text-white"></i></a>
-          </div>
+      <div class="flex items-center mb-6">
+        <button onclick="switchView('akses', this)" class="w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white mr-3"><i class="fa-solid fa-arrow-left text-sm"></i></button>
+        <div>
+          <h1 class="text-xl font-extrabold text-white tracking-widest uppercase text-center w-full pr-8">JOIN IB</h1>
+          <p class="text-[10px] text-blue-300 text-center w-full pr-8 mt-1">Pilih broker yang ingin digunakan untuk join</p>
         </div>
       </div>
-      <div class="flex justify-center mt-4"><img src="logo.png" alt="Saint D Wish" class="w-16 h-16 object-contain opacity-50"></div>
+
+      <div class="flex flex-col gap-4 px-2">
+        
+        <!-- Exness -->
+        <div onclick="openBroker('exness')" class="broker-card broker-exness bg-[#0a1226] rounded-xl p-3 flex items-center justify-between cursor-pointer">
+          <div class="w-20 h-12 flex items-center justify-start bg-white rounded p-1">
+            <img src="exness.jpeg" alt="Exness" class="max-h-full max-w-full object-contain">
+          </div>
+          <div class="flex-1 px-3">
+            <h3 class="text-sm font-bold text-white tracking-wider">EXNESS</h3>
+          </div>
+          <button class="border border-yellow-400 text-yellow-400 text-[10px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1 hover:bg-yellow-400/10 transition">
+            JOIN NOW <i class="fa-solid fa-chevron-right text-[8px]"></i>
+          </button>
+        </div>
+
+        <!-- HFM -->
+        <div onclick="openBroker('hfm')" class="broker-card broker-hfm bg-[#0a1226] rounded-xl p-3 flex items-center justify-between cursor-pointer">
+          <div class="w-20 h-12 flex items-center justify-start bg-white rounded p-1">
+            <img src="hfm.png" alt="HFM" class="max-h-full max-w-full object-contain">
+          </div>
+          <div class="flex-1 px-3">
+            <h3 class="text-sm font-bold text-white tracking-wider">HFM</h3>
+          </div>
+          <button class="border border-gray-300 text-gray-300 text-[10px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1 hover:bg-gray-300/10 transition">
+            JOIN NOW <i class="fa-solid fa-chevron-right text-[8px]"></i>
+          </button>
+        </div>
+
+        <!-- Valetax -->
+        <div onclick="openBroker('valetax')" class="broker-card broker-valetax bg-[#0a1226] rounded-xl p-3 flex items-center justify-between cursor-pointer">
+          <div class="w-20 h-12 flex items-center justify-start bg-white rounded p-1">
+            <img src="valetax.jpeg" alt="Valetax" class="max-h-full max-w-full object-contain">
+          </div>
+          <div class="flex-1 px-3">
+            <h3 class="text-sm font-bold text-white tracking-wider">VALETAX</h3>
+          </div>
+          <button class="border border-green-500 text-green-500 text-[10px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1 hover:bg-green-500/10 transition">
+            JOIN NOW <i class="fa-solid fa-chevron-right text-[8px]"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SUB-VIEW: BROKER DETAILS (EXNESS, HFM, VALETAX) -->
+    <div id="view-broker-detail" class="view-section hidden relative">
+      <div class="flex items-center mb-6">
+        <button onclick="switchView('joinib', this)" class="w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white mr-3"><i class="fa-solid fa-arrow-left text-sm"></i></button>
+        <h1 class="text-xl font-extrabold text-white tracking-widest uppercase text-center w-full pr-8" id="broker-title">BROKER</h1>
+      </div>
+
+      <div class="glass-card p-6 mb-6 text-center flex flex-col items-center">
+        <div class="w-40 h-24 bg-white rounded-xl flex items-center justify-center p-3 mb-4 shadow-lg">
+          <img id="broker-logo-img" src="" alt="Broker" class="max-h-full max-w-full object-contain">
+        </div>
+        <h2 id="broker-subtitle" class="text-lg font-bold text-white mb-2">BROKER - SAINT D.WISH</h2>
+        <p id="broker-desc" class="text-xs text-gray-400 leading-relaxed text-center mb-6">
+          Broker ini adalah salah satu broker utama partner resmi SAINT D.WISH yang mendukung eksekusi cepat, spread rendah, dan transparansi penuh untuk transaksi trading harian kamu.
+        </p>
+        
+        <hr class="w-full border-blue-500/30 mb-6">
+        
+        <p class="text-[10px] text-gray-300 font-semibold tracking-widest uppercase mb-4">SILAHKAN CLICK JIKA INGIN BERGABUNG</p>
+        
+        <div class="flex justify-center gap-4 w-full">
+          <a id="broker-discord" href="#" target="_blank" class="flex-1 py-3 rounded-xl bg-[#0a1226] border border-[#5865F2]/50 flex flex-col items-center justify-center gap-1 hover:bg-[#5865F2]/20 transition shadow-[0_0_10px_rgba(88,101,242,0.2)]">
+            <i class="fa-brands fa-discord text-2xl text-[#5865F2]"></i>
+            <span class="text-[10px] font-bold text-white">DISCORD</span>
+          </a>
+          <a id="broker-tele" href="#" target="_blank" class="flex-1 py-3 rounded-xl bg-[#0a1226] border border-[#0088cc]/50 flex flex-col items-center justify-center gap-1 hover:bg-[#0088cc]/20 transition shadow-[0_0_10px_rgba(0,136,204,0.2)]">
+            <i class="fa-brands fa-telegram text-2xl text-[#0088cc]"></i>
+            <span class="text-[10px] font-bold text-white">TELEGRAM</span>
+          </a>
+        </div>
+      </div>
     </div>
 
     <!-- VIEW 3: VIP ZONE -->
@@ -950,7 +1127,6 @@
       document.getElementById('vip-daily-table-list').innerHTML = dailyTableHTML;
     }
 
-    // --- PERBAIKAN FASE 3: BUG CHART GEPENG ---
     function toggleAccordion(headerElement) {
       const detail = headerElement.nextElementSibling;
       if (detail.classList.contains('open')) {
@@ -963,7 +1139,6 @@
         if (chartDiv) {
             const signalId = chartDiv.id.replace('chart-container-', '');
             const signalData = globalSignals.find(sig => sig.id == signalId);
-            // Kasih waktu animasi CSS (500ms) selesai dulu baru gambar chart
             if (signalData) { 
                 setTimeout(() => { 
                     drawStaticChart(chartDiv.id, signalData); 
@@ -978,9 +1153,8 @@
         if (!container) return;
         container.innerHTML = ''; 
         
-        // FIX: Pastikan container udah punya lebar sebelum digambar
         let width = container.clientWidth;
-        if (width === 0) width = window.innerWidth - 40; // Fallback kalau masih 0
+        if (width === 0) width = window.innerWidth - 40; 
 
         const chart = LightweightCharts.createChart(container, {
             width: width, height: 200,
@@ -1014,11 +1188,49 @@
         if (signal.tp3 && signal.tp3 !== "0" && signal.tp3 !== "0.0") candleSeries.createPriceLine({ price: parseFloat(signal.tp3), color: '#10b981', lineWidth: 1, lineStyle: LightweightCharts.LineStyle.Dotted, axisLabelVisible: true, title: 'TP3' });
 
         chart.timeScale().fitContent();
-        // Paksa resize setelah render biar ga gepeng
         setTimeout(() => { 
             chart.applyOptions({ width: container.clientWidth || width }); 
             chart.timeScale().fitContent(); 
         }, 150);
+    }
+
+    // Data Broker
+    const brokers = {
+      'exness': {
+        title: 'EXNESS',
+        img: 'exness.jpeg',
+        desc: 'Exness adalah salah satu broker utama partner resmi SAINT D.WISH yang mendukung eksekusi cepat, spread rendah, dan transparansi penuh untuk transaksi trading harian kamu.',
+        discord: 'https://discord.gg/AghEZ4CQN',
+        tele: 'https://t.me/+TpiImsGHCl42ZjA1'
+      },
+      'hfm': {
+        title: 'HFM',
+        img: 'hfm.png',
+        desc: 'HFM adalah salah satu broker utama partner resmi SAINT D.WISH yang mendukung eksekusi cepat, spread rendah, dan transparansi penuh untuk transaksi trading harian kamu.',
+        discord: 'https://discord.gg/xfM8N9cVF',
+        tele: 'https://t.me/+seAjjeEk1co2OGI1'
+      },
+      'valetax': {
+        title: 'VALETAX',
+        img: 'valetax.jpeg',
+        desc: 'Valetax adalah salah satu broker utama partner resmi SAINT D.WISH yang mendukung eksekusi cepat, spread rendah, dan transparansi penuh untuk transaksi trading harian kamu.',
+        discord: 'https://discord.gg/rJHyaQ3Ss',
+        tele: 'https://t.me/+FPYkamzqoDNkYzM1'
+      }
+    };
+
+    function openBroker(brokerId) {
+      const b = brokers[brokerId];
+      if (!b) return;
+      
+      document.getElementById('broker-title').innerText = b.title;
+      document.getElementById('broker-subtitle').innerText = b.title + ' - SAINT D.WISH';
+      document.getElementById('broker-desc').innerText = b.desc;
+      document.getElementById('broker-logo-img').src = b.img;
+      document.getElementById('broker-discord').href = b.discord;
+      document.getElementById('broker-tele').href = b.tele;
+      
+      switchView('broker-detail', null);
     }
 
     document.addEventListener("DOMContentLoaded", function() {
