@@ -58,11 +58,16 @@
   </div>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbzMYg1pTNUbEJWJSKtwifnPkw-tTn1SjFJqK2fmVepWVKpAvupB2c5eCb-fpUXR6LK-wg/exec";
+    // ==========================================
+    // ⚠️ PASTIKAN URL INI SAMA DENGAN URL NGROK LU
+    // ==========================================
+    const API_URL_VPS = "https://enviable-umbilical-erupt.ngrok-free.dev"; 
 
     document.addEventListener("DOMContentLoaded", function() {
       let role = localStorage.getItem('db_role');
-      if (role === 'ADMIN') {
+      let token = localStorage.getItem('sdw_token'); // Ambil Token JWT
+
+      if (role === 'ADMIN' && token) {
         document.getElementById('lockScreen').classList.add('hidden');
         document.getElementById('adminContent').classList.remove('hidden');
         loadUsers();
@@ -75,11 +80,16 @@
     async function loadUsers() {
       const tbody = document.getElementById('userTable');
       tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4"><i class="fa-solid fa-spinner fa-spin"></i> Memuat data...</td></tr>';
+      const token = localStorage.getItem('sdw_token');
 
       try {
-        const response = await fetch(API_URL, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'get_users' })
+        // Tembak ke Node.js VPS, bukan ke Google Apps Script langsung
+        const response = await fetch(`${API_URL_VPS}/api/admin/users`, {
+          method: 'GET',
+          headers: { 
+            'Authorization': 'Bearer ' + token, // Kirim JWT Token
+            'ngrok-skip-browser-warning': 'true'
+          }
         });
         const data = await response.json();
 
@@ -105,26 +115,36 @@
             `;
             tbody.appendChild(tr);
           });
+        } else {
+          tbody.innerHTML = `<tr><td colspan="4" class="text-center text-red-500 py-4">${data.message}</td></tr>`;
         }
       } catch (error) {
-        tbody.innerHTML = '<tr><td colspan="4" class="text-center text-red-500 py-4">Gagal memuat data. Cek URL API.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="4" class="text-center text-red-500 py-4">Gagal memuat data. Cek VPS & Ngrok.</td></tr>';
       }
     }
 
     async function changeRole(email, newRole) {
       if(confirm(`Yakin ingin mengubah role ${email} menjadi ${newRole}?`)) {
+        const token = localStorage.getItem('sdw_token');
         try {
-          const response = await fetch(API_URL, {
+          const response = await fetch(`${API_URL_VPS}/api/admin/update_role`, {
             method: 'POST',
-            body: JSON.stringify({ action: 'update_role', targetEmail: email, newRole: newRole })
+            headers: { 
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + token,
+              'ngrok-skip-browser-warning': 'true'
+            },
+            body: JSON.stringify({ targetEmail: email, newRole: newRole })
           });
           const data = await response.json();
           if(data.status === 'success') {
             alert("Role berhasil diubah!");
             loadUsers();
+          } else {
+            alert("Gagal: " + data.message);
           }
         } catch (error) {
-          alert("Gagal mengubah role.");
+          alert("Gagal mengubah role. Cek koneksi VPS.");
         }
       }
     }
