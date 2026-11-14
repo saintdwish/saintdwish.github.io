@@ -236,6 +236,18 @@
         </div>
 
         <div id="mapping-content" class="block">
+          
+          <!-- KOTAK MARKET BIAS (BARU) -->
+          <div id="bias-container" class="glass-card p-4 mb-4 flex items-center justify-between border-2 border-gray-600 transition-all hidden">
+            <div class="flex items-center gap-3">
+              <i id="bias-icon" class="fa-solid fa-chart-line text-3xl"></i>
+              <div>
+                <p class="text-xs text-gray-300 font-medium">Today's Market Bias :</p>
+                <h2 id="bias-text" class="text-2xl font-black italic tracking-widest"></h2>
+              </div>
+            </div>
+          </div>
+
           <div class="glass-card p-4 mb-4 border-l-4 border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
             <h2 class="text-lg font-bold text-white mb-3 flex items-center gap-2"><div class="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div> Zona Sell :</h2>
             <div class="text-sm text-gray-300 space-y-1 font-medium">
@@ -527,9 +539,8 @@
     const API_URL_PRICE = "https://script.google.com/macros/s/AKfycbzZuDUnA32CUSdU194CFo4MXBFk621PFfTeAlrY0IjJB7U2LHwEepP4dLvmDFsKxiCZ/exec";
     const API_URL_SIGNAL = "https://script.google.com/macros/s/AKfycbyd8ksBWqhE6iIT1E6IT_l1TgZO86ZLgUDDpZYxb6TzZ5TMFj93Vm10wasIgrTP3_Sx/exec";
     const API_URL_VPS = "https://enviable-umbilical-erupt.ngrok-free.dev"; 
-    
-    const VAPID_PUBLIC_KEY = 'BEl7RzRvhaJr08AN64MjzLB5pGdgc3e9DmjtzbvELXyOxNTt-J9DWwK35Vzj7ps1U1aamD6jXow2_sNg_JDuha4';
 
+    // DAFTARKAN SERVICE WORKER UNTUK IOS PWA
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('sw.js').then(reg => {
@@ -540,19 +551,8 @@
         });
     }
 
-    function urlBase64ToUint8Array(base64String) {
-        const padding = '='.repeat((4 - base64String.length % 4) % 4);
-        const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
-        const rawData = window.atob(base64);
-        const outputArray = new Uint8Array(rawData.length);
-        for (let i = 0; i < rawData.length; ++i) {
-            outputArray[i] = rawData.charCodeAt(i);
-        }
-        return outputArray;
-    }
-
     let globalSignals = [];
-    let globalAlerts = [];
+    let globalAlerts = []; // TAMBAHAN UNTUK ALERT
     let latestMapping = null;
     let currentEATab = 'MAPPING'; 
     let knownSignalStatuses = {}; 
@@ -574,22 +574,7 @@
         }
         if (toggle.checked) {
             Notification.requestPermission().then(permission => {
-                if (permission !== "granted") {
-                    toggle.checked = false;
-                    return;
-                }
-                navigator.serviceWorker.ready.then(registration => {
-                    registration.pushManager.subscribe({
-                        userVisibleOnly: true,
-                        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
-                    }).then(subscription => {
-                        fetch(`${API_URL_VPS}/api/subscribe`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
-                            body: JSON.stringify(subscription)
-                        }).then(res => console.log("Berhasil subscribe push", res)).catch(err => console.error(err));
-                    }).catch(err => console.error('Gagal Subscribe', err));
-                });
+                if (permission !== "granted") toggle.checked = false;
             });
         }
     }
@@ -662,7 +647,33 @@
         } catch(e) { alert("Terjadi kesalahan jaringan."); }
     }
 
-    function renderAllViews() { renderDashboardCombined(); renderVIP(); renderMapping(); renderAlerts(); }
+    function renderAllViews() { renderDashboardCombined(); renderVIP(); renderMapping(); renderAlerts(); renderBias(); }
+
+    function renderBias() {
+        const container = document.getElementById('bias-container');
+        const icon = document.getElementById('bias-icon');
+        const text = document.getElementById('bias-text');
+        
+        // Cek apakah data mapping dan bias ada
+        if (!latestMapping || !latestMapping.bias) {
+            container.classList.add('hidden');
+            return;
+        }
+        
+        container.classList.remove('hidden');
+        
+        if (latestMapping.bias === 'BULLISH') {
+            container.className = "glass-card p-4 mb-4 flex items-center justify-between border-2 border-green-500/50 shadow-[0_0_15px_rgba(16,185,129,0.3)] transition-all";
+            icon.className = "fa-solid fa-arrow-trend-up text-3xl text-success drop-shadow-[0_0_10px_rgba(16,185,129,0.8)]";
+            text.className = "text-2xl font-black italic text-success tracking-widest drop-shadow-[0_0_5px_rgba(16,185,129,0.5)]";
+            text.innerText = "BULLISH";
+        } else {
+            container.className = "glass-card p-4 mb-4 flex items-center justify-between border-2 border-red-500/50 shadow-[0_0_15px_rgba(239,68,68,0.3)] transition-all";
+            icon.className = "fa-solid fa-arrow-trend-down text-3xl text-danger drop-shadow-[0_0_10px_rgba(239,68,68,0.8)]";
+            text.className = "text-2xl font-black italic text-danger tracking-widest drop-shadow-[0_0_5px_rgba(239,68,68,0.5)]";
+            text.innerText = "BEARISH";
+        }
+    }
 
     function renderAlerts() {
         const container = document.getElementById('alert-list-container');
@@ -775,6 +786,7 @@
           document.getElementById('signal-content').classList.add('hidden');
           renderMapping();
           renderAlerts();
+          renderBias();
       } else {
           document.getElementById('mapping-content').classList.add('hidden');
           document.getElementById('signal-content').classList.remove('hidden');
