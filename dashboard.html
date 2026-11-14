@@ -236,8 +236,6 @@
         </div>
 
         <div id="mapping-content" class="block">
-          
-          <!-- KOTAK MARKET BIAS (BARU) -->
           <div id="bias-container" class="glass-card p-4 mb-4 flex items-center justify-between border-2 border-gray-600 transition-all hidden">
             <div class="flex items-center gap-3">
               <i id="bias-icon" class="fa-solid fa-chart-line text-3xl"></i>
@@ -535,6 +533,9 @@
   </div>
 
   <script>
+    // ==========================================
+    // ⚠️ PASTIKAN URL INI SAMA DENGAN URL NGROK LU
+    // ==========================================
     const API_URL_USER = "https://script.google.com/macros/s/AKfycbzMYg1pTNUbEJWJSKtwifnPkw-tTn1SjFJqK2fmVepWVKpAvupB2c5eCb-fpUXR6LK-wg/exec";
     const API_URL_PRICE = "https://script.google.com/macros/s/AKfycbzZuDUnA32CUSdU194CFo4MXBFk621PFfTeAlrY0IjJB7U2LHwEepP4dLvmDFsKxiCZ/exec";
     const API_URL_SIGNAL = "https://script.google.com/macros/s/AKfycbyd8ksBWqhE6iIT1E6IT_l1TgZO86ZLgUDDpZYxb6TzZ5TMFj93Vm10wasIgrTP3_Sx/exec";
@@ -552,7 +553,7 @@
     }
 
     let globalSignals = [];
-    let globalAlerts = []; // TAMBAHAN UNTUK ALERT
+    let globalAlerts = [];
     let latestMapping = null;
     let currentEATab = 'MAPPING'; 
     let knownSignalStatuses = {}; 
@@ -654,7 +655,6 @@
         const icon = document.getElementById('bias-icon');
         const text = document.getElementById('bias-text');
         
-        // Cek apakah data mapping dan bias ada
         if (!latestMapping || !latestMapping.bias) {
             container.classList.add('hidden');
             return;
@@ -720,15 +720,21 @@
         const isBuy = s.arah === 'BUY'; 
         const basePips = Math.abs(parseFloat(s.tp1) - parseFloat(s.entry)) * 10; 
         
+        // --- PERBAIKAN LOGIKA PROFIT BE & SL ---
         let finalPips = 0; let isProfit = false;
-        if (s.status.includes('TP')) {
+        if (s.status.startsWith('TP')) {
             let tpNum = parseInt(s.status.replace('TP', ''));
             if (!isNaN(tpNum)) { finalPips = basePips * tpNum; isProfit = true; }
+        } else if (s.status.startsWith('BE')) {
+            // BE1 = Profit TP1. BE2 = Profit TP2.
+            let beNum = parseInt(s.status.replace('BE', ''));
+            if (!isNaN(beNum)) { finalPips = basePips * beNum; isProfit = true; }
         } else if (s.status === 'SL') {
             finalPips = -basePips;
         }
+        // ---------------------------------------
 
-        if (s.status.includes('TP') || s.status === 'SL') {
+        if (s.status.includes('TP') || s.status === 'SL' || s.status.startsWith('BE')) {
           const sigDate = new Date(s.waktu);
           
           if (sigDate >= startOfMonth) { isProfit ? monProfit += finalPips : monLoss += Math.abs(finalPips); }
@@ -736,8 +742,20 @@
           if (sigDate >= startOfDay) { isProfit ? dayProfit += finalPips : dayLoss += Math.abs(finalPips); }
 
           if (count < 5) {
-            let resultText = s.status === 'SL' ? 'SL Hit' : `${s.status} Hit`; let resColor = s.status === 'SL' ? 'text-danger' : 'text-success';
             
+            // --- PERBAIKAN TAMPILAN TEKS "BE" ---
+            let resultText = ''; let resColor = '';
+            if (s.status === 'SL') {
+                resultText = 'SL Hit'; resColor = 'text-danger';
+            } else if (s.status.startsWith('BE')) {
+                let beNum = s.status.replace('BE', '');
+                resultText = `TP${beNum} Hit (Protected)`; // Teks diganti biar ga keliatan BE
+                resColor = 'text-success';
+            } else {
+                resultText = `${s.status} Hit`; resColor = 'text-success';
+            }
+            // ------------------------------------
+
             let sourceBadge = '';
             if (s.source === 'SDW GLDN') sourceBadge = '<span class="text-[9px] border border-yellow-700 text-yellow-500 px-1 rounded ml-1">GLDN</span>';
             else if (s.source === 'SDW Navigator') sourceBadge = '<span class="text-[9px] border border-blue-700 text-blue-400 px-1 rounded ml-1">NAV</span>';
@@ -843,21 +861,31 @@
         const textColor = isBuy ? 'text-success' : 'text-danger';
         const basePips = Math.abs(parseFloat(s.tp1) - parseFloat(s.entry)) * 10; 
 
+        // --- PERBAIKAN LOGIKA PROFIT BE & SL ---
         let finalPips = 0; let isProfit = false;
-        if (s.status.includes('TP')) {
+        if (s.status.startsWith('TP')) {
             let tpNum = parseInt(s.status.replace('TP', ''));
             if (!isNaN(tpNum)) { finalPips = basePips * tpNum; isProfit = true; }
+        } else if (s.status.startsWith('BE')) {
+            let beNum = parseInt(s.status.replace('BE', ''));
+            if (!isNaN(beNum)) { finalPips = basePips * beNum; isProfit = true; }
         } else if (s.status === 'SL') {
             finalPips = -basePips;
         }
+        // ---------------------------------------
 
-        if (s.status.includes('TP') || s.status === 'SL') {
+        if (s.status.includes('TP') || s.status === 'SL' || s.status.startsWith('BE')) {
           if (new Date(s.waktu) >= startOfDay) {
             isProfit ? vipDayProfit += finalPips : vipDayLoss += Math.abs(finalPips);
             if (tableCount < 3) {
               let resCol = s.status === 'SL' ? 'text-danger' : 'text-success'; 
               let val = finalPips > 0 ? `+${finalPips}` : `${finalPips}`;
-              dailyTableHTML += `<div class="flex justify-between items-center text-sm py-2 border-b border-[#3b82f6]/20"><div class="w-1/2 text-gray-300">${tableCount+1}. ${s.arah} Limit ${s.entry}</div><div class="w-1/4 text-right ${resCol}">${val} PIPS</div><div class="w-1/4 text-right text-gray-300">${s.status}</div></div>`;
+              
+              // Tampilkan teks TP jika BE
+              let statusText = s.status;
+              if(s.status.startsWith('BE')) statusText = 'TP' + s.status.replace('BE','') + ' (BE)';
+
+              dailyTableHTML += `<div class="flex justify-between items-center text-sm py-2 border-b border-[#3b82f6]/20"><div class="w-1/2 text-gray-300">${tableCount+1}. ${s.arah} Limit ${s.entry}</div><div class="w-1/4 text-right ${resCol}">${val} PIPS</div><div class="w-1/4 text-right text-gray-300">${statusText}</div></div>`;
               tableCount++;
             }
           }
