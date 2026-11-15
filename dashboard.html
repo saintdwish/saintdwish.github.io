@@ -1865,6 +1865,16 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    function openAnnouncement() {
+      document.getElementById('announcementModal').classList.add('active');
+    }
+    
+    function closeAnnouncement() {
+      document.getElementById('announcementModal').classList.remove('active');
+    }
+
+    function logout() { localStorage.removeItem('sdw_token'); window.location.href = "login.html"; }
+
     function logout() { localStorage.removeItem('sdw_token'); window.location.href = "login.html"; }
   </script>
   <!-- MODAL PENGUMUMAN -->
