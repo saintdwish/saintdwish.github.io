@@ -1,11 +1,11 @@
 {
-  "name": "Saint D. Wish",
-  "short_name": "SDW",
+  "name": "AURION",
+  "short_name": "AURION",
   "description": "Smart Trading - Higher Probability",
   "start_url": "dashboard.html",
   "display": "standalone",
-  "background_color": "#040812",
-  "theme_color": "#040812",
+  "background_color": "#000000",
+  "theme_color": "#000000",
   "icons": [
     {
       "src": "logo.png",
