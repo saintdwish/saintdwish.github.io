@@ -1857,5 +1857,28 @@
 
     function logout() { localStorage.removeItem('sdw_token'); window.location.href = "login.html"; }
   </script>
+  <!-- MODAL PENGUMUMAN -->
+  <div id="announcementModal" class="modal-announcement">
+    <div class="announcement-card">
+      <div class="close-modal" onclick="closeAnnouncement()">
+        <i class="fa-solid fa-xmark"></i>
+      </div>
+      
+      <div class="announcement-header">
+        <img src="logo.png" alt="Logo" class="w-10 h-10 object-contain">
+        <h2 class="text-xl font-extrabold text-white tracking-widest uppercase">PENGUMUMAN</h2>
+      </div>
+      
+      <div class="announcement-body">
+        <!-- Teks ini nanti akan diganti otomatis dari database -->
+        <div class="announcement-title" id="notif-title">SERVER MAINTENANCE</div>
+        <div class="announcement-text" id="notif-text">
+          Web Sedang Dalam Masa Perbaikan. Mohon Maaf Atas Ketidaknyamanannya.
+          (Ini adalah teks contoh. Nanti akan diganti oleh sistem AURION INSIDER).
+        </div>
+        <div class="announcement-footer">Hormat Kami, Aurion Team</div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
