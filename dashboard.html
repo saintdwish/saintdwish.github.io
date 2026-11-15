@@ -1781,7 +1781,47 @@
           alert("ERROR DARI SAFARI: " + error.message + "\n\n(Tolong buka URL Ngrok di tab baru Safari dan klik 'Visit Site')"); 
       });
     });
+      
+    // ==========================================
+    // LOGIKA SIMPAN PERUBAHAN USERNAME (FITUR BARU)
+    // ==========================================
+    document.getElementById('formEditProfil').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const newUsername = document.getElementById('editUsername').value;
+        if(!newUsername) return;
 
+        try {
+            // Tembak API GAS Database User
+            const res = await fetch(API_URL_USER, {
+                method: 'POST',
+                body: JSON.stringify({
+                    action: 'update_username',
+                    email: currentUserEmail, // Diambil dari data login JWT
+                    newUsername: newUsername
+                })
+            });
+            const data = await res.json();
+            
+            if(data.status === 'success') {
+                alert("Username berhasil diubah!");
+                
+                // 1. Update Teks di Banner Header (Langsung berubah tanpa reload)
+                document.getElementById('userName').innerText = newUsername.toUpperCase();
+                
+                // 2. Update Teks di Preview Ganti Header (Kalau nanti mau ganti header lagi)
+                document.getElementById('previewUserName').innerText = newUsername.toUpperCase();
+                
+                // 3. Kembali ke Halaman Utama Akun
+                closeSubAkun(); 
+            } else {
+                alert("Gagal: " + data.message);
+            }
+        } catch(err) {
+            console.error("Error Update Username:", err);
+            alert("Gagal update username. Cek koneksi VPS/GAS.");
+        }
+    });
+      
     function openSubAkun(subName) {
       document.getElementById('view-akun').classList.add('hidden');
       document.getElementById('sub-' + subName).classList.remove('hidden');
