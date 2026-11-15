@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Saint D. Wish - Sign Up</title>
+  <title>AURION - Sign Up</title>
   
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -12,24 +12,24 @@
   <style>
     body { font-family: 'Poppins', sans-serif; }
     .font-title { font-family: 'Cinzel', serif; }
-    .space-bg { background: radial-gradient(circle at center, #0b1a35 0%, #030712 100%); }
+    .space-bg { background: radial-gradient(circle at center, #111111 0%, #000000 100%); }
     .neon-input {
-      background: rgba(10, 25, 50, 0.5); border: 2px solid #2563eb;
-      box-shadow: 0 0 10px rgba(37, 99, 235, 0.4), inset 0 0 10px rgba(37, 99, 235, 0.2);
+      background: rgba(20, 20, 20, 0.6); border: 2px solid #d97706;
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.4), inset 0 0 10px rgba(212, 175, 55, 0.2);
       backdrop-filter: blur(5px); border-radius: 9999px; transition: all 0.3s ease;
     }
     .neon-input:focus-within {
-      border-color: #60a5fa; box-shadow: 0 0 20px rgba(59, 130, 246, 0.8), inset 0 0 15px rgba(59, 130, 246, 0.5);
+      border-color: #fcd34d; box-shadow: 0 0 20px rgba(252, 211, 77, 0.8), inset 0 0 15px rgba(212, 175, 55, 0.5);
     }
     .neon-input input { background: transparent; outline: none; color: white; width: 100%; }
     .neon-input input::placeholder { color: #94a3b8; }
     .neon-btn {
-      background: rgba(10, 25, 50, 0.4); border: 2px solid #3b82f6;
-      box-shadow: 0 0 15px rgba(59, 130, 246, 0.5), inset 0 0 15px rgba(59, 130, 246, 0.3);
+      background: rgba(20, 20, 20, 0.6); border: 2px solid #d97706;
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.5), inset 0 0 15px rgba(212, 175, 55, 0.3);
       backdrop-filter: blur(5px); transition: all 0.3s ease; position: relative; overflow: hidden; cursor: pointer;
     }
     .neon-btn:hover {
-      transform: scale(1.02); box-shadow: 0 0 25px rgba(59, 130, 246, 1), inset 0 0 20px rgba(59, 130, 246, 0.8);
+      transform: scale(1.02); box-shadow: 0 0 25px rgba(252, 211, 77, 1), inset 0 0 20px rgba(212, 175, 55, 0.8);
     }
   </style>
 </head>
@@ -37,58 +37,58 @@
 
   <div class="fixed inset-0 z-0 opacity-50 bg-cover bg-center" style="background-image: url('bg.jpg');"></div>
 
-  <a href="index.html" class="fixed top-6 left-6 z-50 neon-btn w-12 h-12 rounded-full flex items-center justify-center text-blue-300 hover:text-white group" title="Kembali">
+  <a href="index.html" class="fixed top-6 left-6 z-50 neon-btn w-12 h-12 rounded-full flex items-center justify-center text-amber-400 hover:text-white group" title="Kembali">
     <i class="fa-solid fa-arrow-left text-lg group-hover:-translate-x-1 transition-transform"></i>
   </a>
 
   <div class="relative z-10 w-full max-w-md px-6 flex flex-col items-center mt-8">
     
-    <div class="w-32 mb-10 flex justify-center items-center drop-shadow-[0_0_20px_rgba(59,130,246,0.5)]">
+    <div class="w-32 mb-10 flex justify-center items-center drop-shadow-[0_0_20px_rgba(212,175,55,0.5)]">
         <img src="logo.png" alt="Logo" class="w-full h-auto object-contain">
     </div>
 
     <form id="signupForm" class="w-full flex flex-col gap-4">
       
       <div class="neon-input flex items-center px-5 py-3 w-full">
-        <i class="fa-solid fa-envelope text-blue-300 w-6 text-lg text-center"></i>
-        <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
+        <i class="fa-solid fa-envelope text-amber-400 w-6 text-lg text-center"></i>
+        <div class="w-px h-6 bg-amber-500/50 mx-3"></div>
         <input type="email" id="regEmail" placeholder="Email" required>
       </div>
 
       <div class="neon-input flex items-center px-5 py-3 w-full">
-        <i class="fa-solid fa-lock text-blue-300 w-6 text-lg text-center"></i>
-        <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
+        <i class="fa-solid fa-lock text-amber-400 w-6 text-lg text-center"></i>
+        <div class="w-px h-6 bg-amber-500/50 mx-3"></div>
         <input type="password" id="regPassword" placeholder="Password" required>
         <i class="fa-regular fa-eye text-gray-400 cursor-pointer hover:text-white transition-colors" onclick="togglePassword('regPassword', this)"></i>
       </div>
 
       <div class="neon-input flex items-center px-5 py-3 w-full">
-        <i class="fa-solid fa-user text-blue-300 w-6 text-lg text-center"></i>
-        <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
+        <i class="fa-solid fa-user text-amber-400 w-6 text-lg text-center"></i>
+        <div class="w-px h-6 bg-amber-500/50 mx-3"></div>
         <input type="text" placeholder="Nama Depan" required>
       </div>
 
       <div class="neon-input flex items-center px-5 py-3 w-full">
-        <i class="fa-solid fa-user text-blue-300 w-6 text-lg text-center"></i>
-        <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
+        <i class="fa-solid fa-user text-amber-400 w-6 text-lg text-center"></i>
+        <div class="w-px h-6 bg-amber-500/50 mx-3"></div>
         <input type="text" placeholder="Nama Belakang" required>
       </div>
 
       <div class="neon-input flex items-center px-5 py-3 w-full">
-        <i class="fa-solid fa-at text-blue-300 w-6 text-lg text-center"></i>
-        <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
+        <i class="fa-solid fa-at text-amber-400 w-6 text-lg text-center"></i>
+        <div class="w-px h-6 bg-amber-500/50 mx-3"></div>
         <input type="text" id="regUsername" placeholder="USERNAME" required>
       </div>
 
       <div class="neon-input flex items-center px-5 py-3 w-full">
-        <i class="fa-brands fa-whatsapp text-blue-300 w-6 text-lg text-center"></i>
-        <div class="w-px h-6 bg-blue-500/50 mx-3"></div>
+        <i class="fa-brands fa-whatsapp text-amber-400 w-6 text-lg text-center"></i>
+        <div class="w-px h-6 bg-amber-500/50 mx-3"></div>
         <input type="tel" placeholder="NO Whatsapp" required>
       </div>
 
       <button type="submit" id="btnSubmit" class="neon-btn w-full py-4 rounded-full flex items-center justify-between px-8 mt-6 group">
-        <span id="btnText" class="font-title text-xl tracking-wider mx-auto text-blue-100">Continue</span>
-        <div id="btnIcon" class="w-8 h-8 rounded-full border border-blue-300 flex items-center justify-center group-hover:bg-blue-500/30 transition">
+        <span id="btnText" class="font-title text-xl tracking-wider mx-auto text-amber-100">Continue</span>
+        <div id="btnIcon" class="w-8 h-8 rounded-full border border-amber-300 flex items-center justify-center group-hover:bg-amber-500/30 transition">
           <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </div>
       </button>
