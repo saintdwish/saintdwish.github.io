@@ -1678,6 +1678,16 @@
       const token = localStorage.getItem('sdw_token');
       if (!token) { window.location.href = "login.html"; return; }
 
+      if (!token) { window.location.href = "login.html"; return; }
+
+      // KODE B (Pemicu Lonceng)
+      document.querySelectorAll('.fa-regular.fa-bell').forEach(function(bellIcon) {
+          bellIcon.parentElement.style.cursor = 'pointer';
+          bellIcon.parentElement.addEventListener('click', openAnnouncement);
+      });
+
+      fetch(`${API_URL_VPS}/api/verify`, {
+      
       fetch(`${API_URL_VPS}/api/verify`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
