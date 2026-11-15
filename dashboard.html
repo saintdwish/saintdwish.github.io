@@ -153,6 +153,7 @@
     }
     
     .header-font { font-family: 'Cinzel', serif; color: #ffffff; text-shadow: 0 0 5px #fff, 0 0 10px #fcd34d, 0 0 20px #d97706, 0 0 30px #d97706; }
+    
     /* --- STYLING MODAL PENGUMUMAN AURION --- */
     .modal-announcement {
       display: none; /* Disembunyikan default */
@@ -340,7 +341,6 @@
         </div>
       </div>
       
-      <!-- KONTEN NO ROLE (JUALAN FITUR) -->
       <div id="akses-no-role" class="block">
         <div class="glass-card p-5 mb-6 border border-amber-500/30">
             <h2 class="text-[13px] font-bold text-white mb-6 flex items-center gap-2"><i class="fa-solid fa-lock text-amber-400 text-lg"></i> FITUR YANG AKAN DIDAPATKAN JIKA AKSES VIP</h2>
@@ -438,9 +438,7 @@
             <h2 class="text-lg font-bold text-white tracking-wide">Status Keanggotaan</h2>
         </div>
 
-        <!-- Kartu Status -->
         <div id="member-card-display" class="member-card-vip rounded-3xl p-6 text-center mb-6 relative overflow-hidden transition-all duration-500">
-            <!-- Ikon Mahkota -->
             <div id="member-icon-bg" class="w-20 h-20 mx-auto bg-[#78350f]/40 border border-amber-500/50 rounded-full flex items-center justify-center mb-4 shadow-[0_0_20px_rgba(212,175,55,0.4)]">
                 <i id="member-icon" class="fa-solid fa-crown text-4xl text-amber-300 drop-shadow-[0_0_10px_rgba(252,211,77,0.8)]"></i>
             </div>
@@ -491,7 +489,6 @@
         </div>
       </div>
 
-      <!-- Card Bulanan -->
       <div class="relative rounded-3xl overflow-hidden mb-6 border border-amber-500/40 shadow-[0_0_20px_rgba(212,175,55,0.3)] bg-[#111111]">
         <div class="absolute inset-0 bg-cover bg-center opacity-50" style="background-image: url('bgb.png');"></div>
         <div class="absolute top-0 right-0 bg-amber-600 text-white text-[10px] font-bold px-3 py-1.5 rounded-bl-xl flex items-center gap-1 shadow-lg z-20">
@@ -522,7 +519,6 @@
         </div>
       </div>
 
-      <!-- Card Lifetime -->
       <div class="relative rounded-3xl overflow-hidden mb-6 border border-gray-400/30 shadow-[0_0_20px_rgba(255,255,255,0.1)] bg-[#111111]">
         <div class="absolute inset-0 bg-cover bg-center opacity-50" style="background-image: url('bglife.png');"></div>
         
@@ -551,7 +547,6 @@
         </div>
       </div>
       
-      <!-- Footer Badges -->
       <div class="glass-card p-3 flex justify-between items-center mb-4">
         <div class="text-center flex-1 border-r border-amber-500/20 px-1">
           <i class="fa-solid fa-shield-check text-amber-400 mb-1"></i>
@@ -571,7 +566,6 @@
     <!-- SUB-VIEW: JOIN IB -->
     <div id="view-joinib" class="view-section hidden relative pt-4">
       
-      <!-- Header dengan Jabat Tangan Glow -->
       <div class="relative flex flex-col items-center justify-center mb-8">
         <button onclick="switchView('akses', this)" class="absolute left-0 top-2 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-20">
           <i class="fa-solid fa-arrow-left text-sm"></i>
@@ -586,7 +580,6 @@
 
       <div class="flex flex-col gap-4 px-2 relative z-20">
         
-        <!-- Exness -->
         <div onclick="openBroker('exness')" class="broker-card broker-exness bg-[#111111] rounded-xl p-3 flex items-center justify-between cursor-pointer">
           <div class="w-20 h-12 flex items-center justify-start overflow-hidden">
             <img src="exness.jpeg" alt="Exness" class="w-full h-full object-contain img-blend">
@@ -599,7 +592,6 @@
           </button>
         </div>
 
-        <!-- HFM -->
         <div onclick="openBroker('hfm')" class="broker-card broker-hfm bg-[#111111] rounded-xl p-3 flex items-center justify-between cursor-pointer">
           <div class="w-20 h-12 flex items-center justify-start overflow-hidden">
             <img src="hfm.png" alt="HFM" class="w-full h-full object-contain img-blend">
@@ -612,7 +604,6 @@
           </button>
         </div>
 
-        <!-- Valetax -->
         <div onclick="openBroker('valetax')" class="broker-card broker-valetax bg-[#111111] rounded-xl p-3 flex items-center justify-between cursor-pointer">
           <div class="w-20 h-12 flex items-center justify-start overflow-hidden">
             <img src="valetax.jpeg" alt="Valetax" class="w-full h-full object-contain img-blend">
@@ -856,17 +847,13 @@
         </div>
       </div>
 
-      <!-- BANNER PROFILE BARU (DYNAMIC HEADER) -->
       <div class="relative w-full rounded-2xl overflow-hidden mb-6 bg-[#111111]">
-        <!-- Gambar Header -->
         <img id="mainHeaderImg" src="headeradmin.png" alt="Header Profile" class="w-full h-auto object-cover">
         
-        <!-- Kotak Username (Presisi Canva) -->
         <div class="absolute flex items-center justify-center" style="top: 33.27%; left: 63.82%; width: 18.42%; height: 14.64%;">
             <h2 id="userName" class="header-font text-lg md:text-2xl font-bold tracking-widest uppercase text-center whitespace-nowrap">USERNAME</h2>
         </div>
 
-        <!-- Kotak Role (Presisi Canva) -->
         <div class="absolute flex items-center justify-center" style="top: 56.26%; left: 76.78%; width: 12.90%; height: 14.77%;">
             <p id="userRoleDisplay" class="header-font text-[10px] md:text-sm font-bold tracking-widest text-center uppercase whitespace-nowrap">ADMIN</p>
         </div>
@@ -906,7 +893,6 @@
         <h1 class="text-xl font-bold text-white">Edit Profile</h1>
       </div>
       
-      <!-- Fitur Ganti Header -->
       <div class="flex flex-col items-center mb-8">
         <button onclick="switchView('gantiheader')" class="w-full glass-card p-5 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-[#78350f]/40 transition border-2 border-amber-500/40 shadow-[0_0_15px_rgba(212,175,55,0.2)]">
             <i class="fa-solid fa-image text-4xl text-amber-400 mb-2 drop-shadow-[0_0_10px_rgba(252,211,77,0.8)]"></i>
@@ -938,7 +924,6 @@
         </div>
       </div>
 
-      <!-- Preview Header Saat Ini -->
       <div class="relative w-full rounded-2xl overflow-hidden mb-6 border border-amber-500/50 shadow-[0_0_15px_rgba(212,175,55,0.3)]">
           <img id="previewHeaderImg" src="headeradmin.png" class="w-full h-auto object-cover">
           
@@ -958,7 +943,6 @@
       </div>
 
       <div class="grid grid-cols-2 gap-3 mb-6" id="headerGrid">
-          <!-- Item Test: Header Zeus Admin -->
           <div id="header-admin" onclick="selectHeader('headeradmin.png', false, 'header-admin')" class="header-item relative rounded-xl overflow-hidden border-2 border-amber-500 cursor-pointer shadow-[0_0_10px_rgba(212,175,55,0.5)]" data-category="all">
               <img src="headeradmin.png" class="w-full h-24 object-cover">
               <div class="absolute top-2 right-2 bg-amber-500 rounded-full w-5 h-5 flex items-center justify-center check-icon"><i class="fa-solid fa-check text-white text-[10px]"></i></div>
@@ -1678,16 +1662,12 @@
       const token = localStorage.getItem('sdw_token');
       if (!token) { window.location.href = "login.html"; return; }
 
-      if (!token) { window.location.href = "login.html"; return; }
-
       // KODE B (Pemicu Lonceng)
       document.querySelectorAll('.fa-regular.fa-bell').forEach(function(bellIcon) {
           bellIcon.parentElement.style.cursor = 'pointer';
           bellIcon.parentElement.addEventListener('click', openAnnouncement);
       });
 
-      fetch(`${API_URL_VPS}/api/verify`, {
-      
       fetch(`${API_URL_VPS}/api/verify`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
@@ -1872,8 +1852,6 @@
     function closeAnnouncement() {
       document.getElementById('announcementModal').classList.remove('active');
     }
-
-    function logout() { localStorage.removeItem('sdw_token'); window.location.href = "login.html"; }
 
     function logout() { localStorage.removeItem('sdw_token'); window.location.href = "login.html"; }
   </script>
