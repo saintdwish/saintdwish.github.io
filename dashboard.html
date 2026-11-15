@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Saint D. Wish - Dashboard</title>
+  <title>AURION - Dashboard</title>
   
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#040812">
+  <meta name="theme-color" content="#000000">
   <link rel="apple-touch-icon" href="logo.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="SDW">
+  <meta name="apple-mobile-web-app-title" content="AURION">
   
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cinzel:wght@700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -39,183 +39,96 @@
       left: 0; 
       width: 100%; 
       height: 100%; 
-      background: linear-gradient(to bottom, rgba(2, 8, 19, 0.7) 0%, rgba(2, 8, 19, 0.95) 100%); 
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.95) 100%); 
       z-index: -1; 
     }
     
     .glass-card { 
-      background: rgba(10, 18, 38, 0.7); 
+      background: rgba(15, 15, 15, 0.8); 
       backdrop-filter: blur(15px); 
-      border: 1px solid rgba(59, 130, 246, 0.2); 
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); 
+      border: 1px solid rgba(212, 175, 55, 0.3); 
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7); 
       border-radius: 16px; 
     }
     
     .glass-card-inner { 
-      background: rgba(20, 35, 70, 0.4); 
-      border: 1px solid rgba(59, 130, 246, 0.15); 
+      background: rgba(25, 25, 25, 0.6); 
+      border: 1px solid rgba(212, 175, 55, 0.2); 
       border-radius: 12px; 
     }
     
     .text-success { color: #10b981; } 
     .text-danger { color: #ef4444; } 
     .text-muted { color: #94a3b8; } 
-    .text-neon-blue { color: #60a5fa; }
+    .text-neon-gold { color: #FCD34D; }
     
     ::-webkit-scrollbar { display: none; }
     
-    .view-section { 
-      animation: fadeIn 0.3s ease-in-out; 
-    }
+    .view-section { animation: fadeIn 0.3s ease-in-out; }
     
     @keyframes fadeIn { 
       from { opacity: 0; transform: translateY(10px); } 
       to { opacity: 1; transform: translateY(0); } 
     }
     
-    .toggle-checkbox:checked { right: 0; border-color: #3b82f6; }
-    .toggle-checkbox:checked + .toggle-label { background-color: #3b82f6; }
+    .toggle-checkbox:checked { right: 0; border-color: #d97706; }
+    .toggle-checkbox:checked + .toggle-label { background-color: #d97706; }
     
     .toggle-checkbox { 
-      right: 0; 
-      z-index: 1; 
-      border-color: #e2e8f0; 
-      transition: all 0.3s; 
-      position: absolute; 
-      width: 24px; 
-      height: 24px; 
-      background: white; 
-      border-width: 1px; 
-      border-radius: 50%; 
-      appearance: none; 
-      cursor: pointer; 
+      right: 0; z-index: 1; border-color: #e2e8f0; transition: all 0.3s; position: absolute; width: 24px; height: 24px; background: white; border-width: 1px; border-radius: 50%; appearance: none; cursor: pointer; 
     }
     
     .toggle-label { 
-      display: block; 
-      overflow: hidden; 
-      cursor: pointer; 
-      border-radius: 9999px; 
-      width: 48px; 
-      height: 24px; 
-      background-color: #1e293b; 
-      transition: background-color 0.3s; 
+      display: block; overflow: hidden; cursor: pointer; border-radius: 9999px; width: 48px; height: 24px; background-color: #1e293b; transition: background-color 0.3s; 
     }
     
-    .tab-container { 
-      display: flex; 
-      overflow-x: auto; 
-      gap: 4px; 
-      scrollbar-width: none; 
-      -ms-overflow-style: none; 
-      padding: 5px; 
-    }
-    
+    .tab-container { display: flex; overflow-x: auto; gap: 4px; scrollbar-width: none; -ms-overflow-style: none; padding: 5px; }
     .tab-container::-webkit-scrollbar { display: none; }
     
-    .tab-btn { 
-      flex: 0 0 auto; 
-      padding: 8px 16px; 
-      text-align: center; 
-      font-weight: 600; 
-      border-radius: 8px; 
-      transition: all 0.3s; 
-      cursor: pointer; 
-      border: 1px solid transparent; 
-      font-size: 12px; 
-    }
+    .tab-btn { flex: 0 0 auto; padding: 8px 16px; text-align: center; font-weight: 600; border-radius: 8px; transition: all 0.3s; cursor: pointer; border: 1px solid transparent; font-size: 12px; }
     
     .tab-active { 
-      background: linear-gradient(135deg, #1e40af, #3b82f6); 
+      background: linear-gradient(135deg, #78350f, #d97706); 
       color: #ffffff; 
-      border-color: #60a5fa; 
-      box-shadow: 0 0 15px rgba(59, 130, 246, 0.5); 
+      border-color: #fcd34d; 
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.5); 
     }
     
-    .tab-inactive { 
-      background-color: transparent; 
-      color: #94a3b8; 
-    }
-    
+    .tab-inactive { background-color: transparent; color: #94a3b8; }
     .tab-inactive:hover { color: #ffffff; }
     
-    .card-header { 
-      cursor: pointer; 
-      transition: background-color 0.2s; 
-    }
+    .card-header { cursor: pointer; transition: background-color 0.2s; }
+    .card-header:hover { background-color: rgba(120, 53, 15, 0.4); }
     
-    .card-header:hover { background-color: rgba(30, 58, 138, 0.4); }
-    
-    .card-detail { 
-      max-height: 0; 
-      overflow: hidden; 
-      transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out; 
-      opacity: 0; 
-    }
-    
+    .card-detail { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out; opacity: 0; }
     .card-detail.open { max-height: 400px; opacity: 1; }
     
-    .vip-blurred { 
-      filter: blur(8px); 
-      pointer-events: none; 
-      user-select: none; 
-      opacity: 0.3; 
-    }
+    .vip-blurred { filter: blur(8px); pointer-events: none; user-select: none; opacity: 0.3; }
     
-    .chart-container { 
-      width: 100%; 
-      height: 200px; 
-      border-radius: 8px; 
-      overflow: hidden; 
-      margin-top: 15px; 
-      border: 1px solid rgba(59, 130, 246, 0.2); 
-      position: relative; 
-    }
+    .chart-container { width: 100%; height: 200px; border-radius: 8px; overflow: hidden; margin-top: 15px; border: 1px solid rgba(212, 175, 55, 0.2); position: relative; }
     
     .main-header { 
-      background: rgba(5, 15, 35, 0.6); 
-      border: 1px solid rgba(59, 130, 246, 0.3); 
+      background: rgba(0, 0, 0, 0.8); 
+      border: 1px solid rgba(212, 175, 55, 0.4); 
       border-radius: 16px; 
       padding: 12px 16px; 
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center; 
-      margin-bottom: 20px; 
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(59, 130, 246, 0.1); 
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; 
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(212, 175, 55, 0.1); 
       backdrop-filter: blur(10px); 
     }
     
-    .card-running-sell { 
-      border-left: 4px solid #ef4444; 
-      background: linear-gradient(90deg, rgba(239, 68, 68, 0.1) 0%, rgba(10, 18, 38, 0.7) 100%); 
+    .card-running-sell { border-left: 4px solid #ef4444; background: linear-gradient(90deg, rgba(239, 68, 68, 0.1) 0%, rgba(15, 15, 15, 0.8) 100%); }
+    .card-running-buy { border-left: 4px solid #10b981; background: linear-gradient(90deg, rgba(16, 185, 129, 0.1) 0%, rgba(15, 15, 15, 0.8) 100%); }
+    
+    .badge-high-risk { border: 1px solid rgba(239, 68, 68, 0.5); color: #ef4444; background: rgba(239, 68, 68, 0.1); padding: 2px 8px; border-radius: 999px; font-size: 9px; font-weight: 700; }
+    
+    .btn-neon-gold { 
+      background: linear-gradient(90deg, #78350f, #d97706); 
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.6); 
+      border: 1px solid #fcd34d; 
     }
     
-    .card-running-buy { 
-      border-left: 4px solid #10b981; 
-      background: linear-gradient(90deg, rgba(16, 185, 129, 0.1) 0%, rgba(10, 18, 38, 0.7) 100%); 
-    }
-    
-    .badge-high-risk { 
-      border: 1px solid rgba(239, 68, 68, 0.5); 
-      color: #ef4444; 
-      background: rgba(239, 68, 68, 0.1); 
-      padding: 2px 8px; 
-      border-radius: 999px; 
-      font-size: 9px; 
-      font-weight: 700; 
-    }
-    
-    /* Styling Khusus Status Keanggotaan */
-    .btn-neon-blue { 
-      background: linear-gradient(90deg, #1e3a8a, #3b82f6); 
-      box-shadow: 0 0 15px rgba(59, 130, 246, 0.6); 
-      border: 1px solid #60a5fa; 
-    }
-    
-    .btn-outline-blue { 
-      border: 1px solid #3b82f6; 
-      box-shadow: inset 0 0 10px rgba(59, 130, 246, 0.2); 
-    }
+    .btn-outline-gold { border: 1px solid #d97706; box-shadow: inset 0 0 10px rgba(212, 175, 55, 0.2); }
     
     .broker-card { transition: all 0.3s ease; }
     .broker-card:hover { transform: scale(1.02); }
@@ -223,44 +136,23 @@
     .broker-hfm { border: 2px solid #94a3b8; box-shadow: 0 0 15px rgba(148, 163, 184, 0.4); }
     .broker-valetax { border: 2px solid #22c55e; box-shadow: 0 0 15px rgba(34, 197, 94, 0.4); }
     
-    /* Trik untuk menghilangkan background putih pada gambar JPEG/PNG */
-    .img-blend { 
-      mix-blend-mode: screen; 
-      filter: brightness(1.2) contrast(1.1); 
-    }
+    .img-blend { mix-blend-mode: screen; filter: brightness(1.2) contrast(1.1); }
     
-    /* Tema VIP (Biru) */
     .member-card-vip { 
-      background: radial-gradient(circle at top, rgba(30, 58, 138, 0.4) 0%, rgba(10, 18, 38, 0.9) 100%); 
-      border: 1.5px solid rgba(59, 130, 246, 0.5); 
-      box-shadow: 0 0 25px rgba(59, 130, 246, 0.2), inset 0 0 20px rgba(59, 130, 246, 0.1); 
+      background: radial-gradient(circle at top, rgba(120, 53, 15, 0.4) 0%, rgba(15, 15, 15, 0.9) 100%); 
+      border: 1.5px solid rgba(212, 175, 55, 0.5); 
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.2), inset 0 0 20px rgba(212, 175, 55, 0.1); 
     }
     
-    .text-gradient-blue { 
-      background: linear-gradient(to right, #60a5fa, #a78bfa); 
-      -webkit-background-clip: text; 
-      -webkit-text-fill-color: transparent; 
-    }
+    .text-gradient-gold { background: linear-gradient(to right, #fcd34d, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     
-    /* Tema VVIP / ADMIN (Emas/Purple) */
     .member-card-vvip { 
-      background: radial-gradient(circle at top, rgba(120, 53, 15, 0.4) 0%, rgba(10, 18, 38, 0.9) 100%); 
-      border: 1.5px solid rgba(245, 158, 11, 0.6); 
-      box-shadow: 0 0 25px rgba(245, 158, 11, 0.3), inset 0 0 20px rgba(245, 158, 11, 0.1); 
+      background: radial-gradient(circle at top, rgba(120, 53, 15, 0.6) 0%, rgba(15, 15, 15, 0.9) 100%); 
+      border: 1.5px solid rgba(245, 158, 11, 0.8); 
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.4), inset 0 0 20px rgba(245, 158, 11, 0.2); 
     }
     
-    .text-gradient-gold { 
-      background: linear-gradient(to right, #fcd34d, #f59e0b); 
-      -webkit-background-clip: text; 
-      -webkit-text-fill-color: transparent; 
-    }
-
-    /* CSS UNTUK TEKS DI HEADER AGAR MENYALA SEPERTI GAMBAR */
-    .header-font { 
-      font-family: 'Cinzel', serif; 
-      color: #ffffff;
-      text-shadow: 0 0 5px #fff, 0 0 10px #60a5fa, 0 0 20px #3b82f6, 0 0 30px #3b82f6;
-    }
+    .header-font { font-family: 'Cinzel', serif; color: #ffffff; text-shadow: 0 0 5px #fff, 0 0 10px #fcd34d, 0 0 20px #d97706, 0 0 30px #d97706; }
   </style>
 </head>
 <body class="max-w-md mx-auto relative min-h-screen">
@@ -271,15 +163,15 @@
     <div id="view-dashboard" class="view-section block">
       <div class="main-header">
         <div class="flex items-center gap-3">
-          <img src="logo.png" alt="Logo" class="w-12 h-12 object-contain drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]">
-          <div class="border-l-2 border-blue-500 pl-3">
+          <img src="logo.png" alt="Logo" class="w-12 h-12 object-contain drop-shadow-[0_0_10px_rgba(212,175,55,0.8)]">
+          <div class="border-l-2 border-amber-500 pl-3">
             <h1 class="text-xl font-extrabold text-white tracking-wider italic uppercase">Dashboard</h1>
-            <p class="text-[10px] text-blue-300">Smart Trading • Higher Probability</p>
+            <p class="text-[10px] text-amber-300">Smart Trading • Higher Probability</p>
           </div>
         </div>
-        <div class="relative cursor-pointer hover:scale-110 transition bg-[#0a1226] p-2 rounded-xl border border-gray-700 shadow-lg">
+        <div class="relative cursor-pointer hover:scale-110 transition bg-[#111111] p-2 rounded-xl border border-gray-700 shadow-lg">
           <i class="fa-regular fa-bell text-lg text-gray-300"></i>
-          <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 border border-[#0a1226] rounded-full"></span>
+          <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 border border-[#111111] rounded-full"></span>
         </div>
       </div>
 
@@ -362,27 +254,27 @@
     <div id="view-akses" class="view-section hidden">
       <div class="main-header">
         <div class="flex items-center gap-3">
-          <img src="logo.png" alt="Logo" class="w-12 h-12 object-contain drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]">
-          <div class="border-l-2 border-blue-500 pl-3">
+          <img src="logo.png" alt="Logo" class="w-12 h-12 object-contain drop-shadow-[0_0_10px_rgba(212,175,55,0.8)]">
+          <div class="border-l-2 border-amber-500 pl-3">
             <h1 class="text-xl font-extrabold text-white tracking-wider italic uppercase">AKSES</h1>
-            <p class="text-[10px] text-blue-300">Smart Trading • Higher Probability</p>
+            <p class="text-[10px] text-amber-300">Smart Trading • Higher Probability</p>
           </div>
         </div>
-        <div class="relative cursor-pointer hover:scale-110 transition bg-[#0a1226] p-2 rounded-xl border border-gray-700 shadow-lg">
+        <div class="relative cursor-pointer hover:scale-110 transition bg-[#111111] p-2 rounded-xl border border-gray-700 shadow-lg">
           <i class="fa-regular fa-bell text-lg text-gray-300"></i>
-          <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 border border-[#0a1226] rounded-full"></span>
+          <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 border border-[#111111] rounded-full"></span>
         </div>
       </div>
       
       <!-- KONTEN NO ROLE (JUALAN FITUR) -->
       <div id="akses-no-role" class="block">
-        <div class="glass-card p-5 mb-6 border border-blue-500/30">
-            <h2 class="text-[13px] font-bold text-white mb-6 flex items-center gap-2"><i class="fa-solid fa-lock text-blue-400 text-lg"></i> FITUR YANG AKAN DIDAPATKAN JIKA AKSES VIP</h2>
+        <div class="glass-card p-5 mb-6 border border-amber-500/30">
+            <h2 class="text-[13px] font-bold text-white mb-6 flex items-center gap-2"><i class="fa-solid fa-lock text-amber-400 text-lg"></i> FITUR YANG AKAN DIDAPATKAN JIKA AKSES VIP</h2>
             <div class="flex flex-col gap-5">
               
               <div class="flex items-start gap-3">
-                <div class="w-10 h-10 rounded-xl bg-blue-900/40 border border-blue-500/30 flex items-center justify-center shrink-0">
-                  <i class="fa-solid fa-microchip text-blue-400 text-lg"></i>
+                <div class="w-10 h-10 rounded-xl bg-amber-900/40 border border-amber-500/30 flex items-center justify-center shrink-0">
+                  <i class="fa-solid fa-microchip text-amber-400 text-lg"></i>
                 </div>
                 <div>
                   <p class="text-sm font-bold text-white mb-0.5">1. Signal Ai</p>
@@ -391,8 +283,8 @@
               </div>
               
               <div class="flex items-start gap-3">
-                <div class="w-10 h-10 rounded-xl bg-blue-900/40 border border-blue-500/30 flex items-center justify-center shrink-0">
-                  <i class="fa-solid fa-bell text-blue-400 text-lg"></i>
+                <div class="w-10 h-10 rounded-xl bg-amber-900/40 border border-amber-500/30 flex items-center justify-center shrink-0">
+                  <i class="fa-solid fa-bell text-amber-400 text-lg"></i>
                 </div>
                 <div>
                   <p class="text-sm font-bold text-white mb-0.5">2. Notifikasi aktif saat terdapat setup</p>
@@ -401,8 +293,8 @@
               </div>
               
               <div class="flex items-start gap-3">
-                <div class="w-10 h-10 rounded-xl bg-blue-900/40 border border-blue-500/30 flex items-center justify-center shrink-0">
-                  <i class="fa-solid fa-paper-plane text-blue-400 text-lg"></i>
+                <div class="w-10 h-10 rounded-xl bg-amber-900/40 border border-amber-500/30 flex items-center justify-center shrink-0">
+                  <i class="fa-solid fa-paper-plane text-amber-400 text-lg"></i>
                 </div>
                 <div>
                   <p class="text-sm font-bold text-white mb-0.5">3. Join Komunitas Discord dan Telegram</p>
@@ -411,8 +303,8 @@
               </div>
               
               <div class="flex items-start gap-3">
-                <div class="w-10 h-10 rounded-xl bg-blue-900/40 border border-blue-500/30 flex items-center justify-center shrink-0">
-                  <i class="fa-solid fa-location-dot text-blue-400 text-lg"></i>
+                <div class="w-10 h-10 rounded-xl bg-amber-900/40 border border-amber-500/30 flex items-center justify-center shrink-0">
+                  <i class="fa-solid fa-location-dot text-amber-400 text-lg"></i>
                 </div>
                 <div>
                   <p class="text-sm font-bold text-white mb-0.5">4. Zona Mapping Setiap Market Open</p>
@@ -421,8 +313,8 @@
               </div>
               
               <div class="flex items-start gap-3">
-                <div class="w-10 h-10 rounded-xl bg-blue-900/40 border border-blue-500/30 flex items-center justify-center shrink-0">
-                  <i class="fa-solid fa-gift text-blue-400 text-lg"></i>
+                <div class="w-10 h-10 rounded-xl bg-amber-900/40 border border-amber-500/30 flex items-center justify-center shrink-0">
+                  <i class="fa-solid fa-gift text-amber-400 text-lg"></i>
                 </div>
                 <div>
                   <p class="text-sm font-bold text-white mb-0.5">5. Live BOOKMAP Gratis</p>
@@ -431,8 +323,8 @@
               </div>
               
               <div class="flex items-start gap-3">
-                <div class="w-10 h-10 rounded-xl bg-blue-900/40 border border-blue-500/30 flex items-center justify-center shrink-0">
-                  <i class="fa-solid fa-users text-blue-400 text-lg"></i>
+                <div class="w-10 h-10 rounded-xl bg-amber-900/40 border border-amber-500/30 flex items-center justify-center shrink-0">
+                  <i class="fa-solid fa-users text-amber-400 text-lg"></i>
                 </div>
                 <div>
                   <p class="text-sm font-bold text-white mb-0.5">6. Akses Semua Materi</p>
@@ -444,15 +336,15 @@
         </div>
         
         <div class="flex flex-col gap-3 mb-8 px-2">
-          <button onclick="switchView('berlangganan', this)" class="btn-neon-blue w-full py-3.5 rounded-xl text-white font-bold text-sm flex justify-between items-center px-4 transition">
+          <button onclick="switchView('berlangganan', this)" class="btn-neon-gold w-full py-3.5 rounded-xl text-white font-bold text-sm flex justify-between items-center px-4 transition">
             <span class="w-6"></span> 
             <span class="flex items-center gap-2"><i class="fa-solid fa-crown text-yellow-300"></i> BERLANGGANAN</span> 
             <i class="fa-solid fa-chevron-right text-white/70"></i>
           </button>
           
-          <button onclick="switchView('joinib', this)" class="btn-outline-blue w-full py-3.5 rounded-xl text-white font-bold text-sm flex justify-between items-center px-4 hover:bg-blue-900/30 transition">
+          <button onclick="switchView('joinib', this)" class="btn-outline-gold w-full py-3.5 rounded-xl text-white font-bold text-sm flex justify-between items-center px-4 hover:bg-amber-900/30 transition">
             <span class="w-6"></span> 
-            <span class="flex items-center gap-2"><i class="fa-solid fa-user-plus text-blue-300"></i> JOIN IB</span> 
+            <span class="flex items-center gap-2"><i class="fa-solid fa-user-plus text-amber-300"></i> JOIN IB</span> 
             <i class="fa-solid fa-chevron-right text-white/70"></i>
           </button>
         </div>
@@ -460,8 +352,8 @@
         <div class="text-center mb-8">
           <p class="text-xs text-gray-400 mb-3">Masih Bingung Dan ada pertanyaan?<br>Hubungi Admin</p>
           <div class="flex justify-center gap-4">
-            <a href="https://discord.com/users/SAINT_D_WISH_ID" target="_blank" class="w-12 h-12 bg-[#0a1226] border border-blue-500/30 rounded-xl flex items-center justify-center hover:bg-[#5865F2]/20 transition"><i class="fa-brands fa-discord text-xl text-[#5865F2]"></i></a>
-            <a href="https://t.me/stdwis" target="_blank" class="w-12 h-12 bg-[#0a1226] border border-blue-500/30 rounded-xl flex items-center justify-center hover:bg-[#0088cc]/20 transition"><i class="fa-brands fa-telegram text-xl text-[#0088cc]"></i></a>
+            <a href="https://discord.com/users/SAINT_D_WISH_ID" target="_blank" class="w-12 h-12 bg-[#111111] border border-amber-500/30 rounded-xl flex items-center justify-center hover:bg-[#5865F2]/20 transition"><i class="fa-brands fa-discord text-xl text-[#5865F2]"></i></a>
+            <a href="https://t.me/stdwis" target="_blank" class="w-12 h-12 bg-[#111111] border border-amber-500/30 rounded-xl flex items-center justify-center hover:bg-[#0088cc]/20 transition"><i class="fa-brands fa-telegram text-xl text-[#0088cc]"></i></a>
           </div>
         </div>
       </div>
@@ -475,18 +367,18 @@
         <!-- Kartu Status -->
         <div id="member-card-display" class="member-card-vip rounded-3xl p-6 text-center mb-6 relative overflow-hidden transition-all duration-500">
             <!-- Ikon Mahkota -->
-            <div id="member-icon-bg" class="w-20 h-20 mx-auto bg-[#1e3a8a]/40 border border-blue-500/50 rounded-full flex items-center justify-center mb-4 shadow-[0_0_20px_rgba(59,130,246,0.4)]">
-                <i id="member-icon" class="fa-solid fa-crown text-4xl text-blue-300 drop-shadow-[0_0_10px_rgba(96,165,250,0.8)]"></i>
+            <div id="member-icon-bg" class="w-20 h-20 mx-auto bg-[#78350f]/40 border border-amber-500/50 rounded-full flex items-center justify-center mb-4 shadow-[0_0_20px_rgba(212,175,55,0.4)]">
+                <i id="member-icon" class="fa-solid fa-crown text-4xl text-amber-300 drop-shadow-[0_0_10px_rgba(252,211,77,0.8)]"></i>
             </div>
             
             <p class="text-sm text-gray-400 mb-1">Your Role Is</p>
-            <h1 id="status-role-text" class="text-5xl font-black text-gradient-blue mb-6">VIP</h1>
+            <h1 id="status-role-text" class="text-5xl font-black text-gradient-gold mb-6">VIP</h1>
             
-            <hr class="border-blue-500/30 mb-4">
+            <hr class="border-amber-500/30 mb-4">
             
             <div class="flex items-center gap-4 mb-4">
-                <div id="member-icon-cal" class="w-10 h-10 rounded-lg bg-[#1e3a8a]/50 border border-blue-500/30 flex items-center justify-center shrink-0">
-                    <i class="fa-regular fa-calendar-days text-xl text-blue-300"></i>
+                <div id="member-icon-cal" class="w-10 h-10 rounded-lg bg-[#78350f]/50 border border-amber-500/30 flex items-center justify-center shrink-0">
+                    <i class="fa-regular fa-calendar-days text-xl text-amber-300"></i>
                 </div>
                 <div class="text-left">
                     <p class="text-[11px] text-gray-400">Masa Aktif Anda</p>
@@ -495,8 +387,8 @@
             </div>
 
             <div class="flex items-center gap-4">
-                <div id="member-icon-clock" class="w-10 h-10 rounded-lg bg-[#1e3a8a]/50 border border-blue-500/30 flex items-center justify-center shrink-0">
-                    <i class="fa-regular fa-clock text-xl text-blue-300"></i>
+                <div id="member-icon-clock" class="w-10 h-10 rounded-lg bg-[#78350f]/50 border border-amber-500/30 flex items-center justify-center shrink-0">
+                    <i class="fa-regular fa-clock text-xl text-amber-300"></i>
                 </div>
                 <div class="text-left">
                     <p class="text-[11px] text-gray-400">Berlaku Hingga</p>
@@ -505,8 +397,8 @@
             </div>
         </div>
 
-        <div class="glass-card p-4 flex items-start gap-3 border border-blue-500/20">
-            <i class="fa-solid fa-circle-info text-blue-400 text-lg mt-0.5"></i>
+        <div class="glass-card p-4 flex items-start gap-3 border border-amber-500/20">
+            <i class="fa-solid fa-circle-info text-amber-400 text-lg mt-0.5"></i>
             <p class="text-xs text-gray-300 leading-relaxed">Jika Anda membutuhkan bantuan, silakan hubungi Admin.</p>
         </div>
       </div>
@@ -526,38 +418,38 @@
       </div>
 
       <!-- Card Bulanan -->
-      <div class="relative rounded-3xl overflow-hidden mb-6 border border-blue-500/40 shadow-[0_0_20px_rgba(59,130,246,0.3)] bg-[#0a1226]">
+      <div class="relative rounded-3xl overflow-hidden mb-6 border border-amber-500/40 shadow-[0_0_20px_rgba(212,175,55,0.3)] bg-[#111111]">
         <div class="absolute inset-0 bg-cover bg-center opacity-50" style="background-image: url('bgb.png');"></div>
-        <div class="absolute top-0 right-0 bg-blue-500 text-white text-[10px] font-bold px-3 py-1.5 rounded-bl-xl flex items-center gap-1 shadow-lg z-20">
+        <div class="absolute top-0 right-0 bg-amber-600 text-white text-[10px] font-bold px-3 py-1.5 rounded-bl-xl flex items-center gap-1 shadow-lg z-20">
           <i class="fa-solid fa-fire text-yellow-300"></i> POPULER
         </div>
         
         <div class="relative p-5 z-10">
           <div class="flex items-center gap-4 mb-3">
-            <img src="cm.png" class="w-14 h-14 object-contain drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]">
+            <img src="cm.png" class="w-14 h-14 object-contain drop-shadow-[0_0_10px_rgba(212,175,55,0.8)]">
             <div>
-              <h2 class="text-2xl font-black text-white">Rp. 49.000 <span class="text-sm font-semibold text-blue-300">/ BULAN</span></h2>
+              <h2 class="text-2xl font-black text-white">Rp. 49.000 <span class="text-sm font-semibold text-amber-300">/ BULAN</span></h2>
               <p class="text-[10px] text-gray-400 leading-tight mt-1">Akses premium dengan fitur lengkap untuk trading lebih maksimal.</p>
             </div>
           </div>
           
-          <hr class="border-blue-500/30 my-4">
+          <hr class="border-amber-500/30 my-4">
           
           <ul class="text-xs text-gray-300 space-y-2.5 mb-6 font-medium pl-1">
-            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-blue-400"></i> Mapping Zone</li>
-            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-blue-400"></i> Signal Ai</li>
-            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-blue-400"></i> Video Edukasi</li>
-            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-blue-400"></i> Join Komunitas</li>
+            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-amber-400"></i> Mapping Zone</li>
+            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-amber-400"></i> Signal Ai</li>
+            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-amber-400"></i> Video Edukasi</li>
+            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-amber-400"></i> Join Komunitas</li>
           </ul>
           
-          <button class="w-full py-3 rounded-xl bg-gradient-to-r from-blue-700 to-blue-500 text-white font-bold text-sm hover:scale-[1.02] transition shadow-[0_0_15px_rgba(59,130,246,0.5)] border border-blue-400 flex justify-between items-center px-4">
+          <button class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-800 to-amber-600 text-white font-bold text-sm hover:scale-[1.02] transition shadow-[0_0_15px_rgba(212,175,55,0.5)] border border-amber-400 flex justify-between items-center px-4">
             <i class="fa-solid fa-crown text-yellow-300"></i> BERLANGGANAN SEKARANG <i class="fa-solid fa-arrow-right"></i>
           </button>
         </div>
       </div>
 
       <!-- Card Lifetime -->
-      <div class="relative rounded-3xl overflow-hidden mb-6 border border-gray-400/30 shadow-[0_0_20px_rgba(255,255,255,0.1)] bg-[#0a1226]">
+      <div class="relative rounded-3xl overflow-hidden mb-6 border border-gray-400/30 shadow-[0_0_20px_rgba(255,255,255,0.1)] bg-[#111111]">
         <div class="absolute inset-0 bg-cover bg-center opacity-50" style="background-image: url('bglife.png');"></div>
         
         <div class="relative p-5 z-10">
@@ -580,23 +472,23 @@
           </ul>
           
           <button class="w-full py-3 rounded-xl bg-transparent border border-gray-300 text-white font-bold text-sm hover:bg-gray-800/50 transition flex justify-between items-center px-4">
-            <i class="fa-solid fa-gem text-blue-200"></i> BERLANGGANAN LIFETIME <i class="fa-solid fa-arrow-right"></i>
+            <i class="fa-solid fa-gem text-amber-200"></i> BERLANGGANAN LIFETIME <i class="fa-solid fa-arrow-right"></i>
           </button>
         </div>
       </div>
       
       <!-- Footer Badges -->
       <div class="glass-card p-3 flex justify-between items-center mb-4">
-        <div class="text-center flex-1 border-r border-blue-500/20 px-1">
-          <i class="fa-solid fa-shield-check text-blue-400 mb-1"></i>
+        <div class="text-center flex-1 border-r border-amber-500/20 px-1">
+          <i class="fa-solid fa-shield-check text-amber-400 mb-1"></i>
           <p class="text-[9px] text-gray-300 leading-tight">Pembayaran<br>Aman & Terpercaya</p>
         </div>
-        <div class="text-center flex-1 border-r border-blue-500/20 px-1">
-          <i class="fa-solid fa-bolt text-blue-400 mb-1"></i>
+        <div class="text-center flex-1 border-r border-amber-500/20 px-1">
+          <i class="fa-solid fa-bolt text-amber-400 mb-1"></i>
           <p class="text-[9px] text-gray-300 leading-tight">Akses Instan<br>Setelah Pembayaran</p>
         </div>
         <div class="text-center flex-1 px-1">
-          <i class="fa-solid fa-headset text-blue-400 mb-1"></i>
+          <i class="fa-solid fa-headset text-amber-400 mb-1"></i>
           <p class="text-[9px] text-gray-300 leading-tight">Dukungan<br>Admin 24/7</p>
         </div>
       </div>
@@ -611,17 +503,17 @@
           <i class="fa-solid fa-arrow-left text-sm"></i>
         </button>
         
-        <div class="absolute top-0 w-48 h-48 bg-blue-500/30 blur-[50px] rounded-full z-0"></div>
-        <img src="jabat.png" alt="Handshake" class="w-40 h-40 object-contain mb-[-30px] drop-shadow-[0_0_30px_rgba(59,130,246,0.9)] z-10">
+        <div class="absolute top-0 w-48 h-48 bg-amber-500/30 blur-[50px] rounded-full z-0"></div>
+        <img src="jabat.png" alt="Handshake" class="w-40 h-40 object-contain mb-[-30px] drop-shadow-[0_0_30px_rgba(212,175,55,0.9)] z-10">
         
         <h1 class="text-3xl font-extrabold text-white tracking-[0.2em] uppercase text-center z-20">JOIN IB</h1>
-        <p class="text-[11px] text-blue-300 mt-1 text-center z-20">Pilih broker yang ingin digunakan untuk join</p>
+        <p class="text-[11px] text-amber-300 mt-1 text-center z-20">Pilih broker yang ingin digunakan untuk join</p>
       </div>
 
       <div class="flex flex-col gap-4 px-2 relative z-20">
         
         <!-- Exness -->
-        <div onclick="openBroker('exness')" class="broker-card broker-exness bg-[#0a1226] rounded-xl p-3 flex items-center justify-between cursor-pointer">
+        <div onclick="openBroker('exness')" class="broker-card broker-exness bg-[#111111] rounded-xl p-3 flex items-center justify-between cursor-pointer">
           <div class="w-20 h-12 flex items-center justify-start overflow-hidden">
             <img src="exness.jpeg" alt="Exness" class="w-full h-full object-contain img-blend">
           </div>
@@ -634,7 +526,7 @@
         </div>
 
         <!-- HFM -->
-        <div onclick="openBroker('hfm')" class="broker-card broker-hfm bg-[#0a1226] rounded-xl p-3 flex items-center justify-between cursor-pointer">
+        <div onclick="openBroker('hfm')" class="broker-card broker-hfm bg-[#111111] rounded-xl p-3 flex items-center justify-between cursor-pointer">
           <div class="w-20 h-12 flex items-center justify-start overflow-hidden">
             <img src="hfm.png" alt="HFM" class="w-full h-full object-contain img-blend">
           </div>
@@ -647,7 +539,7 @@
         </div>
 
         <!-- Valetax -->
-        <div onclick="openBroker('valetax')" class="broker-card broker-valetax bg-[#0a1226] rounded-xl p-3 flex items-center justify-between cursor-pointer">
+        <div onclick="openBroker('valetax')" class="broker-card broker-valetax bg-[#111111] rounded-xl p-3 flex items-center justify-between cursor-pointer">
           <div class="w-20 h-12 flex items-center justify-start overflow-hidden">
             <img src="valetax.jpeg" alt="Valetax" class="w-full h-full object-contain img-blend">
           </div>
@@ -675,21 +567,21 @@
         <div class="w-40 h-20 flex items-center justify-center mb-4 p-2">
           <img id="broker-logo-img" src="" alt="Broker" class="w-full h-full object-contain img-blend drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
         </div>
-        <h2 id="broker-subtitle" class="text-lg font-bold text-white mb-2">BROKER - SAINT D.WISH</h2>
+        <h2 id="broker-subtitle" class="text-lg font-bold text-white mb-2">BROKER - AURION</h2>
         <p id="broker-desc" class="text-xs text-gray-400 leading-relaxed text-center mb-6">
-          Broker ini adalah salah satu broker utama partner resmi SAINT D.WISH yang mendukung eksekusi cepat, spread rendah, dan transparansi penuh untuk transaksi trading harian kamu.
+          Broker ini adalah salah satu broker utama partner resmi AURION yang mendukung eksekusi cepat, spread rendah, dan transparansi penuh untuk transaksi trading harian kamu.
         </p>
         
-        <hr class="w-full border-blue-500/30 mb-6">
+        <hr class="w-full border-amber-500/30 mb-6">
         
         <p class="text-[10px] text-gray-300 font-semibold tracking-widest uppercase mb-4">SILAHKAN CLICK JIKA INGIN BERGABUNG</p>
         
         <div class="flex justify-center gap-4 w-full">
-          <a id="broker-discord" href="#" target="_blank" class="flex-1 py-3 rounded-xl bg-[#0a1226] border border-[#5865F2]/50 flex flex-col items-center justify-center gap-1 hover:bg-[#5865F2]/20 transition shadow-[0_0_10px_rgba(88,101,242,0.2)]">
+          <a id="broker-discord" href="#" target="_blank" class="flex-1 py-3 rounded-xl bg-[#111111] border border-[#5865F2]/50 flex flex-col items-center justify-center gap-1 hover:bg-[#5865F2]/20 transition shadow-[0_0_10px_rgba(88,101,242,0.2)]">
             <i class="fa-brands fa-discord text-2xl text-[#5865F2]"></i>
             <span class="text-[10px] font-bold text-white">DISCORD</span>
           </a>
-          <a id="broker-tele" href="#" target="_blank" class="flex-1 py-3 rounded-xl bg-[#0a1226] border border-[#0088cc]/50 flex flex-col items-center justify-center gap-1 hover:bg-[#0088cc]/20 transition shadow-[0_0_10px_rgba(0,136,204,0.2)]">
+          <a id="broker-tele" href="#" target="_blank" class="flex-1 py-3 rounded-xl bg-[#111111] border border-[#0088cc]/50 flex flex-col items-center justify-center gap-1 hover:bg-[#0088cc]/20 transition shadow-[0_0_10px_rgba(0,136,204,0.2)]">
             <i class="fa-brands fa-telegram text-2xl text-[#0088cc]"></i>
             <span class="text-[10px] font-bold text-white">TELEGRAM</span>
           </a>
@@ -702,15 +594,15 @@
       <div id="vip-content" class="transition-all duration-500">
         <div class="main-header">
           <div class="flex items-center gap-3">
-            <img src="logo.png" alt="Logo" class="w-12 h-12 object-contain drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]">
-            <div class="border-l-2 border-blue-500 pl-3">
+            <img src="logo.png" alt="Logo" class="w-12 h-12 object-contain drop-shadow-[0_0_10px_rgba(212,175,55,0.8)]">
+            <div class="border-l-2 border-amber-500 pl-3">
               <h1 class="text-xl font-extrabold text-white tracking-wider italic uppercase">VIP ZONE</h1>
-              <p class="text-[10px] text-blue-300">Smart Trading • Higher Probability</p>
+              <p class="text-[10px] text-amber-300">Smart Trading • Higher Probability</p>
             </div>
           </div>
-          <div class="relative cursor-pointer hover:scale-110 transition bg-[#0a1226] p-2 rounded-xl border border-gray-700 shadow-lg">
+          <div class="relative cursor-pointer hover:scale-110 transition bg-[#111111] p-2 rounded-xl border border-gray-700 shadow-lg">
             <i class="fa-regular fa-bell text-lg text-gray-300"></i>
-            <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 border border-[#0a1226] rounded-full"></span>
+            <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 border border-[#111111] rounded-full"></span>
           </div>
         </div>
 
@@ -756,9 +648,9 @@
             </div>
           </div>
 
-          <div class="glass-card p-4 mb-8 border border-blue-900/50 shadow-[0_0_20px_rgba(59,130,246,0.1)]">
+          <div class="glass-card p-4 mb-8 border border-amber-900/50 shadow-[0_0_20px_rgba(212,175,55,0.1)]">
             <div class="flex justify-between items-center mb-4">
-              <h2 class="text-md font-bold text-white flex items-center gap-2"><i class="fa-solid fa-bell text-blue-400"></i> Alert Update</h2>
+              <h2 class="text-md font-bold text-white flex items-center gap-2"><i class="fa-solid fa-bell text-amber-400"></i> Alert Update</h2>
               <span class="text-xs text-success bg-emerald-900/30 px-2 py-1 rounded-md border border-emerald-500/30"><i class="fa-solid fa-circle text-[8px] mr-1"></i> Live</span>
             </div>
             <div class="flex flex-col gap-2" id="alert-list-container">
@@ -769,11 +661,11 @@
 
         <div id="signal-content" class="hidden">
           <div class="mb-6">
-            <h2 class="text-[13px] text-white mb-3 font-bold uppercase tracking-widest border-l-2 border-blue-500 pl-2">SEDANG RUNNING</h2>
+            <h2 class="text-[13px] text-white mb-3 font-bold uppercase tracking-widest border-l-2 border-amber-500 pl-2">SEDANG RUNNING</h2>
             <div class="flex flex-col gap-3" id="vip-running-list"><p class="text-sm text-muted pl-2">Tidak ada posisi running.</p></div>
           </div>
           <div class="mb-6">
-            <h2 class="text-[13px] text-white mb-3 font-bold uppercase tracking-widest border-l-2 border-blue-500 pl-2">WAITING</h2>
+            <h2 class="text-[13px] text-white mb-3 font-bold uppercase tracking-widest border-l-2 border-amber-500 pl-2">WAITING</h2>
             <div class="flex flex-col gap-2" id="vip-waiting-list"><p class="text-sm text-muted pl-2">Tidak ada sinyal waiting.</p></div>
           </div>
           <div class="mb-6">
@@ -785,11 +677,11 @@
               <li>4. Do not chase price if the setup is missed.</li>
             </ol>
           </div>
-          <div class="glass-card p-5 mb-6 border border-blue-900/50 shadow-[0_0_20px_rgba(59,130,246,0.1)]">
+          <div class="glass-card p-5 mb-6 border border-amber-900/50 shadow-[0_0_20px_rgba(212,175,55,0.1)]">
             <h3 class="text-md text-white mb-4 tracking-widest font-bold uppercase">DAILY RECAP</h3>
             <div class="grid grid-cols-3 gap-2 mb-6">
               <div class="glass-card-inner p-3 text-center flex flex-col items-center justify-center">
-                <i class="fa-solid fa-chart-line text-blue-400 text-lg mb-1"></i>
+                <i class="fa-solid fa-chart-line text-amber-400 text-lg mb-1"></i>
                 <p class="text-[10px] text-muted mb-1 uppercase font-bold">PROFIT</p>
                 <p class="text-sm font-extrabold text-success" id="vip-day-profit">+0 PIPS</p>
               </div>
@@ -804,7 +696,7 @@
                 <p class="text-sm font-extrabold text-white" id="vip-day-total">+0 PIPS</p>
               </div>
             </div>
-            <div class="flex justify-between items-center text-sm text-gray-300 border-b border-[#3b82f6]/30 pb-2 mb-2 font-semibold">
+            <div class="flex justify-between items-center text-sm text-gray-300 border-b border-[#d97706]/30 pb-2 mb-2 font-semibold">
               <div class="w-1/2">Daily Recap</div>
               <div class="w-1/4 text-right">Profit</div>
               <div class="w-1/4 text-right">SL</div>
@@ -815,15 +707,15 @@
         </div>
       </div>
 
-      <div id="vip-lock-overlay" class="hidden absolute inset-0 z-50 flex flex-col items-center justify-center bg-[#040812]/80 backdrop-blur-sm rounded-xl">
+      <div id="vip-lock-overlay" class="hidden absolute inset-0 z-50 flex flex-col items-center justify-center bg-[#000000]/80 backdrop-blur-sm rounded-xl">
         <div class="glass-card w-full max-w-sm mx-auto p-6 flex flex-col items-center shadow-lg">
-          <div class="w-20 h-20 mb-4 rounded-full border border-[#3b82f6]/50 overflow-hidden flex justify-center items-center bg-[#1e3a8a]/30">
+          <div class="w-20 h-20 mb-4 rounded-full border border-[#d97706]/50 overflow-hidden flex justify-center items-center bg-[#78350f]/30">
              <img src="logo.png" alt="Logo" class="w-full h-full object-cover grayscale opacity-50">
           </div>
           <h2 class="text-white text-lg font-bold text-center mb-6">JOIN VIP UNTUK<br>MEMBUKA VIP AKSES</h2>
-          <button onclick="switchView('berlangganan', this)" class="w-full py-3 rounded-lg bg-blue-600 text-white font-bold text-sm mb-3 hover:bg-blue-500 transition shadow-[0_0_15px_rgba(59,130,246,0.5)]">BERLANGGANAN</button>
+          <button onclick="switchView('berlangganan', this)" class="w-full py-3 rounded-lg bg-amber-600 text-white font-bold text-sm mb-3 hover:bg-amber-500 transition shadow-[0_0_15px_rgba(212,175,55,0.5)]">BERLANGGANAN</button>
           <span class="text-muted font-bold text-xs tracking-widest mb-3">ATAU</span>
-          <button onclick="switchView('joinib', this)" class="w-full py-3 rounded-lg border border-[#3b82f6]/50 text-white font-bold text-sm hover:bg-blue-900/30 transition">JOIN IB GRATIS</button>
+          <button onclick="switchView('joinib', this)" class="w-full py-3 rounded-lg border border-[#d97706]/50 text-white font-bold text-sm hover:bg-amber-900/30 transition">JOIN IB GRATIS</button>
         </div>
       </div>
     </div>
@@ -833,15 +725,15 @@
       <div id="bookmap-content" class="transition-all duration-500">
         <div class="main-header">
           <div class="flex items-center gap-3">
-            <img src="logo.png" alt="Logo" class="w-12 h-12 object-contain drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]">
-            <div class="border-l-2 border-blue-500 pl-3">
+            <img src="logo.png" alt="Logo" class="w-12 h-12 object-contain drop-shadow-[0_0_10px_rgba(212,175,55,0.8)]">
+            <div class="border-l-2 border-amber-500 pl-3">
               <h1 class="text-xl font-extrabold text-white tracking-wider italic uppercase">BOOKMAP</h1>
-              <p class="text-[10px] text-blue-300">Smart Trading • Higher Probability</p>
+              <p class="text-[10px] text-amber-300">Smart Trading • Higher Probability</p>
             </div>
           </div>
-          <div class="relative cursor-pointer hover:scale-110 transition bg-[#0a1226] p-2 rounded-xl border border-gray-700 shadow-lg">
+          <div class="relative cursor-pointer hover:scale-110 transition bg-[#111111] p-2 rounded-xl border border-gray-700 shadow-lg">
             <i class="fa-regular fa-bell text-lg text-gray-300"></i>
-            <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 border border-[#0a1226] rounded-full"></span>
+            <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 border border-[#111111] rounded-full"></span>
           </div>
         </div>
 
@@ -854,22 +746,22 @@
             Bookmap adalah senjata visualisasi order book tingkat lanjut untuk menaklukkan volatilitas XAU/USD, mengubah tumpukan data Depth of Market menjadi peta panas intuitif agar Anda selalu selangkah di depan pergerakan smart money.
           </p>
         </div>
-        <div class="w-full rounded-xl overflow-hidden mb-8 border border-blue-500/30">
+        <div class="w-full rounded-xl overflow-hidden mb-8 border border-amber-500/30">
           <img src="https://raw.githubusercontent.com/saintdwish/saintdwish.github.io/fcc77ddafb1bd0c903f8528fbc67afa46174ccba/Bookmap.png" alt="Live Bookmap" class="w-full h-auto object-cover">
         </div>
-        <button class="w-full max-w-xs mx-auto block py-4 rounded-full bg-[#1e3a8a] text-white font-bold text-md tracking-wider hover:bg-blue-700 transition shadow-[0_0_20px_rgba(30,58,138,0.6)] border border-blue-400">LIVE BOOKMAP</button>
-        <p class="text-center text-[10px] text-muted tracking-widest mt-8">SAINT D.WISH</p>
+        <button class="w-full max-w-xs mx-auto block py-4 rounded-full bg-[#78350f] text-white font-bold text-md tracking-wider hover:bg-amber-700 transition shadow-[0_0_20px_rgba(120,53,15,0.6)] border border-amber-400">LIVE BOOKMAP</button>
+        <p class="text-center text-[10px] text-muted tracking-widest mt-8">AURION</p>
       </div>
       
-      <div id="bookmap-lock-overlay" class="hidden absolute inset-0 z-50 flex flex-col items-center justify-center bg-[#040812]/80 backdrop-blur-sm rounded-xl">
+      <div id="bookmap-lock-overlay" class="hidden absolute inset-0 z-50 flex flex-col items-center justify-center bg-[#000000]/80 backdrop-blur-sm rounded-xl">
         <div class="glass-card w-full max-w-sm mx-auto p-6 flex flex-col items-center shadow-lg">
-          <div class="w-20 h-20 mb-4 rounded-full border border-[#3b82f6]/50 overflow-hidden flex justify-center items-center bg-[#1e3a8a]/30">
+          <div class="w-20 h-20 mb-4 rounded-full border border-[#d97706]/50 overflow-hidden flex justify-center items-center bg-[#78350f]/30">
              <img src="logo.png" alt="Logo" class="w-full h-full object-cover grayscale opacity-50">
           </div>
           <h2 class="text-white text-lg font-bold text-center mb-6">JOIN VIP UNTUK<br>MEMBUKA BOOKMAP</h2>
-          <button onclick="switchView('berlangganan', this)" class="w-full py-3 rounded-lg bg-blue-600 text-white font-bold text-sm mb-3 hover:bg-blue-500 transition shadow-[0_0_15px_rgba(59,130,246,0.5)]">BERLANGGANAN</button>
+          <button onclick="switchView('berlangganan', this)" class="w-full py-3 rounded-lg bg-amber-600 text-white font-bold text-sm mb-3 hover:bg-amber-500 transition shadow-[0_0_15px_rgba(212,175,55,0.5)]">BERLANGGANAN</button>
           <span class="text-muted font-bold text-xs tracking-widest mb-3">ATAU</span>
-          <button onclick="switchView('joinib', this)" class="w-full py-3 rounded-lg border border-[#3b82f6]/50 text-white font-bold text-sm hover:bg-blue-900/30 transition">JOIN IB GRATIS</button>
+          <button onclick="switchView('joinib', this)" class="w-full py-3 rounded-lg border border-[#d97706]/50 text-white font-bold text-sm hover:bg-amber-900/30 transition">JOIN IB GRATIS</button>
         </div>
       </div>
     </div>
@@ -878,20 +770,20 @@
     <div id="view-akun" class="view-section hidden">
       <div class="main-header">
         <div class="flex items-center gap-3">
-          <img src="logo.png" alt="Logo" class="w-12 h-12 object-contain drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]">
-          <div class="border-l-2 border-blue-500 pl-3">
+          <img src="logo.png" alt="Logo" class="w-12 h-12 object-contain drop-shadow-[0_0_10px_rgba(212,175,55,0.8)]">
+          <div class="border-l-2 border-amber-500 pl-3">
             <h1 class="text-xl font-extrabold text-white tracking-wider italic uppercase">AKUN</h1>
-            <p class="text-[10px] text-blue-300">Smart Trading • Higher Probability</p>
+            <p class="text-[10px] text-amber-300">Smart Trading • Higher Probability</p>
           </div>
         </div>
-        <div class="relative cursor-pointer hover:scale-110 transition bg-[#0a1226] p-2 rounded-xl border border-gray-700 shadow-lg">
+        <div class="relative cursor-pointer hover:scale-110 transition bg-[#111111] p-2 rounded-xl border border-gray-700 shadow-lg">
           <i class="fa-regular fa-bell text-lg text-gray-300"></i>
-          <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 border border-[#0a1226] rounded-full"></span>
+          <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 border border-[#111111] rounded-full"></span>
         </div>
       </div>
 
       <!-- BANNER PROFILE BARU (DYNAMIC HEADER) -->
-      <div class="relative w-full rounded-2xl overflow-hidden mb-6 bg-[#0a1226]">
+      <div class="relative w-full rounded-2xl overflow-hidden mb-6 bg-[#111111]">
         <!-- Gambar Header -->
         <img id="mainHeaderImg" src="headeradmin.png" alt="Header Profile" class="w-full h-auto object-cover">
         
@@ -906,28 +798,28 @@
         </div>
       </div>
       
-      <button onclick="openSubAkun('editprofil')" class="w-full mb-6 glass-card rounded-xl p-3 flex items-center justify-center gap-2 hover:bg-[#1e3a8a]/30 transition">
-        <i class="fa-solid fa-user-pen text-neon-blue"></i>
+      <button onclick="openSubAkun('editprofil')" class="w-full mb-6 glass-card rounded-xl p-3 flex items-center justify-center gap-2 hover:bg-[#78350f]/30 transition">
+        <i class="fa-solid fa-user-pen text-neon-gold"></i>
         <span class="text-sm font-semibold text-white">Edit Profil</span>
       </button>
       
       <h2 class="text-sm text-muted font-semibold mb-3 uppercase tracking-wider">Preferensi</h2>
       <div class="flex flex-col gap-3 mb-6">
-        <button onclick="openSubAkun('notif')" class="glass-card rounded-xl p-3 flex items-center w-full hover:bg-[#1e3a8a]/30 transition group">
-          <div class="w-10 h-10 rounded-lg bg-[#1e3a8a]/50 flex items-center justify-center shrink-0 border border-[#3b82f6]/30"><i class="fa-solid fa-bell text-neon-blue"></i></div>
+        <button onclick="openSubAkun('notif')" class="glass-card rounded-xl p-3 flex items-center w-full hover:bg-[#78350f]/30 transition group">
+          <div class="w-10 h-10 rounded-lg bg-[#78350f]/50 flex items-center justify-center shrink-0 border border-[#d97706]/30"><i class="fa-solid fa-bell text-neon-gold"></i></div>
           <span class="ml-4 text-sm font-medium text-white">Pengaturan Notifikasi</span>
         </button>
-        <button onclick="openSubAkun('password')" class="glass-card rounded-xl p-3 flex items-center w-full hover:bg-[#1e3a8a]/30 transition group">
-          <div class="w-10 h-10 rounded-lg bg-[#1e3a8a]/50 flex items-center justify-center shrink-0 border border-[#3b82f6]/30"><i class="fa-solid fa-lock text-neon-blue"></i></div>
+        <button onclick="openSubAkun('password')" class="glass-card rounded-xl p-3 flex items-center w-full hover:bg-[#78350f]/30 transition group">
+          <div class="w-10 h-10 rounded-lg bg-[#78350f]/50 flex items-center justify-center shrink-0 border border-[#d97706]/30"><i class="fa-solid fa-lock text-neon-gold"></i></div>
           <span class="ml-4 text-sm font-medium text-white">Ubah Password</span>
         </button>
-        <button onclick="openSubAkun('bantuan')" class="glass-card rounded-xl p-3 flex items-center w-full hover:bg-[#1e3a8a]/30 transition group">
-          <div class="w-10 h-10 rounded-lg bg-[#1e3a8a]/50 flex items-center justify-center shrink-0 border border-[#3b82f6]/30"><i class="fa-solid fa-question text-neon-blue"></i></div>
+        <button onclick="openSubAkun('bantuan')" class="glass-card rounded-xl p-3 flex items-center w-full hover:bg-[#78350f]/30 transition group">
+          <div class="w-10 h-10 rounded-lg bg-[#78350f]/50 flex items-center justify-center shrink-0 border border-[#d97706]/30"><i class="fa-solid fa-question text-neon-gold"></i></div>
           <span class="ml-4 text-sm font-medium text-white">Bantuan</span>
         </button>
       </div>
       
-      <button id="adminBtn" onclick="window.location.href='admin.html'" class="hidden w-full py-3 rounded-xl border border-[#3b82f6]/50 text-white font-semibold text-sm hover:bg-blue-900/30 transition mb-3">ADMIN PANEL</button>
+      <button id="adminBtn" onclick="window.location.href='admin.html'" class="hidden w-full py-3 rounded-xl border border-[#d97706]/50 text-white font-semibold text-sm hover:bg-amber-900/30 transition mb-3">ADMIN PANEL</button>
       <button onclick="logout()" class="w-full py-3 rounded-xl border border-red-900/50 text-red-500 hover:bg-red-900/20 transition text-sm font-semibold">Logout</button>
     </div>
 
@@ -940,10 +832,10 @@
         <h1 class="text-xl font-bold text-white">Edit Profile</h1>
       </div>
       
-      <!-- Fitur Ganti Header (Menggantikan Ganti Foto Profil) -->
+      <!-- Fitur Ganti Header -->
       <div class="flex flex-col items-center mb-8">
-        <button onclick="switchView('gantiheader')" class="w-full glass-card p-5 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-[#1e3a8a]/40 transition border-2 border-blue-500/40 shadow-[0_0_15px_rgba(59,130,246,0.2)]">
-            <i class="fa-solid fa-image text-4xl text-blue-400 mb-2 drop-shadow-[0_0_10px_rgba(96,165,250,0.8)]"></i>
+        <button onclick="switchView('gantiheader')" class="w-full glass-card p-5 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-[#78350f]/40 transition border-2 border-amber-500/40 shadow-[0_0_15px_rgba(212,175,55,0.2)]">
+            <i class="fa-solid fa-image text-4xl text-amber-400 mb-2 drop-shadow-[0_0_10px_rgba(252,211,77,0.8)]"></i>
             <span class="text-lg font-bold text-white">Ganti Header</span>
             <span class="text-xs text-gray-400">Pilih header favorit Anda</span>
         </button>
@@ -956,24 +848,24 @@
             <input type="text" id="editUsername" class="bg-transparent outline-none w-full text-white text-sm" required>
           </div>
         </div>
-        <button type="submit" class="mt-6 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition text-sm shadow-[0_0_15px_rgba(59,130,246,0.5)]">Simpan Perubahan</button>
+        <button type="submit" class="mt-6 bg-amber-600 hover:bg-amber-500 text-white font-bold py-3 rounded-xl transition text-sm shadow-[0_0_15px_rgba(212,175,55,0.5)]">Simpan Perubahan</button>
       </form>
     </div>
 
-    <!-- SUB-VIEW: PILIH HEADER (BARU) -->
+    <!-- SUB-VIEW: PILIH HEADER -->
     <div id="sub-gantiheader" class="view-section hidden relative">
       <div class="relative flex items-center justify-center mb-6">
         <button onclick="switchView('editprofil', null)" class="absolute left-0 w-8 h-8 rounded-full glass-card flex items-center justify-center text-muted hover:text-white z-50">
           <i class="fa-solid fa-arrow-left text-sm"></i>
         </button>
         <div class="text-center">
-            <h1 class="text-lg font-bold text-white flex items-center justify-center gap-2"><i class="fa-solid fa-image text-blue-400"></i> Ganti Header</h1>
+            <h1 class="text-lg font-bold text-white flex items-center justify-center gap-2"><i class="fa-solid fa-image text-amber-400"></i> Ganti Header</h1>
             <p class="text-[10px] text-gray-400 mt-1">Pilih header favorit Anda</p>
         </div>
       </div>
 
-           <!-- Preview Header Saat Ini -->
-      <div class="relative w-full rounded-2xl overflow-hidden mb-6 border border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.3)]">
+      <!-- Preview Header Saat Ini -->
+      <div class="relative w-full rounded-2xl overflow-hidden mb-6 border border-amber-500/50 shadow-[0_0_15px_rgba(212,175,55,0.3)]">
           <img id="previewHeaderImg" src="headeradmin.png" class="w-full h-auto object-cover">
           
           <div class="absolute flex items-center justify-center" style="top: 33.27%; left: 63.82%; width: 18.42%; height: 14.64%;">
@@ -985,31 +877,27 @@
           </div>
       </div>
 
-      <!-- Tab Filter (Dummy) -->
       <div class="tab-container mb-6 glass-card rounded-full">
         <div id="tab-head-all" onclick="filterHeaders('all', this)" class="tab-btn tab-active flex-1 rounded-full">✨ Semua</div>
         <div id="tab-head-premium" onclick="filterHeaders('premium', this)" class="tab-btn tab-inactive flex-1 rounded-full"><i class="fa-solid fa-lock mr-1 text-[10px]"></i> Premium</div>
         <div id="tab-head-exclusive" onclick="filterHeaders('exclusive', this)" class="tab-btn tab-inactive flex-1 rounded-full"><i class="fa-solid fa-gem mr-1 text-[10px]"></i> Eksklusif</div>
       </div>
 
-      <!-- Grid Header (Hanya 1 Test Item) -->
       <div class="grid grid-cols-2 gap-3 mb-6" id="headerGrid">
-          
           <!-- Item Test: Header Zeus Admin -->
-          <div id="header-admin" onclick="selectHeader('headeradmin.png', false, 'header-admin')" class="header-item relative rounded-xl overflow-hidden border-2 border-blue-500 cursor-pointer shadow-[0_0_10px_rgba(59,130,246,0.5)]" data-category="all">
+          <div id="header-admin" onclick="selectHeader('headeradmin.png', false, 'header-admin')" class="header-item relative rounded-xl overflow-hidden border-2 border-amber-500 cursor-pointer shadow-[0_0_10px_rgba(212,175,55,0.5)]" data-category="all">
               <img src="headeradmin.png" class="w-full h-24 object-cover">
-              <div class="absolute top-2 right-2 bg-blue-500 rounded-full w-5 h-5 flex items-center justify-center check-icon"><i class="fa-solid fa-check text-white text-[10px]"></i></div>
+              <div class="absolute top-2 right-2 bg-amber-500 rounded-full w-5 h-5 flex items-center justify-center check-icon"><i class="fa-solid fa-check text-white text-[10px]"></i></div>
               <div class="absolute bottom-2 left-2 bg-black/60 px-2 py-1 rounded text-[8px] text-white">ADMIN ONLY</div>
           </div>
-
       </div>
 
-      <div class="glass-card p-3 flex items-start gap-3 mb-6 border border-blue-500/20">
-          <i class="fa-solid fa-circle-info text-blue-400 text-sm mt-0.5"></i>
+      <div class="glass-card p-3 flex items-start gap-3 mb-6 border border-amber-500/20">
+          <i class="fa-solid fa-circle-info text-amber-400 text-sm mt-0.5"></i>
           <p class="text-[10px] text-gray-300 leading-relaxed">Header ini hanya tersedia untuk role ADMIN.</p>
       </div>
 
-      <button onclick="saveHeader()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition text-sm shadow-[0_0_15px_rgba(59,130,246,0.5)] mb-8 flex items-center justify-center gap-2">
+      <button onclick="saveHeader()" class="w-full bg-amber-600 hover:bg-amber-500 text-white font-bold py-3 rounded-xl transition text-sm shadow-[0_0_15px_rgba(212,175,55,0.5)] mb-8 flex items-center justify-center gap-2">
           <i class="fa-solid fa-floppy-disk"></i> Simpan Header
       </button>
     </div>
@@ -1023,13 +911,13 @@
       <p class="text-xs text-muted text-center mb-10">Bisa Hubungi Admin Jika Terdapat Kendala</p>
       
       <div class="flex flex-col gap-3 px-2">
-        <a href="https://discord.com/users/SAINT_D_WISH_ID" target="_blank" class="glass-card p-4 rounded-xl flex items-center hover:bg-[#1e3a8a]/40 transition">
+        <a href="https://discord.com/users/SAINT_D_WISH_ID" target="_blank" class="glass-card p-4 rounded-xl flex items-center hover:bg-[#78350f]/40 transition">
           <i class="fa-brands fa-discord text-2xl text-[#5865F2] mr-4"></i>
-          <span class="text-sm font-medium text-white">@Saint D. Wish</span>
+          <span class="text-sm font-medium text-white">AURION Support</span>
         </a>
-        <a href="https://t.me/stdwis" target="_blank" class="glass-card p-4 rounded-xl flex items-center hover:bg-[#1e3a8a]/40 transition">
+        <a href="https://t.me/stdwis" target="_blank" class="glass-card p-4 rounded-xl flex items-center hover:bg-[#78350f]/40 transition">
           <i class="fa-brands fa-telegram text-2xl text-[#0088cc] mr-4"></i>
-          <span class="text-sm font-medium text-white">@stdwis</span>
+          <span class="text-sm font-medium text-white">@aurionsupport</span>
         </a>
       </div>
     </div>
@@ -1055,7 +943,7 @@
           <label class="text-xs text-muted ml-1 mb-1 block">Konfirmasi Password</label>
           <div class="glass-card flex items-center px-4 py-3"><input type="password" id="confirmPass" placeholder="••••••••" class="bg-transparent outline-none w-full text-white text-sm" required></div>
         </div>
-        <button type="submit" class="mt-4 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition text-sm shadow-[0_0_15px_rgba(59,130,246,0.5)]">Simpan Password</button>
+        <button type="submit" class="mt-4 bg-amber-600 hover:bg-amber-500 text-white font-bold py-3 rounded-xl transition text-sm shadow-[0_0_15px_rgba(212,175,55,0.5)]">Simpan Password</button>
       </form>
     </div>
 
@@ -1076,11 +964,11 @@
       
       <p class="text-[10px] text-muted text-center mb-6 px-4 leading-relaxed">*Untuk Pengguna iPhone (iOS), klik "Share" di Safari dan pilih "Add to Home Screen" agar notifikasi berfungsi.</p>
 
-      <div id="adminTestNotifPanel" class="hidden glass-card p-4 border border-blue-500/30">
+      <div id="adminTestNotifPanel" class="hidden glass-card p-4 border border-amber-500/30">
         <h3 class="text-white font-bold mb-2 text-sm">Admin Panel</h3>
         <p class="text-[10px] text-muted mb-4">Gunakan tombol di bawah ini untuk menguji sistem atau mereset data.</p>
         
-        <button onclick="testNotification()" class="w-full bg-blue-600 text-white font-bold py-2 rounded-lg transition text-sm mb-2">
+        <button onclick="testNotification()" class="w-full bg-amber-600 text-white font-bold py-2 rounded-lg transition text-sm mb-2">
           <i class="fa-solid fa-paper-plane mr-1"></i> Test Notifikasi
         </button>
         
@@ -1094,7 +982,7 @@
 
   <!-- NAVBAR BAWAH -->
   <div id="mainNavbar" class="fixed bottom-4 w-full max-w-md flex justify-center z-50 pointer-events-none transition-opacity duration-300">
-    <nav class="relative w-[95%] bg-[#0f172a]/95 backdrop-blur-xl border border-[#3b82f6]/30 flex justify-between items-end px-2 pb-2 pt-3 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.8)] pointer-events-auto overflow-visible">
+    <nav class="relative w-[95%] bg-[#0a0a0a]/95 backdrop-blur-xl border border-[#d97706]/30 flex justify-between items-end px-2 pb-2 pt-3 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.8)] pointer-events-auto overflow-visible">
       
       <button onclick="switchView('dashboard', this)" id="nav-dashboard" class="flex flex-col items-center justify-center w-[60px] gap-1 text-white transition-all pb-1">
         <i class="fa-solid fa-house text-lg"></i>
@@ -1107,10 +995,10 @@
       </button>
 
       <div class="relative w-[60px] flex flex-col items-center justify-end h-full">
-        <button onclick="switchView('vip', this)" id="nav-vip" class="absolute -top-[32px] w-[64px] h-[64px] rounded-full bg-[#0f172a] border-[3px] border-[#3b82f6] shadow-[0_0_20px_rgba(59,130,246,0.6)] flex items-center justify-center overflow-hidden p-1 hover:scale-105 transition-transform z-50">
+        <button onclick="switchView('vip', this)" id="nav-vip" class="absolute -top-[32px] w-[64px] h-[64px] rounded-full bg-[#0a0a0a] border-[3px] border-[#d97706] shadow-[0_0_20px_rgba(212,175,55,0.6)] flex items-center justify-center overflow-hidden p-1 hover:scale-105 transition-transform z-50">
           <img src="logo.png" alt="VIP" class="w-full h-full object-cover rounded-full opacity-90 transition-all">
         </button>
-        <span class="text-[9px] font-bold text-blue-200 mt-[34px] pb-1">VIP</span>
+        <span class="text-[9px] font-bold text-amber-200 mt-[34px] pb-1">VIP</span>
       </div>
 
       <button onclick="switchView('bookmap', this)" id="nav-bookmap" class="flex flex-col items-center justify-center w-[60px] gap-1 text-muted hover:text-white transition-all pb-1">
@@ -1125,7 +1013,6 @@
     </nav>
   </div>
 
-  <!-- SISA KODE JAVASCRIPT ADA DI PESAN SELANJUTNYA -->
     <script>
     // ==========================================
     // ⚠️ PASTIKAN URL INI SAMA DENGAN URL NGROK LU
@@ -1161,7 +1048,7 @@
     const ctx = document.getElementById('miniChart').getContext('2d');
     const priceChart = new Chart(ctx, {
       type: 'line', 
-      data: { labels: [], datasets: [{ data: [], borderColor: '#60a5fa', borderWidth: 2, pointRadius: 0, fill: false, tension: 0.4 }] },
+      data: { labels: [], datasets: [{ data: [], borderColor: '#FCD34D', borderWidth: 2, pointRadius: 0, fill: false, tension: 0.4 }] },
       options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false } }, animation: false }
     });
 
@@ -1183,13 +1070,13 @@
             const iconUrl = "https://raw.githubusercontent.com/saintdwish/saintdwish.github.io/main/logo.png";
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.ready.then(function(registration) {
-                    registration.showNotification("Test Notifikasi", { 
+                    registration.showNotification("Test Notifikasi AURION", { 
                         body: "Sistem notifikasi PWA berjalan sempurna!", 
                         icon: iconUrl 
                     });
                 });
             } else {
-                new Notification("Test Notifikasi", { body: "Sistem notifikasi berjalan!", icon: iconUrl });
+                new Notification("Test Notifikasi AURION", { body: "Sistem notifikasi berjalan!", icon: iconUrl });
             }
         } else {
             alert("Notifikasi belum diizinkan atau tidak didukung di browser ini.");
@@ -1306,18 +1193,18 @@
             const cleanMsg = a.msg.replace(/\*\*/g, '').replace(/\*/g, '').replace(/\n/g, '<br>');
             
             html += `
-            <div class="bg-[#0f172a]/60 rounded-lg border border-blue-900/30 overflow-hidden">
-                <div class="p-3 flex items-start gap-3 cursor-pointer hover:bg-[#1e3a8a]/20 transition" onclick="document.getElementById('alert-detail-${i}').classList.toggle('hidden')">
+            <div class="bg-[#0a0a0a]/60 rounded-lg border border-amber-900/30 overflow-hidden">
+                <div class="p-3 flex items-start gap-3 cursor-pointer hover:bg-[#78350f]/20 transition" onclick="document.getElementById('alert-detail-${i}').classList.toggle('hidden')">
                     <div class="w-2 h-2 rounded-full mt-1.5 ${a.type.includes('REJECT') ? 'bg-green-500' : (a.type.includes('BREAKOUT') ? 'bg-red-500' : 'bg-yellow-500')}"></div>
                     <div class="flex-1">
                         <div class="flex justify-between items-center mb-1">
                             <span class="text-[10px] text-muted font-mono">${timeStr}</span>
-                            <span class="text-[10px] text-blue-300 font-bold uppercase">${a.type}</span>
+                            <span class="text-[10px] text-amber-300 font-bold uppercase">${a.type}</span>
                         </div>
                         <p class="text-xs text-white font-semibold">${a.type.includes('REJECT') ? 'Rejection.' : (a.type.includes('BREAKOUT') ? 'Breakout.' : 'Harga menyentuh zona.')}</p>
                     </div>
                 </div>
-                <div id="alert-detail-${i}" class="hidden px-3 pb-3 pt-1 text-xs text-gray-400 border-t border-blue-900/30 leading-relaxed">
+                <div id="alert-detail-${i}" class="hidden px-3 pb-3 pt-1 text-xs text-gray-400 border-t border-amber-900/30 leading-relaxed">
                     ${cleanMsg}
                 </div>
             </div>
@@ -1373,7 +1260,7 @@
             
             let sourceBadge = ''; 
             if (s.source === 'SDW GLDN') sourceBadge = '<span class="text-[9px] border border-yellow-700 text-yellow-500 px-1 rounded ml-1">GLDN</span>'; 
-            else if (s.source === 'SDW Navigator') sourceBadge = '<span class="text-[9px] border border-blue-700 text-blue-400 px-1 rounded ml-1">NAV</span>'; 
+            else if (s.source === 'SDW Navigator') sourceBadge = '<span class="text-[9px] border border-amber-700 text-amber-400 px-1 rounded ml-1">NAV</span>'; 
             else if (s.source === 'SDW SK') sourceBadge = '<span class="text-[9px] border border-purple-700 text-purple-400 px-1 rounded ml-1">SK</span>'; 
             else if (s.source === 'SDW ICT') sourceBadge = '<span class="text-[9px] border border-green-700 text-green-400 px-1 rounded ml-1">ICT</span>'; 
             else sourceBadge = `<span class="text-[9px] border border-gray-600 text-gray-400 px-1 rounded ml-1">${s.source}</span>`;
@@ -1498,7 +1385,7 @@
                 let statusText = s.status; 
                 if(s.status.startsWith('BE')) statusText = 'TP' + s.status.replace('BE','') + ' (BE)'; 
                 dailyTableHTML += `
-                <div class="flex justify-between items-center text-sm py-2 border-b border-[#3b82f6]/20">
+                <div class="flex justify-between items-center text-sm py-2 border-b border-[#d97706]/20">
                     <div class="w-1/2 text-gray-300">${tableCount+1}. ${s.arah} Limit ${s.entry}</div>
                     <div class="w-1/4 text-right ${resCol}">${val} PIPS</div>
                     <div class="w-1/4 text-right text-gray-300">${statusText}</div>
@@ -1534,7 +1421,7 @@
                   ${s.tp4 != "0" && s.tp4 != "0.0" ? `<p class="text-gray-200">🏆 TP 4: ${s.tp4} ${isTP4 ? check : ''}</p>` : ''}
                 </div>
               </div>
-              <ul class="text-[10px] text-gray-400 space-y-1 border-t border-[#3b82f6]/20 pt-2 mt-2">
+              <ul class="text-[10px] text-gray-400 space-y-1 border-t border-[#d97706]/20 pt-2 mt-2">
                 <li>• Setup masih sesuai dengan analisa awal.</li>
                 <li>• Jaga emosi dan tetap patuhi plan.</li>
                 <li>• Bagi yang belum entry, tunggu harga masuk.</li>
@@ -1551,7 +1438,7 @@
                 <span class="badge-high-risk uppercase tracking-wider">HIGH RISK</span>
               </div>
               <div class="card-detail px-3 pb-3">
-                <div class="pt-3 border-t border-[#3b82f6]/20 flex justify-between items-start">
+                <div class="pt-3 border-t border-[#d97706]/20 flex justify-between items-start">
                   <div><p class="text-danger font-bold text-xs"><span class="text-danger">⚠</span> STOP LOSS (SL) : ${s.sl}</p></div>
                   <div class="text-right text-[10px]">
                     <p class="text-gray-300 font-semibold mb-1"><span class="text-red-400">🎯</span> TAKE <span class="text-green-400">PROFIT</span></p>
@@ -1607,9 +1494,9 @@
             width: width, 
             height: 200, 
             layout: { background: { color: 'transparent' }, textColor: '#64748b' }, 
-            grid: { vertLines: { color: 'rgba(59, 130, 246, 0.05)' }, horzLines: { color: 'rgba(59, 130, 246, 0.05)' } }, 
-            rightPriceScale: { visible: true, borderColor: 'rgba(59, 130, 246, 0.2)', autoScale: true }, 
-            timeScale: { visible: false, borderColor: 'rgba(59, 130, 246, 0.2)' }, 
+            grid: { vertLines: { color: 'rgba(212, 175, 55, 0.05)' }, horzLines: { color: 'rgba(212, 175, 55, 0.05)' } }, 
+            rightPriceScale: { visible: true, borderColor: 'rgba(212, 175, 55, 0.2)', autoScale: true }, 
+            timeScale: { visible: false, borderColor: 'rgba(212, 175, 55, 0.2)' }, 
             crosshair: { mode: LightweightCharts.CrosshairMode.Hidden }, 
             handleScroll: false, 
             handleScale: false 
@@ -1659,7 +1546,7 @@
         const b = brokers[id]; 
         if (!b) return; 
         document.getElementById('broker-title').innerText = b.title; 
-        document.getElementById('broker-subtitle').innerText = b.title + ' - SAINT D.WISH'; 
+        document.getElementById('broker-subtitle').innerText = b.title + ' - AURION'; 
         document.getElementById('broker-desc').innerText = b.desc; 
         document.getElementById('broker-logo-img').src = b.img; 
         document.getElementById('broker-discord').href = b.discord; 
@@ -1667,10 +1554,6 @@
         switchView('broker-detail', null); 
     }
 
-    // ==========================================
-    // LOGIKA HEADER PROFILE (BARU)
-    // ==========================================
-    
     function selectHeader(imgPath, isLocked, elementId) {
         if (isLocked) {
             alert("Header ini terkunci! Hanya tersedia untuk role tertentu.");
@@ -1678,7 +1561,7 @@
         }
         
         document.querySelectorAll('.header-item').forEach(el => {
-            el.classList.remove('border-blue-500', 'shadow-[0_0_10px_rgba(59,130,246,0.5)]');
+            el.classList.remove('border-amber-500', 'shadow-[0_0_10px_rgba(212,175,55,0.5)]');
             el.classList.add('border-transparent');
             const checkIcon = el.querySelector('.check-icon');
             if(checkIcon) checkIcon.classList.add('hidden');
@@ -1687,7 +1570,7 @@
         const selectedEl = document.getElementById(elementId);
         if(selectedEl) {
             selectedEl.classList.remove('border-transparent');
-            selectedEl.classList.add('border-blue-500', 'shadow-[0_0_10px_rgba(59,130,246,0.5)]');
+            selectedEl.classList.add('border-amber-500', 'shadow-[0_0_10px_rgba(212,175,55,0.5)]');
             const checkIcon = selectedEl.querySelector('.check-icon');
             if(checkIcon) checkIcon.classList.remove('hidden');
         }
@@ -1741,7 +1624,6 @@
               currentUserValidUntil = data.user.validUntil || "";
               currentUsername = username; 
               
-              // Set Text Username & Role di Header Utama
               document.getElementById('userName').innerText = username.toUpperCase();
               document.getElementById('userRoleDisplay').innerText = currentUserRole;
               
@@ -1782,21 +1664,17 @@
       });
     });
       
-    // ==========================================
-    // LOGIKA SIMPAN PERUBAHAN USERNAME (FITUR BARU)
-    // ==========================================
     document.getElementById('formEditProfil').addEventListener('submit', async function(e) {
         e.preventDefault();
         const newUsername = document.getElementById('editUsername').value;
         if(!newUsername) return;
 
         try {
-            // Tembak API GAS Database User
             const res = await fetch(API_URL_USER, {
                 method: 'POST',
                 body: JSON.stringify({
                     action: 'update_username',
-                    email: currentUserEmail, // Diambil dari data login JWT
+                    email: currentUserEmail,
                     newUsername: newUsername
                 })
             });
@@ -1804,14 +1682,8 @@
             
             if(data.status === 'success') {
                 alert("Username berhasil diubah!");
-                
-                // 1. Update Teks di Banner Header (Langsung berubah tanpa reload)
                 document.getElementById('userName').innerText = newUsername.toUpperCase();
-                
-                // 2. Update Teks di Preview Ganti Header (Kalau nanti mau ganti header lagi)
                 document.getElementById('previewUserName').innerText = newUsername.toUpperCase();
-                
-                // 3. Kembali ke Halaman Utama Akun
                 closeSubAkun(); 
             } else {
                 alert("Gagal: " + data.message);
@@ -1869,13 +1741,13 @@
                   document.getElementById('status-date').innerText = "LIFETIME";
               } else {
                   card.className = "member-card-vip rounded-3xl p-6 text-center mb-6 relative overflow-hidden transition-all duration-500";
-                  roleText.className = "text-5xl font-black text-gradient-blue mb-6";
-                  iconBg.className = "w-20 h-20 mx-auto bg-[#1e3a8a]/40 border border-blue-500/50 rounded-full flex items-center justify-center mb-4 shadow-[0_0_20px_rgba(59,130,246,0.4)]";
-                  iconCrown.className = "fa-solid fa-crown text-4xl text-blue-300 drop-shadow-[0_0_10px_rgba(96,165,250,0.8)]";
-                  iconCal.className = "w-10 h-10 rounded-lg bg-[#1e3a8a]/50 border border-blue-500/30 flex items-center justify-center shrink-0";
-                  iconClock.className = "w-10 h-10 rounded-lg bg-[#1e3a8a]/50 border border-blue-500/30 flex items-center justify-center shrink-0";
-                  iconCal.querySelector('i').className = "fa-regular fa-calendar-days text-xl text-blue-300";
-                  iconClock.querySelector('i').className = "fa-regular fa-clock text-xl text-blue-300";
+                  roleText.className = "text-5xl font-black text-gradient-gold mb-6";
+                  iconBg.className = "w-20 h-20 mx-auto bg-[#78350f]/40 border border-amber-500/50 rounded-full flex items-center justify-center mb-4 shadow-[0_0_20px_rgba(212,175,55,0.4)]";
+                  iconCrown.className = "fa-solid fa-crown text-4xl text-amber-300 drop-shadow-[0_0_10px_rgba(252,211,77,0.8)]";
+                  iconCal.className = "w-10 h-10 rounded-lg bg-[#78350f]/50 border border-amber-500/30 flex items-center justify-center shrink-0";
+                  iconClock.className = "w-10 h-10 rounded-lg bg-[#78350f]/50 border border-amber-500/30 flex items-center justify-center shrink-0";
+                  iconCal.querySelector('i').className = "fa-regular fa-calendar-days text-xl text-amber-300";
+                  iconClock.querySelector('i').className = "fa-regular fa-clock text-xl text-amber-300";
 
                   document.getElementById('status-period').innerText = "Aktif"; 
                   if (currentUserValidUntil) {
