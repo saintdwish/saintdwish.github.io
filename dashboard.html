@@ -1140,19 +1140,59 @@
       options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false } }, animation: false }
     });
 
+    // ==========================================
+    // KONFIGURASI VAPID UNTUK WEB PUSH
+    // ==========================================
+    const VAPID_PUBLIC_KEY = "BEl7RzRvhaJr08AN64MjzLB5pGdgc3e9DmjtzbvELXyOxNTt-J9DWwK35Vzj7ps1U1aamD6jXow2_sNg_JDuha4";
+
+    function urlBase64ToUint8Array(base64String) {
+        const padding = '='.repeat((4 - base64String.length % 4) % 4);
+        const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+        const rawData = window.atob(base64);
+        const outputArray = new Uint8Array(rawData.length);
+        for (let i = 0; i < rawData.length; ++i) { outputArray[i] = rawData.charCodeAt(i); }
+        return outputArray;
+    }
+
     function requestNotifPermission(toggle) {
         if (typeof Notification === "undefined") {
-            alert("Browser HP kamu (Safari) tidak mendukung fitur notifikasi web secara langsung. Gunakan fitur 'Add to Home Screen' (Tambahkan ke Layar Utama) di iPhone untuk mengaktifkannya.");
+            alert("Browser HP kamu tidak mendukung fitur notifikasi web secara langsung. Gunakan fitur 'Add to Home Screen' di iPhone.");
             toggle.checked = false;
             return;
         }
+        
         if (toggle.checked) {
             Notification.requestPermission().then(permission => {
-                if (permission !== "granted") toggle.checked = false;
+                if (permission === "granted") {
+                    // Dapatkan izin sukses, sekarang daftarkan HP ke VPS
+                    if ('serviceWorker' in navigator) {
+                        navigator.serviceWorker.ready.then(function(registration) {
+                            // Subscribe dengan VAPID Key
+                            registration.pushManager.subscribe({
+                                userVisibleOnly: true,
+                                applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+                            }).then(function(subscription) {
+                                // Kirim data ID Device ke VPS Ngrok
+                                fetch(API_URL_VPS + '/api/subscribe', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
+                                    body: JSON.stringify(subscription)
+                                }).then(res => {
+                                    console.log("✅ Berhasil mendaftarkan notif ke VPS");
+                                }).catch(err => {
+                                    console.log("❌ Gagal daftar ke VPS", err);
+                                });
+                            }).catch(err => {
+                                console.log("Gagal subscribe push manager:", err);
+                            });
+                        });
+                    }
+                } else {
+                    toggle.checked = false;
+                }
             });
         }
     }
-
     function testNotification() {
         if (typeof Notification !== "undefined" && Notification.permission === "granted") {
             const iconUrl = "https://raw.githubusercontent.com/saintdwish/saintdwish.github.io/main/logo.png";
