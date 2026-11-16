@@ -1176,27 +1176,33 @@
                     if ('serviceWorker' in navigator) {
                         navigator.serviceWorker.ready.then(function(registration) {
                             
-                            // Cek panjang key sebelum dikirim ke iOS
                             const keyArray = urlBase64ToUint8Array(VAPID_PUBLIC_KEY);
-                            alert("Cek Key: Panjangnya " + keyArray.length + " byte. (Harus 65!)");
+                            
+                            // Cek Byte Pertama (Harus 4!)
+                            if (keyArray[0] !== 4) {
+                                alert("ERROR FATAL: Byte pertama adalah " + keyArray[0] + ". Seharusnya 4 (0x04). Key VAPID kamu rusak/typo!");
+                                toggle.checked = false;
+                                return;
+                            }
+
+                            alert("Cek Lolos: Byte pertama 4, Panjang " + keyArray.length);
                             
                             registration.pushManager.subscribe({
                                 userVisibleOnly: true,
                                 applicationServerKey: keyArray
                             }).then(function(subscription) {
-                                alert("4. Berhasil dapat ID Device. Mengirim ke Ngrok...");
-                                
+                                alert("SUKSES! Device terdaftar.");
                                 fetch(API_URL_VPS + '/api/subscribe', {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
                                     body: JSON.stringify(subscription)
                                 }).then(res => {
-                                    alert("5. SUKSES! Cek CMD Ngrok kamu.");
+                                    console.log("Berhasil daftar ke VPS");
                                 }).catch(err => {
-                                    alert("GAGAL kirim ke VPS (Langkah 5): " + err.message);
+                                    console.log("Gagal daftar ke VPS", err);
                                 });
                             }).catch(err => {
-                                alert("GAGAL dapat ID Device (Langkah 4): " + err.message);
+                                alert("GAGAL dapat ID Device: " + err.message);
                             });
                         });
                     }
