@@ -1155,37 +1155,44 @@
     }
 
     function requestNotifPermission(toggle) {
+        alert("1. Tombol ditekan!");
+        
         if (typeof Notification === "undefined") {
-            alert("Browser HP kamu tidak mendukung fitur notifikasi web secara langsung. Gunakan fitur 'Add to Home Screen' di iPhone.");
+            alert("Error: Browser ini tidak mendukung notifikasi web. Pastikan buka dari Add to Home Screen.");
             toggle.checked = false;
             return;
         }
         
         if (toggle.checked) {
             Notification.requestPermission().then(permission => {
+                alert("2. Status Izin: " + permission);
+                
                 if (permission === "granted") {
-                    // Dapatkan izin sukses, sekarang daftarkan HP ke VPS
                     if ('serviceWorker' in navigator) {
                         navigator.serviceWorker.ready.then(function(registration) {
-                            // Subscribe dengan VAPID Key
+                            alert("3. Service Worker Siap. Mulai mendaftar ke VPS...");
+                            
                             registration.pushManager.subscribe({
                                 userVisibleOnly: true,
                                 applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
                             }).then(function(subscription) {
-                                // Kirim data ID Device ke VPS Ngrok
+                                alert("4. Berhasil dapat ID Device. Mengirim ke Ngrok...");
+                                
                                 fetch(API_URL_VPS + '/api/subscribe', {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
                                     body: JSON.stringify(subscription)
                                 }).then(res => {
-                                    console.log("✅ Berhasil mendaftarkan notif ke VPS");
+                                    alert("5. SUKSES! Cek CMD Ngrok kamu.");
                                 }).catch(err => {
-                                    console.log("❌ Gagal daftar ke VPS", err);
+                                    alert("GAGAL kirim ke VPS (Langkah 5): " + err.message);
                                 });
                             }).catch(err => {
-                                console.log("Gagal subscribe push manager:", err);
+                                alert("GAGAL dapat ID Device (Langkah 4): " + err.message);
                             });
                         });
+                    } else {
+                        alert("Error: Service Worker tidak ditemukan (Langkah 3).");
                     }
                 } else {
                     toggle.checked = false;
