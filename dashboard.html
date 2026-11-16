@@ -1146,11 +1146,16 @@
     const VAPID_PUBLIC_KEY = "BEl7RzRvhaJr08AN64MjzLB5pGdgc3e9DmjtzbvELXyOxNTt-J9DWwK35Vzj7ps1U1aamD6jXow2_sNg_JDuha4";
 
     function urlBase64ToUint8Array(base64String) {
-        const padding = '='.repeat((4 - base64String.length % 4) % 4);
-        const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+        // Hapus spasi atau enter yang tidak sengaja ikut ter-copy
+        const cleanBase64 = base64String.trim().replace(/\s/g, '');
+        
+        const padding = '='.repeat((4 - cleanBase64.length % 4) % 4);
+        const base64 = (cleanBase64 + padding).replace(/\-/g, '+').replace(/_/g, '/');
         const rawData = window.atob(base64);
         const outputArray = new Uint8Array(rawData.length);
-        for (let i = 0; i < rawData.length; ++i) { outputArray[i] = rawData.charCodeAt(i); }
+        for (let i = 0; i < rawData.length; ++i) { 
+            outputArray[i] = rawData.charCodeAt(i); 
+        }
         return outputArray;
     }
 
@@ -1170,11 +1175,14 @@
                 if (permission === "granted") {
                     if ('serviceWorker' in navigator) {
                         navigator.serviceWorker.ready.then(function(registration) {
-                            alert("3. Service Worker Siap. Mulai mendaftar ke VPS...");
+                            
+                            // Cek panjang key sebelum dikirim ke iOS
+                            const keyArray = urlBase64ToUint8Array(VAPID_PUBLIC_KEY);
+                            alert("Cek Key: Panjangnya " + keyArray.length + " byte. (Harus 65!)");
                             
                             registration.pushManager.subscribe({
                                 userVisibleOnly: true,
-                                applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+                                applicationServerKey: keyArray
                             }).then(function(subscription) {
                                 alert("4. Berhasil dapat ID Device. Mengirim ke Ngrok...");
                                 
@@ -1191,8 +1199,6 @@
                                 alert("GAGAL dapat ID Device (Langkah 4): " + err.message);
                             });
                         });
-                    } else {
-                        alert("Error: Service Worker tidak ditemukan (Langkah 3).");
                     }
                 } else {
                     toggle.checked = false;
