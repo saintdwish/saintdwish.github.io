@@ -846,7 +846,7 @@
         </button>
       </div>
       
-      <button id="adminBtn" onclick="window.location.href='admin.html'" class="hidden w-full py-3 rounded-xl border border-[#d97706]/50 text-white font-semibold text-sm hover:bg-amber-900/30 transition mb-3">ADMIN PANEL</button>
+      <button id="adminBtn" onclick="window.location.href='https://saintdwish.github.io/aurion-insider/'" class="hidden w-full py-3 rounded-xl border border-[#d97706]/50 text-white font-semibold text-sm hover:bg-amber-900/30 transition mb-3">ADMIN PANEL</button>
       <button onclick="logout()" class="w-full py-3 rounded-xl border border-red-900/50 text-red-500 hover:bg-red-900/20 transition text-sm font-semibold">Logout</button>
     </div>
 
@@ -1100,15 +1100,37 @@
     const API_URL_VPS = "https://enviable-umbilical-erupt.ngrok-free.dev"; 
 
     // --- DATA DUMMY PENGUMUMAN ---
-    const dummyAnnouncements = [
-      { id: 1, title: "SERVER MAINTENANCE", text: "Web Sedang Dalam Masa Perbaikan. Mohon Maaf Atas Ketidaknyamanannya." },
-      { id: 2, title: "BROKER", text: "Tes 1" },
-      { id: 3, title: "dnfkjehfhewwfehfjf", text: "TESFDGDW" },
-      { id: 4, title: "SERVER MAINTENANCE", text: "Web Sedang Dalam Masa Perbaikan. Mohon Maaf Atas Ketidaknyamanannya." },
-      { id: 5, title: "SERVER MAINTENANCE", text: "Web Sedang Dalam Masa Perbaikan. Mohon Maaf Atas Ketidaknyamanannya." },
-      { id: 6, title: "SERVER MAINTENANCE", text: "Web Sedang Dalam Masa Perbaikan. Mohon Maaf Atas Ketidaknyamanannya." },
-      { id: 7, title: "SERVER MAINTENANCE", text: "Web Sedang Dalam Masa Perbaikan. Mohon Maaf Atas Ketidaknyamanannya." }
-    ];
+    let dummyAnnouncements = [];
+
+    function escHtml(v) { return String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+    // Ambil pengumuman dari server (kiriman admin)
+    async function loadAnnouncements() {
+        try {
+            const res = await fetch(API_URL_VPS + '/api/announcements', {
+                headers: { 'Authorization': 'Bearer ' + localStorage.getItem('sdw_token'), 'ngrok-skip-browser-warning': 'true' }
+            });
+            const d = await res.json();
+            if (d.status === 'success') { dummyAnnouncements = d.data; renderAnnouncementList(); }
+        } catch (e) { console.log('Gagal ambil pengumuman', e); }
+    }
+
+    // Cek ulang sesi: kalau di-ban / role berubah, langsung ikut berubah
+    async function recheckSession() {
+        if (!window.__sessionReady) return;
+        try {
+            const res = await fetch(API_URL_VPS + '/api/verify', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
+                body: JSON.stringify({ token: localStorage.getItem('sdw_token') })
+            });
+            if (res.status === 401) { localStorage.removeItem('sdw_token'); window.location.href = 'login.html'; return; }
+            const d = await res.json();
+            if (d.status === 'success' && d.user.role !== currentUserRole) location.reload();
+        } catch (e) {}
+    }
+    document.addEventListener('visibilitychange', function() { if (!document.hidden) recheckSession(); });
+    setInterval(recheckSession, 120000);
 
     // DAFTARKAN SERVICE WORKER UNTUK IOS PWA
     if ('serviceWorker' in navigator) {
@@ -1757,17 +1779,19 @@
             html += `
               <div class="announcement-item" onclick="openAnnouncementDetail(${index})">
                 <div class="announcement-item-title">
-                  <span class="dot-glow"></span> ${ann.title}
+                  <span class="dot-glow"></span> ${escHtml(ann.title)}
                 </div>
-                <div class="announcement-item-preview">${ann.text}</div>
+                <div class="announcement-item-preview">${escHtml(ann.text)}</div>
               </div>
             `;
         });
+        if (!html) html = '<div style="padding:24px;text-align:center;color:#a1a1aa;font-size:12px;">Belum ada pengumuman.</div>';
         container.innerHTML = html;
     }
 
     function openAnnouncementList() {
         renderAnnouncementList();
+        loadAnnouncements();
         document.getElementById('announcementListModal').classList.add('active');
     }
 
@@ -1856,6 +1880,8 @@
               fetchSignals(); setInterval(fetchSignals, 10000);
               
               switchEATab('MAPPING');
+              window.__sessionReady = true;
+              loadAnnouncements();
           }
       })
       .catch((error) => { 
